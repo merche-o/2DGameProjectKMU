@@ -68,7 +68,46 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ammo.cpp" />
+    <ClCompile Include="AUnit.cpp" />
+    <ClCompile Include="Bonus.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Case.cpp" />
+    <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="Display.cpp" />
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="Graphic.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="PhysicEngine.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SoundEngine.cpp" />
+    <ClCompile Include="Spawner.cpp" />
+    <ClCompile Include="Spell.cpp" />
+    <ClCompile Include="Weapon.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Ammo.h" />
+    <ClInclude Include="AUnit.h" />
+    <ClInclude Include="Bonus.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Case.h" />
+    <ClInclude Include="Coin.h" />
+    <ClInclude Include="Display.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="Graphic.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="PhysicEngine.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Settings.h" />
+    <ClInclude Include="SoundEngine.h" />
+    <ClInclude Include="Spawner.h" />
+    <ClInclude Include="Spell.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
