@@ -12,6 +12,18 @@
 
 class GameEngine
 {
+public:
+	enum gameState
+	{
+		inMenu,
+		inGame,
+		inPause,
+		endGame
+	};
+
+	sf::RenderWindow window;
+	Event event;
+	gameState state;
 private:
 	Graphic graphic;
 	std::list<AUnit*> ennemyList;
@@ -20,10 +32,6 @@ private:
 	Player player[2];
 	std::list<Bullet*> bulletList;
 	Spawner spawner;
-
-public:
-	sf::RenderWindow window;
-	Event event;
 
 public:
 	GameEngine(void);

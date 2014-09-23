@@ -2,7 +2,7 @@
 #include <iostream>
 
 GameEngine::GameEngine(void)
-	: window(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), "Ice Cream"),
+	: window(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), "Ice Cream"),
 		event(window)
 {
 	window.setFramerateLimit(30);
