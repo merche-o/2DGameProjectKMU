@@ -1,6 +1,5 @@
 #pragma once
 
-#include <list>
 #include <vector>
 #include "Player.h"
 #include "Item.h"
@@ -9,31 +8,25 @@
 
 class Referee
 {
-	enum collideType {
-		ENEMY,
-		BONUS,
-		WALL,
-		NOTHING,
-	};
+	
 
 public:
-	AUnit &colliderCheck(AUnit const &, enum Input const &);
+	int colliderCheck(AUnit const &, enum Input const &);
 
-	
-	Referee(std::list<AUnit*> const& enemylist, std::list<Item*> const &itemList, Map const &map);
+	Referee(std::vector<AUnit*> const& enemylist, std::vector<Item*> const &itemList, Map const &map);
 	~Referee();
 	
 private:
-	Map const Map;
-	std::list<AUnit*> const &ennemyList;
-	std::list<Item*> const &itemList;
+	Map const _map;
+	std::vector<AUnit*> const &_enemyList;
+	std::vector<Item*> const &_itemList;
 
 	//call collider in function of the collide Type (loop) 
-	//std::map<collideType, AUnit &(Referee:: &)(AUnit const &, Input const &)> collideManager;
+	std::vector<int (Referee::  *)(AUnit const &, Input const &)> collideManager;
 
 	//collide function that return wich 
-	AUnit &collideWall(AUnit const &, Input const &);
-	AUnit &collideBonus(AUnit const &, Input const &);
-	AUnit &collideEnemy(AUnit const &, Input const &);
+	int collideWall(AUnit const &, Input const &);
+	int collideBonus(AUnit const &, Input const &);
+	int collideEnemy(AUnit const &, Input const &);
 };
 

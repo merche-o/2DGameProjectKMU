@@ -1,6 +1,5 @@
 #pragma once
 
-#include <list>
 #include <vector>
 #include <map>
 #include "Settings.h"
@@ -19,16 +18,16 @@ class PhysicEngine
 	void mapMove();
 	void projectileMove();
 
-	PhysicEngine(/*Player const player[2], std::list<AUnit*>  &enemylist, std::list<Item*>  &itemList, Map const & map*/);
+	PhysicEngine(Player const player[2], std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, Map const & map);
 	~PhysicEngine(void);
 
 private:
 	Player player[2];
-	std::list<AUnit*> ennemyList;
-	std::list<Item*> itemList;
-	std::vector<bool> moveList;
-	//std::map<bool, void(PhysicEngine:: &)()> actionManager;
-	Map const map;
+	std::vector<AUnit*> _ennemyList;
+	std::vector<Item*> _itemList;
+	std::vector<bool> _moveList;
+	std::map<bool, void(PhysicEngine:: * )()> actionManager;
+	Map const _map;
 	
 	//call after Checking collider
 	void doAction();
@@ -36,7 +35,7 @@ private:
 	//Universal action
 	void moveLeft();
 	void moveRight();
-	void MoveDown();
+	void moveDown();
 	void Jump();
 
 	// Player Action
@@ -44,6 +43,7 @@ private:
 	void shootDown();
 	void shootRight();
 	void shootLeft();
+	void useBonus();
 	 
 
 	//-----Passive Action
