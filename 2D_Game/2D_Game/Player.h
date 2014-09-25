@@ -1,6 +1,6 @@
 #pragma once
 
-#include <list>
+#include <vector>
 #include "AUnit.h"
 #include "Weapon.h"
 #include "Bonus.h"
@@ -8,11 +8,13 @@
 
 class Player : public AUnit
 {
-private:
+public:
 	int score;
-	std::list<Weapon> weapon;
-	std::list<Bonus> bonus;
-	std::list<Spell> spell;
+	std::vector<Weapon> weapon;
+	std::vector<Bonus> bonus;
+	std::vector<Spell> spell;
+
+private:
 
 public:
 	Player(void);

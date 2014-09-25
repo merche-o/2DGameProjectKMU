@@ -2,10 +2,12 @@
 #include <iostream>
 
 GameEngine::GameEngine(void)
-	: graphic(window, map), map(), event(window)
+	: graphic(window, map, player), map(), event(window, player)
 {
 	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME);
 	window.setFramerateLimit(30);
+
+	player.push_back(new Player());
 }
 
 
@@ -20,6 +22,7 @@ void GameEngine::run()
 		window.clear();
 
 		graphic.affMap();
+		graphic.affPlayer();
 
 		event.checkEvent();
 		

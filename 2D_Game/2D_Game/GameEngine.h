@@ -1,6 +1,6 @@
 #pragma once
 
-#include <list>
+#include <vector>
 #include "SFML\Graphics.hpp"
 #include "Settings.h"
 #include "Graphic.h"
@@ -14,11 +14,11 @@ class GameEngine
 {
 private:
 	Graphic graphic;
-	std::list<AUnit*> ennemyList;
-	std::list<Item*> itemList;
+	std::vector<AUnit*> ennemyList;
+	std::vector<Item*> itemList;
 	Map map;
-	Player player[2];
-	std::list<Bullet*> bulletList;
+	std::vector<Player*> player;
+	std::vector<Bullet*> bulletList;
 	Spawner spawner;
 	Event event;
 

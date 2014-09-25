@@ -19,7 +19,7 @@ class PhysicEngine
 	void mapMove();
 	void projectileMove();
 
-	PhysicEngine(Player const player[2], std::list<AUnit*>  &enemylist, std::list<Item*>  &itemList, Map const & map);
+	PhysicEngine(/*Player const player[2], std::list<AUnit*>  &enemylist, std::list<Item*>  &itemList, Map const & map*/);
 	~PhysicEngine(void);
 
 private:
@@ -27,7 +27,7 @@ private:
 	std::list<AUnit*> ennemyList;
 	std::list<Item*> itemList;
 	std::vector<bool> moveList;
-	std::map<bool, void(PhysicEngine:: &)()> actionManager;
+	//std::map<bool, void(PhysicEngine:: &)()> actionManager;
 	Map const map;
 	
 	//call after Checking collider

@@ -4,15 +4,15 @@
 
 class AUnit
 {
-private:
+public:
 	int x;
 	int y;
 	int life;
 	int shield;
 	int speed;
-	sf::Image image;
+	sf::Texture texture;
 	int animFrame;
-	sf::Clock spawm;
+	sf::Time spawm;
 	sf::Clock timer;
 
 public:

@@ -2,15 +2,17 @@
 
 enum e_type
 {
-	BLOCK,
+	WALL,
 	DAMAGE,
 	NONE
 };
 
 class Case
 {
-private:
+public:
 	e_type type;
+
+private:
 
 public:
 	Case(void);

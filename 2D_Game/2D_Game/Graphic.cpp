@@ -1,8 +1,8 @@
 #include "Graphic.h"
+#include "Settings.h"
 
-
-Graphic::Graphic(sf::RenderWindow & w, Map & m)
-	: Display(w), win(w), map(m)
+Graphic::Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p)
+	: Display(w), win(w), map(m), player(p)
 {
 }
 
@@ -13,14 +13,23 @@ Graphic::~Graphic(void)
 
 void Graphic::affMap()
 {
-	sf::Font font;
-	font.loadFromFile("Arial.ttf");
-	loadText(10, 10, font, "test test test test", 20, 200, 200, 200);
-	//for (int i = 0; i < map.map.size(); ++i)
-	//{
-	//	for (int j = 0; j < map.map[std::make_pair()].size(); ++j)
-	//	{
+	int height_map = Settings::HEIGHT / Settings::CASE_SIZE;
+	int width_map = Settings::WIDTH / Settings::CASE_SIZE;
 
-	//	}
-	//}
+	sf::Texture wall;
+	wall.loadFromFile("Wall.png");
+	
+	for (int y = 0; y < height_map; ++y)
+	{
+		for (int x = 0; x < width_map; ++x)
+		{
+			if (map.map[std::make_pair(y, x)].type == WALL)
+				loadImage(x * (float)Settings::CASE_SIZE, y * (float)Settings::CASE_SIZE, wall);
+		}
+	}
+}
+
+void Graphic::affPlayer()
+{
+	loadImage(player[0]->x, player[0]->y, player[0]->texture);
 }

@@ -29,7 +29,7 @@ private:
 	std::list<Item*> const &itemList;
 
 	//call collider in function of the collide Type (loop) 
-	std::map<collideType, AUnit &(Referee:: &)(AUnit const &, Input const &)> collideManager;
+	//std::map<collideType, AUnit &(Referee:: &)(AUnit const &, Input const &)> collideManager;
 
 	//collide function that return wich 
 	AUnit &collideWall(AUnit const &, Input const &);
