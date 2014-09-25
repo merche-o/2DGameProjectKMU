@@ -2,9 +2,9 @@
 #include <iostream>
 
 GameEngine::GameEngine(void)
-	: window(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), "Ice Cream"),
-		event(window)
+	: graphic(window, map), map(), event(window)
 {
+	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME);
 	window.setFramerateLimit(30);
 }
 
@@ -19,8 +19,10 @@ void GameEngine::run()
     {
 		window.clear();
 
+		graphic.affMap();
+
 		event.checkEvent();
 		
-        window.display();
+		graphic.RefreshWindow();
     }
 }

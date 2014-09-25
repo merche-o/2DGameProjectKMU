@@ -14,5 +14,7 @@ private:
 public:
 	SoundEngine(void);
 	~SoundEngine(void);
+
+	void playSound(sf::Sound &, bool);
 };
 

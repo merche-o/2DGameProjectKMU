@@ -1,9 +1,12 @@
 #pragma once
 
+#include <string>
+
 class Settings
 {
 public:
-	static const int WIDTH = 640;
-	static const int HEIGHT = 480;
-	static const int CASE_SIZE = 32;
+	static const int WIDTH;
+	static const int HEIGHT;
+	static const int CASE_SIZE;
+	static const std::string GAME_NAME;
 };

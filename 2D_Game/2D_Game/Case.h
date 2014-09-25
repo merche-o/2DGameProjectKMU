@@ -2,6 +2,8 @@
 
 enum e_type
 {
+	BLOCK,
+	DAMAGE,
 	NONE
 };
 
