@@ -15,6 +15,7 @@ class GameEngine
 public:
 	enum gameState
 	{
+		startGame,
 		inMenu,
 		inGame,
 		inPause,
