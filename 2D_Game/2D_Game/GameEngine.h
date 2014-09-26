@@ -9,11 +9,13 @@
 #include "Event.h"
 #include "Map.h"
 #include "Spawner.h"
+#include "SoundEngine.h"
 
 class GameEngine
 {
 private:
 	Graphic graphic;
+	SoundEngine sound;
 	std::vector<AUnit*> ennemyList;
 	std::vector<Item*> itemList;
 	Map map;

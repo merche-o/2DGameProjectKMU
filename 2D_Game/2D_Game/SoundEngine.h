@@ -1,20 +1,23 @@
 #pragma once
 
-#include <list>
+#include <vector>
 #include "SFML\Audio.hpp"
 
 class SoundEngine
 {
-private:
-	std::list<sf::Sound> sound;
-	std::list<sf::Music> music;
+public:
+	std::vector<sf::Sound> sound;
+	sf::Music music;
 	bool activeSound;
 	bool activeMusic;
+
+private:
 
 public:
 	SoundEngine(void);
 	~SoundEngine(void);
 
 	void playSound(sf::Sound &, bool);
+	void playMusic(sf::Music & Music);
 };
 

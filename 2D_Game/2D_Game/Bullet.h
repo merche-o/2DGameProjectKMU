@@ -10,7 +10,7 @@ private:
 	int damage;
 	int range;
 	int speed;
-	sf::Image image;
+	sf::Texture texture;
 
 public:
 	Bullet(void);

@@ -9,15 +9,15 @@ class Event
 public:
 	enum Input
 	{
-		UP,
-		DOWN,
-		LEFT,
-		RIGHT,
-		FIRE_UP,
-		FIRE_DOWN,
-		FIRE_LEFT,
-		FIRE_RIGHT,
-		BONUS
+		I_UP,
+		I_DOWN,
+		I_LEFT,
+		I_RIGHT,
+		I_FIRE_UP,
+		I_FIRE_DOWN,
+		I_FIRE_LEFT,
+		I_FIRE_RIGHT,
+		I_BONUS
 	};
 
 private:

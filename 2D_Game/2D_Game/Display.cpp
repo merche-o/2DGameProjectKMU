@@ -20,6 +20,16 @@ void Display::loadImage(float x, float y, sf::Texture & Texture)
   win.draw(Sprite);
 }
 
+void Display::loadUnit(float x, float y, AUnit* unit)
+{
+  sf::Sprite	Sprite;
+
+  Sprite.setTexture(unit->texture);
+  Sprite.setPosition(unit->x, unit->y);
+  Sprite.setTextureRect(sf::IntRect(unit->width * unit->animFrame, unit->height * unit->dir, unit->width, unit->height));
+  win.draw(Sprite);
+}
+
 void Display::loadText(float x, float y, sf::Font font, std::string str, int size, int r, int g, int b)
 {
 	sf::Text text;

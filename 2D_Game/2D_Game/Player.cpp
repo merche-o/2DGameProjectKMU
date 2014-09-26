@@ -4,9 +4,11 @@
 Player::Player(void)
 	: AUnit()
 {
-	texture.loadFromFile("Character.png");
+	texture.loadFromFile("../Ressources/Images/Player.png");
 	x = 150;
 	y = 150;
+	width = 32;
+	height = 32;
 }
 
 
