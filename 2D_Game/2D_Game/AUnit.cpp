@@ -1,4 +1,5 @@
 #include "AUnit.h"
+#include "Event.h"
 
 
 AUnit::AUnit(void)
@@ -6,6 +7,12 @@ AUnit::AUnit(void)
 	animFrame = 1;
 	dir = LEFT;
 	act = WALK;
+	int i = 0;
+	while (i < 9)
+	{
+	inputMap.push_back(false);
+	++i;
+	}
 }
 
 

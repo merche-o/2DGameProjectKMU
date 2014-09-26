@@ -9,6 +9,7 @@ Player::Player(void)
 	y = 150;
 	width = 32;
 	height = 32;
+	speed = 5;
 }
 
 

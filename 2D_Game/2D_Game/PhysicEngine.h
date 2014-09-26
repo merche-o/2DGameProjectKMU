@@ -12,37 +12,37 @@
 class PhysicEngine
 {
 	//Enum tu put in Event
-	
-	void playerAction(int playerId,std::vector<bool> const &); 
+public:
+	void playerAction(int playerId); 
 	void enemyAction();
 	void mapMove();
 	void projectileMove();
-
-	PhysicEngine(std::vector<Player> player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, Map const & map, Referee &referee);
+	Referee *_referee;
+	PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, Map  &map);
 	~PhysicEngine(void);
 
 private:
-	std::vector<Player> _player;
-	std::vector<AUnit*> _ennemyList;
-	std::vector<Item*> _itemList;
-	std::map<Event::Input, void(PhysicEngine:: *)(AUnit &src)> actionManager;
-	Map const _map;
-	Referee &_referee;
+	std::vector<Player *> &_player;
+	std::vector<AUnit*> &_ennemyList;
+	std::vector<Item*> &_itemList;
+	std::map<Event::Input, void(PhysicEngine:: *)(AUnit *src)> actionManager;
+	Map  &_map;
+	
 	//call after Checking collider
 	void doAction();
 
 	//Universal action
-	void moveLeft(AUnit &src);
-	void moveRight(AUnit &src);
-	void moveDown(AUnit &src);
-	void Jump(AUnit &src);
+	void moveLeft(AUnit *src);
+	void moveRight(AUnit *src);
+	void moveDown(AUnit *src);
+	void Jump(AUnit *src);
 
 	// Player Action
-	void shootUp(AUnit &src);
-	void shootDown(AUnit &src);
-	void shootRight(AUnit &src);
-	void shootLeft(AUnit &src);
-	void useBonus(AUnit &src);
+	void shootUp(AUnit *src);
+	void shootDown(AUnit *src);
+	void shootRight(AUnit *src);
+	void shootLeft(AUnit *src);
+	void useBonus(AUnit *src);
 	 
 
 	//-----Passive Action
@@ -55,6 +55,8 @@ private:
 
 	//BonusManager - Have to complete in function of implemented bonus
 	void getBonus();
+
+	void gravity(AUnit *src);
 
 	
 	

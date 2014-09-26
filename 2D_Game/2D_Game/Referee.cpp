@@ -4,9 +4,10 @@
 Referee::Referee(std::vector<AUnit*> const& enemylist, std::vector<Item*> const &itemList, Map &map) 
 : _enemyList(enemylist), _itemList(itemList), _map(map)
 {
-	collideManager[0] = &Referee::collideEnemy;
-	collideManager[1] = &Referee::collideBonus;
-	collideManager[2] = &Referee::collideWall;
+	//collideManager.a
+	collideManager.push_back(&Referee::collideEnemy);
+	collideManager.push_back(&Referee::collideBonus);
+	collideManager.push_back(&Referee::collideWall);
 }
 
 
@@ -14,7 +15,7 @@ Referee::~Referee()
 {
 }
 
-int Referee::colliderCheck(AUnit const &src, Event::Input const &btn)
+int Referee::colliderCheck(AUnit const *src, Event::Input const &btn)
 {
 	int i = 0;
 	bool touch = false;
@@ -28,23 +29,23 @@ int Referee::colliderCheck(AUnit const &src, Event::Input const &btn)
 	return -1;
 }
 
-int 	Referee::collideBonus(AUnit const &src, Event::Input const &btn)
+int 	Referee::collideBonus(AUnit const *src, Event::Input const &btn)
 {
 	return -1;
 }
 
-int Referee::collideWall(AUnit const &src, Event::Input const &btn)
+int Referee::collideWall(AUnit const *src, Event::Input const &btn)
 {
-	if (src.x + src.speed > Settings::WIDTH)
+	if (src->y + 5 > Settings::HEIGHT)
 		return 1;
-	if (btn == Event::I_LEFT && this->_map.map[std::make_pair(src.y, src.x + src.speed)].type ==WALL)
-	{
-		return 1;
-	}
+	//if (btn == Event::I_DOWN && this->_map.map[std::make_pair(src->y + 5, src->x)].type ==WALL)
+//	{
+	//	return 1;
+	//}
 	return -1;
 }
 
-int Referee::collideEnemy(AUnit const &src, Event::Input const &btn)
+int Referee::collideEnemy(AUnit const *src, Event::Input const &btn)
 {
 	
 	return -1;

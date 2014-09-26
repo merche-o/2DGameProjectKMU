@@ -2,6 +2,7 @@
 
 #include "SFML\Graphics.hpp"
 
+
 enum e_dir
 {
 	LEFT,
@@ -30,7 +31,7 @@ public:
 	e_act act;
 	sf::Time spawm;
 	sf::Clock timer;
-
+	std::vector<bool> inputMap;
 public:
 	AUnit(void);
 	~AUnit(void);

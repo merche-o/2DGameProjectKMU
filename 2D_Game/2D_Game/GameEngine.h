@@ -2,6 +2,8 @@
 
 #include <vector>
 #include "SFML\Graphics.hpp"
+#include "PhysicEngine.h"
+#include "Referee.h"
 #include "Settings.h"
 #include "Graphic.h"
 #include "Player.h"
@@ -16,6 +18,8 @@ class GameEngine
 private:
 	Graphic graphic;
 	SoundEngine sound;
+	PhysicEngine physics;
+	Referee ref;
 	std::vector<AUnit*> ennemyList;
 	std::vector<Item*> itemList;
 	Map map;
