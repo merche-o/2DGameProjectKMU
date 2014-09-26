@@ -35,15 +35,15 @@ void PhysicEngine::playerAction(int playerId, std::vector<bool> const &input)
 
 void PhysicEngine::moveLeft(AUnit &src)
 {
-	//if(_referee.colliderCheck(src, Event::Input::I_LEFT) == -1)
-	//	src.x += 5;
+	if(_referee.colliderCheck(src, Event::Input::I_LEFT) == -1)
+		src.x += src.speed;
 }
 
 
 void PhysicEngine::moveRight(AUnit &src)
 {
-	//if (_referee.colliderCheck(src, Event::Input::I_RIGHT) == -1)
-	//	src.x -= 5;
+	if (_referee.colliderCheck(src, Event::Input::I_RIGHT) == -1)
+		src.x -= src.speed;
 }
 
 void PhysicEngine::Jump(AUnit &src)
