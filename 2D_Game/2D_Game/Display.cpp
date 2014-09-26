@@ -26,7 +26,7 @@ void Display::loadUnit(float x, float y, AUnit* unit)
 
   Sprite.setTexture(unit->texture);
   Sprite.setPosition(unit->x, unit->y);
-  Sprite.setTextureRect(sf::IntRect(unit->width * unit->animFrame, unit->height * unit->dir, unit->width, unit->height));
+  Sprite.setTextureRect(sf::IntRect(unit->width * unit->animFrame + (3 * unit->width * unit->act), unit->height * unit->dir, unit->width, unit->height));
   win.draw(Sprite);
 }
 

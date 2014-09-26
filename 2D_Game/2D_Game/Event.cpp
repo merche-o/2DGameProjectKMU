@@ -22,9 +22,15 @@ void Event::checkEvent()
 			if (event.key.code == sf::Keyboard::Escape)
 				win.close();
 			else if (event.key.code == sf::Keyboard::Up)
+			{
 				player[0]->y--;
+				player[0]->act = JUMP;
+			}
 			else if (event.key.code == sf::Keyboard::Down)
+			{
 				player[0]->y++;
+				player[0]->act = WALK;
+			}
 			else if (event.key.code == sf::Keyboard::Left)
 			{
 				player[0]->x--;

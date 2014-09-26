@@ -17,7 +17,7 @@ void Graphic::affMap()
 	int width_map = Settings::WIDTH / Settings::CASE_SIZE;
 
 	sf::Texture wall;
-	wall.loadFromFile("Wall.png");
+	wall.loadFromFile("../Ressources/Images/Wall.png");
 	
 	for (int y = 0; y < height_map; ++y)
 	{
@@ -31,5 +31,5 @@ void Graphic::affMap()
 
 void Graphic::affPlayer()
 {
-	loadImage(player[0]->x, player[0]->y, player[0]->texture);
+	loadUnit(player[0]->x, player[0]->y, player[0]);
 }

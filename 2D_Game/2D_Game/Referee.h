@@ -11,22 +11,22 @@ class Referee
 	
 
 public:
-	int colliderCheck(AUnit const &,  Event::Input const &);
+	int colliderCheck(AUnit &,  Event::Input &);
 
-	Referee(std::vector<AUnit*> const& enemylist, std::vector<Item*> const &itemList, Map const &map);
+	Referee(std::vector<AUnit*> & enemylist, std::vector<Item*> &itemList, Map &map);
 	~Referee();
 	
 private:
 	Map const _map;
-	std::vector<AUnit*> const &_enemyList;
-	std::vector<Item*> const &_itemList;
+	std::vector<AUnit*> &_enemyList;
+	std::vector<Item*> &_itemList;
 
 	//call collider in function of the collide Type (loop) 
-	std::vector<int (Referee::  *)(AUnit const &, Event::Input const &)> collideManager;
+	std::vector<int (Referee::  *)(AUnit &, Event::Input &)> collideManager;
 
 	//collide function that return wich 
-	int collideWall(AUnit const &, Event::Input const &);
-	int collideBonus(AUnit const &, Event::Input const &);
-	int collideEnemy(AUnit const &, Event::Input const &);
+	int collideWall(AUnit &, Event::Input &);
+	int collideBonus(AUnit &, Event::Input &);
+	int collideEnemy(AUnit &, Event::Input &);
 };
 

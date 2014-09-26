@@ -4,15 +4,15 @@
 PhysicEngine::PhysicEngine(std::vector<Player> player, std::vector<AUnit*>  &_enemylist, std::vector<Item*>  &itemList, Map const & map, Referee  &referee)
 : _player(player), _ennemyList(_enemylist), _itemList(itemList), _map(map), _referee(referee)
 {
-	actionManager[Event::UP] = &PhysicEngine::Jump;
-	actionManager[Event::DOWN] = &PhysicEngine::moveDown;
-	actionManager[Event::LEFT] = &PhysicEngine::moveLeft;
-	actionManager[Event::RIGHT] = &PhysicEngine::moveRight;
-	actionManager[Event::FIRE_UP] = &PhysicEngine::shootUp;
-	actionManager[Event::FIRE_DOWN] = &PhysicEngine::shootDown;
-	actionManager[Event::FIRE_LEFT] = &PhysicEngine::shootLeft;
-	actionManager[Event::FIRE_RIGHT] = &PhysicEngine::shootRight;
-	actionManager[Event::BONUS] = &PhysicEngine::useBonus;
+	actionManager[Event::I_UP] = &PhysicEngine::Jump;
+	actionManager[Event::I_DOWN] = &PhysicEngine::moveDown;
+	actionManager[Event::I_LEFT] = &PhysicEngine::moveLeft;
+	actionManager[Event::I_RIGHT] = &PhysicEngine::moveRight;
+	actionManager[Event::I_FIRE_UP] = &PhysicEngine::shootUp;
+	actionManager[Event::I_FIRE_DOWN] = &PhysicEngine::shootDown;
+	actionManager[Event::I_FIRE_LEFT] = &PhysicEngine::shootLeft;
+	actionManager[Event::I_FIRE_RIGHT] = &PhysicEngine::shootRight;
+	actionManager[Event::I_BONUS] = &PhysicEngine::useBonus;
 
 }
 
@@ -35,15 +35,15 @@ void PhysicEngine::playerAction(int playerId, std::vector<bool> const &input)
 
 void PhysicEngine::moveLeft(AUnit &src)
 {
-	if(_referee.colliderCheck(src, Event::Input::LEFT) == -1)
-		src.x += 5;
+	//if(_referee.colliderCheck(src, Event::Input::I_LEFT) == -1)
+	//	src.x += 5;
 }
 
 
 void PhysicEngine::moveRight(AUnit &src)
 {
-	if (_referee.colliderCheck(src, Event::Input::RIGHT) == -1)
-		src.x -= 5;
+	//if (_referee.colliderCheck(src, Event::Input::I_RIGHT) == -1)
+	//	src.x -= 5;
 }
 
 void PhysicEngine::Jump(AUnit &src)
