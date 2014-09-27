@@ -22,7 +22,7 @@ public:
 	int life;
 	int shield;
 	int speed;
-	sf::Texture texture;
+	int damage;
 	int width;
 	int height;
 	int animFrame;
@@ -30,9 +30,11 @@ public:
 	e_act act;
 	sf::Time spawm;
 	sf::Clock timer;
+	sf::Texture texture;
 
 public:
 	AUnit(void);
+	AUnit(int life, int speed, int damage, int spawnTime, std::string textureFile);
 	~AUnit(void);
 
 	void nextFrame();
