@@ -28,6 +28,7 @@ public:
 	int animFrame;
 	e_dir dir;
 	e_act act;
+	int spawnTime;
 	sf::Time spawm;
 	sf::Clock timer;
 	sf::Texture texture;
