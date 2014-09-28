@@ -12,10 +12,12 @@
 #include "Map.h"
 #include "Spawner.h"
 #include "SoundEngine.h"
+#include "Ressources.h"
 
 class GameEngine
 {
 private:
+	Ressources ressources;
 	Graphic graphic;
 	SoundEngine sound;
 	PhysicEngine physics;

@@ -17,7 +17,8 @@ GameEngine::~GameEngine(void)
 
 void GameEngine::run()
 {
-	sound.playMusic(sound.music);
+	//ressources.loadEnnemiesFromFile("../Ressources/Ennemies.txt");
+	//sound.playMusic(sound.music);
     while (window.isOpen())
     {
 		window.clear();

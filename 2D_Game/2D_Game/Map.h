@@ -14,4 +14,6 @@ private:
 public:
 	Map(void);
 	~Map(void);
+
+	void createPlatform(int x, int y, int length, bool symmetry = false);
 };
