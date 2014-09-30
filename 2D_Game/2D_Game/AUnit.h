@@ -18,6 +18,7 @@ enum e_act
 enum unit_state {
 	U_NORMAL,
 	U_JUMP,
+	U_END_JUMP,
 	U_FIRE,
 	U_DASH,
 	U_HIT,
@@ -44,10 +45,15 @@ public:
 	sf::Time spawm;
 	sf::Clock timer;
 	std::vector<bool> inputMap;
+
+	//there is probably a best way to do it
+	int jumpTmpY;
+
 public:
 	AUnit(void);
 	AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile);
 	~AUnit(void);
 
 	void nextFrame();
+	
 };

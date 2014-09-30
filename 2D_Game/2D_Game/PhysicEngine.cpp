@@ -16,6 +16,17 @@ PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &
 	actionManager[Event::I_FIRE_RIGHT] = &PhysicEngine::shootRight;
 	actionManager[Event::I_BONUS] = &PhysicEngine::useBonus;
 
+	releaseActionManager[Event::I_UP] = &PhysicEngine::RJump;
+	releaseActionManager[Event::I_DOWN] = &PhysicEngine::RmoveDown;
+	releaseActionManager[Event::I_LEFT] = &PhysicEngine::RmoveLeft;
+	releaseActionManager[Event::I_RIGHT] = &PhysicEngine::RmoveRight;
+	releaseActionManager[Event::I_FIRE_UP] = &PhysicEngine::RshootUp;
+	releaseActionManager[Event::I_FIRE_DOWN] = &PhysicEngine::RshootDown;
+	releaseActionManager[Event::I_FIRE_LEFT] = &PhysicEngine::RshootLeft;
+	releaseActionManager[Event::I_FIRE_RIGHT] = &PhysicEngine::RshootRight;
+	releaseActionManager[Event::I_BONUS] = &PhysicEngine::RuseBonus;
+
+	
 }
 
 PhysicEngine::~PhysicEngine(void)
@@ -25,12 +36,15 @@ PhysicEngine::~PhysicEngine(void)
 void PhysicEngine::playerAction(int playerId)
 {
 	unsigned int i = 0;
-	//printf("LOGG --->");
+	
 	while ( i < this->_player[playerId]->inputMap.size())
 	{
 		
 		if (this->_player[playerId]->inputMap[i] == true)
 			(this->*(actionManager[(Event::Input)i]))(_player[playerId]);
+		if (this->_player[playerId]->inputMap[i] == false)
+			(this->*(releaseActionManager[(Event::Input)i]))(_player[playerId]);
+
 		++i;
 	}
 	gravity(this->_player[playerId]);
@@ -52,14 +66,28 @@ void PhysicEngine::moveRight(AUnit *src)
 
 void PhysicEngine::Jump(AUnit *src)
 {
+	
 	if (_referee->colliderCheck(src, Event::I_UP) == -1)
 		{
-			src->y -= 10 +Settings::GRAVITY;
-			//src->state = U_JUMP;
+			if (src->state == U_JUMP)
+			{
+				src->y -= 10 +Settings::GRAVITY;
+				src->jumpTmpY -= 10 +Settings::GRAVITY;
+			}
+			if (src->state == U_NORMAL)
+				src->state = U_JUMP;
+			if(src->state == U_END_JUMP)
+				src->state = U_JUMP;
+			if (src->jumpTmpY + Settings::HIGH_JUMP <= 0)
+				src->state = U_END_JUMP;
+			
 		}
+	else if (_referee->colliderCheck(src, Event::I_UP) == 1)
+		src->state = U_END_JUMP;
 	return;
 }
 
+//Push button
 void PhysicEngine::moveDown(AUnit *src)
 {
 	return;
@@ -89,6 +117,66 @@ void PhysicEngine::shootRight(AUnit *src)
 {
 	return;
 }
+
+
+//Release button
+
+void PhysicEngine::RmoveLeft(AUnit *src)
+{
+	return;
+}
+
+
+void PhysicEngine::RmoveRight(AUnit *src)
+{
+	return;
+}
+
+void PhysicEngine::RJump(AUnit *src)
+{
+	if (src->state == U_JUMP)
+		src->state = U_END_JUMP;
+	if (_referee->applyGravity(src) == false)
+	{
+		src->jumpTmpY = 0;
+		src->state = U_NORMAL;
+	}
+	return;
+}
+
+void PhysicEngine::RmoveDown(AUnit *src)
+{				   
+	return;		   
+}				   
+				   
+void PhysicEngine::RuseBonus(AUnit *src)
+{				   
+	return;		   
+}				   
+				   
+void PhysicEngine::RshootUp(AUnit *src)
+{				   
+	return;		   
+}				   
+				   
+void PhysicEngine::RshootDown(AUnit *src)
+{				   
+	return;		   
+}				   
+				   
+void PhysicEngine::RshootLeft(AUnit *src)
+{				   
+	return;		   
+}				   
+				   
+void PhysicEngine::RshootRight(AUnit *src)
+{
+	return;
+}
+
+
+//Physics
+
 
 void PhysicEngine::gravity(AUnit *src) 
 {

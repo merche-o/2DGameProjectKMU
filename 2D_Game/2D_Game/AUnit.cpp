@@ -19,6 +19,7 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 	: life(Life), speed(Speed), damage(Damage), spawnTime(SpawnTime)
 {
 	state = U_NORMAL;
+	jumpTmpY = 0;
 	texture.loadFromFile(TextureFile);
 }
 

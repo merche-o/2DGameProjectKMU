@@ -1,5 +1,6 @@
 #pragma once
 
+#include "SFML\System\Clock.hpp"
 #include <vector>
 #include <map>
 #include "Settings.h"
@@ -26,6 +27,7 @@ private:
 	std::vector<AUnit*> &_ennemyList;
 	std::vector<Item*> &_itemList;
 	std::map<Event::Input, void(PhysicEngine:: *)(AUnit *src)> actionManager;
+	std::map<Event::Input, void(PhysicEngine:: *)(AUnit *src)> releaseActionManager;
 	Map  &_map;
 	
 	//call after Checking collider
@@ -59,8 +61,20 @@ private:
 	void gravity(AUnit *src);
 
 	
-	
+	//ReleaseAction
 
+	
+	void RmoveLeft(AUnit *src);
+	void RmoveRight(AUnit *src);
+	void RmoveDown(AUnit *src);
+	void RJump(AUnit *src);
+
+	// Player Action
+	void RshootUp(AUnit *src);
+	void RshootDown(AUnit *src);
+	void RshootRight(AUnit *src);
+	void RshootLeft(AUnit *src);
+	void RuseBonus(AUnit *src);
 
 
 };
