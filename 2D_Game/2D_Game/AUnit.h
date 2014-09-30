@@ -15,6 +15,15 @@ enum e_act
 	JUMP
 };
 
+enum unit_state {
+	U_NORMAL,
+	U_JUMP,
+	U_FIRE,
+	U_DASH,
+	U_HIT,
+	U_DEAD,
+	};
+
 class AUnit
 {
 public:
@@ -27,13 +36,17 @@ public:
 	int width;
 	int height;
 	int animFrame;
+	int damage;
+	int spawnTime;
 	e_dir dir;
 	e_act act;
+	unit_state state;
 	sf::Time spawm;
 	sf::Clock timer;
 	std::vector<bool> inputMap;
 public:
 	AUnit(void);
+	AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile);
 	~AUnit(void);
 
 	void nextFrame();

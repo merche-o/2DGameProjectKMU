@@ -22,6 +22,7 @@ int Referee::colliderCheck(AUnit const *src, Event::Input const &btn)
 	int target = -1;
 	while (i < 3)
 	{
+		
 		if ( (target =(this->*(collideManager[i]))(src,btn)) != -1)
 			return target;
 		++i;
@@ -36,12 +37,14 @@ int 	Referee::collideBonus(AUnit const *src, Event::Input const &btn)
 
 int Referee::collideWall(AUnit const *src, Event::Input const &btn)
 {
-	if (src->y + 5 > Settings::HEIGHT)
-		return 1;
-	//if (btn == Event::I_DOWN && this->_map.map[std::make_pair(src->y + 5, src->x)].type ==WALL)
-//	{
-	//	return 1;
-	//}
+	printf("UP");
+	if (btn == Event::I_UP)
+		{
+			
+			if (this->_map.map[std::make_pair((src->y)/Settings::CASE_SIZE, src->x/Settings::CASE_SIZE)].type == WALL)			
+				return 1;
+		}
+		
 	return -1;
 }
 
@@ -49,4 +52,21 @@ int Referee::collideEnemy(AUnit const *src, Event::Input const &btn)
 {
 	
 	return -1;
+}
+
+bool  Referee::applyGravity(AUnit const *src)
+{
+	
+	int height_map = Settings::HEIGHT / Settings::CASE_SIZE;
+	int width_map = Settings::WIDTH / Settings::CASE_SIZE;
+
+
+	//printf("CASE == %d",this->_map.map[std::make_pair((src->y/Settings::HEIGHT)/Settings::CASE_SIZE, src->x/Settings::WIDTH)].type);
+	if (this->_map.map[std::make_pair((src->y + src->height)/Settings::CASE_SIZE, src->x/Settings::CASE_SIZE)].type == WALL)
+		{	
+			
+			return false;
+		}
+
+	return true;
 }

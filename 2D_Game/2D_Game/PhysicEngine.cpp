@@ -25,7 +25,7 @@ PhysicEngine::~PhysicEngine(void)
 void PhysicEngine::playerAction(int playerId)
 {
 	unsigned int i = 0;
-
+	//printf("LOGG --->");
 	while ( i < this->_player[playerId]->inputMap.size())
 	{
 		
@@ -39,19 +39,24 @@ void PhysicEngine::playerAction(int playerId)
 
 void PhysicEngine::moveLeft(AUnit *src)
 {
-	if(_referee->colliderCheck(src, Event::Input::I_LEFT) == -1)
+	if(_referee->colliderCheck(src, Event::I_LEFT) == -1)
 		src->x -= src->speed;
 }
 
 
 void PhysicEngine::moveRight(AUnit *src)
 {
-	if (_referee->colliderCheck(src, Event::Input::I_RIGHT) == -1)
+	if (_referee->colliderCheck(src, Event::I_RIGHT) == -1)
 		src->x += src->speed;
 }
 
 void PhysicEngine::Jump(AUnit *src)
 {
+	if (_referee->colliderCheck(src, Event::I_UP) == -1)
+		{
+			src->y -= 10 +Settings::GRAVITY;
+			//src->state = U_JUMP;
+		}
 	return;
 }
 
@@ -87,8 +92,7 @@ void PhysicEngine::shootRight(AUnit *src)
 
 void PhysicEngine::gravity(AUnit *src) 
 {
-	//gravity
-	//if (_referee->colliderCheck(src, Event::Input::I_DOWN) == -1)
-		//src->y += 5;
+	if (_referee->applyGravity(src) == true)
+		src->y += Settings::GRAVITY;
 	return;
 }

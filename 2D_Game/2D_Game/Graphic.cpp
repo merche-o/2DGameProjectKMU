@@ -31,5 +31,5 @@ void Graphic::affMap()
 
 void Graphic::affPlayer()
 {
-	loadUnit(player[0]->x, player[0]->y, player[0]);
+	loadUnit((float)player[0]->x, (float)player[0]->y, player[0]);
 }
