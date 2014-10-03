@@ -44,7 +44,6 @@ void Event::checkEvent()
 				player[0]->nextFrame();
 			}
 			else if (event.key.code == sf::Keyboard::Z)
-
 				player[0]->inputMap[Event::I_UP] = true;
 			else if (event.key.code == sf::Keyboard::S)
 				player[0]->inputMap[Event::I_DOWN] = true;

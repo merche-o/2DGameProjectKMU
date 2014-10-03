@@ -36,6 +36,8 @@ Map::~Map(void)
 
 void Map::createPlatform(int x, int y, int length, bool symmetry)
 {
+	platform.push_back(new Platform(x, y, length));
+	
 	for (int i = x; i < x + length; ++i)
 	{
 		map[std::make_pair(y, i)].type = WALL;
@@ -45,8 +47,11 @@ void Map::createPlatform(int x, int y, int length, bool symmetry)
 	{
 		int width_map = Settings::WIDTH / Settings::CASE_SIZE;
 		int new_x = width_map - (x + length);
+		int new_length = new_x + length;
 
-		for (int i = new_x; i < new_x + length; ++i)
+		platform.push_back(new Platform(new_x, y, new_length));
+
+		for (int i = new_x; i < new_length; ++i)
 		{
 			map[std::make_pair(y, i)].type = WALL;
 		}

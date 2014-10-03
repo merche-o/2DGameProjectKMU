@@ -15,15 +15,16 @@ enum e_act
 	JUMP
 };
 
-enum unit_state {
+enum unit_state
+{
 	U_NORMAL,
 	U_JUMP,
 	U_END_JUMP,
 	U_FIRE,
 	U_DASH,
 	U_HIT,
-	U_DEAD,
-	};
+	U_DEAD
+};
 
 class AUnit
 {
@@ -50,7 +51,7 @@ public:
 	int jumpTmpY;
 
 public:
-	AUnit(void);
+	AUnit();
 	AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile);
 	~AUnit(void);
 

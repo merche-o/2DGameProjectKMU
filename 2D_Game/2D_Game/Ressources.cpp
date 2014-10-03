@@ -43,3 +43,9 @@ void Ressources::loadWeaponsFromFile(std::string fileName)
 {
 
 }
+
+void Ressources::loadTexturesFromFile(std::string fileName)
+{
+	// Map Texture
+	texture["wall"].loadFromFile("../Ressources/Images/Wall.png");
+}

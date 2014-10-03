@@ -2,16 +2,17 @@
 #include "Event.h"
 
 
-AUnit::AUnit(void)
+AUnit::AUnit()
 {
 	animFrame = 1;
 	dir = LEFT;
 	act = WALK;
+
 	int i = 0;
 	while (i < 9)
 	{
-	inputMap.push_back(false);
-	++i;
+		inputMap.push_back(false);
+		++i;
 	}
 }
 
@@ -20,7 +21,10 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 {
 	state = U_NORMAL;
 	jumpTmpY = 0;
+	
 	texture.loadFromFile(TextureFile);
+	width = texture.getSize().x / 3;
+	height = texture.getSize().y / 2;
 }
 
 AUnit::~AUnit(void)
