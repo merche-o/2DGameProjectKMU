@@ -32,6 +32,8 @@ public:
 	~Platform(void);
 
 	void checkMorphTime();
+	void playMorph();
+	bool checkDead();
 };
 
 // Refaire les plateforms sous forme de class = stockage dynamique pour application dynamique
