@@ -17,7 +17,7 @@ public:
 private:
 
 public:
-	Player(void);
+	Player();
 	~Player(void);
 };
 

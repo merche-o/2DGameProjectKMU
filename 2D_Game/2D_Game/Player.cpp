@@ -1,8 +1,7 @@
 #include "Player.h"
 
 
-Player::Player(void)
-	: AUnit()
+Player::Player()
 {
 	texture.loadFromFile("../Ressources/Images/Player.png");
 	x = 608;
