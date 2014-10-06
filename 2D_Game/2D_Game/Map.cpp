@@ -36,7 +36,7 @@ Map::~Map(void)
 
 void Map::createPlatform(int x, int y, int length, bool symmetry)
 {
-	platform.push_back(new Platform(x, y, length));
+	platform.push_back(new Platform(x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length));
 	
 	//for (int i = x; i < x + length; ++i)
 	//{
@@ -48,7 +48,7 @@ void Map::createPlatform(int x, int y, int length, bool symmetry)
 		int width_map = Settings::WIDTH / Settings::CASE_SIZE;
 		int new_x = width_map - (x + length);
 
-		platform.push_back(new Platform(new_x, y, length));
+		platform.push_back(new Platform(new_x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length));
 
 		//for (int i = new_x; i < new_length; ++i)
 		//{

@@ -1,17 +1,17 @@
 #include "Platform.h"
-#include <iostream>
+#include "Settings.h"
 
 Platform::Platform(int X, int Y, int Length)
 	: x(X), y(Y), length(Length)
 {
 	for (int i = 0; i < length; ++i)
 	{
-		pos.push_back(std::make_pair(i + x, y));
+		pos.push_back(std::make_pair(i + x / Settings::CASE_SIZE, y / Settings::CASE_SIZE));
 	}
 
 	type = DISAPPEAR;
 	isMorphing = false;
-	activMorph = 10;
+	activMorph = 1;
 	morphTime = 1;
 	transp = 255;
 	timer.restart();
@@ -35,6 +35,8 @@ void Platform::playMorph()
 	{
 		morph = timer.getElapsedTime();
 		transp = ((morphTime) - (morph.asSeconds() - activMorph)) * 255 / morphTime;
+		if (transp < 0)
+			transp = 0;
 	}
 }
 
