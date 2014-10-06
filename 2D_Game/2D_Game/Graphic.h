@@ -12,7 +12,7 @@ private:
 	sf::RenderWindow & win;
 	Map & map;
 	std::vector<Player*> & player;
-	std::vector<AUnit*> ennemyList;
+	std::vector<AUnit*> &ennemyList;
 	Ressources & ress;
 
 public:

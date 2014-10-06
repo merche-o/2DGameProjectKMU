@@ -31,8 +31,9 @@ void Ressources::loadEnnemiesFromFile(std::string fileName)
 			{
 				int aNumb = sscanf_s(line, "%i:%i:%i:%i:%s", &p1, &p2, &p3, &p4, &p5, sizeof(p5));
 				textureFile.erase();
-				textureFile = p5;
-				ennemy.push_back(new AUnit(p1, p2, p3, p4, p5));
+				textureFile = "../Ressources/Images/";
+				textureFile += p5;
+				ennemy.push_back(new AUnit(p1, p2, p3, p4, textureFile));
 			}
         }
 		file.close();

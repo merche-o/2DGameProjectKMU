@@ -19,7 +19,7 @@ GameEngine::~GameEngine(void)
 
 void GameEngine::run()
 {
-	//ressources.loadEnnemiesFromFile("../Ressources/Ennemies.txt");
+	ressources.loadEnnemiesFromFile("../Ressources/Ennemies.txt");
 	//sound.playMusic(sound.music);
     while (window.isOpen())
     {
@@ -27,11 +27,12 @@ void GameEngine::run()
 		
 		map.checkPlatform();
 		graphic.affMap();
+		spawner.spawnEnnemies(ressources.ennemy);
 		graphic.affUnits();
 
 		event.checkEvent();
 		physics.playerAction(0);
-		spawner.spawnEnnemies(ressources.ennemy);
+		
 		graphic.RefreshWindow();
     }
 }
