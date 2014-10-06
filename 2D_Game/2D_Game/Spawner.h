@@ -8,14 +8,13 @@
 class Spawner
 {
 private:
-	//std::vector<AUnit*> & ennemies;
-	//std::vector<Item*> & itemList;
+	std::vector<AUnit*> & ennemies;
+	std::vector<Item*> & itemList;
 
 public:
-	Spawner(void);
-	//Spawner(std::vector<AUnit*> & ennemyList);
-	~Spawner(void);
 
-	//void spawnEnemies(std::vector<AUnit*> ennemy);
+	Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList);
+	~Spawner(void);
+	void spawnEnemies(std::vector<AUnit*> ennemy);
 };
 

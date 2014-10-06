@@ -43,7 +43,7 @@ public:
 	e_dir dir;
 	e_act act;
 	unit_state state;
-	sf::Time spawm;
+	sf::Time spawn;
 	sf::Clock timer;
 	std::vector<bool> inputMap;
 

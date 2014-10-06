@@ -2,7 +2,7 @@
 #include <iostream>
 
 GameEngine::GameEngine(void)
-	: ressources(), graphic(window, map, player, ressources), sound(), map(), event(window, player), ref(ennemyList, itemList, map), physics(player,ennemyList,itemList, map)
+	: ressources(), graphic(window, map, player, ressources), sound(), map(), event(window, player), ref(ennemyList, itemList, map), physics(player,ennemyList,itemList, map), spawner(ennemyList, itemList) 
 {
 	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME);
 	window.setFramerateLimit(30);
@@ -30,7 +30,7 @@ void GameEngine::run()
 
 		event.checkEvent();
 		physics.playerAction(0);
-		
+		spawner.spawnEnemies(ressources.ennemy);
 		graphic.RefreshWindow();
     }
 }
