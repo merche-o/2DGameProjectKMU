@@ -19,4 +19,5 @@ public:
 	~Map(void);
 
 	void createPlatform(int x, int y, int length, bool symmetry = false);
+	void checkPlatform();
 };

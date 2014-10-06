@@ -15,6 +15,6 @@ public:
 
 	Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList);
 	~Spawner(void);
-	void spawnEnemies(std::vector<AUnit*> ennemy);
+	void spawnEnnemies(std::vector<AUnit*> ennemy);
 };
 

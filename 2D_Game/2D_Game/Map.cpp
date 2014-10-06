@@ -56,3 +56,20 @@ void Map::createPlatform(int x, int y, int length, bool symmetry)
 		//}
 	}
 }
+
+void Map::checkPlatform()
+{
+	for (int i = 0; i < platform.size(); ++i)
+	{
+		if (platform[i]->isMorphing == false)
+			platform[i]->checkMorphTime();
+
+		if (platform[i]->isMorphing == true)
+		{
+			if (platform[i]->checkDead() == true)
+				platform.erase(platform.begin() + i);
+			else
+				platform[i]->playMorph();
+		}
+	}
+}

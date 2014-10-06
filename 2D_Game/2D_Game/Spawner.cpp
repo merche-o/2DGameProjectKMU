@@ -11,7 +11,7 @@ Spawner::~Spawner(void)
 {
 }
 
-void Spawner::spawnEnemies(std::vector <AUnit*> ennemy)
+void Spawner::spawnEnnemies(std::vector <AUnit*> ennemy)
 {
 	for (int i = 0; i < ennemy.size(); i++)
 	{

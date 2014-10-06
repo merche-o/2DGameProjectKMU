@@ -24,13 +24,14 @@ void GameEngine::run()
     while (window.isOpen())
     {
 		window.clear();
-
+		
+		map.checkPlatform();
 		graphic.affMap();
 		graphic.affPlayer();
 
 		event.checkEvent();
 		physics.playerAction(0);
-		spawner.spawnEnemies(ressources.ennemy);
+		spawner.spawnEnnemies(ressources.ennemy);
 		graphic.RefreshWindow();
     }
 }

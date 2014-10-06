@@ -18,6 +18,7 @@ public:
 	Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, Ressources & ressource);
 	~Graphic(void);
 
+	void RefreshWindow();
 	void affMap();
 	void affPlayer();
 };

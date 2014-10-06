@@ -21,6 +21,7 @@ public:
 	bool isMorphing;
 	int transp;
 	std::vector<std::pair<int, int> > pos;
+	int activMorph;
 	int morphTime;
 	sf::Time morph;
 	sf::Clock timer;

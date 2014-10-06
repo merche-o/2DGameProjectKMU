@@ -1,5 +1,5 @@
 #include "Display.h"
-
+#include <iostream>
 
 Display::Display(sf::RenderWindow & w)
 	: win(w)
