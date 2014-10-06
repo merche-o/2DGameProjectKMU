@@ -13,7 +13,7 @@ public:
 	~Display(void);
 
 	void loadImage(float x, float y, sf::Texture & texture, int transparency = 255);
-	void loadUnit(float x, float y, AUnit* unit);
+	void loadUnit(AUnit* unit);
 	void loadText(float, float, sf::Font, std::string, int size, int r, int g, int b);
 	void RefreshWindow();
 };

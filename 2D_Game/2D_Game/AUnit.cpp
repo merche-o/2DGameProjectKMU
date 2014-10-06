@@ -19,6 +19,10 @@ AUnit::AUnit()
 AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile)
 	: life(Life), speed(Speed), damage(Damage), spawnTime(SpawnTime)
 {
+	animFrame = 1;
+	dir = LEFT;
+	act = WALK;
+
 	state = U_NORMAL;
 	jumpTmpY = 0;
 	

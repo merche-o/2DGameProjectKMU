@@ -2,8 +2,8 @@
 #include "Settings.h"
 #include <iostream>
 
-Graphic::Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, Ressources & ressource)
-	: Display(w), win(w), map(m), player(p), ress(ressource)
+Graphic::Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & e, Ressources & ressource)
+	: Display(w), win(w), map(m), player(p), ennemyList(e), ress(ressource)
 {
 }
 
@@ -46,7 +46,12 @@ void Graphic::affMap()
 	}
 }
 
-void Graphic::affPlayer()
+void Graphic::affUnits()
 {
-	loadUnit((float)player[0]->x, (float)player[0]->y, player[0]);
+	loadUnit(player[0]);
+
+	for (int i = 0; i < ennemyList.size(); ++i)
+	{
+		loadUnit(ennemyList[i]);
+	}
 }
