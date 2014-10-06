@@ -27,13 +27,13 @@ void Graphic::affMap()
 
 	for (int i = 0; i < map.platform.size(); ++i)
 	{
-		for (int x = 0; x < (int)map.platform[i]->length; ++x)
+		for (int j = 0; j < (int)map.platform[i]->length; ++j)
 		{
 			// Display
 			if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DISAPPEAR)
-				loadImage(map.platform[i]->pos[x].first * (float)Settings::CASE_SIZE, map.platform[i]->pos[x].second * (float)Settings::CASE_SIZE, texture/*ress.texture["wall"]*/, map.platform[i]->transp);
+				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y, texture/*ress.texture["wall"]*/, map.platform[i]->transp);
 			else
-				loadImage(map.platform[i]->pos[x].first * (float)Settings::CASE_SIZE, map.platform[i]->pos[x].second * (float)Settings::CASE_SIZE, texture/*ress.texture["wall"]*/);
+				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y, texture/*ress.texture["wall"]*/);
 			//for (int y = 0; y < height_map; ++y)
 			//{
 			//	for (int x = 0; x < width_map; ++x)

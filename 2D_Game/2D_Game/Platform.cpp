@@ -11,7 +11,7 @@ Platform::Platform(int X, int Y, int Length)
 
 	type = DISAPPEAR;
 	isMorphing = false;
-	activMorph = 1;
+	activMorph = 5;
 	morphTime = 1;
 	transp = 255;
 	timer.restart();
