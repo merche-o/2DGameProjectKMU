@@ -9,7 +9,8 @@ public:
 	enum platform_type
 	{
 		DISAPPEAR,
-		FALLING,
+		GO_LEFT,
+		GO_RIGHT,
 		NONE
 	};
 
@@ -33,7 +34,7 @@ public:
 	~Platform(void);
 
 	void checkMorphTime();
-	void playMorph();
+	void playMorph(std::vector<Platform*> & platform);
 	bool checkDead();
 };
 

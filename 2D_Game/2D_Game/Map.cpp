@@ -69,7 +69,7 @@ void Map::checkPlatform()
 			if (platform[i]->checkDead() == true)
 				platform.erase(platform.begin() + i);
 			else
-				platform[i]->playMorph();
+				platform[i]->playMorph(platform);
 		}
 	}
 }
