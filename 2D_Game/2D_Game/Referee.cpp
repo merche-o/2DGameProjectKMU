@@ -1,7 +1,7 @@
 #include "Referee.h"
 
 
-Referee::Referee(std::vector<AUnit*> const& enemylist, std::vector<Item*> const &itemList, Map &map) 
+Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*> const &itemList, Map &map) 
 : _enemyList(enemylist), _itemList(itemList), _map(map)
 {
 	//collideManager.a
@@ -15,10 +15,9 @@ Referee::~Referee()
 {
 }
 
-int Referee::colliderCheck(AUnit const *src, Event::Input const &btn)
+int Referee::colliderCheck(AUnit  *src, Event::Input const &btn)
 {
 	int i = 0;
-	bool touch = false;
 	int target = -1;
 	while (i < 3)
 	{
@@ -30,28 +29,107 @@ int Referee::colliderCheck(AUnit const *src, Event::Input const &btn)
 	return -1;
 }
 
-int 	Referee::collideBonus(AUnit const *src, Event::Input const &btn)
+int 	Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 {
 	return -1;
 }
 
-int Referee::collideWall(AUnit const *src, Event::Input const &btn)
+int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 {
 	if (btn == Event::I_UP)
 		{
-			
-			if (this->_map.map[std::make_pair((src->y)/Settings::CASE_SIZE, src->x/Settings::CASE_SIZE)].type == WALL
-			||	this->_map.map[std::make_pair((src->y)/Settings::CASE_SIZE, (src->x+ src->width)/Settings::CASE_SIZE)].type == WALL)			
+			for (int i = 0; i < this->_map.platform.size(); i++)
+			{
+			if (src->x > this->_map.platform[i]->x && src->x < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
+			&&  src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE && src->y >= this->_map.platform[i]->y)
+			{				
+				while (src->x > this->_map.platform[i]->x && src->x < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
+			&&  src->y < this->_map.platform[i]->y + Settings::CASE_SIZE && src->y > this->_map.platform[i]->y)
+					src->y += 1;
 				return 1;
+			}
+			else if (src->x+ Settings::CASE_SIZE  > this->_map.platform[i]->x && src->x+ Settings::CASE_SIZE < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
+			&&  src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE && src->y >= this->_map.platform[i]->y)
+			{				
+				while (src->x+ Settings::CASE_SIZE > this->_map.platform[i]->x && src->x+ Settings::CASE_SIZE < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
+			&&  src->y < this->_map.platform[i]->y + Settings::CASE_SIZE && src->y > this->_map.platform[i]->y)
+					src->y += 1;
+				return 1;
+			}
+	}
+			/*if (this->_map.map[std::make_pair((src->y)/Settings::CASE_SIZE, src->x/Settings::CASE_SIZE)].type == WALL
+				||	this->_map.map[std::make_pair((src->y)/Settings::CASE_SIZE, (src->x+ src->width)/Settings::CASE_SIZE)].type == WALL)
+			{
+				while (this->_map.map[std::make_pair((src->y)/Settings::CASE_SIZE, src->x/Settings::CASE_SIZE)].type == WALL
+				||	this->_map.map[std::make_pair((src->y)/Settings::CASE_SIZE, (src->x+ src->width)/Settings::CASE_SIZE)].type == WALL)
+				src->y += 2;
+				return 1;
+			}*/
 		}
 	if (btn == Event::I_RIGHT)
-		if (this->_map.map[std::make_pair((src->y +src->height - 5)/Settings::CASE_SIZE, (src->x + src->width +3)/Settings::CASE_SIZE)].type == WALL
-			||	this->_map.map[std::make_pair((src->y)/Settings::CASE_SIZE, (src->x+ src->width +3)/Settings::CASE_SIZE)].type == WALL)			
+	{
+		for (int i = 0; i < this->_map.platform.size(); i++)
+		{
+			if (src->x + Settings::CASE_SIZE >= this->_map.platform[i]->x  && src->x + Settings::CASE_SIZE < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
+			&&  src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
+			{				
+				while (src->x + Settings::CASE_SIZE > this->_map.platform[i]->x && src->x + Settings::CASE_SIZE < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
+			&& src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
+					src->x -= 1;
 				return 1;
+			}
+			else if (src->x + Settings::CASE_SIZE >= this->_map.platform[i]->x && src->x + Settings::CASE_SIZE < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
+			&&  src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
+			{				
+				while (src->x + Settings::CASE_SIZE > this->_map.platform[i]->x && src->x + Settings::CASE_SIZE < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
+			&& src->y+ Settings::CASE_SIZE >= this->_map.platform[i]->y && src->y+ Settings::CASE_SIZE <= this->_map.platform[i]->y + Settings::CASE_SIZE)
+					src->x -= 1;
+				return 1;
+			}
+		}
+		//if (this->_map.map[std::make_pair((src->y +src->height)/Settings::CASE_SIZE, (src->x + src->width)/Settings::CASE_SIZE)].type == WALL
+		//	||	this->_map.map[std::make_pair((src->y)/Settings::CASE_SIZE, (src->x+ src->width)/Settings::CASE_SIZE)].type == WALL)
+		//{
+		//while (this->_map.map[std::make_pair((src->y +src->height)/Settings::CASE_SIZE, (src->x + src->width)/Settings::CASE_SIZE)].type == WALL
+		//	||	this->_map.map[std::make_pair((src->y)/Settings::CASE_SIZE, (src->x+ src->width)/Settings::CASE_SIZE)].type == WALL)
+		//	src->x -= 2;
+		//return 1;
+		//}
+	}
 	if (btn == Event::I_LEFT)
-		if (this->_map.map[std::make_pair((src->y +src->height - 5)/Settings::CASE_SIZE, (src->x - 3)/Settings::CASE_SIZE)].type == WALL
-			||	this->_map.map[std::make_pair((src->y)/Settings::CASE_SIZE, (src->x-3)/Settings::CASE_SIZE)].type == WALL)			
-				return 1;
+	{
+		for (int i = 0; i < this->_map.platform.size(); i++)
+		{
+			if (src->x  <= this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length && src->x > this->_map.platform[i]->x
+			&&  src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
+			{				
+				while (src->x < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length  && src->x > this->_map.platform[i]->x
+			&& src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
+					src->x += 1;
+				src->x += 10;
+				src->x += src->speed;
+				return -1;
+			}
+			else if (src->x  <= this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length && src->x > this->_map.platform[i]->x
+			&&  src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
+			{				
+				while (src->x < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length  && src->x > this->_map.platform[i]->x
+			&& src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
+					src->x += 1;
+				src->x += 10;
+				src->x += src->speed;
+				return -1;
+			}
+		}
+		/*if (this->_map.map[std::make_pair((src->y +src->height)/Settings::CASE_SIZE, (src->x)/Settings::CASE_SIZE)].type == WALL
+			||	this->_map.map[std::make_pair((src->y)/Settings::CASE_SIZE, (src->x)/Settings::CASE_SIZE)].type == WALL)
+		{
+		while (this->_map.map[std::make_pair((src->y +src->height)/Settings::CASE_SIZE, (src->x)/Settings::CASE_SIZE)].type == WALL
+			||	this->_map.map[std::make_pair((src->y)/Settings::CASE_SIZE, (src->x)/Settings::CASE_SIZE)].type == WALL)	
+			src->x += 2;			
+		return 1;
+		}*/
+	}
 
 	//if (btn == Event::I_DOWN)
 	//{
@@ -65,27 +143,46 @@ int Referee::collideWall(AUnit const *src, Event::Input const &btn)
 	return -1;
 }
 
-int Referee::collideEnemy(AUnit const *src, Event::Input const &btn)
+int Referee::collideEnemy(AUnit  *src, Event::Input const &btn)
 {
 	
 	return -1;
 }
 
-bool  Referee::applyGravity(AUnit const *src)
+bool  Referee::applyGravity(AUnit  *src)
 {
 	
 	int height_map = Settings::HEIGHT / Settings::CASE_SIZE;
 	int width_map = Settings::WIDTH / Settings::CASE_SIZE;
 
-
 	//printf("CASE == %d",this->_map.map[std::make_pair((src->y/Settings::HEIGHT)/Settings::CASE_SIZE, src->x/Settings::WIDTH)].type);
-	if (this->_map.map[std::make_pair((src->y + src->height +3)/Settings::CASE_SIZE, src->x/Settings::CASE_SIZE)].type == WALL
-		
-		|| this->_map.map[std::make_pair((src->y + src->height +3)/Settings::CASE_SIZE, (src->x+src->width)/Settings::CASE_SIZE)].type == WALL)
-		{	
-			
-			return false;
-		}
+	for (int i = 0; i < this->_map.platform.size(); i++)
+	{
+		if (src->x > this->_map.platform[i]->x  && src->x < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
+			&&  src->y + Settings::CASE_SIZE >= this->_map.platform[i]->y && src->y + Settings::CASE_SIZE < this->_map.platform[i]->y + Settings::CASE_SIZE)
+			{				
+				while (src->x > this->_map.platform[i]->x && src->x < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
+			&& src->y + Settings::CASE_SIZE > this->_map.platform[i]->y && src->y + Settings::CASE_SIZE < (this->_map.platform[i]->y + Settings::CASE_SIZE))
+					src->y -= 1;
+				return false;
+			}
+		else if (src->x+ Settings::CASE_SIZE  > this->_map.platform[i]->x  && src->x+ Settings::CASE_SIZE < this->_map.platform[i]->x +  Settings::CASE_SIZE * this->_map.platform[i]->length
+			&&  src->y + Settings::CASE_SIZE >= this->_map.platform[i]->y && src->y + Settings::CASE_SIZE < this->_map.platform[i]->y + Settings::CASE_SIZE)
+			{				
+				while (src->x+ Settings::CASE_SIZE > this->_map.platform[i]->x  && src->x+ Settings::CASE_SIZE < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
+			&& src->y + Settings::CASE_SIZE > this->_map.platform[i]->y && src->y + Settings::CASE_SIZE < (this->_map.platform[i]->y + Settings::CASE_SIZE))
+					src->y -= 1;
+				return false;
+			}
+	}
 
+	/*if (this->_map.map[std::make_pair((src->y + src->height)/Settings::CASE_SIZE, src->x/Settings::CASE_SIZE)].type == WALL	
+		|| this->_map.map[std::make_pair((src->y + src->height )/Settings::CASE_SIZE, (src->x+src->width)/Settings::CASE_SIZE)].type == WALL)
+	{
+		while (this->_map.map[std::make_pair((src->y + src->height)/Settings::CASE_SIZE, src->x/Settings::CASE_SIZE)].type == WALL	
+		|| this->_map.map[std::make_pair((src->y + src->height)/Settings::CASE_SIZE, (src->x+src->width)/Settings::CASE_SIZE)].type == WALL)	
+			src->y -= 1;
+		return false;
+	}*/
 	return true;
 }

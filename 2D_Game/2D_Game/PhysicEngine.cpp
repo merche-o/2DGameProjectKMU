@@ -1,7 +1,7 @@
 #include "PhysicEngine.h"
 
 
-PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, Map  & map)
+PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, Map & map)
 : _player(player), _ennemyList(enemylist), _itemList(itemList), _map(map)
 {
 	//actionManager
@@ -26,6 +26,8 @@ PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &
 	releaseActionManager[Event::I_FIRE_RIGHT] = &PhysicEngine::RshootRight;
 	releaseActionManager[Event::I_BONUS] = &PhysicEngine::RuseBonus;
 
+	gravityMax = 30;
+	gravityValue = 5;
 	
 }
 
@@ -54,14 +56,14 @@ void PhysicEngine::playerAction(int playerId)
 void PhysicEngine::moveLeft(AUnit *src)
 {
 	if(_referee->colliderCheck(src, Event::I_LEFT) == -1)
-		src->x -= src->speed;
+		src->x -= (src->speed + 10);
 }
 
 
 void PhysicEngine::moveRight(AUnit *src)
 {
 	if (_referee->colliderCheck(src, Event::I_RIGHT) == -1)
-		src->x += src->speed;
+		src->x += (src->speed + 10);
 }
 
 void PhysicEngine::Jump(AUnit *src)
@@ -71,18 +73,18 @@ void PhysicEngine::Jump(AUnit *src)
 		{
 			if (src->state == U_JUMP)
 			{
-				src->y -= 10 +Settings::GRAVITY;
-				src->jumpTmpY -= 10 +Settings::GRAVITY;
+				src->y -= 15 + gravityValue;
+				src->jumpTmpY -= 15 + gravityValue;
 			}
 			if (src->state == U_NORMAL)
-				src->state = U_JUMP;
-			if(src->state == U_END_JUMP)
-				src->state = U_JUMP;
+				src->state = U_JUMP;/*
+			else if(src->state == U_END_JUMP)
+				src->state = U_JUMP;*/
 			if (src->jumpTmpY + Settings::HIGH_JUMP <= 0)
 				src->state = U_END_JUMP;
 			
 		}
-	else if (_referee->colliderCheck(src, Event::I_UP) == 1)
+	if (_referee->colliderCheck(src, Event::I_UP) == 1)
 		src->state = U_END_JUMP;
 	return;
 }
@@ -134,8 +136,8 @@ void PhysicEngine::RmoveRight(AUnit *src)
 
 void PhysicEngine::RJump(AUnit *src)
 {
-	if (src->state == U_JUMP)
-		src->state = U_END_JUMP;
+	/*if (src->state == U_JUMP)
+		src->state = U_END_JUMP;*/
 	if (_referee->applyGravity(src) == false)
 	{
 		src->jumpTmpY = 0;
@@ -181,6 +183,15 @@ void PhysicEngine::RshootRight(AUnit *src)
 void PhysicEngine::gravity(AUnit *src) 
 {
 	if (_referee->applyGravity(src) == true)
-		src->y += Settings::GRAVITY;
+	{
+		src->y += gravityValue;
+		if (gravityValue < gravityMax)
+			gravityValue += 3;
+	}
+	else
+	{
+		gravityValue = 5;
+	}
+		//src->y += Settings::GRAVITY;
 	return;
 }

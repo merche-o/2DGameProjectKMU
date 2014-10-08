@@ -27,6 +27,9 @@ Map::Map(void)
 	createPlatform(10, height_map - 21, 10, true);
 	createPlatform(2, height_map - 21, 4, true);
 	createPlatform(1, height_map - 25, width_map - 2);
+	createPlatform(7, height_map - 2, 1);
+	createPlatform(width_map - 7, height_map - 2, 1);
+
 }
 
 

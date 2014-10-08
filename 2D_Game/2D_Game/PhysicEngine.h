@@ -19,6 +19,9 @@ public:
 	void mapMove();
 	void projectileMove();
 	Referee *_referee;
+	int gravityValue;
+
+
 	PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, Map  &map);
 	~PhysicEngine(void);
 
@@ -29,6 +32,7 @@ private:
 	std::map<Event::Input, void(PhysicEngine:: *)(AUnit *src)> actionManager;
 	std::map<Event::Input, void(PhysicEngine:: *)(AUnit *src)> releaseActionManager;
 	Map  &_map;
+	int gravityMax;
 	
 	//call after Checking collider
 	void doAction();
