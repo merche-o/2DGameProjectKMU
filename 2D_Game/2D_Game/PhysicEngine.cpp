@@ -35,6 +35,29 @@ PhysicEngine::~PhysicEngine(void)
 {
 }
 
+void PhysicEngine::enemyAction()
+{
+	int i = 0;
+	int i2 = 0;
+
+	while (i < this->_ennemyList.size())
+		{
+			while ( i2 < this->_ennemyList[i]->inputMap.size())
+				{
+					if (this->_ennemyList[i]->inputMap[i2] == true)
+					(this->*(actionManager[(Event::Input)i2]))(this->_ennemyList[i]);
+						if (this->_ennemyList[i]->inputMap[i2] == false)
+					(this->*(releaseActionManager[(Event::Input)i2]))(this->_ennemyList[i]);
+
+					i2++;
+				}
+			gravity(this->_ennemyList[i]);
+			++i;
+		}
+
+}
+
+
 void PhysicEngine::playerAction(int playerId)
 {
 	unsigned int i = 0;

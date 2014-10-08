@@ -19,9 +19,8 @@ void Spawner::spawnEnnemies(std::vector <AUnit*> ennemy)
 		if (ennemy[i]->spawn.asSeconds() >= ennemy[i]->spawnTime)
 		{
 			ennemy[i]->timer.restart();
-			ennemy[i]->x = 100;
-			ennemy[i]-> y = 100;
-			ennemies.push_back(ennemy[i]);
+			
+				ennemies.push_back(ennemy[i]);
 		}
 	}
 }

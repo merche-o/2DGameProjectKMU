@@ -13,6 +13,7 @@
 #include "Spawner.h"
 #include "SoundEngine.h"
 #include "Ressources.h"
+#include "IA.h"
 
 class GameEngine
 {
@@ -29,7 +30,7 @@ private:
 	std::vector<Bullet*> bulletList;
 	Spawner spawner;
 	Event event;
-
+	IA IA;
 public:
 	sf::RenderWindow window;
 

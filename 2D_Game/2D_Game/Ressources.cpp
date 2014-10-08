@@ -33,7 +33,11 @@ void Ressources::loadEnnemiesFromFile(std::string fileName)
 				textureFile.erase();
 				textureFile = "../Ressources/Images/";
 				textureFile += p5;
+				
 				ennemy.push_back(new AUnit(p1, p2, p3, p4, textureFile));
+				ennemy[0]->x = 100;
+				ennemy[0]->y = 100;
+			
 			}
         }
 		file.close();
