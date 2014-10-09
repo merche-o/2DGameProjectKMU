@@ -11,6 +11,8 @@ public:
 		DISAPPEAR,
 		GO_LEFT,
 		GO_RIGHT,
+		DAMAGE,
+		SLOWING,
 		NONE
 	};
 

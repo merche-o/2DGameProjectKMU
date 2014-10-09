@@ -32,6 +32,12 @@ void Graphic::affMap()
 			// Display
 			if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DISAPPEAR)
 				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y, texture/*ress.texture["wall"]*/, map.platform[i]->transp);
+			else if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DAMAGE)
+			{
+				sf::Texture texture2;
+				texture2.loadFromFile("../Ressources/Images/WallDmg.png");
+				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y, texture2/*ress.texture["wallDmg"]*/);
+			}
 			else
 				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y, texture/*ress.texture["wall"]*/);
 			//for (int y = 0; y < height_map; ++y)

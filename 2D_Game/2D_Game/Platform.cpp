@@ -12,17 +12,19 @@ Platform::Platform(int X, int Y, int Length)
 	}
 
 	srand(x + y + length);
-	int r = rand() % 3;
+	int r = rand() % 4;
 	if (r == 0)
 		type = DISAPPEAR;
 	else if (r == 1)
 		type = GO_LEFT;
 	else if (r == 2)
 		type = GO_RIGHT;
+	else if (r == 3)
+		type = DAMAGE;
 
 	isMorphing = false;
-	activMorph = 20;
-	morphTime = 1;
+	activMorph = 2;
+	morphTime = 2;
 	transp = 255;
 	timer.restart();
 }
@@ -52,6 +54,17 @@ void Platform::playMorph(std::vector<Platform*> & platform)
 		--x;
 	else if (type == GO_RIGHT)
 		++x;
+	else if (type == DAMAGE)
+	{
+		// check morphTime
+		morph = timer.getElapsedTime();
+		if ((morph.asSeconds() -  activMorph) >= morphTime)
+		{
+			type = DISAPPEAR;
+			timer.restart();
+			isMorphing = false;
+		}
+	}
 }
 
 bool Platform::checkDead()
