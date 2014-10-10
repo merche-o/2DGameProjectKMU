@@ -42,7 +42,6 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture
 	: life(Life), speed(Speed), damage(Damage), spawnTime(SpawnTime), texture(Texture), x(X), y(Y), dir(Dir)
 {
 	animFrame = 1;
-	dir = LEFT;
 	act = WALK;
 	width = texture.getSize().x / 3;
 	height = texture.getSize().y / 2;

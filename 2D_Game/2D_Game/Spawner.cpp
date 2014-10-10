@@ -36,12 +36,13 @@ void Spawner::spawnEnnemies(std::vector <AUnit*> &ennemy)
 			ennemy[i]->timer.restart();
 		
 			if (spawnPosState == UP_LEFT)
-				dir = LEFT;
-			else
 				dir = RIGHT;
+			else
+				dir = LEFT;
 			ennemies.push_back(new AUnit(ennemy[i]->life, ennemy[i]->speed, ennemy[i]->damage, ennemy[i]->spawnTime, ennemy[i]->texture, posx, posy, dir));
+		changePlaceSpawner();
 		}
 	}
 
-	changePlaceSpawner();
+	
 }
