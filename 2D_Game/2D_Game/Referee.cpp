@@ -92,7 +92,7 @@ int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 					src->x += 1;
 				src->x += 10;
 				src->x += src->speed;
-				return -1;
+				return 1;
 			}
 			else if (src->x  <= this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length && src->x > this->_map.platform[i]->x
 			&&  src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
@@ -102,7 +102,7 @@ int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 					src->x += 1;
 				src->x += 10;
 				src->x += src->speed;
-				return -1;
+				return 1;
 			}
 		}
 	}
