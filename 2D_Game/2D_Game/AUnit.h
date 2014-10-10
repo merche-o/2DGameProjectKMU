@@ -53,6 +53,8 @@ public:
 public:
 	AUnit();
 	AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile);
+	AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir);
+
 	~AUnit(void);
 
 	void nextFrame();

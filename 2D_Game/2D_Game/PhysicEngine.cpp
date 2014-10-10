@@ -42,10 +42,15 @@ void PhysicEngine::enemyAction()
 
 	while (i < this->_ennemyList.size())
 		{
+			i2 = 0;
 			while ( i2 < this->_ennemyList[i]->inputMap.size())
 				{
+					
 					if (this->_ennemyList[i]->inputMap[i2] == true)
-					(this->*(actionManager[(Event::Input)i2]))(this->_ennemyList[i]);
+			{
+			
+						(this->*(actionManager[(Event::Input)i2]))(this->_ennemyList[i]);
+}
 						if (this->_ennemyList[i]->inputMap[i2] == false)
 					(this->*(releaseActionManager[(Event::Input)i2]))(this->_ennemyList[i]);
 

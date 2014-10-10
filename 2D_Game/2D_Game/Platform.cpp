@@ -23,7 +23,7 @@ Platform::Platform(int X, int Y, int Length)
 		type = DAMAGE;
 
 	isMorphing = false;
-	activMorph = 2;
+	activMorph = 200;
 	morphTime = 2;
 	transp = 255;
 	timer.restart();

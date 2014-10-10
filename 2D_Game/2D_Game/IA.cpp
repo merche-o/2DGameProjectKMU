@@ -14,7 +14,7 @@ void IA::setEnnemiesIM()
 	int i;
 
 	i = 0;
-	printf("SET");
+
 	while (i < _ennemyList.size())
 		{
 			fillInputMap(_ennemyList[i]);
@@ -25,6 +25,9 @@ void IA::setEnnemiesIM()
 
 void IA::fillInputMap(AUnit * src)
 {
-	printf("Fill");
-	src->inputMap[Event::I_RIGHT] = true;
+		
+	if (src->dir == RIGHT)
+		src->inputMap[Event::I_RIGHT] = true;
+	else if (src->dir == LEFT)
+		src->inputMap[Event::I_LEFT] = true;
 }
