@@ -40,6 +40,7 @@ public:
 	int animFrame;
 	int damage;
 	int spawnTime;
+	float fallingSpeed;
 	e_dir dir;
 	e_act act;
 	unit_state state;

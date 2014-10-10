@@ -19,8 +19,6 @@ public:
 	void mapMove();
 	void projectileMove();
 	Referee *_referee;
-	int gravityValue;
-
 
 	PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, Map  &map);
 	~PhysicEngine(void);
