@@ -29,6 +29,7 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 	texture.loadFromFile(TextureFile);
 	width = texture.getSize().x / 3;
 	height = texture.getSize().y / 2;
+	fallingSpeed = 5;
 		int i = 0;
 	while (i < 9)
 	{
