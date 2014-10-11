@@ -4,7 +4,7 @@
 
 class Bullet
 {
-private:
+public:
 	int x;
 	int y;
 	int damage;

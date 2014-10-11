@@ -5,19 +5,20 @@
 #include "Weapon.h"
 #include "Bonus.h"
 #include "Spell.h"
+#include "Ressources.h"
 
 class Player : public AUnit
 {
 public:
 	int score;
-	std::vector<Weapon> weapon;
-	std::vector<Bonus> bonus;
-	std::vector<Spell> spell;
+	std::vector<Weapon*> weapon;
+	std::vector<Bonus*> bonus;
+	std::vector<Spell*> spell;
 
 private:
 
 public:
-	Player();
+	Player(Ressources & Ress);
 	~Player(void);
 };
 

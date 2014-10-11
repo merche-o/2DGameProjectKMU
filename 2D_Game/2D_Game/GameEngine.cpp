@@ -9,7 +9,7 @@ GameEngine::GameEngine(void)
 
 	physics._referee = &ref;
 
-	player.push_back(new Player());
+	player.push_back(new Player(ressources));
 }
 
 
@@ -20,20 +20,27 @@ GameEngine::~GameEngine(void)
 void GameEngine::run()
 {
 	ressources.loadEnnemiesFromFile("../Ressources/Ennemies.txt");
+	ressources.loadEnnemiesFromFile("../Ressources/Weapons.txt");
 	//sound.playMusic(sound.music);
     while (window.isOpen())
     {
 		window.clear();
 		
+		graphic.affInterface();
 		map.checkPlatform();
 		graphic.affMap();
 		spawner.spawnEnnemies(ressources.ennemy);
 		graphic.affUnits();
 
 		event.checkEvent();
-		physics.playerAction(0);
-		IA.setEnnemiesIM();
-		physics.enemyAction();
+		//physics.playerAction(0);
+		//IA.setEnnemiesIM();
+		//physics.enemyAction();
 		graphic.RefreshWindow();
     }
 }
+
+//int moveTime(int speed)
+//{
+//	return ((speed * Settings::CASE_SIZE) * globalTimer);
+//}

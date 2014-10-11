@@ -17,9 +17,17 @@ void Graphic::RefreshWindow()
 	win.display();
 }
 
+void Graphic::affInterface()
+{
+	sf::Texture texture;
+	texture.loadFromFile("../Ressources/Images/Interface.png");
+
+	loadImage(0, 0, texture);
+}
+
 void Graphic::affMap()
 {
-	int height_map = Settings::HEIGHT / Settings::CASE_SIZE;
+	int height_map = (Settings::HEIGHT + Settings::HEIGHT_INTERFACE) / Settings::CASE_SIZE;
 	int width_map = Settings::WIDTH / Settings::CASE_SIZE;
 	
 	sf::Texture texture;
@@ -31,15 +39,15 @@ void Graphic::affMap()
 		{
 			// Display
 			if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DISAPPEAR)
-				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y, texture/*ress.texture["wall"]*/, map.platform[i]->transp);
+				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture/*ress.texture["wall"]*/, map.platform[i]->transp);
 			else if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DAMAGE)
 			{
 				sf::Texture texture2;
 				texture2.loadFromFile("../Ressources/Images/WallDmg.png");
-				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y, texture2/*ress.texture["wallDmg"]*/);
+				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture2/*ress.texture["wallDmg"]*/);
 			}
 			else
-				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y, texture/*ress.texture["wall"]*/);
+				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture/*ress.texture["wall"]*/);
 			//for (int y = 0; y < height_map; ++y)
 			//{
 			//	for (int x = 0; x < width_map; ++x)

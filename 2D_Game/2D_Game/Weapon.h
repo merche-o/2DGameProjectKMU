@@ -4,16 +4,16 @@
 
 class Weapon
 {
-private:
+public:
 	int ammo;
 	int damage;
-	int fireRate;
+	float fireRate;
 	int range;
 	int speed;
-	sf::Image image;
+	sf::Texture texture;
 
 public:
-	Weapon(void);
+	Weapon(int Damage, float FireRate, int Range, int Speed);
 	~Weapon(void);
 };
 

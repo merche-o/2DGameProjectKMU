@@ -1,4 +1,5 @@
 #include "Display.h"
+#include "Settings.h"
 #include <iostream>
 
 Display::Display(sf::RenderWindow & w)
@@ -26,7 +27,7 @@ void Display::loadUnit(AUnit* unit)
 	sf::Sprite	Sprite;
 
 	Sprite.setTexture(unit->texture);
-	Sprite.setPosition(unit->x, unit->y);
+	Sprite.setPosition(unit->x, unit->y + Settings::HEIGHT_INTERFACE);
 	Sprite.setTextureRect(sf::IntRect(unit->width * unit->animFrame + (3 * unit->width * unit->act), unit->height * unit->dir, unit->width, unit->height));
 	win.draw(Sprite);
 }

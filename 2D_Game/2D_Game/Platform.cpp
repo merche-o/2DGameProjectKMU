@@ -46,7 +46,7 @@ void Platform::playMorph(std::vector<Platform*> & platform)
 	if (type == DISAPPEAR)
 	{
 		morph = timer.getElapsedTime();
-		transp = ((morphTime) - (morph.asSeconds() - activMorph)) * 255 / morphTime;
+		transp = (morphTime - (morph.asSeconds() - activMorph)) * 255 / morphTime;
 		if (transp < 0)
 			transp = 0;
 	}

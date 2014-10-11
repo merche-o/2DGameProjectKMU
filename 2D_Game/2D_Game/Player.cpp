@@ -1,14 +1,17 @@
 #include "Player.h"
 
 
-Player::Player()
+Player::Player(Ressources & Ress)
 {
 	texture.loadFromFile("../Ressources/Images/Player.png");
-	x = 608;
-	y = 352;
+	x = 0;
+	y = 0;
 	width = 32;
 	height = 32;
 	speed = 5;
+	life = 5;
+	shield = 0;
+	//weapon.push_back(new Weapon(Ress.weapon[0]->damage, Ress.weapon[0]->fireRate, Ress.weapon[0]->range, Ress.weapon[0]->speed));
 }
 
 
