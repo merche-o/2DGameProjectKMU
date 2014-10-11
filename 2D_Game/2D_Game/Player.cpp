@@ -10,7 +10,7 @@ Player::Player(Ressources & Ress)
 	height = 32;
 	speed = 5;
 	life = 5;
-	shield = 0;
+	shield = 3;
 	//weapon.push_back(new Weapon(Ress.weapon[0]->damage, Ress.weapon[0]->fireRate, Ress.weapon[0]->range, Ress.weapon[0]->speed));
 }
 

@@ -21,8 +21,23 @@ void Graphic::affInterface()
 {
 	sf::Texture texture;
 	texture.loadFromFile("../Ressources/Images/Interface.png");
-
 	loadImage(0, 0, texture);
+
+	sf::Font font;
+	font.loadFromFile("../Ressources/Text/Pixel.ttf");
+	loadText(1 * Settings::CASE_SIZE, 8, font, std::string("Player1"), 32, 250, 250, 60);
+
+	texture.loadFromFile("../Ressources/Images/LifeBar.png");
+	for (int j = 0; j < player[0]->life; ++j)
+	{
+		loadImage(4 * Settings::CASE_SIZE + (j * texture.getSize().x), 0.8 * Settings::CASE_SIZE, texture);
+	}
+
+	texture.loadFromFile("../Ressources/Images/ShieldBar.png");
+	for (int k = player[0]->life; k < player[0]->life + player[0]->shield; ++k)
+	{
+		loadImage(4 * Settings::CASE_SIZE + (k * texture.getSize().x), 0.8 * Settings::CASE_SIZE, texture);
+	}
 }
 
 void Graphic::affMap()

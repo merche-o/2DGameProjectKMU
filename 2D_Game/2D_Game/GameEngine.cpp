@@ -22,6 +22,9 @@ void GameEngine::run()
 	ressources.loadEnnemiesFromFile("../Ressources/Ennemies.txt");
 	ressources.loadEnnemiesFromFile("../Ressources/Weapons.txt");
 	//sound.playMusic(sound.music);
+
+	sf::Clock globalTimer;
+	globalTimer.restart();
     while (window.isOpen())
     {
 		window.clear();
