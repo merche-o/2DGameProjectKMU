@@ -1,9 +1,9 @@
 #include "Enemy.h"
 
 
-Enemy::Enemy(int life, int speed, int dam, int spawnTime, std::string fileName) : AUnit(life, speed, dam, spawnTime, fileName)
+Enemy::Enemy(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, enemy_type type) : AUnit( Life, Speed,  Damage,  SpawnTime,  Texture,  X,  Y, Dir), etype(type)
 {
-	
+		
 }
 
 

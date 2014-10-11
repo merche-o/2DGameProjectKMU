@@ -6,20 +6,22 @@
 #include "Bonus.h"
 #include "Spell.h"
 
+enum enemy_type 
+	{
+		E_BASIC,
+		E_FLY,
+	};
+
 class Enemy : public AUnit
 {
 public:
 	
 
 private:
-enum e_move 
-	{
-		e_LEFT,
-		e_RIGHT,
-	};
+
 
 public:
-	Enemy(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile);
+	Enemy(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, enemy_type type);
 	~Enemy(void);
-	e_move move_state;
+	enemy_type etype;
 };

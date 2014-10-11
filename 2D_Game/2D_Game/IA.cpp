@@ -2,7 +2,7 @@
 
 IA::IA(Referee &ref,  std::vector<AUnit*>  &enemylist):_ref(ref), _ennemyList(enemylist)  
 {
-	
+	this->IAManager[E_BASIC] = &IA::basicIA;
 }
 
 IA::~IA(void)
@@ -17,16 +17,21 @@ void IA::setEnnemiesIM()
 
 	while (i < _ennemyList.size())
 		{
-			fillInputMap(_ennemyList[i]);
+			fillInputMap((Enemy *)_ennemyList[i]);
 			++i;
 		}
 
 }
 
-void IA::fillInputMap(AUnit * src)
+void IA::fillInputMap(Enemy *src)
 {
+	(this->*(IAManager[src->etype]))(src);
+		
+}
 
-	if (_ref.applyGravity(src) == true)
+void IA::basicIA(Enemy *src)
+{
+if (_ref.applyGravity(src) == true)
 		return;
 	if (_ref.colliderCheck(src, Event::I_RIGHT) == 1 && src->dir == RIGHT)
 		src->dir = LEFT;
@@ -43,6 +48,5 @@ void IA::fillInputMap(AUnit * src)
 	{
 	 src->inputMap[Event::I_LEFT] = true;
 	 src->inputMap[Event::I_RIGHT] = false;
-	 }
-		
+	 }	
 }
