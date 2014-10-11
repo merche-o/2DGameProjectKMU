@@ -25,8 +25,7 @@ void IA::setEnnemiesIM()
 
 void IA::fillInputMap(Enemy *src)
 {
-	(this->*(IAManager[src->etype]))(src);
-		
+	(this->*(IAManager[src->etype]))(src);		
 }
 
 void IA::basicIA(Enemy *src)
@@ -43,10 +42,12 @@ if (_ref.applyGravity(src) == true)
 	{
 	 src->inputMap[Event::I_LEFT] = false;
 	 src->inputMap[Event::I_RIGHT] = true;
+	 src->nextFrame();
 	 }
 	else if (src->dir == LEFT)
 	{
 	 src->inputMap[Event::I_LEFT] = true;
 	 src->inputMap[Event::I_RIGHT] = false;
+	 src->nextFrame();
 	 }	
 }
