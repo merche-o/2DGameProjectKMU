@@ -4,7 +4,6 @@
 Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*> const &itemList, Map &map) 
 : _enemyList(enemylist), _itemList(itemList), _map(map)
 {
-	//collideManager.a
 	collideManager.push_back(&Referee::collideEnemy);
 	collideManager.push_back(&Referee::collideBonus);
 	collideManager.push_back(&Referee::collideWall);
@@ -151,4 +150,13 @@ bool  Referee::applyGravity(AUnit  *src)
 			}
 	}
 	return true;
+}
+
+void Referee::cleanEnemyList()
+{
+	for (int i = 0; i < this->_enemyList.size(); i++)
+	{
+		if (this->_enemyList[i]->y > Settings::HEIGHT)
+			this->_enemyList.erase(_enemyList.begin() + i);
+	}
 }

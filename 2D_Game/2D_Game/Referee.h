@@ -13,6 +13,7 @@ class Referee
 public:
 	int colliderCheck(AUnit  *,  Event::Input const &);
 	bool applyGravity(AUnit *);
+	void cleanEnemyList();
 	Referee(std::vector<AUnit*> & enemylist, std::vector<Item*> const &itemList, Map  &map);
 	~Referee();
 	
