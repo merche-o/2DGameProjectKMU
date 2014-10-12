@@ -20,7 +20,7 @@ GameEngine::~GameEngine(void)
 void GameEngine::run()
 {
 	ressources.loadEnnemiesFromFile("../Ressources/Ennemies.txt");
-	ressources.loadEnnemiesFromFile("../Ressources/Weapons.txt");
+	ressources.loadWeaponsFromFile("../Ressources/Weapons.txt");
 	//sound.playMusic(sound.music);
 
 	sf::Clock globalTimer;
@@ -36,9 +36,9 @@ void GameEngine::run()
 		graphic.affUnits();
 
 		event.checkEvent();
-		//physics.playerAction(0);
-		//IA.setEnnemiesIM();
-		//physics.enemyAction();
+		physics.playerAction(0);
+		IA.setEnnemiesIM();
+		physics.enemyAction();
 		graphic.RefreshWindow();
     }
 }

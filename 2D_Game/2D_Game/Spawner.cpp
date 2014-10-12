@@ -4,7 +4,7 @@
 
 
 Spawner::Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList)
-	: ennemies(ennemyList), itemList(itemList), posx(0), posy(0), spawnPosState(UP_LEFT)
+	: ennemies(ennemyList), itemList(itemList), posx(2), posy(0), spawnPosState(UP_LEFT)
 {
 }
 
@@ -15,12 +15,14 @@ Spawner::~Spawner(void)
 void Spawner::changePlaceSpawner()
 {
 	if (spawnPosState == UP_LEFT){
+		
 		spawnPosState = UP_RIGHT;
-		posx = Settings::WIDTH - (Settings::CASE_SIZE +2 );
+		posx = Settings::WIDTH - (Settings::CASE_SIZE  * 5 );
 		posy = 0;
 	}
 	else if (spawnPosState == UP_RIGHT){
 		spawnPosState = UP_LEFT;
+		
 		posx = 2;
 		posy = 0;
 	}
@@ -41,6 +43,7 @@ void Spawner::spawnEnnemies(std::vector <AUnit*> &ennemy)
 				dir = RIGHT;
 			else
 				dir = LEFT;
+			printf("dir %d x %d, y %d", dir ,posx, posy);
 			ennemies.push_back(new Enemy(ennemy[i]->life, ennemy[i]->speed, ennemy[i]->damage, ennemy[i]->spawnTime, ennemy[i]->texture, posx, posy, dir, E_BASIC));
 			changePlaceSpawner();
 		}
