@@ -39,6 +39,8 @@ void GameEngine::run()
 		physics.playerAction(0);
 		IA.setEnnemiesIM();
 		physics.enemyAction();
+		ref.dealDamage(player);
+		ref.cleanEnemyList();
 		graphic.RefreshWindow();
     }
 }

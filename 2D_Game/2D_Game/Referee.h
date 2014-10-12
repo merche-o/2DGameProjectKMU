@@ -14,6 +14,7 @@ public:
 	int colliderCheck(AUnit  *,  Event::Input const &);
 	bool applyGravity(AUnit *);
 	void cleanEnemyList();
+	void dealDamage(std::vector<Player *> &_player);
 	Referee(std::vector<AUnit*> & enemylist, std::vector<Item*> const &itemList, Map  &map);
 	~Referee();
 	
@@ -25,9 +26,11 @@ private:
 	//call collider in function of the collide Type (loop) 
 	std::vector<int (Referee::  *)(AUnit  *, Event::Input const &)> collideManager;
 
-	//collide function that return wich 
+	//movement collide function that return wich 
 	int collideWall(AUnit  *, Event::Input const &);
 	int collideBonus(AUnit  *, Event::Input const &);
 	int collideEnemy(AUnit  *, Event::Input const &);
+
+	//
 };
 

@@ -120,7 +120,15 @@ int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 
 int Referee::collideEnemy(AUnit  *src, Event::Input const &btn)
 {
-	
+	if (btn == Event::I_NONE)
+	{
+		for (int i = 0; i < this->_enemyList.size(); i++)
+		{
+			if (src->x  <= this->_enemyList[i]->x + Settings::CASE_SIZE  && src->x > this->_enemyList[i]->x
+			&&  src->y >= this->_enemyList[i]->y && src->y <= this->_enemyList[i]->y + Settings::CASE_SIZE)
+		return 2;
+		}
+	}
 	return -1;
 }
 
@@ -160,3 +168,15 @@ void Referee::cleanEnemyList()
 			this->_enemyList.erase(_enemyList.begin() + i);
 	}
 }
+
+void Referee::dealDamage(std::vector<Player *> &_player)
+	{
+		int i;
+		i = 0;
+		while (i < _player.size())
+		{
+		if (collideEnemy(_player[i], Event::I_NONE) == 2)
+			_player[i]->life--;
+		i++;
+		}
+	}
