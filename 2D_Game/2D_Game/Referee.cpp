@@ -21,7 +21,6 @@ int Referee::colliderCheck(AUnit  *src, Event::Input const &btn)
 	int target = -1;
 	while (i < 3)
 	{
-		
 		if ( (target =(this->*(collideManager[i]))(src,btn)) != -1)
 			return target;
 		++i;
@@ -40,21 +39,21 @@ int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 		{
 			for (int i = 0; i < this->_map.platform.size(); i++)
 			{
-			if (src->x > this->_map.platform[i]->x && src->x < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
-			&&  src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE && src->y >= this->_map.platform[i]->y)
-				{				
-				while (src->x > this->_map.platform[i]->x && src->x < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
-			&&  src->y < this->_map.platform[i]->y + Settings::CASE_SIZE && src->y > this->_map.platform[i]->y)
-					src->y += 1;
-				return 1;
+			if (		src->x							>	this->_map.platform[i]->x &&
+						src->x							<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
+						src->y							<=	this->_map.platform[i]->y + Settings::CASE_SIZE &&
+						src->y							>=	this->_map.platform[i]->y)
+				{
+					src->y = this->_map.platform[i]->y + Settings::CASE_SIZE + 1;
+					return 1;
 				}
-			else if (src->x+ Settings::CASE_SIZE  > this->_map.platform[i]->x && src->x+ Settings::CASE_SIZE < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
-			&&  src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE && src->y >= this->_map.platform[i]->y)
+			else if (	src->x + Settings::CASE_SIZE	>	this->_map.platform[i]->x &&
+						src->x + Settings::CASE_SIZE	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
+						src->y							<=	this->_map.platform[i]->y + Settings::CASE_SIZE &&
+						src->y							>=	this->_map.platform[i]->y)
 				{				
-				while (src->x+ Settings::CASE_SIZE > this->_map.platform[i]->x && src->x+ Settings::CASE_SIZE < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
-			&&  src->y < this->_map.platform[i]->y + Settings::CASE_SIZE && src->y > this->_map.platform[i]->y)
-					src->y += 1;
-				return 1;
+					src->y = this->_map.platform[i]->y + Settings::CASE_SIZE + 1;
+					return 1;
 				}
 			}
 		}
@@ -62,20 +61,12 @@ int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 	{
 		for (int i = 0; i < this->_map.platform.size(); i++)
 		{
-			if (src->x + Settings::CASE_SIZE >= this->_map.platform[i]->x  && src->x + Settings::CASE_SIZE < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
-			&&  src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
+			if (		src->x + Settings::CASE_SIZE	>=	this->_map.platform[i]->x  &&
+						src->x + Settings::CASE_SIZE	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
+						src->y							>=	this->_map.platform[i]->y &&
+						src->y							<=	this->_map.platform[i]->y + Settings::CASE_SIZE)
 			{				
-				while (src->x + Settings::CASE_SIZE > this->_map.platform[i]->x && src->x + Settings::CASE_SIZE < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
-			&& src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
-					src->x -= 1;
-				return 1;
-			}
-			else if (src->x + Settings::CASE_SIZE >= this->_map.platform[i]->x && src->x + Settings::CASE_SIZE < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
-			&&  src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
-			{				
-				while (src->x + Settings::CASE_SIZE > this->_map.platform[i]->x && src->x + Settings::CASE_SIZE < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
-			&& src->y+ Settings::CASE_SIZE >= this->_map.platform[i]->y && src->y+ Settings::CASE_SIZE <= this->_map.platform[i]->y + Settings::CASE_SIZE)
-					src->x -= 1;
+				src->x = this->_map.platform[i]->x - Settings::CASE_SIZE;
 				return 1;
 			}
 		}
@@ -84,25 +75,13 @@ int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 	{
 		for (int i = 0; i < this->_map.platform.size(); i++)
 		{
-			if (src->x  <= this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length && src->x > this->_map.platform[i]->x
-			&&  src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
+			if (		src->x							<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
+						src->x							>	this->_map.platform[i]->x &&
+						src->y							>=	this->_map.platform[i]->y &&
+						src->y							<=	this->_map.platform[i]->y + Settings::CASE_SIZE)
 			{				
-				while (src->x < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length  && src->x > this->_map.platform[i]->x
-			&& src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
-					src->x += 1;
-				src->x += 10;
-				src->x += src->speed;
-				return -1;
-			}
-			else if (src->x  <= this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length && src->x > this->_map.platform[i]->x
-			&&  src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
-			{				
-				while (src->x < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length  && src->x > this->_map.platform[i]->x
-			&& src->y >= this->_map.platform[i]->y && src->y <= this->_map.platform[i]->y + Settings::CASE_SIZE)
-					src->x += 1;
-				src->x += 10;
-				src->x += src->speed;
-				return -1;
+				src->x = + Settings::CASE_SIZE * this->_map.platform[i]->length;
+				return 1;
 			}
 		}
 	}
@@ -133,20 +112,25 @@ bool  Referee::applyGravity(AUnit  *src)
 
 	for (int i = 0; i < this->_map.platform.size(); i++)
 	{
-		if (src->x > this->_map.platform[i]->x  && src->x < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
-			&&  src->y + Settings::CASE_SIZE >= this->_map.platform[i]->y && src->y + Settings::CASE_SIZE < this->_map.platform[i]->y + Settings::CASE_SIZE)
+		if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_LEFT)
+			src->x -= 1;
+		else if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_RIGHT)
+			src->x += 1;
+
+		if (		src->x							>=	this->_map.platform[i]->x  &&
+					src->x							<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
+					src->y + Settings::CASE_SIZE	>=	this->_map.platform[i]->y &&
+					src->y + Settings::CASE_SIZE	<	this->_map.platform[i]->y + Settings::CASE_SIZE)
 			{				
-				while (src->x > this->_map.platform[i]->x && src->x < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
-			&& src->y + Settings::CASE_SIZE > this->_map.platform[i]->y && src->y + Settings::CASE_SIZE < (this->_map.platform[i]->y + Settings::CASE_SIZE))
-					src->y -= 1;
+				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
 				return false;
 			}
-		else if (src->x+ Settings::CASE_SIZE  > this->_map.platform[i]->x  && src->x+ Settings::CASE_SIZE < this->_map.platform[i]->x +  Settings::CASE_SIZE * this->_map.platform[i]->length
-			&&  src->y + Settings::CASE_SIZE >= this->_map.platform[i]->y && src->y + Settings::CASE_SIZE < this->_map.platform[i]->y + Settings::CASE_SIZE)
-			{				
-				while (src->x+ Settings::CASE_SIZE > this->_map.platform[i]->x  && src->x+ Settings::CASE_SIZE < this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length
-			&& src->y + Settings::CASE_SIZE > this->_map.platform[i]->y && src->y + Settings::CASE_SIZE < (this->_map.platform[i]->y + Settings::CASE_SIZE))
-					src->y -= 1;
+		else if (	src->x + Settings::CASE_SIZE	>=	this->_map.platform[i]->x  &&
+					src->x + Settings::CASE_SIZE	<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
+					src->y + Settings::CASE_SIZE	>=	this->_map.platform[i]->y &&
+					src->y + Settings::CASE_SIZE	<	this->_map.platform[i]->y + Settings::CASE_SIZE)
+			{
+				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
 				return false;
 			}
 	}
