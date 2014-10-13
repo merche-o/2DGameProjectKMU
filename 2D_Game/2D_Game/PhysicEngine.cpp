@@ -40,35 +40,29 @@ void PhysicEngine::enemyAction()
 
 	while (i < this->_ennemyList.size())
 		{
+			i2 = 0;
 			while ( i2 < this->_ennemyList[i]->inputMap.size())
-				{
-					if (this->_ennemyList[i]->inputMap[i2] == true)
+			{	
+				if (this->_ennemyList[i]->inputMap[i2] == true)
 					(this->*(actionManager[(Event::Input)i2]))(this->_ennemyList[i]);
-						if (this->_ennemyList[i]->inputMap[i2] == false)
+				if (this->_ennemyList[i]->inputMap[i2] == false)
 					(this->*(releaseActionManager[(Event::Input)i2]))(this->_ennemyList[i]);
-
-					i2++;
-				}
+				i2++;
+			}
 			gravity(this->_ennemyList[i]);
 			++i;
 		}
-
 }
 
 
 void PhysicEngine::playerAction(int playerId)
 {
-	unsigned int i = 0;
-	
-	while ( i < this->_player[playerId]->inputMap.size())
+	for (unsigned int i = 0; i < this->_player[playerId]->inputMap.size(); ++i)
 	{
-		
 		if (this->_player[playerId]->inputMap[i] == true)
 			(this->*(actionManager[(Event::Input)i]))(_player[playerId]);
 		if (this->_player[playerId]->inputMap[i] == false)
 			(this->*(releaseActionManager[(Event::Input)i]))(_player[playerId]);
-
-		++i;
 	}
 	gravity(this->_player[playerId]);
 }
@@ -78,7 +72,6 @@ void PhysicEngine::moveLeft(AUnit *src)
 	src->x -= (src->speed + 10);
 	_referee->colliderCheck(src, Event::I_LEFT);
 }
-
 
 void PhysicEngine::moveRight(AUnit *src)
 {
@@ -101,8 +94,7 @@ void PhysicEngine::Jump(AUnit *src)
 			else if(src->state == U_END_JUMP)
 				src->state = U_JUMP;*/
 			if (src->jumpTmpY + Settings::HIGH_JUMP <= 0)
-				src->state = U_END_JUMP;
-			
+				src->state = U_END_JUMP;			
 			
 		}
 	if (_referee->colliderCheck(src, Event::I_UP) == 1)

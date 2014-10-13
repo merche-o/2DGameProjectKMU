@@ -17,9 +17,32 @@ void Graphic::RefreshWindow()
 	win.display();
 }
 
+void Graphic::affInterface()
+{
+	sf::Texture texture;
+	texture.loadFromFile("../Ressources/Images/Interface.png");
+	loadImage(0, 0, texture);
+
+	sf::Font font;
+	font.loadFromFile("../Ressources/Text/Pixel.ttf");
+	loadText(1 * Settings::CASE_SIZE, 8, font, std::string("Player1"), 32, 250, 250, 60);
+
+	texture.loadFromFile("../Ressources/Images/LifeBar.png");
+	for (int j = 0; j < player[0]->life; ++j)
+	{
+		loadImage(4 * Settings::CASE_SIZE + (j * texture.getSize().x), 0.8 * Settings::CASE_SIZE, texture);
+	}
+
+	texture.loadFromFile("../Ressources/Images/ShieldBar.png");
+	for (int k = player[0]->life; k < player[0]->life + player[0]->shield; ++k)
+	{
+		loadImage(4 * Settings::CASE_SIZE + (k * texture.getSize().x), 0.8 * Settings::CASE_SIZE, texture);
+	}
+}
+
 void Graphic::affMap()
 {
-	int height_map = Settings::HEIGHT / Settings::CASE_SIZE;
+	int height_map = (Settings::HEIGHT + Settings::HEIGHT_INTERFACE) / Settings::CASE_SIZE;
 	int width_map = Settings::WIDTH / Settings::CASE_SIZE;
 	
 	sf::Texture texture;
@@ -31,15 +54,15 @@ void Graphic::affMap()
 		{
 			// Display
 			if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DISAPPEAR)
-				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y, texture/*ress.texture["wall"]*/, map.platform[i]->transp);
+				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture/*ress.texture["wall"]*/, map.platform[i]->transp);
 			else if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DAMAGE)
 			{
 				sf::Texture texture2;
 				texture2.loadFromFile("../Ressources/Images/WallDmg.png");
-				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y, texture2/*ress.texture["wallDmg"]*/);
+				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture2/*ress.texture["wallDmg"]*/);
 			}
 			else
-				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y, texture/*ress.texture["wall"]*/);
+				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture/*ress.texture["wall"]*/);
 			//for (int y = 0; y < height_map; ++y)
 			//{
 			//	for (int x = 0; x < width_map; ++x)

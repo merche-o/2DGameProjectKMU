@@ -20,6 +20,7 @@ public:
 	~Graphic(void);
 
 	void RefreshWindow();
+	void affInterface();
 	void affMap();
 	void affUnits();
 };

@@ -51,11 +51,13 @@ void Event::checkEvent()
 			{
 				player[0]->dir = LEFT;
 				player[0]->inputMap[Event::I_LEFT] = true;
+				player[0]->nextFrame();
 			}
 			else if (event.key.code == sf::Keyboard::D)
 			{
 				player[0]->dir = RIGHT;
 				player[0]->inputMap[Event::I_RIGHT] = true;
+				player[0]->nextFrame();
 		}
 			else if (event.key.code == sf::Keyboard::Space)
 				player[0]->inputMap[Event::I_BONUS] = true;

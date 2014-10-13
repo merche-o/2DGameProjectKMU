@@ -23,7 +23,7 @@ Platform::Platform(int X, int Y, int Length)
 		type = DAMAGE;
 
 	isMorphing = false;
-	activMorph = 2;
+	activMorph = 200;
 	morphTime = 2;
 	transp = 255;
 	timer.restart();
@@ -46,7 +46,7 @@ void Platform::playMorph(std::vector<Platform*> & platform)
 	if (type == DISAPPEAR)
 	{
 		morph = timer.getElapsedTime();
-		transp = ((morphTime) - (morph.asSeconds() - activMorph)) * 255 / morphTime;
+		transp = (morphTime - (morph.asSeconds() - activMorph)) * 255 / morphTime;
 		if (transp < 0)
 			transp = 0;
 	}

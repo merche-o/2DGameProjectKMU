@@ -38,6 +38,25 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 	}
 }
 
+AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir)
+	: life(Life), speed(Speed), damage(Damage), spawnTime(SpawnTime), texture(Texture), x(X), y(Y), dir(Dir)
+{
+	animFrame = 1;
+	act = WALK;
+	width = texture.getSize().x / 3;
+	height = texture.getSize().y / 2;
+	state = U_NORMAL;
+	jumpTmpY = 0;
+	
+		int i = 0;
+	while (i < 9)
+	{
+		inputMap.push_back(false);
+		++i;
+	}
+}
+
+
 AUnit::~AUnit(void)
 {
 }
