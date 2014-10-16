@@ -79,7 +79,7 @@ int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 						src->y							>=	this->_map.platform[i]->y &&
 						src->y							<=	this->_map.platform[i]->y + Settings::CASE_SIZE)
 			{				
-				src->x = + Settings::CASE_SIZE * this->_map.platform[i]->length;
+				src->x = this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length;
 				return 1;
 			}
 		}
@@ -159,8 +159,8 @@ void Referee::dealDamage(std::vector<Player *> &_player)
 		i = 0;
 		while (i < _player.size())
 		{
-		if (collideEnemy(_player[i], Event::I_NONE) == 2)
-			_player[i]->life--;
+			if (collideEnemy(_player[i], Event::I_NONE) == 2)
+			_player[i]->getHit(1);
 		i++;
 		}
 	}
