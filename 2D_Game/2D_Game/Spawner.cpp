@@ -3,8 +3,8 @@
 
 
 
-Spawner::Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList)
-	: ennemies(ennemyList), itemList(itemList), posx(2), posy(0), spawnPosState(UP_LEFT)
+Spawner::Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList, float &LoopTime)
+	: ennemies(ennemyList), itemList(itemList), posx(2), posy(0), spawnPosState(UP_LEFT), loopTime(LoopTime)
 {
 }
 
@@ -44,7 +44,7 @@ void Spawner::spawnEnnemies(std::vector <AUnit*> &ennemy)
 			else
 				dir = LEFT;
 
-			ennemies.push_back(new Enemy(ennemy[i]->life, ennemy[i]->speed, ennemy[i]->damage, ennemy[i]->spawnTime, ennemy[i]->texture, posx, posy, dir, E_BASIC));
+			ennemies.push_back(new Enemy(ennemy[i]->life, ennemy[i]->speed, ennemy[i]->damage, ennemy[i]->spawnTime, ennemy[i]->texture, posx, posy, dir, E_BASIC, loopTime));
 			changePlaceSpawner();
 		}
 	}

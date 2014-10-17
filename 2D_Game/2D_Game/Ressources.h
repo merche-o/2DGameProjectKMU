@@ -14,9 +14,8 @@ public:
 	std::map<std::string, sf::Texture> texture;
 
 private:
-	float &loopTime;
 public:
-	Ressources(float &LoopTime);
+	Ressources();
 	~Ressources(void);
 
 	void loadEnnemiesFromFile(std::string fileName);

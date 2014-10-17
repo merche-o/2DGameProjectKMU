@@ -21,9 +21,10 @@ private:
 	std::vector<Item*> & itemList;
 	void changePlaceSpawner();
 	e_posState spawnPosState;
+	float &loopTime;
 public:
 
-	Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList);
+	Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList, float &LoopTime);
 	~Spawner(void);
 	void spawnEnnemies(std::vector<AUnit*> &ennemy);
 };

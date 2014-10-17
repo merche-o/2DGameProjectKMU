@@ -60,7 +60,7 @@ public:
 	int jumpTmpY;
 	 
 public:
-	AUnit();
+	AUnit(float &);
 	AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile, float &loopTime);
 	AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, float &loopTime);
 	void getHit(int dam);

@@ -2,12 +2,11 @@
 #include "Event.h"
 
 
-AUnit::AUnit()
+AUnit::AUnit(float &LoopTime) : loopTime(LoopTime)
 {
 	animFrame = 1;
 	dir = LEFT;
 	act = WALK;
-
 	int i = 0;
 	while (i < 9)
 	{
