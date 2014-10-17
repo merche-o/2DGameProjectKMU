@@ -12,10 +12,12 @@ public:
 	std::map<std::pair<int, int>, Case> map;
 	std::vector<Platform*> platform;
 
+	float & loopTime;
+
 private:
 
 public:
-	Map(void);
+	Map(float & Time);
 	~Map(void);
 
 	void createPlatform(int x, int y, int length, bool symmetry = false);

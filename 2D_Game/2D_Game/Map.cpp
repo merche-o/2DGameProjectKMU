@@ -1,7 +1,8 @@
 #include "Map.h"
 #include "Settings.h"
 
-Map::Map(void)
+Map::Map(float & Time)
+	: loopTime(Time)
 {
 	int height_map = (Settings::HEIGHT_GAME + Settings::HEIGHT_INTERFACE) / Settings::CASE_SIZE;
 	int width_map = Settings::WIDTH_GAME / Settings::CASE_SIZE;
@@ -20,7 +21,6 @@ Map::Map(void)
 
 	createPlatform(7, 21, 1);
 	createPlatform(width_map - 7, 21, 1);
-
 }
 
 
@@ -30,14 +30,14 @@ Map::~Map(void)
 
 void Map::createPlatform(int x, int y, int length, bool symmetry)
 {
-	platform.push_back(new Platform(x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length));
+	platform.push_back(new Platform(x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime));
 
 	if (symmetry == true)
 	{
 		int width_map = Settings::WIDTH / Settings::CASE_SIZE;
 		int new_x = width_map - (x + length);
 
-		platform.push_back(new Platform(new_x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length));
+		platform.push_back(new Platform(new_x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime));
 	}
 }
 
@@ -45,6 +45,8 @@ void Map::checkPlatform()
 {
 	for (int i = 0; i < platform.size(); ++i)
 	{
+		platform[i]->refreshTime();
+
 		if (platform[i]->isMorphing == false)
 			platform[i]->checkMorphTime();
 
