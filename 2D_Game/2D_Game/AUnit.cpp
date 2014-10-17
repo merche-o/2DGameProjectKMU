@@ -16,8 +16,8 @@ AUnit::AUnit()
 	}
 }
 
-AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile)
-	: life(Life), speed(Speed), damage(Damage), spawnTime(SpawnTime)
+AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile, float &LoopTime)
+	: life(Life), speed(Speed), damage(Damage), spawnTime(SpawnTime), loopTime(LoopTime)
 {
 	animFrame = 1;
 	dir = LEFT;
@@ -38,8 +38,8 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 	}
 }
 
-AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir)
-	: life(Life), speed(Speed), damage(Damage), spawnTime(SpawnTime), texture(Texture), x(X), y(Y), dir(Dir)
+AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, float &LoopTime)
+	: life(Life), speed(Speed), damage(Damage), spawnTime(SpawnTime), texture(Texture), x(X), y(Y), dir(Dir), loopTime(LoopTime)
 {
 	animFrame = 1;
 	act = WALK;

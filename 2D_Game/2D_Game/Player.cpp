@@ -1,7 +1,7 @@
 #include "Player.h"
 
 
-Player::Player(Ressources & Ress)
+Player::Player(Ressources & Ress, float &LoopTime)
 {
 	texture.loadFromFile("../Ressources/Images/Player.png");
 	x = 0;
@@ -11,6 +11,7 @@ Player::Player(Ressources & Ress)
 	speed = 5;
 	life = 5;
 	shield = 3;
+	loopTime = LoopTime;
 	//weapon.push_back(new Weapon(Ress.weapon[0]->damage, Ress.weapon[0]->fireRate, Ress.weapon[0]->range, Ress.weapon[0]->speed));
 }
 

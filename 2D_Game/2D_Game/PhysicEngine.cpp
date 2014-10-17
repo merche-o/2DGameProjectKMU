@@ -26,7 +26,7 @@ PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &
 	releaseActionManager[Event::I_FIRE_RIGHT] = &PhysicEngine::RshootRight;
 	releaseActionManager[Event::I_BONUS] = &PhysicEngine::RuseBonus;
 
-	gravityMax = 30;	
+	gravityMax = 20;	
 }
 
 PhysicEngine::~PhysicEngine(void)
@@ -86,7 +86,7 @@ void PhysicEngine::Jump(AUnit *src)
 		{
 			if (src->state == U_JUMP)
 			{
-				src->y -= 15 + src->fallingSpeed;
+				src->y -= 18 + src->fallingSpeed;
 				src->jumpTmpY -= 15 + src->fallingSpeed;
 			}
 			if (src->state == U_NORMAL)
@@ -201,9 +201,9 @@ void PhysicEngine::gravity(AUnit *src)
 	{
 		src->y += src->fallingSpeed;
 		if (src->fallingSpeed < gravityMax)
-			src->fallingSpeed += 3;
+			src->fallingSpeed += 2;
 	}
 	else
-		src->fallingSpeed = 5;
+		src->fallingSpeed = 4;
 	return;
 }

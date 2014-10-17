@@ -47,6 +47,7 @@ public:
 	int damage;
 	int spawnTime;
 	float fallingSpeed;
+	float &loopTime;
 	e_dir dir;
 	e_act act;
 	life_state l_state;
@@ -60,8 +61,8 @@ public:
 	 
 public:
 	AUnit();
-	AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile);
-	AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir);
+	AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile, float &loopTime);
+	AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, float &loopTime);
 	void getHit(int dam);
 	~AUnit(void);
 

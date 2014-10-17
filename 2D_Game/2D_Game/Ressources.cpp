@@ -34,7 +34,7 @@ void Ressources::loadEnnemiesFromFile(std::string fileName)
 				textureFile = "../Ressources/Images/";
 				textureFile += p5;
 				
-				ennemy.push_back(new AUnit(p1, p2, p3, p4, textureFile));			
+				ennemy.push_back(new AUnit(p1, p2, p3, p4, textureFile, loopTime));			
 			}
         }
 		file.close();
