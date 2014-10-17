@@ -13,7 +13,6 @@ Platform::Platform(int X, int Y, int Length, float & Time)
 
 	srand(x + y + length);
 	int r = rand() % 4;
-	std::cout << r << std::endl;
 	if (r == 0)
 		type = DISAPPEAR;
 	else if (r == 1)
@@ -25,7 +24,7 @@ Platform::Platform(int X, int Y, int Length, float & Time)
 
 	isMorphing = false;
 	activMorph = 2;
-	morphTime = 200;
+	morphTime = 2;
 	transp = 255;
 	speed = 1 * Settings::CASE_SIZE;
 }

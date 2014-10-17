@@ -21,14 +21,18 @@ void GameEngine::run()
 {
 	ressources.loadEnnemiesFromFile("../Ressources/Ennemies.txt");
 	ressources.loadWeaponsFromFile("../Ressources/Weapons.txt");
-	sound.playMusic(sound.music);
+	//sound.playMusic(sound.music);
 
-	sf::Clock globalTimer;
-	globalTimer.restart();
-	
+
+	globalClock.restart();
     while (window.isOpen())
     {
 		window.clear();
+	
+		globalTimer = globalClock.getElapsedTime();
+		loopTime = globalTimer.asSeconds();
+		globalClock.restart();
+		
 		graphic.affInterface();
 		map.checkPlatform();
 		graphic.affMap();
