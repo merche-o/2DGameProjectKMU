@@ -17,27 +17,30 @@ public:
 	};
 
 public:
-	int x;
-	int y;
+	float x;
+	float y;
 	int length;
 	platform_type type;
+	int speed;
 	bool isMorphing;
 	int transp;
 	std::vector<std::pair<int, int> > pos;
-	int activMorph;
-	int morphTime;
-	sf::Time morph;
-	sf::Clock timer;
+	float activMorph;
+	float morphTime;
+	float & loopTime; // time of one gloabal loop
+	float morph; // additionnal loopTime
 
 private:
 
 public:
-	Platform(int X, int Y, int Length);
+	Platform(int X, int Y, int Length, float & Time);
 	~Platform(void);
 
 	void checkMorphTime();
 	void playMorph(std::vector<Platform*> & platform);
 	bool checkDead();
+	void refreshTime();
+	void resetTime();
 };
 
 // Refaire les plateforms sous forme de class = stockage dynamique pour application dynamique

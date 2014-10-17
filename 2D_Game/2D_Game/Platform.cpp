@@ -3,8 +3,8 @@
 #include <iostream>
 #include <cstdlib>
 
-Platform::Platform(int X, int Y, int Length)
-	: x(X), y(Y), length(Length)
+Platform::Platform(int X, int Y, int Length, float & Time)
+	: x(X), y(Y), length(Length), loopTime(Time)
 {
 	for (int i = 0; i < length; ++i)
 	{
@@ -23,10 +23,10 @@ Platform::Platform(int X, int Y, int Length)
 		type = DAMAGE;
 
 	isMorphing = false;
-	activMorph = 200;
+	activMorph = 2;
 	morphTime = 2;
 	transp = 255;
-	timer.restart();
+	speed = 1 * Settings::CASE_SIZE;
 }
 
 
@@ -36,8 +36,7 @@ Platform::~Platform(void)
 
 void Platform::checkMorphTime()
 {
-	morph = timer.getElapsedTime();
-	if (isMorphing == false && morph.asSeconds() > activMorph)
+	if (isMorphing == false && morph > activMorph)
 		isMorphing = true;
 }
 
@@ -45,23 +44,20 @@ void Platform::playMorph(std::vector<Platform*> & platform)
 {
 	if (type == DISAPPEAR)
 	{
-		morph = timer.getElapsedTime();
-		transp = (morphTime - (morph.asSeconds() - activMorph)) * 255 / morphTime;
+		transp = (morphTime - (morph - activMorph)) * 255 / morphTime;
 		if (transp < 0)
 			transp = 0;
 	}
 	else if (type == GO_LEFT)
-		--x;
+		x -= speed * loopTime;
 	else if (type == GO_RIGHT)
-		++x;
+		x += speed * loopTime;
 	else if (type == DAMAGE)
 	{
-		// check morphTime
-		morph = timer.getElapsedTime();
-		if ((morph.asSeconds() -  activMorph) >= morphTime)
+		if ((morph -  activMorph) >= morphTime)
 		{
 			type = DISAPPEAR;
-			timer.restart();
+			resetTime();
 			isMorphing = false;
 		}
 	}
@@ -76,4 +72,14 @@ bool Platform::checkDead()
 	else if (type == GO_RIGHT && x >= Settings::WIDTH)
 		return (true);
 	return (false);
+}
+
+void Platform::refreshTime()
+{
+	morph += loopTime;
+}
+
+void Platform::resetTime()
+{
+	morph = 0;
 }

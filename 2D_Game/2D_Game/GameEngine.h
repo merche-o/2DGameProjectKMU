@@ -31,6 +31,11 @@ private:
 	Spawner spawner;
 	Event event;
 	IA IA;
+	
+	sf::Clock globalClock;
+	sf::Time globalTimer;
+	float loopTime;
+
 public:
 	sf::RenderWindow window;
 
