@@ -26,6 +26,12 @@ enum unit_state
 	U_DEAD
 };
 
+enum life_state
+{
+	IN_LIFE,
+	HIT,
+	DEAD
+};
 class AUnit
 {
 public:
@@ -43,6 +49,7 @@ public:
 	float fallingSpeed;
 	e_dir dir;
 	e_act act;
+	life_state l_state;
 	unit_state state;
 	sf::Time spawn;
 	sf::Clock timer;
@@ -50,12 +57,12 @@ public:
 
 	//there is probably a best way to do it
 	int jumpTmpY;
-
+	 
 public:
 	AUnit();
 	AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile);
 	AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir);
-
+	void getHit(int dam);
 	~AUnit(void);
 
 	void nextFrame();

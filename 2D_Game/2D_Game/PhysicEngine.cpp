@@ -69,14 +69,14 @@ void PhysicEngine::playerAction(int playerId)
 
 void PhysicEngine::moveLeft(AUnit *src)
 {
-	if(_referee->colliderCheck(src, Event::I_LEFT) == -1)
-		src->x -= (src->speed + 10);
+	src->x -= (src->speed + 10);
+	_referee->colliderCheck(src, Event::I_LEFT);
 }
 
 void PhysicEngine::moveRight(AUnit *src)
 {
-	if (_referee->colliderCheck(src, Event::I_RIGHT) == -1)
-		src->x += (src->speed + 10);
+	src->x += (src->speed + 10);
+	_referee->colliderCheck(src, Event::I_RIGHT);
 }
 
 void PhysicEngine::Jump(AUnit *src)
@@ -95,9 +95,12 @@ void PhysicEngine::Jump(AUnit *src)
 				src->state = U_JUMP;*/
 			if (src->jumpTmpY + Settings::HIGH_JUMP <= 0)
 				src->state = U_END_JUMP;			
+			
 		}
 	if (_referee->colliderCheck(src, Event::I_UP) == 1)
+	{
 		src->state = U_END_JUMP;
+	}
 	return;
 }
 
@@ -201,9 +204,6 @@ void PhysicEngine::gravity(AUnit *src)
 			src->fallingSpeed += 3;
 	}
 	else
-	{
 		src->fallingSpeed = 5;
-	}
-		//src->y += Settings::GRAVITY;
 	return;
 }

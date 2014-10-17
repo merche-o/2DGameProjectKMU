@@ -19,3 +19,4 @@ Player::Player(Ressources & Ress)
 Player::~Player(void)
 {
 }
+
