@@ -29,7 +29,6 @@ void GameEngine::run()
     while (window.isOpen())
     {
 		window.clear();
-		printf("%d", loopTime);
 		graphic.affInterface();
 		map.checkPlatform();
 		graphic.affMap();

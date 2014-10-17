@@ -4,7 +4,7 @@
 Player::Player(Ressources & Ress, float &LoopTime): AUnit(LoopTime)
 {
 	texture.loadFromFile("../Ressources/Images/Player.png");
-	x = 0;
+	x = -2;
 	y = 0;
 	width = 32;
 	height = 32;

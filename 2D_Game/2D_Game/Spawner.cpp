@@ -4,7 +4,7 @@
 
 
 Spawner::Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList, float &LoopTime)
-	: ennemies(ennemyList), itemList(itemList), posx(2), posy(0), spawnPosState(UP_LEFT), loopTime(LoopTime)
+	: ennemies(ennemyList), itemList(itemList), posx(-2), posy(0), spawnPosState(UP_LEFT), loopTime(LoopTime)
 {
 }
 
@@ -17,13 +17,13 @@ void Spawner::changePlaceSpawner()
 	if (spawnPosState == UP_LEFT){
 		
 		spawnPosState = UP_RIGHT;
-		posx = Settings::WIDTH - (Settings::CASE_SIZE);
+		posx = Settings::WIDTH - (Settings::CASE_SIZE) + 2;
 		posy = 0;
 	}
 	else if (spawnPosState == UP_RIGHT){
 		spawnPosState = UP_LEFT;
 		
-		posx = 2;
+		posx = -2;
 		posy = 0;
 	}
 }

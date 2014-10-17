@@ -35,8 +35,8 @@ enum life_state
 class AUnit
 {
 public:
-	int x;
-	int y;
+	float x;
+	float y;
 	int life;
 	int shield;
 	int speed;
