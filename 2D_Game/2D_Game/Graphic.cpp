@@ -1,9 +1,10 @@
 #include "Graphic.h"
 #include "Settings.h"
+#include "Utils.h"
 #include <iostream>
 
-Graphic::Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & e, Ressources & ressource)
-	: Display(w), win(w), map(m), player(p), ennemyList(e), ress(ressource)
+Graphic::Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & e, std::vector<Bullet*> & b, Ressources & ressource, float & Time)
+	: Display(w), win(w), map(m), player(p), ennemyList(e), bulletList(b), ress(ressource), loopTime(Time)
 {
 }
 
@@ -17,26 +18,45 @@ void Graphic::RefreshWindow()
 	win.display();
 }
 
+std::string testDecade(int n)
+{
+	if (n < 10)
+		return (std::string("0"));
+	return ("");
+}
+
 void Graphic::affInterface()
 {
+	sf::Font font;
+	font.loadFromFile("../Ressources/Text/Text.ttf");
+
+	/*** Fond Interface ***/
 	sf::Texture texture;
 	texture.loadFromFile("../Ressources/Images/Interface.png");
 	loadImage(0, 0, texture);
 
-	sf::Font font;
-	font.loadFromFile("../Ressources/Text/Pixel.ttf");
-	loadText(1 * Settings::CASE_SIZE, 8, font, std::string("Player1"), 32, 250, 250, 60);
-
+	/*** Chrono ***/
+	time += loopTime;
+	float t = floor(time);
+	int min = (int)t / 60;
+	int sec = (int)t % 60;
+	loadText(18 * Settings::CASE_SIZE, 0, font, std::string(testDecade(min) + IntToString(min) + ":" + testDecade(sec) + IntToString(sec)), 32, 250, 180, 60);
+	
+	/*** Player 1 ***/
+	loadText(1 * Settings::CASE_SIZE, 0, font, std::string("Player1"), 32, 250, 250, 60);
+	// Score
+	loadText(4 * Settings::CASE_SIZE, 0, font, std::string(IntToString(player[0]->score)), 32, 250, 250, 60);
+	// Life
 	texture.loadFromFile("../Ressources/Images/LifeBar.png");
 	for (int j = 0; j < player[0]->life; ++j)
 	{
-		loadImage(4 * Settings::CASE_SIZE + (j * texture.getSize().x), 0.8 * Settings::CASE_SIZE, texture);
+		loadImage(1 * Settings::CASE_SIZE + (j * texture.getSize().x), 1 * Settings::CASE_SIZE, texture);
 	}
-
+	// Shield
 	texture.loadFromFile("../Ressources/Images/ShieldBar.png");
 	for (int k = player[0]->life; k < player[0]->life + player[0]->shield; ++k)
 	{
-		loadImage(4 * Settings::CASE_SIZE + (k * texture.getSize().x), 0.8 * Settings::CASE_SIZE, texture);
+		loadImage(1 * Settings::CASE_SIZE + (k * texture.getSize().x), 1 * Settings::CASE_SIZE, texture);
 	}
 }
 
@@ -77,10 +97,33 @@ void Graphic::affMap()
 
 void Graphic::affUnits()
 {
-	loadUnit(player[0]);
+	static bool b = true;
+	static int t = 0;
+	// if player[0]->l_state == HIT
+	// faire clignoter le joueur pendant 2 sec, puis le remettre en l_state = IN_LIFE
+	if (player[0]->l_state == HIT)
+	{
+		++t;
+		if (t == 4)
+		{
+			b = !b;
+			t = 0;
+		}
+		loadHitUnit(player[0], b);
+	}
+	else
+		loadUnit(player[0]);
 
 	for (int i = 0; i < ennemyList.size(); ++i)
 	{
 		loadUnit(ennemyList[i]);
+	}
+}
+
+void Graphic::affBullets()
+{
+	for (int i = 0; i < bulletList.size(); ++i)
+	{
+		loadImage(bulletList[i]->x, bulletList[i]->y, bulletList[i]->texture);
 	}
 }

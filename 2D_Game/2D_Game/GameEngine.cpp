@@ -2,7 +2,7 @@
 #include <iostream>
 
 GameEngine::GameEngine(void)
-	: ressources(), graphic(window, map, player, ennemyList, ressources), sound(), map(loopTime), event(window, player), ref(ennemyList, itemList, map), physics(player,ennemyList,itemList, map), spawner(ennemyList, itemList, loopTime), IA(ref,ennemyList) 
+	: ressources(), graphic(window, map, player, ennemyList, bulletList, ressources, loopTime), sound(), map(loopTime), event(window, player), ref(ennemyList, itemList, map), physics(player,ennemyList,itemList, map), spawner(ennemyList, itemList, loopTime), IA(ref,ennemyList) 
 {
 	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME);
 	window.setFramerateLimit(30);

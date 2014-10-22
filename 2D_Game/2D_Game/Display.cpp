@@ -32,6 +32,20 @@ void Display::loadUnit(AUnit* unit)
 	win.draw(Sprite);
 }
 
+void Display::loadHitUnit(AUnit* unit, bool b)
+{
+	sf::Sprite	Sprite;
+
+	Sprite.setTexture(unit->texture);
+	Sprite.setPosition(unit->x, unit->y + Settings::HEIGHT_INTERFACE);
+	Sprite.setTextureRect(sf::IntRect(unit->width * unit->animFrame + (3 * unit->width * unit->act), unit->height * unit->dir, unit->width, unit->height));
+	if (b == true)
+		Sprite.setColor(sf::Color(255, 255, 255, 0));
+	else
+		Sprite.setColor(sf::Color(255, 255, 255, 255));
+	win.draw(Sprite);
+}
+
 void Display::loadText(float x, float y, sf::Font font, std::string str, int size, int r, int g, int b)
 {
 	sf::Text text;

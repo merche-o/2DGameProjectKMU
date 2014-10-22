@@ -21,28 +21,16 @@ void Event::checkEvent()
 		{
 			if (event.key.code == sf::Keyboard::Escape)
 				win.close();
+			/*** SHOOT EVENTS ***/
 			else if (event.key.code == sf::Keyboard::Up)
-			{
 				player[0]->inputMap[Event::I_FIRE_UP] = true;
-				player[0]->act = JUMP;
-			}
 			else if (event.key.code == sf::Keyboard::Down)
-			{
 				player[0]->inputMap[Event::I_FIRE_DOWN] = true;
-				player[0]->act = WALK;
-			}
 			else if (event.key.code == sf::Keyboard::Left)
-			{
 				player[0]->inputMap[Event::I_FIRE_LEFT] = true;
-				player[0]->dir = LEFT;
-				player[0]->nextFrame();
-			}
 			else if (event.key.code == sf::Keyboard::Right)
-			{
 				player[0]->inputMap[Event::I_FIRE_RIGHT] = true;
-				player[0]->dir = RIGHT;
-				player[0]->nextFrame();
-			}
+			/*** MOVE EVENTS ***/
 			else if (event.key.code == sf::Keyboard::Z)
 				player[0]->inputMap[Event::I_UP] = true;
 			else if (event.key.code == sf::Keyboard::S)
@@ -51,14 +39,12 @@ void Event::checkEvent()
 			{
 				player[0]->dir = LEFT;
 				player[0]->inputMap[Event::I_LEFT] = true;
-				player[0]->nextFrame();
 			}
 			else if (event.key.code == sf::Keyboard::D)
 			{
 				player[0]->dir = RIGHT;
 				player[0]->inputMap[Event::I_RIGHT] = true;
-				player[0]->nextFrame();
-		}
+			}
 			else if (event.key.code == sf::Keyboard::Space)
 				player[0]->inputMap[Event::I_BONUS] = true;
 		}

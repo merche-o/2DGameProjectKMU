@@ -70,12 +70,14 @@ void PhysicEngine::playerAction(int playerId)
 void PhysicEngine::moveLeft(AUnit *src)
 {
 	src->x -= (src->speed + 10) * (1 +src->loopTime);
+	src->nextFrame();
 	_referee->colliderCheck(src, Event::I_LEFT);
 }
 
 void PhysicEngine::moveRight(AUnit *src)
 {
 	src->x += (src->speed + 10)  * (1 +src->loopTime);
+	src->nextFrame();
 	_referee->colliderCheck(src, Event::I_RIGHT);
 }
 
@@ -140,12 +142,14 @@ void PhysicEngine::shootRight(AUnit *src)
 
 void PhysicEngine::RmoveLeft(AUnit *src)
 {
+	src->animFrame = 1;
 	return;
 }
 
 
 void PhysicEngine::RmoveRight(AUnit *src)
 {
+	src->animFrame = 1;
 	return;
 }
 
