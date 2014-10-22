@@ -8,7 +8,7 @@ GameEngine::GameEngine(void)
 	window.setFramerateLimit(30);
 
 	physics._referee = &ref;
-	
+	game = IN_GAME;
 	player.push_back(new Player(ressources, loopTime));
 }
 
@@ -25,7 +25,7 @@ void GameEngine::run()
 
 
 	globalClock.restart();
-    while (window.isOpen())
+    while (window.isOpen() && game != END_GAME)
     {
 		window.clear();
 	
@@ -43,7 +43,8 @@ void GameEngine::run()
 		physics.playerAction(0);
 		IA.setEnnemiesIM();
 		physics.enemyAction();
-		ref.dealDamage(player);
+		if (ref.dealDamage(player) == false)
+			game = END_GAME;
 		ref.cleanEnemyList();
 		graphic.RefreshWindow();
     }
