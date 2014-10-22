@@ -13,15 +13,19 @@ private:
 	Map & map;
 	std::vector<Player*> & player;
 	std::vector<AUnit*> & ennemyList;
+	std::vector<Bullet*> & bulletList;
 	Ressources & ress;
+	float & loopTime;
+	float time;
 
 public:
-	Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & ennemyList, Ressources & ressource);
+	Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & ennemyList, std::vector<Bullet*> & b, Ressources & ressource, float & Time);
 	~Graphic(void);
 
 	void RefreshWindow();
 	void affInterface();
 	void affMap();
 	void affUnits();
+	void affBullets();
 };
 
