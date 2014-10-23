@@ -124,6 +124,6 @@ void Graphic::affBullets()
 {
 	for (int i = 0; i < bulletList.size(); ++i)
 	{
-		loadImage(bulletList[i]->x, bulletList[i]->y, bulletList[i]->texture);
+		loadImage(bulletList[i]->x, bulletList[i]->y + Settings::HEIGHT_INTERFACE, bulletList[i]->texture);
 	}
 }

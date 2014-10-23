@@ -12,6 +12,13 @@ enum enemy_type
 		E_FLY,
 	};
 
+enum damageType  	{
+		E_JUMP,
+		E_BULLET,
+		E_BOTH
+	};
+
+
 class Enemy : public AUnit
 {
 public:

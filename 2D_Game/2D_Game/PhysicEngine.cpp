@@ -1,8 +1,8 @@
 #include "PhysicEngine.h"
 
 
-PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, Map & map)
-: _player(player), _ennemyList(enemylist), _itemList(itemList), _map(map)
+PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map & map)
+: _player(player), _ennemyList(enemylist), _itemList(itemList), _bulletList(bulletList), _map(map)
 {
 	//actionManager
 
@@ -119,6 +119,7 @@ void PhysicEngine::useBonus(AUnit *src)
 
 void PhysicEngine::shootUp(AUnit *src)
 {
+	this->_bulletList.push_back(new Bullet(src->x + (src->width /2), src->y ,5,5, 0, -10));
 	return;
 }
 
@@ -129,11 +130,14 @@ void PhysicEngine::shootDown(AUnit *src)
 
 void PhysicEngine::shootLeft(AUnit *src)
 {
+	this->_bulletList.push_back(new Bullet(src->x, src->y + (src->height /2),5,5,-10, 0));
+	
 	return;
 }
 
 void PhysicEngine::shootRight(AUnit *src)
 {
+	this->_bulletList.push_back(new Bullet(src->x + src->width, src->y + (src->height /2),5,5,10,0));
 	return;
 }
 

@@ -51,13 +51,13 @@ void Event::checkEvent()
 		else if (event.type == sf::Event::KeyReleased)
 		{
 			if (event.key.code == sf::Keyboard::Up)
-				player[0]->inputMap[Event::I_UP] = false;
+				player[0]->inputMap[Event::I_FIRE_UP] = false;
 			else if (event.key.code == sf::Keyboard::Down)
-				player[0]->inputMap[Event::I_DOWN] = false;
+				player[0]->inputMap[Event::I_FIRE_DOWN] = false;
 			else if (event.key.code == sf::Keyboard::Left)
-				player[0]->inputMap[Event::I_LEFT] = false;
+				player[0]->inputMap[Event::I_FIRE_LEFT] = false;
 			else if (event.key.code == sf::Keyboard::Right)
-				player[0]->inputMap[Event::I_RIGHT] = false;
+				player[0]->inputMap[Event::I_FIRE_RIGHT] = false;
 			else if (event.key.code == sf::Keyboard::Z)
 				player[0]->inputMap[Event::I_UP] = false;
 			else if (event.key.code == sf::Keyboard::S)

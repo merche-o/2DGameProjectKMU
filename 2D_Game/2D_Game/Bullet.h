@@ -16,12 +16,13 @@ public:
 	float y;
 	int damage;
 	float range;
-	float speed;
+	float speedX;
+	float speedY;
 	e_type type;
 	sf::Texture texture;
 
 public:
-	Bullet(float X, float Y, int Damage, float Range, float Speed);
+	Bullet(float X, float Y, int Damage, float Range, float SpeedX, float SpeedY);
 	~Bullet(void);
 };
 

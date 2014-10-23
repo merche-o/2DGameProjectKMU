@@ -15,6 +15,13 @@
 #include "Ressources.h"
 #include "IA.h"
 
+enum gameState {
+IN_GAME,
+MENU,
+END_GAME,
+PAUSE
+};
+
 class GameEngine
 {
 private:
@@ -35,6 +42,8 @@ private:
 	sf::Clock globalClock;
 	sf::Time globalTimer;
 	float loopTime;
+
+	gameState game;
 
 public:
 	sf::RenderWindow window;

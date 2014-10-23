@@ -1,8 +1,8 @@
 #include "Referee.h"
 
 
-Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*> const &itemList, Map &map) 
-: _enemyList(enemylist), _itemList(itemList), _map(map)
+Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList ,Map &map, float &LoopTime) 
+: _enemyList(enemylist), _itemList(itemList),_bulletList(bulletList), _map(map), loopTime(LoopTime)
 {
 	collideManager.push_back(&Referee::collideEnemy);
 	collideManager.push_back(&Referee::collideBonus);
@@ -153,14 +153,47 @@ void Referee::cleanEnemyList()
 	}
 }
 
-void Referee::dealDamage(std::vector<Player *> &_player)
+void Referee::playerInvinsibility(Player *player)
 	{
+		if (player->l_state == HIT)
+		player->invTime += player->loopTime;
+		if(player->invTime >= 1)
+		{
+			player->l_state = IN_LIFE;
+			player->invTime = 0;
+		}
+	}
+bool Referee::dealDamage(std::vector<Player *> &_player)
+{
 		int i;
 		i = 0;
 		while (i < _player.size())
 		{
+			playerInvinsibility(_player[i]);
 			if (collideEnemy(_player[i], Event::I_NONE) == 2)
 			_player[i]->getHit(1);
 		i++;
 		}
-	}
+		i = 0;
+		int c = 0;
+		while (i < _player.size())
+		{
+			if (_player[i]->life <= 0 || _player[i]->y > Settings::HEIGHT + _player[i]->height )
+				c++;
+		i++;
+		}
+		if (c == _player.size())
+			return false;
+		return true;
+}
+
+void Referee::moveBullet()
+{
+	for (int i = 0; i < this->_bulletList.size(); i++)
+		{
+			this->_bulletList[i]->x += this->_bulletList[i]->speedX * (1 + this->loopTime);
+			this->_bulletList[i]->y += this->_bulletList[i]->speedY * (1 + this->loopTime);
+		}
+
+	return;
+}

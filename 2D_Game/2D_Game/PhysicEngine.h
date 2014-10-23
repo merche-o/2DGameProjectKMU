@@ -9,6 +9,8 @@
 #include "Map.h"
 #include "Event.h"
 #include "Referee.h"
+#include "Bullet.h"
+#include <iostream>
 
 class PhysicEngine
 {
@@ -20,13 +22,14 @@ public:
 	void projectileMove();
 	Referee *_referee;
 
-	PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, Map  &map);
+	PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map  &map);
 	~PhysicEngine(void);
 
 private:
 	std::vector<Player *> &_player;
 	std::vector<AUnit*> &_ennemyList;
 	std::vector<Item*> &_itemList;
+	std::vector<Bullet *> &_bulletList;
 	std::map<Event::Input, void(PhysicEngine:: *)(AUnit *src)> actionManager;
 	std::map<Event::Input, void(PhysicEngine:: *)(AUnit *src)> releaseActionManager;
 	Map  &_map;

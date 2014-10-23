@@ -2,7 +2,7 @@
 #include <iostream>
 
 GameEngine::GameEngine(void)
-	: ressources(), graphic(window, map, player, ennemyList, bulletList, ressources, loopTime), sound(), map(loopTime), event(window, player), ref(ennemyList, itemList, map), physics(player,ennemyList,itemList, map), spawner(ennemyList, itemList, loopTime), IA(ref,ennemyList) 
+	: ressources(), graphic(window, map, player, ennemyList, bulletList, ressources, loopTime), sound(), map(loopTime), event(window, player), ref(ennemyList, itemList, bulletList,map, loopTime), physics(player,ennemyList,itemList, bulletList, map), spawner(ennemyList, itemList, loopTime), IA(ref,ennemyList) 
 {
 	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME);
 	window.setFramerateLimit(30);
@@ -32,20 +32,24 @@ void GameEngine::run()
 		globalTimer = globalClock.getElapsedTime();
 		loopTime = globalTimer.asSeconds();
 		globalClock.restart();
-		
-		graphic.affInterface();
-		map.checkPlatform();
-		graphic.affMap();
-		spawner.spawnEnnemies(ressources.ennemy);
-		graphic.affUnits();
-
-		event.checkEvent();
-		physics.playerAction(0);
-		IA.setEnnemiesIM();
-		physics.enemyAction();
 		if (ref.dealDamage(player) == false)
 			game = END_GAME;
 		ref.cleanEnemyList();
+		ref.moveBullet();
+		spawner.spawnEnnemies(ressources.ennemy);
+		physics.playerAction(0);
+		IA.setEnnemiesIM();
+		physics.enemyAction();
+		map.checkPlatform();
+
+		graphic.affInterface();
+		graphic.affMap();
+		graphic.affUnits();
+		graphic.affBullets();
+
+		event.checkEvent();
+		
+		
 		graphic.RefreshWindow();
     }
 }
