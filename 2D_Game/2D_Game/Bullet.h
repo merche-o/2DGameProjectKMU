@@ -18,11 +18,13 @@ public:
 	float range;
 	float speedX;
 	float speedY;
+	float const &loopTime;
 	e_type type;
 	sf::Texture texture;
 
 public:
-	Bullet(float X, float Y, int Damage, float Range, float SpeedX, float SpeedY);
+	Bullet(float X, float Y, int Damage, float Range, float SpeedX, float SpeedY, float  &LoopTime);
 	~Bullet(void);
+	bool destroy();
 };
 

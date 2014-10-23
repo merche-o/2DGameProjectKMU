@@ -11,10 +11,10 @@ class Player : public AUnit
 {
 public:
 	int score;
+	float invTime;
 	std::vector<Weapon*> weapon;
 	std::vector<Bonus*> bonus;
 	std::vector<Spell*> spell;
-
 private:
 
 public:

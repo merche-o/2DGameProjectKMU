@@ -193,6 +193,8 @@ void Referee::moveBullet()
 		{
 			this->_bulletList[i]->x += this->_bulletList[i]->speedX * (1 + this->loopTime);
 			this->_bulletList[i]->y += this->_bulletList[i]->speedY * (1 + this->loopTime);
+			if( this->_bulletList[i]->destroy() == true)
+				this->_bulletList.erase(this->_bulletList.begin() + i);
 		}
 
 	return;

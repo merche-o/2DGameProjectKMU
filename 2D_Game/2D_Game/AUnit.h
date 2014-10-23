@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SFML\Graphics.hpp"
+#include <iostream>
 
 
 enum e_dir
@@ -63,7 +64,7 @@ public:
 	AUnit(float &);
 	AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile, float &loopTime);
 	AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, float &loopTime);
-	void getHit(int dam);
+	 void getHit(int dam);
 	~AUnit(void);
 
 	void nextFrame();

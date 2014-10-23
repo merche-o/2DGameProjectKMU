@@ -71,15 +71,17 @@ void AUnit::nextFrame()
 
 void AUnit::getHit(int dam)
 {
-		this->l_state = HIT;
+		
 		if (this->shield > 0)
-			{
+			{this->l_state = HIT;
 				this->shield-= dam;
 				if (this->shield < 0)
 					this->shield = 0;
 			}	
-		else if (this->life > 0)
+		else if (this->life > 0 && this->l_state != HIT)
+			{this->l_state = HIT;
 			this->life-=dam;
+			}
 		if (this->life <= 0)
 			{
 				this->life = 0;

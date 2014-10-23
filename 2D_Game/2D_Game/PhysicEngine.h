@@ -22,7 +22,7 @@ public:
 	void projectileMove();
 	Referee *_referee;
 
-	PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map  &map);
+	PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map  &map, float  &LoopTime);
 	~PhysicEngine(void);
 
 private:
@@ -33,6 +33,7 @@ private:
 	std::map<Event::Input, void(PhysicEngine:: *)(AUnit *src)> actionManager;
 	std::map<Event::Input, void(PhysicEngine:: *)(AUnit *src)> releaseActionManager;
 	Map  &_map;
+	float &loopTime;
 	int gravityMax;
 	
 	//call after Checking collider
