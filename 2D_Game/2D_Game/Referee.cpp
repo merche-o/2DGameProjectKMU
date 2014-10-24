@@ -195,8 +195,21 @@ void Referee::moveBullet()
 			this->_bulletList[i]->y += this->_bulletList[i]->dirY * this->_bulletList[i]->speed * (1 + this->loopTime);
 			if( this->_bulletList[i]->destroy() == true)
 				this->_bulletList.erase(this->_bulletList.begin() + i);
-			this->bulletHit();
+			else {
+				for (int i2 = 0; i2 < this->_map.platform.size(); i2++)
+				{
+					if(this->_bulletList[i]->x  <= this->_map.platform[i2]->x  +  (this->_map.platform[i2]->length * Settings::CASE_SIZE)   && this->_bulletList[i]->x > this->_map.platform[i2]->x
+						&&  this->_bulletList[i]->y >= this->_map.platform[i2]->y && this->_bulletList[i]->y <= this->_map.platform[i2]->y + Settings::CASE_SIZE
+						
+						)
+					this->_bulletList.erase(this->_bulletList.begin() + i);
+
+				
+				}
+				}
+			
 		}
+	this->bulletHit();
 
 	return;
 }
