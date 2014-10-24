@@ -13,7 +13,7 @@ Player::Player(Ressources & Ress, float &LoopTime): AUnit(LoopTime)
 	shield = 3;
 	invTime = 0;
 	score = 0;
-
+	
 	//weapon.push_back(new Weapon(Ress.weapon[0]->damage, Ress.weapon[0]->fireRate, Ress.weapon[0]->range, Ress.weapon[0]->speed));
 }
 

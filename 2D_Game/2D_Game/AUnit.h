@@ -49,6 +49,8 @@ public:
 	int spawnTime;
 	float fallingSpeed;
 	float &loopTime;
+	float fireRate;
+	float timeDone;
 	e_dir dir;
 	e_act act;
 	life_state l_state;
@@ -56,10 +58,12 @@ public:
 	sf::Time spawn;
 	sf::Clock timer;
 	std::vector<bool> inputMap;
+	float fireRateCount;
 
 	//there is probably a best way to do it
 	int jumpTmpY;
-	 
+private:
+	
 public:
 	AUnit(float &);
 	AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile, float &loopTime);
@@ -68,5 +72,5 @@ public:
 	~AUnit(void);
 
 	void nextFrame();
-	
+	void updateClock();
 };

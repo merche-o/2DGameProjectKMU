@@ -191,8 +191,8 @@ void Referee::moveBullet()
 {
 	for (int i = 0; i < this->_bulletList.size(); i++)
 		{
-			this->_bulletList[i]->x += this->_bulletList[i]->speedX * (1 + this->loopTime);
-			this->_bulletList[i]->y += this->_bulletList[i]->speedY * (1 + this->loopTime);
+			this->_bulletList[i]->x += this->_bulletList[i]->dirX *  this->_bulletList[i]->speed * (1 + this->loopTime);
+			this->_bulletList[i]->y += this->_bulletList[i]->dirY * this->_bulletList[i]->speed * (1 + this->loopTime);
 			if( this->_bulletList[i]->destroy() == true)
 				this->_bulletList.erase(this->_bulletList.begin() + i);
 		}

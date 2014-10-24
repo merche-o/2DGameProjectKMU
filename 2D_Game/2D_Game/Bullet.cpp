@@ -1,17 +1,18 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet(float X, float Y, int Damage, float Range, float SpeedX, float SpeedY, float &LoopTime): x(X), y(Y), damage(Damage), range(Range), speedX(SpeedX), speedY(SpeedY), loopTime(LoopTime)
+Bullet::Bullet(float X, float Y, int Damage, float Range, int DirX, int DirY, float Speed, float &LoopTime): x(X), y(Y), damage(Damage), range(Range), dirX(DirX), dirY(DirY), speed(Speed),loopTime(LoopTime)
 {
 	type = NORMAL;
 	texture.loadFromFile("../Ressources/Images/bullet1.png");
+	pX = x;
+	pY = y;
 }
 
 bool Bullet::destroy()
 {
-	if (range <= 0)
+	if ( (x - pX) / Settings::CASE_SIZE  >= range  || (y - pY) / Settings::CASE_SIZE <= -range || (x- pX) / Settings::CASE_SIZE  <= -range)
 		return true;
-	range -= loopTime;
 	return false;
 }
 

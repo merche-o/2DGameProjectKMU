@@ -63,6 +63,7 @@ void PhysicEngine::playerAction(int playerId)
 			(this->*(actionManager[(Event::Input)i]))(_player[playerId]);
 		if (this->_player[playerId]->inputMap[i] == false)
 			(this->*(releaseActionManager[(Event::Input)i]))(_player[playerId]);
+		this->_player[playerId]->updateClock();
 	}
 	gravity(this->_player[playerId]);
 }
@@ -119,7 +120,11 @@ void PhysicEngine::useBonus(AUnit *src)
 
 void PhysicEngine::shootUp(AUnit *src)
 {
-	this->_bulletList.push_back(new Bullet(src->x + (src->width /2), src->y ,5,0.5, 0, -10, loopTime));
+	if (src->fireRateCount <= 0.f)
+		{
+			src->fireRateCount = src->fireRate;
+			this->_bulletList.push_back(new Bullet(src->x + (src->width /2), src->y ,5,5, 0, -1, 10, loopTime));
+		}
 	return;
 }
 
@@ -130,14 +135,22 @@ void PhysicEngine::shootDown(AUnit *src)
 
 void PhysicEngine::shootLeft(AUnit *src)
 {
-	this->_bulletList.push_back(new Bullet(src->x, src->y + (src->height /2),5,0.5,-10, 0, loopTime));
+	if (src->fireRateCount <= 0.f)
+		{
+			src->fireRateCount = src->fireRate;
+			this->_bulletList.push_back(new Bullet(src->x, src->y + (src->height /2),5,5,-1, 0, 10,  loopTime));	
+		}
 	
 	return;
 }
 
 void PhysicEngine::shootRight(AUnit *src)
 {
-	this->_bulletList.push_back(new Bullet(src->x + src->width, src->y + (src->height /2),5,0.5,10,0, loopTime));
+	if (src->fireRateCount <= 0.f)
+		{
+			src->fireRateCount = src->fireRate;
+			this->_bulletList.push_back(new Bullet(src->x + src->width, src->y + (src->height /2),5,5,1,0, 10, loopTime));
+		}
 	return;
 }
 
