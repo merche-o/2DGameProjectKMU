@@ -11,3 +11,24 @@ Enemy::Enemy(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture
 Enemy::~Enemy(void)
 {
 }
+
+void Enemy::getHit(int dam)
+{
+		
+	if (this->shield > 0 )
+			{this->l_state = HIT;
+				this->shield-= dam;
+				if (this->shield < 0)
+					this->shield = 0;
+			}	
+		else if (this->life > 0)
+			{this->l_state = HIT;
+			this->life-=dam;
+			}
+		if (this->life <= 0)
+			{
+				this->life = 0;
+				this->l_state = DEAD;
+			}
+
+}

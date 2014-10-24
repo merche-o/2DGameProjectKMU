@@ -68,7 +68,7 @@ public:
 	AUnit(float &);
 	AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile, float &loopTime);
 	AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, float &loopTime);
-	 void getHit(int dam);
+	 virtual void getHit(int dam);
 	~AUnit(void);
 
 	void nextFrame();

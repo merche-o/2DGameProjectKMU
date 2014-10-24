@@ -100,9 +100,6 @@ void AUnit::getHit(int dam)
 
 void AUnit::updateClock()
 {
-	
-	
-	
 	this->fireRateCount -= loopTime;
 	//timeDone = loopTime;	
 }

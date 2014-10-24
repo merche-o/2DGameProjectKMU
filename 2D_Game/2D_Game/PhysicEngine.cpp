@@ -123,7 +123,7 @@ void PhysicEngine::shootUp(AUnit *src)
 	if (src->fireRateCount <= 0.f)
 		{
 			src->fireRateCount = src->fireRate;
-			this->_bulletList.push_back(new Bullet(src->x + (src->width /2), src->y ,5,5, 0, -1, 10, loopTime));
+			this->_bulletList.push_back(new Bullet(src->x + (src->width /2), src->y ,10,5, 0, -1, 10, loopTime, src));
 		}
 	return;
 }
@@ -138,7 +138,7 @@ void PhysicEngine::shootLeft(AUnit *src)
 	if (src->fireRateCount <= 0.f)
 		{
 			src->fireRateCount = src->fireRate;
-			this->_bulletList.push_back(new Bullet(src->x, src->y + (src->height /2),5,5,-1, 0, 10,  loopTime));	
+			this->_bulletList.push_back(new Bullet(src->x, src->y + (src->height /2),10,5,-1, 0, 10,  loopTime, src));	
 		}
 	
 	return;
@@ -149,7 +149,7 @@ void PhysicEngine::shootRight(AUnit *src)
 	if (src->fireRateCount <= 0.f)
 		{
 			src->fireRateCount = src->fireRate;
-			this->_bulletList.push_back(new Bullet(src->x + src->width, src->y + (src->height /2),5,5,1,0, 10, loopTime));
+			this->_bulletList.push_back(new Bullet(src->x + src->width, src->y + (src->height /2),10,5,1,0, 10, loopTime,src));
 		}
 	return;
 }

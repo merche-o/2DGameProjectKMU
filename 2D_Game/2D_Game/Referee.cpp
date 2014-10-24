@@ -148,7 +148,7 @@ void Referee::cleanEnemyList()
 {
 	for (int i = 0; i < this->_enemyList.size(); i++)
 	{
-		if (this->_enemyList[i]->y > Settings::HEIGHT)
+		if (this->_enemyList[i]->y > Settings::HEIGHT  || this->_enemyList[i]->l_state == DEAD)
 			this->_enemyList.erase(_enemyList.begin() + i);
 	}
 }
@@ -195,7 +195,28 @@ void Referee::moveBullet()
 			this->_bulletList[i]->y += this->_bulletList[i]->dirY * this->_bulletList[i]->speed * (1 + this->loopTime);
 			if( this->_bulletList[i]->destroy() == true)
 				this->_bulletList.erase(this->_bulletList.begin() + i);
+			this->bulletHit();
 		}
 
 	return;
 }
+
+void Referee::bulletHit()
+{				   
+	for (int i = 0; i < this->_bulletList.size(); i++)
+	{
+		for (int i2 = 0; i2 < this->_enemyList.size(); i2++)
+		{
+			if (this->_bulletList[i]->x  <= this->_enemyList[i2]->x + Settings::CASE_SIZE  && this->_bulletList[i]->x > this->_enemyList[i2]->x
+			&&  this->_bulletList[i]->y >= this->_enemyList[i2]->y && this->_bulletList[i]->y <= this->_enemyList[i2]->y + Settings::CASE_SIZE)
+				{
+					this->_enemyList[i2]->getHit(this->_bulletList[i]->damage);
+					this->tmp = (Player *)this->_bulletList[i]->player;
+					tmp->score += 10;
+					this->_bulletList.erase(this->_bulletList.begin() + i);
+				
+				}
+		}
+	}
+	return;		   
+}	

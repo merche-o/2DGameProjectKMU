@@ -1,7 +1,8 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet(float X, float Y, int Damage, float Range, int DirX, int DirY, float Speed, float &LoopTime): x(X), y(Y), damage(Damage), range(Range), dirX(DirX), dirY(DirY), speed(Speed),loopTime(LoopTime)
+Bullet::Bullet(float X, float Y, int Damage, float Range, int DirX, int DirY, float Speed, float &LoopTime, AUnit *oPlayer): 
+x(X), y(Y), damage(Damage), range(Range), dirX(DirX), dirY(DirY), speed(Speed),loopTime(LoopTime), player(oPlayer)
 {
 	type = NORMAL;
 	texture.loadFromFile("../Ressources/Images/bullet1.png");

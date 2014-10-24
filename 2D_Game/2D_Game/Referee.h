@@ -22,11 +22,12 @@ public:
 	
 private:
 	Map  &_map;
+	Player *tmp;
 	float &loopTime;
 	std::vector<AUnit*> & _enemyList;
 	std::vector<Item*>  &_itemList;
 	std::vector<Bullet*>  &_bulletList;
-
+	void bulletHit();
 	//call collider in function of the collide Type (loop) 
 	std::vector<int (Referee::  *)(AUnit  *, Event::Input const &)> collideManager;
 

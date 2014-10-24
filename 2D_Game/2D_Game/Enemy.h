@@ -31,4 +31,5 @@ public:
 	Enemy(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, enemy_type type, float &loopTime);
 	~Enemy(void);
 	enemy_type etype;
+	void getHit(int);
 };
