@@ -3,18 +3,22 @@
 #include <vector>
 #include "AUnit.h"
 #include "Item.h"
+#include "Ammo.h"
 #include "Ressources.h"
 #include "Settings.h"
 
 class Spawner
 {
 private:
-	enum e_posState {
+	enum e_posState
+	{
 		UP_LEFT,
 		UP_RIGHT,
 		DOWN_LEFT,
 		DOWN_RIGHT
 	};
+
+private:
 	int posx;
 	int posy;
 	std::vector<AUnit*> & ennemies;
@@ -22,10 +26,11 @@ private:
 	void changePlaceSpawner();
 	e_posState spawnPosState;
 	float &loopTime;
-public:
 
+public:
 	Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList, float &LoopTime);
 	~Spawner(void);
 	void spawnEnnemies(std::vector<AUnit*> &ennemy);
+	void spawnAmmo();
 };
 

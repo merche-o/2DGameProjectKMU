@@ -1,7 +1,7 @@
 #include "Ammo.h"
 
 
-Ammo::Ammo(void)
+Ammo::Ammo(float x, float y)
 {
 }
 

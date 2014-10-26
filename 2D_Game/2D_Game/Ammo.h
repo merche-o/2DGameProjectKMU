@@ -8,7 +8,7 @@ private:
 	//type
 
 public:
-	Ammo(void);
+	Ammo(float X, float Y);
 	~Ammo(void);
 };
 

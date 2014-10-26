@@ -4,12 +4,11 @@
 
 class Item
 {
-private:
-	int x;
-	int y;
-	sf::Clock spawn;
-	sf::Clock timer;
-	sf::Clock lifeTime;
+public:
+	float x;
+	float y;
+	float spawnTime;
+	float lifeTime;
 
 public:
 	Item(void);

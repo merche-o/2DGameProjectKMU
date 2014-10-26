@@ -2,14 +2,23 @@
 #include <iostream>
 
 GameEngine::GameEngine(void)
-	: ressources(), graphic(window, map, player, ennemyList, bulletList, ressources, loopTime), sound(), map(loopTime), event(window, player), ref(ennemyList, itemList, bulletList,map, loopTime), physics(player,ennemyList,itemList, bulletList, map, loopTime), spawner(ennemyList, itemList, loopTime), IA(ref,ennemyList) 
+	: ressources(), graphic(window, map, player, ennemyList, bulletList, ressources, loopTime), menu(window, event, parameters, restart), sound(), map(loopTime), event(window, player), ref(ennemyList, itemList, bulletList, map, loopTime), physics(player, ennemyList, itemList, bulletList, map, loopTime), spawner(ennemyList, itemList, loopTime), IA(ref, ennemyList) 
 {
+	ressources.loadEnnemiesFromFile("../Ressources/Ennemies.txt");
+	ressources.loadWeaponsFromFile("../Ressources/Weapons.txt");
+	sound.musicOFF();
+	sound.playMusic(sound.music);
+
+
 	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME);
 	window.setFramerateLimit(30);
 
 	physics._referee = &ref;
-	game = IN_GAME;
+	
 	player.push_back(new Player(ressources, loopTime));
+	
+	state = MENU;
+	restart = false;
 }
 
 
@@ -19,42 +28,47 @@ GameEngine::~GameEngine(void)
 
 void GameEngine::run()
 {
-	ressources.loadEnnemiesFromFile("../Ressources/Ennemies.txt");
-	ressources.loadWeaponsFromFile("../Ressources/Weapons.txt");
-	//sound.playMusic(sound.music);
-
-
-	globalClock.restart();
-    while (window.isOpen() && game != END_GAME)
+    while (window.isOpen())
     {
-		window.clear();
+		if (state == MENU)
+		{
+			menu.run();
+			if (restart == true)
+				state = GAME;
+		}
+		else if (state == GAME)
+		{
+			if (restart == true)
+			{
+				globalClock.restart();
+				restart = false;
+			}
+			
+			window.clear();
 	
-		globalTimer = globalClock.getElapsedTime();
-		loopTime = globalTimer.asSeconds();
-		globalClock.restart();
-		if (ref.dealDamage(player) == false)
-			game = END_GAME;
-		ref.cleanEnemyList();
-		ref.moveBullet();
-		spawner.spawnEnnemies(ressources.ennemy);
-		physics.playerAction(0);
-		IA.setEnnemiesIM();
-		physics.enemyAction();
-		map.checkPlatform();
+			globalTimer = globalClock.getElapsedTime();
+			loopTime = globalTimer.asSeconds();
+			globalClock.restart();
 
-		graphic.affInterface();
-		graphic.affMap();
-		graphic.affUnits();
-		graphic.affBullets();
+			if (ref.dealDamage(player) == false)
+				state = MENU;
+			ref.cleanEnemyList();
+			ref.moveBullet();
+			spawner.spawnEnnemies(ressources.ennemy);
+			physics.playerAction(0);
+			IA.setEnnemiesIM();
+			physics.enemyAction();
+			map.checkPlatform();
 
-		event.checkEvent();
+			graphic.affInterface();
+			graphic.affMap();
+			graphic.affUnits();
+			graphic.affBullets();
+
+			event.checkEvent();
 		
 		
-		graphic.RefreshWindow();
+			graphic.RefreshWindow();
+		}
     }
 }
-
-//int moveTime(int speed)
-//{
-//	return ((speed * Settings::CASE_SIZE) * globalTimer);
-//}

@@ -19,5 +19,7 @@ public:
 
 	void playSound(sf::Sound &, bool);
 	void playMusic(sf::Music & Music);
+	void musicON();
+	void musicOFF();
 };
 

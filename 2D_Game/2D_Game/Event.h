@@ -31,5 +31,6 @@ public:
 	~Event(void);
 
 	void checkEvent();
+	void menuEvent(int & pos, bool & push, bool & refresh);
 };
 

@@ -9,6 +9,9 @@ private:
 	sf::RenderWindow & win;
 
 public:
+	sf::Font font;
+
+public:
 	Display(sf::RenderWindow &);
 	~Display(void);
 

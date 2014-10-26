@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Bullet.h"
+#include "Item.h"
 
-class Weapon
+class Weapon : public Item
 {
 public:
 	int ammo;

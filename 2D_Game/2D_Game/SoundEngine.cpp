@@ -4,8 +4,7 @@
 SoundEngine::SoundEngine(void)
 {
 	music.openFromFile("../Ressources/Musics/119-under-the-ground.ogg");
-	
-	activeMusic = true;
+	activeMusic = false;
 }
 
 
@@ -27,4 +26,14 @@ void SoundEngine::playMusic(sf::Music & Music)
 		Music.setVolume(20);
 		Music.play();
 	}
+}
+
+void SoundEngine::musicON()
+{
+	activeMusic = true;
+}
+
+void SoundEngine::musicOFF()
+{
+	activeMusic = false;
 }

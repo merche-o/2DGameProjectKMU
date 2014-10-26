@@ -51,3 +51,13 @@ void Spawner::spawnEnnemies(std::vector <AUnit*> &ennemy)
 
 	
 }
+
+void Spawner::spawnAmmo()
+{
+	e_dir dir;
+
+	// mettre un timer de pop ammo dans la weapon dans ressources, se baser dessus pour pop les ammo de l'arme en question
+
+	//itemList.push_back(new Ammo());
+	changePlaceSpawner();
+}

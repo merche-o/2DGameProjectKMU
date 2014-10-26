@@ -5,7 +5,9 @@
 #include "PhysicEngine.h"
 #include "Referee.h"
 #include "Settings.h"
+#include "Parameters.h"
 #include "Graphic.h"
+#include "GameMenu.h"
 #include "Player.h"
 #include "Item.h"
 #include "Event.h"
@@ -15,18 +17,20 @@
 #include "Ressources.h"
 #include "IA.h"
 
-enum gameState {
-IN_GAME,
-MENU,
-END_GAME,
-PAUSE
+enum e_state
+{
+	MENU,
+	GAME
 };
 
 class GameEngine
 {
 private:
+	e_state state;
 	Ressources ressources;
+	Parameters parameters;
 	Graphic graphic;
+	GameMenu menu;
 	SoundEngine sound;
 	PhysicEngine physics;
 	Referee ref;
@@ -38,12 +42,11 @@ private:
 	Spawner spawner;
 	Event event;
 	IA IA;
+	bool restart;
 	
 	sf::Clock globalClock;
 	sf::Time globalTimer;
 	float loopTime;
-
-	gameState game;
 
 public:
 	sf::RenderWindow window;

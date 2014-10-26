@@ -27,9 +27,6 @@ std::string testDecade(int n)
 
 void Graphic::affInterface()
 {
-	sf::Font font;
-	font.loadFromFile("../Ressources/Text/Text.ttf");
-
 	/*** Fond Interface ***/
 	sf::Texture texture;
 	texture.loadFromFile("../Ressources/Images/Interface.png");
@@ -45,7 +42,11 @@ void Graphic::affInterface()
 	/*** Player 1 ***/
 	loadText(1 * Settings::CASE_SIZE, 0, font, std::string("Player1"), 32, 250, 250, 60);
 	// Score
-	loadText(4 * Settings::CASE_SIZE, 0, font, std::string(IntToString(player[0]->score)), 32, 250, 250, 60);
+	loadText(4 * Settings::CASE_SIZE, 0, font, std::string("Score " + IntToString(player[0]->score)), 32, 250, 250, 60);
+	// Ammo
+	texture.loadFromFile("../Ressources/Images/IAmmo.png");
+	loadImage(4 * Settings::CASE_SIZE, 1 * Settings::CASE_SIZE, texture);
+	loadText(5 * Settings::CASE_SIZE, 1 * Settings::CASE_SIZE, font, IntToString(player[0]->weapon[0]->ammo), 32, 250, 250, 60);
 	// Life
 	texture.loadFromFile("../Ressources/Images/LifeBar.png");
 	for (int j = 0; j < player[0]->life; ++j)
@@ -97,14 +98,13 @@ void Graphic::affMap()
 
 void Graphic::affUnits()
 {
+	/*** Display Player ***/
 	static bool b = true;
 	static int t = 0;
-	// if player[0]->l_state == HIT
-	// faire clignoter le joueur pendant 2 sec, puis le remettre en l_state = IN_LIFE
 	if (player[0]->l_state == HIT)
 	{
 		++t;
-		if (t == 4)
+		if (t == 3)
 		{
 			b = !b;
 			t = 0;
@@ -114,6 +114,7 @@ void Graphic::affUnits()
 	else
 		loadUnit(player[0]);
 
+	/*** Display Enemies ***/
 	for (int i = 0; i < ennemyList.size(); ++i)
 	{
 		loadUnit(ennemyList[i]);
