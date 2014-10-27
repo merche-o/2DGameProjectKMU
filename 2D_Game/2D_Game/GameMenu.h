@@ -46,5 +46,7 @@ public:
 	void menuCredits();
 	void menuReturn();
 	void menuPlay();
+	void addTextMenu(e_state state, TextMenu * text);
+	void addKeyTextMenu(e_state state, TextMenu * text, void(GameMenu:: *p)());
 };
 
