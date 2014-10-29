@@ -36,7 +36,7 @@ void GameEngine::run()
 			if (restart == true)
 				state = GAME;
 		}
-		else if (state == GAME)
+ 		else if (state == GAME)
 		{
 			if (restart == true)
 			{
