@@ -68,10 +68,13 @@ void GameMenu::run()
 			if (posMenu != sizeKeyTextMenu[currentState] - 1) // If action != Return
 				beforeState.push_back(currentState);
 			(this->*(actionMenu[std::make_pair(currentState, posMenu)]))();
-			if (!win.isOpen())
-				return;
 			posMenu = 0;
 			isPushed = false;
+			if (start == true)
+			{
+				refresh = true;
+				return;
+			}
 		}
 		if (posMenu < 0)
 			posMenu = sizeKeyTextMenu[currentState] - 1;

@@ -33,13 +33,18 @@ void GameEngine::run()
 		if (state == MENU)
 		{
 			menu.run();
-			if (restart == true)
+			if (restart == true)	
 				state = GAME;
 		}
  		else if (state == GAME)
 		{
 			if (restart == true)
 			{
+				ennemyList.clear();
+				bulletList.clear();
+				itemList.clear();
+				player.clear();
+				player.push_back(new Player(ressources, loopTime));
 				globalClock.restart();
 				restart = false;
 			}
@@ -65,7 +70,8 @@ void GameEngine::run()
 			graphic.affUnits();
 			graphic.affBullets();
 
-			event.checkEvent();
+			if (state == GAME)
+				event.checkEvent();
 		
 		
 			graphic.RefreshWindow();
