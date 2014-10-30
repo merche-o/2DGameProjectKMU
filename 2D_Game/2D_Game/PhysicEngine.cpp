@@ -26,7 +26,7 @@ PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &
 	releaseActionManager[Event::I_FIRE_RIGHT] = &PhysicEngine::RshootRight;
 	releaseActionManager[Event::I_BONUS] = &PhysicEngine::RuseBonus;
 
-	gravityMax = 20;	
+	gravityMax = 25 * Settings::CASE_SIZE;	
 }
 
 PhysicEngine::~PhysicEngine(void)
@@ -70,30 +70,36 @@ void PhysicEngine::playerAction(int playerId)
 
 void PhysicEngine::moveLeft(AUnit *src)
 {
-	src->x -= (src->speed + 10) * (1 +src->loopTime);
+	src->x -= (src->speed * src->loopTime);
 	src->nextFrame();
-	_referee->colliderCheck(src, Event::I_LEFT);
 }
 
 void PhysicEngine::moveRight(AUnit *src)
 {
-	src->x += (src->speed + 10)  * (1 +src->loopTime);
+	src->x += (src->speed *src->loopTime);
 	src->nextFrame();
-	_referee->colliderCheck(src, Event::I_RIGHT);
 }
 
 void PhysicEngine::Jump(AUnit *src)
 {
-	
 	if (_referee->colliderCheck(src, Event::I_UP) == -1)
 		{
+			/*if (src->doubleJump == true)
+			{
+				src->doubleJump = false;
+				src->jumpTmpY /= 3;
+				Jump(src);
+			}*/
 			if (src->state == U_JUMP)
 			{
-				src->y -= (18 + src->fallingSpeed) * (1 +src->loopTime)  ;
-				src->jumpTmpY -= (15 + src->fallingSpeed) * (1 +src->loopTime);
+				src->y -= (20) * Settings::CASE_SIZE * (src->loopTime)  ;
+				src->jumpTmpY -= (20) * Settings::CASE_SIZE * (src->loopTime);
 			}
 			if (src->state == U_NORMAL)
-				src->state = U_JUMP;/*
+			{
+				src->act = JUMP;
+				src->state = U_JUMP;
+			}/*
 			else if(src->state == U_END_JUMP)
 				src->state = U_JUMP;*/
 			if (src->jumpTmpY + Settings::HIGH_JUMP <= 0)
@@ -178,6 +184,12 @@ void PhysicEngine::RJump(AUnit *src)
 	{
 		src->jumpTmpY = 0;
 		src->state = U_NORMAL;
+		src->act = WALK;
+	}
+	else
+	{
+		src->act = JUMP;
+		src->state = U_JUMP;
 	}
 	return;
 }
@@ -218,13 +230,18 @@ void PhysicEngine::RshootRight(AUnit *src)
 
 void PhysicEngine::gravity(AUnit *src) 
 {
+	_referee->colliderCheck(src, Event::I_NONE);
 	if (_referee->applyGravity(src) == true)
 	{
-		src->y += src->fallingSpeed * (1 +src->loopTime);
+		src->y += (src->fallingSpeed * (src->loopTime));
 		if (src->fallingSpeed < gravityMax)
-			src->fallingSpeed += 2  * (1 +src->loopTime);
+			src->fallingSpeed += ((5 * Settings::CASE_SIZE)  * (src->loopTime));
+		_referee->applyGravity(src);
 	}
 	else
-		src->fallingSpeed = 4;
+	{
+		src->fallingSpeed = 5 * Settings::CASE_SIZE;
+		//src->doubleJump = true;
+	}
 	return;
 }
