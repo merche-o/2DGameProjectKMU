@@ -34,66 +34,46 @@ int 	Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 
 int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 {
-	if (btn == Event::I_UP)
+	for (int i = 0; i < this->_map.platform.size(); i++)
 		{
-			for (int i = 0; i < this->_map.platform.size(); i++)
-			{
-			if (		src->x							>	this->_map.platform[i]->x &&
-						src->x							<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
-						src->y							<=	this->_map.platform[i]->y + Settings::CASE_SIZE &&
-						src->y							>=	this->_map.platform[i]->y)
+			if (src->y				>=	this->_map.platform[i]->y &&
+				src->y				<=	this->_map.platform[i]->y + Settings::CASE_SIZE)
 				{
-					src->y = this->_map.platform[i]->y + Settings::CASE_SIZE + 1;
-					return 1;
+					if (btn == Event::I_UP)
+						{
+							if (src->x				>	this->_map.platform[i]->x &&
+								src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+							{
+								src->y = this->_map.platform[i]->y + Settings::CASE_SIZE + 1;
+								return 1;
+							}
+							else if (src->x + Settings::CASE_SIZE	>	this->_map.platform[i]->x &&
+									 src->x + Settings::CASE_SIZE	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+							{				
+								src->y = this->_map.platform[i]->y + Settings::CASE_SIZE + 1;
+								return 1;
+							}
+						}
+					/*if (btn == Event::I_RIGHT)
+						{*/
+					else if (src->x + Settings::CASE_SIZE	>	this->_map.platform[i]->x  &&
+								src->x + Settings::CASE_SIZE	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+							{				
+								src->x = this->_map.platform[i]->x - Settings::CASE_SIZE - 1;
+								return 1;
+							}
+						//}
+					/*if (btn == Event::I_LEFT)
+						{*/
+					else if (src->x			<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
+									 src->x			>	this->_map.platform[i]->x)
+							{				
+								src->x = this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length + 1;
+								return 1;
+							}
+						//}
 				}
-			else if (	src->x + Settings::CASE_SIZE	>	this->_map.platform[i]->x &&
-						src->x + Settings::CASE_SIZE	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
-						src->y							<=	this->_map.platform[i]->y + Settings::CASE_SIZE &&
-						src->y							>=	this->_map.platform[i]->y)
-				{				
-					src->y = this->_map.platform[i]->y + Settings::CASE_SIZE + 1;
-					return 1;
-				}
-			}
-		}
-	if (btn == Event::I_RIGHT)
-	{
-		for (int i = 0; i < this->_map.platform.size(); i++)
-		{
-			if (		src->x + Settings::CASE_SIZE	>=	this->_map.platform[i]->x  &&
-						src->x + Settings::CASE_SIZE	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
-						src->y							>=	this->_map.platform[i]->y &&
-						src->y							<=	this->_map.platform[i]->y + Settings::CASE_SIZE)
-			{				
-				src->x = this->_map.platform[i]->x - Settings::CASE_SIZE;
-				return 1;
-			}
-		}
-	}
-	if (btn == Event::I_LEFT)
-	{
-		for (int i = 0; i < this->_map.platform.size(); i++)
-		{
-			if (		src->x							<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
-						src->x							>	this->_map.platform[i]->x &&
-						src->y							>=	this->_map.platform[i]->y &&
-						src->y							<=	this->_map.platform[i]->y + Settings::CASE_SIZE)
-			{				
-				src->x = this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length;
-				return 1;
-			}
-		}
-	}
-
-	//if (btn == Event::I_DOWN)
-	//{
-		//if (this->_map.map[std::make_pair((src->y + src->height)/Settings::CASE_SIZE, src->x/Settings::CASE_SIZE)].type == WALL)
-	//	{	
-			
-		//	return 2;
-		//}
-	//}
-		
+		}	
 	return -1;
 }
 
@@ -113,33 +93,38 @@ int Referee::collideEnemy(AUnit  *src, Event::Input const &btn)
 
 bool  Referee::applyGravity(AUnit  *src)
 {
-	
-	int height_map = Settings::HEIGHT / Settings::CASE_SIZE;
-	int width_map = Settings::WIDTH / Settings::CASE_SIZE;
-
-	for (int i = 0; i < this->_map.platform.size(); i++)
+for (int i = 0; i < this->_map.platform.size(); i++)
 	{
-		if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_LEFT)
-			src->x -= 1;
-		else if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_RIGHT)
-			src->x += 1;
-
-		if (		src->x							>=	this->_map.platform[i]->x  &&
-					src->x							<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
-					src->y + Settings::CASE_SIZE	>=	this->_map.platform[i]->y &&
-					src->y + Settings::CASE_SIZE	<	this->_map.platform[i]->y + Settings::CASE_SIZE)
+		if (src->y + Settings::CASE_SIZE	>=	this->_map.platform[i]->y &&
+			src->y + Settings::CASE_SIZE	<	this->_map.platform[i]->y + Settings::CASE_SIZE)
+		{
+			if (src->x							>=	this->_map.platform[i]->x  &&
+				src->x							<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 			{				
 				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
+
+				// Fais bouger avec la platform si cette derniere bouge
+		if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_LEFT)
+			src->x -= (this->_map.platform[i]->speed * src->loopTime);
+		else if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_RIGHT)
+			src->x += (this->_map.platform[i]->speed * src->loopTime);
+
 				return false;
 			}
-		else if (	src->x + Settings::CASE_SIZE	>=	this->_map.platform[i]->x  &&
-					src->x + Settings::CASE_SIZE	<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
-					src->y + Settings::CASE_SIZE	>=	this->_map.platform[i]->y &&
-					src->y + Settings::CASE_SIZE	<	this->_map.platform[i]->y + Settings::CASE_SIZE)
+			else if (src->x + Settings::CASE_SIZE	>=	this->_map.platform[i]->x  &&
+					src->x + Settings::CASE_SIZE	<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 			{
 				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
+
+				// Fais bouger avec la platform si cette derniere bouge
+		if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_LEFT)
+			src->x -= (this->_map.platform[i]->speed * src->loopTime);
+		else if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_RIGHT)
+			src->x += (this->_map.platform[i]->speed * src->loopTime);
+
 				return false;
 			}
+		}
 	}
 	return true;
 }

@@ -32,7 +32,7 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 	texture.loadFromFile(TextureFile);
 	width = texture.getSize().x / 3;
 	height = texture.getSize().y / 2;
-	fallingSpeed = 5;
+	fallingSpeed = 5 * Settings::CASE_SIZE;
 	timeDone = 0;
 		int i = 0;
 	while (i < 9)
@@ -40,6 +40,8 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 		inputMap.push_back(false);
 		++i;
 	}
+		speed *= Settings::CASE_SIZE;
+
 }
 
 AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, float &LoopTime)

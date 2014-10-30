@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Settings.h"
 
 
 Player::Player(Ressources & Ress, float &LoopTime): AUnit(LoopTime)
@@ -8,7 +9,7 @@ Player::Player(Ressources & Ress, float &LoopTime): AUnit(LoopTime)
 	y = 0;
 	width = 32;
 	height = 32;
-	speed = 5;
+	speed = 5 * Settings::CASE_SIZE;
 	life = 5;
 	shield = 3;
 	
