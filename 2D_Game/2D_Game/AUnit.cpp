@@ -7,7 +7,7 @@ AUnit::AUnit(float &LoopTime) : loopTime(LoopTime)
 	animFrame = 1;
 	dir = LEFT;
 	act = WALK;
-	fireRate = 1; // depend of the weapon
+	fireRate = 5; // depend of the weapon
 	fireRateCount = fireRate;
 	timeDone = 0;
 	int i = 0;
@@ -24,7 +24,7 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 	animFrame = 1;
 	dir = LEFT;
 	act = WALK;
-	fireRate = 1; // depend of the weapon
+	fireRate = 5; // depend of the weapon
 	fireRateCount = fireRate;
 	state = U_NORMAL;
 	jumpTmpY = 0;
@@ -47,7 +47,7 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture
 {
 	animFrame = 1;
 	act = WALK;
-	fireRate = 1; // depend of the weapon
+	fireRate = 5; // depend of the weapon
 	fireRateCount = fireRate;
 	width = texture.getSize().x / 3;
 	height = texture.getSize().y / 2;
@@ -101,5 +101,5 @@ void AUnit::getHit(int dam)
 void AUnit::updateClock()
 {
 	this->fireRateCount -= loopTime;
-	//timeDone = loopTime;	
+	
 }
