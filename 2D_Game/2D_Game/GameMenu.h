@@ -17,6 +17,7 @@ private:
 		MAIN,
 		SETTINGS,
 		CREDITS,
+		PAUSE,
 		NONE
 	};
 
@@ -40,8 +41,11 @@ public:
 	GameMenu(sf::RenderWindow & w, Event & e, Parameters &p, bool & s);
 	~GameMenu(void);
 
+	void posInsideTheMenu();
 	void run();
+	void pause();
 	void displayCurrentMenu();
+	void displayPause();
 	void menuSettings();
 	void menuCredits();
 	void menuReturn();

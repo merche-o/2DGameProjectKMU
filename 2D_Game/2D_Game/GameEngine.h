@@ -20,7 +20,8 @@
 enum e_state
 {
 	MENU,
-	GAME
+	GAME,
+	PAUSE
 };
 
 class GameEngine
@@ -43,6 +44,7 @@ private:
 	Event event;
 	IA IA;
 	bool restart;
+	bool pause;
 	
 	sf::Clock globalClock;
 	sf::Time globalTimer;

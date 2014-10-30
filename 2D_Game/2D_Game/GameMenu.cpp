@@ -24,39 +24,21 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s)
 	addTextMenu(CREDITS, new TextMenu(300, 400, "Physic Dev & Logic Dev :\tJoris", 64, 60, 250, 250));
 	addKeyTextMenu(CREDITS, new TextMenu(400, 600, "Back", 64), &GameMenu::menuReturn);
 
-	/*
-	textMenu[std::make_pair(MAIN, 0)] = new TextMenu(350, 0, "Menu", 128, 250, 60, 60);
-	sizeKeyTextMenu[MAIN] = 4;
-	sizeTextMenu[MAIN] = 1;
-	actionMenu[std::make_pair(MAIN, 0)] = &GameMenu::menuPlay;
-	actionMenu[std::make_pair(MAIN, 1)] = &GameMenu::menuSettings;
-	actionMenu[std::make_pair(MAIN, 2)] = &GameMenu::menuCredits;
-	actionMenu[std::make_pair(MAIN, 3)] = &GameMenu::menuReturn;
-	keyTextMenu[std::make_pair(MAIN, 0)] = new TextMenu(400, 200, "Play", 64);
-	keyTextMenu[std::make_pair(MAIN, 1)] = new TextMenu(400, 300, "Settings", 64);
-	keyTextMenu[std::make_pair(MAIN, 2)] = new TextMenu(400, 400, "Credits", 64);
-	keyTextMenu[std::make_pair(MAIN, 3)] = new TextMenu(400, 500, "Quit", 64);
-	
-	textMenu[std::make_pair(SETTINGS, 0)] = new TextMenu(350, 0, "Settings", 128, 250, 60, 60);
-	sizeKeyTextMenu[SETTINGS] = 1;
-	sizeTextMenu[SETTINGS] = 1;
-	actionMenu[std::make_pair(SETTINGS, 0)] = &GameMenu::menuReturn;
-	keyTextMenu[std::make_pair(SETTINGS, 0)] = new TextMenu(400, 200, "Back", 64);
-
-	textMenu[std::make_pair(CREDITS, 0)] = new TextMenu(350, 0, "Credits", 128, 250, 60, 60);
-	textMenu[std::make_pair(CREDITS, 1)] = new TextMenu(300, 200, "Producer & Engine Dev :\tOlivier", 64, 60, 250, 150);
-	textMenu[std::make_pair(CREDITS, 2)] = new TextMenu(300, 300, "Graphic Dev & Menu Dev :\tMarc", 64, 60, 150, 150);
-	textMenu[std::make_pair(CREDITS, 3)] = new TextMenu(300, 400, "Physic Dev & Logic Dev :\tJoris", 64, 60, 250, 250);
-	sizeKeyTextMenu[CREDITS] = 1;
-	sizeTextMenu[CREDITS] = 4;
-	actionMenu[std::make_pair(CREDITS, 0)] = &GameMenu::menuReturn;
-	keyTextMenu[std::make_pair(CREDITS, 0)] = new TextMenu(400, 600, "Back", 64);
-	*/
+	addTextMenu(PAUSE, new TextMenu(600, 300, "Pause", 64, 200, 200, 200));
+	addKeyTextMenu(PAUSE, new TextMenu(600, 400, "Resume", 48), &GameMenu::menuPlay);
 }
 
 
 GameMenu::~GameMenu(void)
 {
+}
+
+void GameMenu::posInsideTheMenu()
+{
+	if (posMenu < 0)
+		posMenu = sizeKeyTextMenu[currentState] - 1;
+	else if (posMenu > sizeKeyTextMenu[currentState] - 1)
+		posMenu = 0;
 }
 
 void GameMenu::run()
@@ -76,10 +58,7 @@ void GameMenu::run()
 				return;
 			}
 		}
-		if (posMenu < 0)
-			posMenu = sizeKeyTextMenu[currentState] - 1;
-		else if (posMenu > sizeKeyTextMenu[currentState] - 1)
-			posMenu = 0;
+		posInsideTheMenu();
 		
 		win.clear();
 		displayCurrentMenu();
@@ -89,6 +68,32 @@ void GameMenu::run()
 	}
 
 	event.menuEvent(posMenu, isPushed, refresh);
+}
+
+void GameMenu::pause()
+{
+	if (refresh == true)
+	{
+		if (isPushed == true)
+		{
+			(this->*(actionMenu[std::make_pair(currentState, posMenu)]))();
+			posMenu = 0;
+			isPushed = false;
+			if (start == true)
+			{
+				refresh = true;
+				return;
+			}
+		}
+		posMenu = 0;
+		
+		displayPause();
+		win.display();
+
+		refresh = false;
+	}
+
+	event.menuEvent(posMenu, isPushed, refresh, true);
 }
 
 void GameMenu::displayCurrentMenu()
@@ -124,6 +129,43 @@ void GameMenu::displayCurrentMenu()
 					keyTextMenu[std::make_pair(currentState, i)]->text, 
 					keyTextMenu[std::make_pair(currentState, i)]->size, 
 					250, 150, 60);
+		}
+	}
+}
+
+void GameMenu::displayPause()
+{
+	for (int i = 0; i < sizeTextMenu[PAUSE]; ++i)
+	{
+		loadText(textMenu[std::make_pair(PAUSE, i)]->x, 
+				textMenu[std::make_pair(PAUSE, i)]->y, 
+				font, 
+				textMenu[std::make_pair(PAUSE, i)]->text, 
+				textMenu[std::make_pair(PAUSE, i)]->size,
+				textMenu[std::make_pair(PAUSE, i)]->color.r, 
+				textMenu[std::make_pair(PAUSE, i)]->color.g, 
+				textMenu[std::make_pair(PAUSE, i)]->color.b);
+	}
+
+	for (int i = 0; i < sizeKeyTextMenu[PAUSE]; ++i)
+	{
+		if (posMenu == i)
+		{
+			loadText(keyTextMenu[std::make_pair(PAUSE, i)]->x, 
+					keyTextMenu[std::make_pair(PAUSE, i)]->y, 
+					font, 
+					keyTextMenu[std::make_pair(PAUSE, i)]->text, 
+					keyTextMenu[std::make_pair(PAUSE, i)]->size, 
+					250, 250, 250);
+		}
+		else
+		{
+			loadText(keyTextMenu[std::make_pair(PAUSE, i)]->x, 
+					keyTextMenu[std::make_pair(PAUSE, i)]->y, 
+					font, 
+					keyTextMenu[std::make_pair(PAUSE, i)]->text, 
+					keyTextMenu[std::make_pair(PAUSE, i)]->size, 
+					150, 150, 150);
 		}
 	}
 }

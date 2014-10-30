@@ -19,6 +19,7 @@ GameEngine::GameEngine(void)
 	
 	state = MENU;
 	restart = false;
+	pause = false;
 }
 
 
@@ -33,18 +34,18 @@ void GameEngine::run()
 		if (state == MENU)
 		{
 			menu.run();
-			if (restart == true)	
+			if (restart == true)
 				state = GAME;
 		}
- 		else if (state == GAME)
+		else if (state == GAME)
 		{
 			if (restart == true)
 			{
 				ennemyList.clear();
 				bulletList.clear();
 				itemList.clear();
-				for (int i = 0; i < player.size() ;++i)
-					player[i]->init(ressources);
+				player.clear();
+				player.push_back(new Player(ressources, loopTime));
 				globalClock.restart();
 				restart = false;
 			}
@@ -71,10 +72,23 @@ void GameEngine::run()
 			graphic.affBullets();
 
 			if (state == GAME)
-				event.checkEvent();
-		
+				event.checkEvent(pause);
 		
 			graphic.RefreshWindow();
+
+			if (pause == true)
+				state = PAUSE;
+		}
+		else if (state == PAUSE)
+		{
+			menu.pause();
+			if (restart == true)
+			{
+				pause = false;
+				state = GAME;
+				restart = false;
+				globalClock.restart();
+			}
 		}
     }
 }

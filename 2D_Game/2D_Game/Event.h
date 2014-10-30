@@ -30,7 +30,7 @@ public:
 	Event(sf::Window & w, std::vector<Player*> & p);
 	~Event(void);
 
-	void checkEvent();
-	void menuEvent(int & pos, bool & push, bool & refresh);
+	void checkEvent(bool & pause);
+	void menuEvent(int & pos, bool & push, bool & refresh, bool pause = false);
 };
 

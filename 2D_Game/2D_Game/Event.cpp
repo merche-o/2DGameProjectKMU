@@ -11,7 +11,7 @@ Event::~Event(void)
 {
 }
 
-void Event::checkEvent()
+void Event::checkEvent(bool & pause)
 {
 	while (win.pollEvent(event))
     {
@@ -20,7 +20,7 @@ void Event::checkEvent()
 		else if (event.type == sf::Event::KeyPressed)
 		{
 			if (event.key.code == sf::Keyboard::Escape)
-				win.close();
+				pause = true;
 			/*** SHOOT EVENTS ***/
 			else if (event.key.code == sf::Keyboard::Up)
 				player[0]->inputMap[Event::I_FIRE_UP] = true;
@@ -72,7 +72,7 @@ void Event::checkEvent()
     }
 }
 
-void Event::menuEvent(int & pos, bool & push, bool & refresh)
+void Event::menuEvent(int & pos, bool & push, bool & refresh, bool pause)
 {
 	while (win.pollEvent(event))
     {
@@ -80,19 +80,24 @@ void Event::menuEvent(int & pos, bool & push, bool & refresh)
             win.close();
 		else if (event.type == sf::Event::KeyPressed)
 		{
-			if (event.key.code == sf::Keyboard::Escape)
+			if (event.key.code == sf::Keyboard::Escape && !pause)
 				win.close();
+			else if (event.key.code == sf::Keyboard::Escape && pause)
+			{
+				push = true;
+				refresh = true;
+			}
 			else if (event.key.code == sf::Keyboard::Return)
 			{
 				push = true;
 				refresh = true;
 			}
-			else if (event.key.code == sf::Keyboard::Up)
+			else if (event.key.code == sf::Keyboard::Up && !pause)
 			{
 				--pos;
 				refresh = true;
 			}
-			else if (event.key.code == sf::Keyboard::Down)
+			else if (event.key.code == sf::Keyboard::Down && !pause)
 			{
 				++pos;
 				refresh = true;
