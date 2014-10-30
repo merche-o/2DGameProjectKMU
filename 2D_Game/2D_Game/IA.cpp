@@ -31,13 +31,30 @@ void IA::fillInputMap(Enemy *src)
 
 void IA::basicIA(Enemy *src)
 {
-if (_ref.applyGravity(src) == true)
-		return;
-	if (_ref.colliderCheck(src, Event::I_RIGHT) == 1 && src->dir == RIGHT)
-		src->dir = LEFT;
-	else if (_ref.colliderCheck(src, Event::I_LEFT) == 1 && src->dir == LEFT)
-		 src->dir = RIGHT;
+	int dir = _ref.colliderCheck(src, Event::I_NONE);
 	
+	if (dir == 3 && src->dir == RIGHT)
+		{
+			src->dir = LEFT;
+		}
+	else if (dir == 4 && src->dir == LEFT)
+		{
+			
+			src->dir = RIGHT;
+		}
+		if (_ref.applyGravity(src) == true)
+	{
+		src->y += (src->fallingSpeed * (src->loopTime));
+		if (src->fallingSpeed < 25 * Settings::CASE_SIZE)
+			src->fallingSpeed += ((5 * Settings::CASE_SIZE)  * (src->loopTime));
+		_ref.applyGravity(src);
+	return;
+	}
+	else
+	{
+		src->fallingSpeed = 5 * Settings::CASE_SIZE;
+		//src->doubleJump = true;
+	}
 	
 	if (src->dir == RIGHT)
 	{

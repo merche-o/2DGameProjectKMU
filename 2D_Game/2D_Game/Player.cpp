@@ -27,7 +27,7 @@ void Player::init(Ressources &Ress)
 	y = 0;
 	width = 32;
 	height = 32;
-	speed = 5;
+	speed = 5 * Settings::CASE_SIZE;
 	life = 5;
 	shield = 3;
 	int i = 0;

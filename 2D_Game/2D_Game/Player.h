@@ -20,5 +20,6 @@ private:
 public:
 	Player(Ressources & Ress, float &LoopTime);
 	~Player(void);
+	void init(Ressources &);
 };
 

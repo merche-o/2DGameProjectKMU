@@ -60,16 +60,16 @@ int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 								src->x + Settings::CASE_SIZE	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 							{				
 								src->x = this->_map.platform[i]->x - Settings::CASE_SIZE - 1;
-								return 1;
+								return 3;
 							}
 						//}
 					/*if (btn == Event::I_LEFT)
 						{*/
 					else if (src->x			<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
 									 src->x			>	this->_map.platform[i]->x)
-							{				
+							{		
 								src->x = this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length + 1;
-								return 1;
+								return 4;
 							}
 						//}
 				}
@@ -212,7 +212,7 @@ void Referee::bulletHit()
 					this->tmp = (Player *)this->_bulletList[i]->player;
 					tmp->score += 10;
 					this->_bulletList.erase(this->_bulletList.begin() + i);
-				
+					return ;
 				}
 		}
 	}

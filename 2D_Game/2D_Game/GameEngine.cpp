@@ -43,8 +43,8 @@ void GameEngine::run()
 				ennemyList.clear();
 				bulletList.clear();
 				itemList.clear();
-				player.clear();
-				player.push_back(new Player(ressources, loopTime));
+				for (int i = 0; i < player.size() ;++i)
+					player[i]->init(ressources);
 				globalClock.restart();
 				restart = false;
 			}
