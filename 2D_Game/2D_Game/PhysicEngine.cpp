@@ -49,7 +49,7 @@ void PhysicEngine::enemyAction()
 					(this->*(releaseActionManager[(Event::Input)i2]))(this->_ennemyList[i]);
 				i2++;
 			}
-			gravity(this->_ennemyList[i]);
+			//gravity(this->_ennemyList[i]);
 			++i;
 		}
 }
@@ -236,7 +236,6 @@ void PhysicEngine::gravity(AUnit *src)
 		src->y += (src->fallingSpeed * (src->loopTime));
 		if (src->fallingSpeed < gravityMax)
 			src->fallingSpeed += ((5 * Settings::CASE_SIZE)  * (src->loopTime));
-		_referee->applyGravity(src);
 	}
 	else
 	{
