@@ -2,6 +2,7 @@
 
 #include "SFML\Graphics.hpp"
 #include <iostream>
+#include "Weapon.h"
 
 
 enum e_dir
@@ -59,6 +60,7 @@ public:
 	sf::Clock timer;
 	std::vector<bool> inputMap;
 	float fireRateCount;
+	std::vector<Weapon*> weapon;
 
 	//there is probably a best way to do it
 	int jumpTmpY;

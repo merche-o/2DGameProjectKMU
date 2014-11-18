@@ -1,12 +1,13 @@
 #include "Referee.h"
 
 
-Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList ,Map &map, float &LoopTime) 
-: _enemyList(enemylist), _itemList(itemList),_bulletList(bulletList), _map(map), loopTime(LoopTime)
+Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList ,Map &map, float &LoopTime, Ressources &Res) 
+: _enemyList(enemylist), _itemList(itemList),_bulletList(bulletList), _map(map), loopTime(LoopTime), _res(Res)
 {
 	collideManager.push_back(&Referee::collideEnemy);
 	collideManager.push_back(&Referee::collideBonus);
 	collideManager.push_back(&Referee::collideWall);
+	_res.texture["coin"].loadFromFile("../Ressources/Images/ShieldBar.png");
 }
 
 
@@ -29,6 +30,20 @@ int Referee::colliderCheck(AUnit  *src, Event::Input const &btn)
 
 int 	Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 {
+	if (btn == Event::I_NONE)
+	{
+		for (int i = 0; i < this->_itemList.size(); i++)
+		{
+			if (src->x  <= this->_itemList[i]->x + Settings::CASE_SIZE  && src->x > this->_itemList[i]->x
+			&&  src->y >= this->_itemList[i]->y && src->y <= this->_itemList[i]->y + Settings::CASE_SIZE)
+		{
+			if (_itemList[i]->type == Item::COINS)
+				((Player *)src)->score += _itemList[i]->score;
+			_itemList.erase(_itemList.begin() + i);
+			return 5;
+		}
+		}
+	}
 	return -1;
 }
 
@@ -134,10 +149,18 @@ void Referee::cleanEnemyList()
 	for (int i = 0; i < this->_enemyList.size(); i++)
 	{
 		if (this->_enemyList[i]->y > Settings::HEIGHT  || this->_enemyList[i]->l_state == DEAD)
+			{
+		if (this->_enemyList[i]->l_state == DEAD)
+				this->dropCoins((Enemy *)_enemyList[i]);
 			this->_enemyList.erase(_enemyList.begin() + i);
+			}
 	}
 }
 
+void Referee::dropCoins(Enemy *src)
+{
+	this->_itemList.push_back(new Coin(src->x, src->y, this->loopTime , 10 ,Item::COINS, _res.texture["coin"]));
+}
 void Referee::playerInvinsibility(Player *player)
 	{
 		if (player->l_state == HIT)
@@ -172,7 +195,7 @@ bool Referee::dealDamage(std::vector<Player *> &_player)
 		return true;
 }
 
-void Referee::moveBullet()
+void Referee::moveBullet(std::vector<Player *> &_player)
 {
 	for (int i = 0; i < this->_bulletList.size(); i++)
 		{
@@ -190,16 +213,16 @@ void Referee::moveBullet()
 					this->_bulletList.erase(this->_bulletList.begin() + i);
 
 				
-				}
+					}
 				}
 			
 		}
-	this->bulletHit();
+	this->bulletHit(_player);
 
 	return;
 }
 
-void Referee::bulletHit()
+void Referee::bulletHit(std::vector<Player *> &_player)
 {				   
 	for (int i = 0; i < this->_bulletList.size(); i++)
 	{
@@ -209,8 +232,7 @@ void Referee::bulletHit()
 			&&  this->_bulletList[i]->y >= this->_enemyList[i2]->y && this->_bulletList[i]->y <= this->_enemyList[i2]->y + Settings::CASE_SIZE)
 				{
 					this->_enemyList[i2]->getHit(this->_bulletList[i]->damage);
-					this->tmp = (Player *)this->_bulletList[i]->player;
-					tmp->score += 10;
+				
 					this->_bulletList.erase(this->_bulletList.begin() + i);
 					return ;
 				}

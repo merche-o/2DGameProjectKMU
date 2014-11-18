@@ -3,8 +3,8 @@
 #include "Utils.h"
 #include <iostream>
 
-Graphic::Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & e, std::vector<Bullet*> & b, Ressources & ressource, float & Time)
-	: Display(w), win(w), map(m), player(p), ennemyList(e), bulletList(b), ress(ressource), loopTime(Time)
+Graphic::Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & e, std::vector<Bullet*> & b,std::vector<Item*> &i, Ressources & ressource, float & Time)
+	: Display(w), win(w), map(m), player(p), ennemyList(e), bulletList(b), itemList(i),ress(ressource), loopTime(Time)
 {
 }
 
@@ -126,5 +126,13 @@ void Graphic::affBullets()
 	for (int i = 0; i < bulletList.size(); ++i)
 	{
 		loadImage(bulletList[i]->x, bulletList[i]->y + Settings::HEIGHT_INTERFACE, bulletList[i]->texture);
+	}
+}
+
+void Graphic::affItems()
+{
+	for (int i = 0; i < itemList.size(); ++i)
+	{
+		loadImage(itemList[i]->x, itemList[i]->y + Settings::HEIGHT_INTERFACE, itemList[i]->texture);
 	}
 }

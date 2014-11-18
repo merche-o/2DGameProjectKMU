@@ -92,8 +92,8 @@ void PhysicEngine::Jump(AUnit *src)
 			}*/
 			if (src->state == U_JUMP)
 			{
-				src->y -= (20) * Settings::CASE_SIZE * (src->loopTime)  ;
-				src->jumpTmpY -= (20) * Settings::CASE_SIZE * (src->loopTime);
+				src->y -= (30) * Settings::CASE_SIZE * (src->loopTime)  ;
+				src->jumpTmpY -= (30) * Settings::CASE_SIZE * (src->loopTime);
 			}
 			if (src->state == U_NORMAL)
 			{
@@ -126,12 +126,14 @@ void PhysicEngine::useBonus(AUnit *src)
 
 void PhysicEngine::shootUp(AUnit *src)
 {
-	if (src->fireRateCount <= 0.f)
+	if (src->weapon[0]->fireRateCount <= 0.f)
 		{
-			src->fireRateCount = src->fireRate;
-			this->_bulletList.push_back(new Bullet(src->x + (src->width /2), src->y ,10,5, 0, -1, 20, loopTime, src));
-		}
-	return;
+			src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
+		//	this->_bulletList.push_back(new Bullet(src->x + (src->width /2), src->y ,10,5, 0, -1, 20, loopTime, src));
+		if (src->weapon[0]->ammo > 0)
+			this->_bulletList.push_back(src->weapon[0]->createBullet(src->x + (src->width /2), src->y,0, -1,loopTime));
+		}	
+	//return;
 }
 
 void PhysicEngine::shootDown(AUnit *src)
@@ -141,10 +143,12 @@ void PhysicEngine::shootDown(AUnit *src)
 
 void PhysicEngine::shootLeft(AUnit *src)
 {
-	if (src->fireRateCount <= 0.f)
+	if (src->weapon[0]->fireRateCount <= 0.f)
 		{
-			src->fireRateCount = src->fireRate;
-			this->_bulletList.push_back(new Bullet(src->x, src->y + (src->height /2),10,5,-1, 0, 20,  loopTime, src));	
+				src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
+			if (src->weapon[0]->ammo > 0)
+				this->_bulletList.push_back(src->weapon[0]->createBullet(src->x, src->y + src->height /2,-1, 0,loopTime));
+		//	this->_bulletList.push_back(new Bullet(src->x, src->y + (src->height /2),10,5,-1, 0, 20,  loopTime, src));	
 		}
 	
 	return;
@@ -152,10 +156,12 @@ void PhysicEngine::shootLeft(AUnit *src)
 
 void PhysicEngine::shootRight(AUnit *src)
 {
-	if (src->fireRateCount <= 0.f)
+	if (src->weapon[0]->fireRateCount <= 0.f)
 		{
-			src->fireRateCount = src->fireRate;
-			this->_bulletList.push_back(new Bullet(src->x + src->width, src->y + (src->height /2),10,5,1,0, 20, loopTime,src));
+				src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
+			if (src->weapon[0]->ammo > 0)
+				this->_bulletList.push_back(src->weapon[0]->createBullet(src->x + src->width, src->y+ (src->height /2),1, 0,loopTime));
+			//this->_bulletList.push_back(new Bullet(src->x + src->width, src->y + (src->height /2),10,5,1,0, 20, loopTime,src));
 		}
 	return;
 }
@@ -235,11 +241,12 @@ void PhysicEngine::gravity(AUnit *src)
 	{
 		src->y += (src->fallingSpeed * (src->loopTime));
 		if (src->fallingSpeed < gravityMax)
-			src->fallingSpeed += ((5 * Settings::CASE_SIZE)  * (src->loopTime));
+			src->fallingSpeed += ( (10 * Settings::CASE_SIZE)  * (src->loopTime));
+	_referee->applyGravity(src);
 	}
 	else
 	{
-		src->fallingSpeed = 5 * Settings::CASE_SIZE;
+		src->fallingSpeed = 10 * Settings::CASE_SIZE;
 		//src->doubleJump = true;
 	}
 	return;

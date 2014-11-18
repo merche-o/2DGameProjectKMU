@@ -70,4 +70,5 @@ void Ressources::loadTexturesFromFile(std::string fileName)
 {
 	// Map Texture
 	texture["wall"].loadFromFile("../Ressources/Images/Wall.png");
+	texture["coin"].loadFromFile("../Ressources/Images/ShieldBar.png");
 }

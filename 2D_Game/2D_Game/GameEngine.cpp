@@ -2,7 +2,7 @@
 #include <iostream>
 
 GameEngine::GameEngine(void)
-	: ressources(), graphic(window, map, player, ennemyList, bulletList, ressources, loopTime), menu(window, event, parameters, restart), sound(), map(loopTime), event(window, player), ref(ennemyList, itemList, bulletList, map, loopTime), physics(player, ennemyList, itemList, bulletList, map, loopTime), spawner(ennemyList, itemList, loopTime), IA(ref, ennemyList) 
+	: ressources(), graphic(window, map, player, ennemyList, bulletList, itemList,ressources, loopTime), menu(window, event, parameters, restart), sound(), map(loopTime), event(window, player), ref(ennemyList, itemList, bulletList, map, loopTime, ressources), physics(player, ennemyList, itemList, bulletList, map, loopTime), spawner(ennemyList, itemList, loopTime), IA(ref, ennemyList) 
 {
 	ressources.loadEnnemiesFromFile("../Ressources/Ennemies.txt");
 	ressources.loadWeaponsFromFile("../Ressources/Weapons.txt");
@@ -15,7 +15,7 @@ GameEngine::GameEngine(void)
 
 	physics._referee = &ref;
 	
-	player.push_back(new Player(ressources, loopTime));
+	player.push_back(new Player(ressources, loopTime, 0));
 	
 	state = MENU;
 	restart = false;
@@ -44,8 +44,9 @@ void GameEngine::run()
 				ennemyList.clear();
 				bulletList.clear();
 				itemList.clear();
-				player.clear();
-				player.push_back(new Player(ressources, loopTime));
+				player[0]->init(ressources);
+				//	player.clear();
+				//player.push_back(new Player(ressources, loopTime, 0));
 				globalClock.restart();
 				restart = false;
 			}
@@ -59,7 +60,7 @@ void GameEngine::run()
 			if (ref.dealDamage(player) == false)
 				state = MENU;
 			ref.cleanEnemyList();
-			ref.moveBullet();
+			ref.moveBullet(player);
 			spawner.spawnEnnemies(ressources.ennemy);
 			physics.playerAction(0);
 			IA.setEnnemiesIM();
@@ -70,6 +71,7 @@ void GameEngine::run()
 			graphic.affMap();
 			graphic.affUnits();
 			graphic.affBullets();
+			graphic.affItems();
 
 			if (state == GAME)
 				event.checkEvent(pause);

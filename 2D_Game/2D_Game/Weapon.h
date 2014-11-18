@@ -12,9 +12,13 @@ public:
 	int range;
 	int speed;
 	sf::Texture texture;
+	int numPlayer;
+	float fireRateCount;
 
 public:
+	Weapon(int Damage, float FireRate, int Range, int Speed, int NumPlayer);
 	Weapon(int Damage, float FireRate, int Range, int Speed);
 	~Weapon(void);
+	Bullet *createBullet(float x, float y, int dirX, int dirY, float &LoopTime);
 };
 

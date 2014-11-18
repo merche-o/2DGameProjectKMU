@@ -8,7 +8,8 @@ private:
 	int score;
 
 public:
-	Coin(void);
+	Coin(float X, float Y, float loopTime, int score, Item::itemType type, sf::Texture Texture);
+	Coin(Item const &);
 	~Coin(void);
 };
 

@@ -2,10 +2,8 @@
 
 #include "SFML\Graphics.hpp"
 #include "Settings.h"
-#include "AUnit.h"
 #include <iostream>
 
-class Player;
 
 class Bullet
 {
@@ -17,7 +15,7 @@ public:
 	};
 
 public:
-	AUnit *player;
+	int numPlayer;
 	float x;
 	float y;
 	int damage;
@@ -32,7 +30,7 @@ private:
 	float pX;
 	float pY;
 public:
-	Bullet(float X, float Y, int Damage, float Range, int dirX, int dirY, float speed,float  &LoopTime, AUnit *Player);
+	Bullet(float X, float Y, int Damage, float Range, int dirX, int dirY, float speed,float  &LoopTime, int NumPlayer);
 	~Bullet(void);
 	bool destroy();
 };

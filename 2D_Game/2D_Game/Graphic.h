@@ -5,6 +5,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "Ressources.h"
+#include "Item.h"
 
 class Graphic : public Display
 {
@@ -14,12 +15,13 @@ private:
 	std::vector<Player*> & player;
 	std::vector<AUnit*> & ennemyList;
 	std::vector<Bullet*> & bulletList;
+	std::vector<Item *> &itemList;
 	Ressources & ress;
 	float & loopTime;
 	float time;
 
 public:
-	Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & ennemyList, std::vector<Bullet*> & b, Ressources & ressource, float & Time);
+	Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & ennemyList, std::vector<Bullet*> & b, std::vector<Item*> &ItemList,Ressources & ressource, float & Time);
 	~Graphic(void);
 
 	void RefreshWindow();
@@ -27,5 +29,6 @@ public:
 	void affMap();
 	void affUnits();
 	void affBullets();
+	void affItems();
 };
 

@@ -46,12 +46,13 @@ void IA::basicIA(Enemy *src)
 	{
 		src->y += (src->fallingSpeed * (src->loopTime));
 		if (src->fallingSpeed < 25 * Settings::CASE_SIZE)
-			src->fallingSpeed += ((5 * Settings::CASE_SIZE)  * (src->loopTime));
+			src->fallingSpeed += ((10 * Settings::CASE_SIZE)  * (src->loopTime));
+		_ref.applyGravity(src);
 	return;
 	}
 	else
 	{
-		src->fallingSpeed = 5 * Settings::CASE_SIZE;
+		src->fallingSpeed = 10 * Settings::CASE_SIZE;
 		//src->doubleJump = true;
 	}
 	
