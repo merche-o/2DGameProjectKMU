@@ -51,8 +51,10 @@ int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 {
 	for (int i = 0; i < this->_map.platform.size(); i++)
 		{
-			if (src->y				>=	this->_map.platform[i]->y &&
-				src->y				<=	this->_map.platform[i]->y + Settings::CASE_SIZE)
+			if ((src->y				>=	this->_map.platform[i]->y &&
+				src->y				<=	this->_map.platform[i]->y + Settings::CASE_SIZE) ||
+				(src->y		+Settings::CASE_SIZE		>	this->_map.platform[i]->y &&
+				src->y		+Settings::CASE_SIZE		<	this->_map.platform[i]->y + Settings::CASE_SIZE))
 				{
 					if (btn == Event::I_UP)
 						{
@@ -72,7 +74,7 @@ int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 					/*if (btn == Event::I_RIGHT)
 						{*/
 					else if (src->x + Settings::CASE_SIZE	>	this->_map.platform[i]->x  &&
-								src->x + Settings::CASE_SIZE	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+							src->x + Settings::CASE_SIZE	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 							{				
 								src->x = this->_map.platform[i]->x - Settings::CASE_SIZE - 1;
 								return 3;
@@ -81,7 +83,7 @@ int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 					/*if (btn == Event::I_LEFT)
 						{*/
 					else if (src->x			<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
-									 src->x			>	this->_map.platform[i]->x)
+							src->x			>	this->_map.platform[i]->x)
 							{		
 								src->x = this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length + 1;
 								return 4;
