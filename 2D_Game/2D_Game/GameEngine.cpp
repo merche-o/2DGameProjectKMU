@@ -62,6 +62,7 @@ void GameEngine::run()
 			ref.cleanEnemyList();
 			ref.moveBullet(player);
 			spawner.spawnEnnemies(ressources.ennemy);
+			spawner.spawnAmmo(player[0], ressources.texture["ammo"]);
 			physics.playerAction(0);
 			IA.setEnnemiesIM();
 			physics.enemyAction();

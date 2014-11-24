@@ -8,6 +8,7 @@ Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList,
 	collideManager.push_back(&Referee::collideBonus);
 	collideManager.push_back(&Referee::collideWall);
 	_res.texture["coin"].loadFromFile("../Ressources/Images/ShieldBar.png");
+	_res.texture["ammo"].loadFromFile("../Ressources/Images/Ammo0.png");
 }
 
 
@@ -39,6 +40,9 @@ int 	Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 		{
 			if (_itemList[i]->type == Item::COINS)
 				((Player *)src)->score += _itemList[i]->score;
+			if(_itemList[i]->type == Item::AMMO)
+				((Player *)src)->weapon[0]->ammo += 10;
+				
 			_itemList.erase(_itemList.begin() + i);
 			return 5;
 		}

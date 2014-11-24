@@ -15,8 +15,8 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer): AUnit(LoopTim
 	
 	score = 0;
 
-	weapon.push_back(new Weapon(Ress.weapon[0]->damage, Ress.weapon[0]->fireRate, Ress.weapon[0]->range, Ress.weapon[0]->speed, numPlayer));
-	//weapon[0]->
+	weapon.push_back(new Weapon(Ress.weapon[0]->damage, Ress.weapon[0]->fireRate, Ress.weapon[0]->range, Ress.weapon[0]->speed, numPlayer, Item::D_WEAPON));
+	weapon[0]->spawnTime = 5;
 
 	//weapon.push_back(new Weapon(Ress.weapon[0]->damage, Ress.weapon[0]->fireRate, Ress.weapon[0]->range, Ress.weapon[0]->speed));
 }
@@ -35,7 +35,7 @@ void Player::init(Ressources &Ress)
 	}
 	score = 0;
 	weapon.clear();
-	weapon.push_back(new Weapon(Ress.weapon[0]->damage, Ress.weapon[0]->fireRate, Ress.weapon[0]->range, Ress.weapon[0]->speed, numPlayer));
+	weapon.push_back(new Weapon(Ress.weapon[0]->damage, Ress.weapon[0]->fireRate, Ress.weapon[0]->range, Ress.weapon[0]->speed, numPlayer, Item::D_WEAPON));
 }
 
 

@@ -10,6 +10,8 @@ public:
 	enum itemType 
 {
 	COINS,
+	AMMO,
+	D_WEAPON
 };
 	float x;
 	float y;
