@@ -9,8 +9,8 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer): AUnit(LoopTim
 	y = 0;
 	width = 32;
 	height = 32;
-	speed = 10 * Settings::CASE_SIZE;
-	life = 5;
+	speed = 7 * Settings::CASE_SIZE;
+	life = 3;
 	shield = 3;
 	
 	score = 0;
@@ -25,7 +25,7 @@ void Player::init(Ressources &Ress)
 	{
 		x = -2;
 	y = 0;
-	life = 5;
+	life = 3;
 	shield = 3;
 	int i = 0;
 	while (i < 9)

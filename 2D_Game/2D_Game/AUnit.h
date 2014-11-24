@@ -64,6 +64,7 @@ public:
 
 	//there is probably a best way to do it
 	int jumpTmpY;
+	bool doubleJump;
 private:
 	
 public:

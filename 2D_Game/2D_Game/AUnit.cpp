@@ -16,6 +16,7 @@ AUnit::AUnit(float &LoopTime) : loopTime(LoopTime)
 		inputMap.push_back(false);
 		++i;
 	}
+	doubleJump = true;
 }
 
 AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile, float &LoopTime)
@@ -41,7 +42,7 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 		++i;
 	}
 		speed *= Settings::CASE_SIZE;
-
+	doubleJump = true;
 }
 
 AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, float &LoopTime)
@@ -64,6 +65,7 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture
 		inputMap.push_back(false);
 		++i;
 	}
+	doubleJump = true;
 }
 
 
