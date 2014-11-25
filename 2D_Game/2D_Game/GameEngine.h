@@ -44,6 +44,7 @@ private:
 	Event event;
 	IA IA;
 	bool restart;
+	bool goMenu;
 	bool pause;
 	
 	sf::Clock globalClock;

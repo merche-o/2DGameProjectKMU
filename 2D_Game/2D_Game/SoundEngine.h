@@ -1,12 +1,13 @@
 #pragma once
 
-#include <vector>
+#include <map>
 #include "SFML\Audio.hpp"
 
 class SoundEngine
 {
 public:
-	std::vector<sf::Sound> sound;
+	std::map<std::string, sf::SoundBuffer> soundBuffer;
+	std::map<std::string, sf::Sound> sound;
 	sf::Music music;
 	bool activeSound;
 	bool activeMusic;

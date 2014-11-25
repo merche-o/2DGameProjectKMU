@@ -5,6 +5,26 @@ SoundEngine::SoundEngine(void)
 {
 	music.openFromFile("../Ressources/Musics/119-under-the-ground.ogg");
 	activeMusic = false;
+	
+	soundBuffer["jump"] = (sf::SoundBuffer());
+	soundBuffer["jump"].loadFromFile("../Ressources/Musics/jump.wav");
+	sound["jump"] = (sf::Sound());
+	sound["jump"].setBuffer(soundBuffer["jump"]);
+
+	soundBuffer["coin"] = (sf::SoundBuffer());
+	soundBuffer["coin"].loadFromFile("../Ressources/Musics/coin.wav");
+	sound["coin"] = (sf::Sound());
+	sound["coin"].setBuffer(soundBuffer["coin"]);
+	
+	soundBuffer["hit"] = (sf::SoundBuffer());
+	soundBuffer["hit"].loadFromFile("../Ressources/Musics/hit.wav");
+	sound["hit"] = (sf::Sound());
+	sound["hit"].setBuffer(soundBuffer["hit"]);
+	
+	soundBuffer["shoot"] = (sf::SoundBuffer());
+	soundBuffer["shoot"].loadFromFile("../Ressources/Musics/shoot.wav");
+	sound["shoot"] = (sf::Sound());
+	sound["shoot"].setBuffer(soundBuffer["shoot"]);
 }
 
 

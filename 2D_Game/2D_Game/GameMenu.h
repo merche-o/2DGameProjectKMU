@@ -35,10 +35,11 @@ public:
 	bool isPushed;
 	Event & event;
 	bool & start;
+	bool & menu;
 	bool refresh;
 
 public:
-	GameMenu(sf::RenderWindow & w, Event & e, Parameters &p, bool & s);
+	GameMenu(sf::RenderWindow & w, Event & e, Parameters &p, bool & s, bool & m);
 	~GameMenu(void);
 
 	void posInsideTheMenu();
@@ -48,7 +49,9 @@ public:
 	void displayPause();
 	void menuSettings();
 	void menuCredits();
+	void menuPause();
 	void menuReturn();
+	void backToMenu();
 	void menuPlay();
 	void addTextMenu(e_state state, TextMenu * text);
 	void addKeyTextMenu(e_state state, TextMenu * text, void(GameMenu:: *p)());
