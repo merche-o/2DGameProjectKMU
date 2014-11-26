@@ -10,6 +10,7 @@
 #include "Settings.h"
 #include "Bullet.h"
 #include "Coin.h"
+#include "Ammo.h"
 
 class Referee
 {

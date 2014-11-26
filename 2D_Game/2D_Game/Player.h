@@ -12,7 +12,7 @@ class Player : public AUnit
 public:
 	int score;
 	float invTime;
-	std::vector<Weapon*> weapon;
+	//::vector<Weapon*> weapon;
 	std::vector<Bonus*> bonus;
 	Spell spell;
 	int numPlayer;

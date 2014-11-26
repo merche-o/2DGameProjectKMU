@@ -41,7 +41,17 @@ int 	Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 			if (_itemList[i]->type == Item::COINS)
 				((Player *)src)->score += _itemList[i]->score;
 			if(_itemList[i]->type == Item::AMMO)
-				((Player *)src)->weapon[0]->ammo += 10;
+				{
+					int i2 = 0;
+					while (i2 < ((Player*)src)->weapon.size())
+						{
+
+						if (((Player*)src)->weapon[i2]->type == ((Ammo *)(_itemList[i]))->weaponType)
+						((Player *)src)->weapon[i2]->ammo += 10;
+						i2++;	
+					}
+				}
+			
 				
 			_itemList.erase(_itemList.begin() + i);
 			return 5;

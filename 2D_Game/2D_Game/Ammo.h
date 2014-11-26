@@ -5,7 +5,7 @@
 class Ammo : public Item
 {
 	
-private:
+public:
 	//type
 
 	Item::itemType weaponType;

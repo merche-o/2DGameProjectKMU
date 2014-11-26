@@ -65,6 +65,8 @@ void Spawner::spawnAmmo(Player *src, sf::Texture texture)
 			src->weapon[i]->spawn = src->weapon[i]->timer.getElapsedTime();
 			if (src->weapon[i]->spawn.asSeconds() >= src->weapon[i]->spawnTime)
 				{
+					src->weapon[i]->timer.restart();
+					
 					itemList.push_back(new Ammo(posx, posy+ Settings::HEIGHT_INTERFACE, 5,loopTime, texture, Item::AMMO,src->weapon[i]->type));
 				changePlaceSpawner();
 			}

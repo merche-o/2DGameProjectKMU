@@ -104,7 +104,5 @@ void AUnit::getHit(int dam)
 
 void AUnit::updateClock()
 {
-	
 	this->weapon[0]->fireRateCount -= loopTime;
-	
 }
