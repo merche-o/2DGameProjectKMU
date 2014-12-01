@@ -57,6 +57,8 @@ void PhysicEngine::enemyAction()
 
 void PhysicEngine::playerAction(int playerId)
 {
+	this->_player[playerId]->prevX = this->_player[playerId]->x;
+	this->_player[playerId]->prevY = this->_player[playerId]->y;
 	for (unsigned int i = 0; i < this->_player[playerId]->inputMap.size(); ++i)
 	{
 		if (this->_player[playerId]->inputMap[i] == true)
@@ -93,7 +95,7 @@ void PhysicEngine::Jump(AUnit *src)
 			{
 				//src->y -= (20) * Settings::CASE_SIZE * (src->loopTime)  ;
 				src->jumpTmpY -= (5) * Settings::CASE_SIZE * (src->loopTime);
-				src->y -= (10) * Settings::CASE_SIZE * (src->loopTime);
+				src->y -= (15) * Settings::CASE_SIZE * (src->loopTime);
 			}
 			if (src->state == U_NORMAL)
 			{
@@ -104,8 +106,7 @@ void PhysicEngine::Jump(AUnit *src)
 			else if(src->state == U_END_JUMP)
 				src->state = U_JUMP;*/
 			if (src->jumpTmpY + Settings::HIGH_JUMP <= 0)
-				src->state = U_END_JUMP;			
-			
+				src->state = U_END_JUMP;
 		}
 	if (_referee->colliderCheck(src, Event::I_UP) == 1)
 	{
@@ -242,13 +243,13 @@ void PhysicEngine::gravity(AUnit *src)
 	if (_referee->applyGravity(src) == true)
 	{
 		src->y += (src->fallingSpeed * (src->loopTime));
-		if (src->fallingSpeed < gravityMax)
-			src->fallingSpeed += ((4 * Settings::CASE_SIZE)  * (src->loopTime));
+		/*if (src->fallingSpeed < gravityMax)
+			src->fallingSpeed += ((4 * Settings::CASE_SIZE)  * (src->loopTime));*/
 		_referee->applyGravity(src);
 	}
 	else
 	{
-		src->fallingSpeed = 4 * Settings::CASE_SIZE;
+		//src->fallingSpeed = 4 * Settings::CASE_SIZE;
 		src->doubleJump = true;
 	}
 	return;

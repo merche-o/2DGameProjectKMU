@@ -14,6 +14,7 @@ public:
 	float invTime;
 	std::vector<Bonus*> bonus;
 	std::vector<Spell*> spell;
+
 private:
 
 public:

@@ -30,7 +30,7 @@ int Referee::colliderCheck(AUnit  *src, Event::Input const &btn)
 
 int 	Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 {
-	if (btn == Event::I_NONE)
+	if (btn == Event::I_NONE && src->isPlayer == true)
 	{
 		for (int i = 0; i < this->_itemList.size(); i++)
 		{
@@ -96,13 +96,20 @@ int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 
 int Referee::collideEnemy(AUnit  *src, Event::Input const &btn)
 {
-	if (btn == Event::I_NONE)
+	if (btn == Event::I_NONE && src->isPlayer == true)
 	{
 		for (int i = 0; i < this->_enemyList.size(); i++)
 		{
 			if (src->x  <= this->_enemyList[i]->x + Settings::CASE_SIZE  && src->x > this->_enemyList[i]->x
 			&&  src->y >= this->_enemyList[i]->y && src->y <= this->_enemyList[i]->y + Settings::CASE_SIZE)
-		return 2;
+			{
+				if (src->y > src->prevY)
+				{
+					this->_enemyList[i]->getHit(10);
+					return -1;
+				}
+				return 2;
+			}
 		}
 	}
 	return -1;

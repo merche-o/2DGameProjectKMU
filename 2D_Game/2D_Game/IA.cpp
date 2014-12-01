@@ -31,6 +31,8 @@ void IA::fillInputMap(Enemy *src)
 
 void IA::basicIA(Enemy *src)
 {
+	src->prevY = src->y;
+	src->prevX = src->x;
 	int dir = _ref.colliderCheck(src, Event::I_NONE);
 	
 	if (dir == 3 && src->dir == RIGHT)
@@ -45,8 +47,8 @@ void IA::basicIA(Enemy *src)
 		if (_ref.applyGravity(src) == true)
 	{
 		src->y += (src->fallingSpeed * (src->loopTime));
-		if (src->fallingSpeed < 25 * Settings::CASE_SIZE)
-			src->fallingSpeed += ((10 * Settings::CASE_SIZE)  * (src->loopTime));
+		/*if (src->fallingSpeed < 25 * Settings::CASE_SIZE)
+			src->fallingSpeed += ((10 * Settings::CASE_SIZE)  * (src->loopTime));*/
 		_ref.applyGravity(src);
 	return;
 	}
