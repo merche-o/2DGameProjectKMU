@@ -173,6 +173,18 @@ void Referee::cleanEnemyList()
 	}
 }
 
+void Referee::cleanItemList(){
+	for (int i = 0; i < this->_itemList.size(); i++)
+	{
+		this->_itemList[i]->timeSpawn += loopTime;
+		if (this->_itemList[i]->lifeTime <  this->_itemList[i]->timeSpawn)
+			{this->_itemList.erase(_itemList.begin() + i);
+			std::cout << "Should delete something" << std::endl; 
+		}
+	}
+}
+
+
 void Referee::dropCoins(Enemy *src)
 {
 	this->_itemList.push_back(new Coin(src->x, src->y, this->loopTime , 10 ,Item::COINS, _res.texture["coin"]));

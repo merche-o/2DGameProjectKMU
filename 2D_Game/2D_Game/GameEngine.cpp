@@ -70,15 +70,16 @@ void GameEngine::run()
 			if (ref.dealDamage(player) == false)
 				state = MENU;
 			ref.cleanEnemyList();
+			ref.cleanItemList();
 			ref.moveBullet(player);
 			spawner.spawnEnnemies(ressources.ennemy);
-			spawner.spawnAmmo(player[0], ressources.texture["ammo"]);
+			spawner.spawnAmmo(player[0], ressources.texture["ammo"], &map);
 			physics.playerAction(0);
 			IA.setEnnemiesIM();
 			physics.enemyAction();
 			map.checkPlatform();
 			
-			player[0]->spell.launch();
+			//player[0]->spell.launch();
 
 			graphic.affSpell();
 			graphic.affInterface();

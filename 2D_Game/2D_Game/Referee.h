@@ -18,6 +18,7 @@ public:
 	int colliderCheck(AUnit  *,  Event::Input const &);
 	bool applyGravity(AUnit *);
 	void cleanEnemyList();
+	void cleanItemList();
 	void moveBullet(std::vector<Player *> &_player);
 	bool dealDamage(std::vector<Player *> &_player);
 	Referee(std::vector<AUnit*> & enemylist, std::vector<Item*> &itemList, std::vector<Bullet *> &bulletList, Map  &map, float &LoopTime, Ressources &Res);

@@ -18,6 +18,7 @@ public:
 	float spawnTime;
 	float lifeTime;
 	float loopTime;
+	float timeSpawn;
 	sf::Texture texture;
 	itemType type;
 	int score;
