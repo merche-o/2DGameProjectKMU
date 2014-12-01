@@ -2,7 +2,16 @@
 #include <iostream>
 
 GameEngine::GameEngine(void)
-	: ressources(), graphic(window, map, player, ennemyList, bulletList, itemList,ressources, loopTime), menu(window, event, parameters, restart), sound(), map(loopTime), event(window, player), ref(ennemyList, itemList, bulletList, map, loopTime, ressources), physics(player, ennemyList, itemList, bulletList, map, loopTime), spawner(ennemyList, itemList, loopTime), IA(ref, ennemyList) 
+	: ressources(),
+		graphic(window, map, player, ennemyList, bulletList, itemList, ressources, loopTime),
+		menu(window, event, parameters, restart, goMenu),
+		sound(),
+		map(loopTime),
+		event(window, player),
+		ref(ennemyList, itemList, bulletList, map, loopTime, ressources),
+		physics(player, ennemyList, itemList, bulletList, map, loopTime),
+		spawner(ennemyList, itemList, loopTime),
+		IA(ref, ennemyList) 
 {
 	ressources.loadEnnemiesFromFile("../Ressources/Ennemies.txt");
 	ressources.loadWeaponsFromFile("../Ressources/Weapons.txt");
@@ -19,6 +28,7 @@ GameEngine::GameEngine(void)
 	
 	state = MENU;
 	restart = false;
+	goMenu = false;
 	pause = false;
 }
 
@@ -45,7 +55,7 @@ void GameEngine::run()
 				bulletList.clear();
 				itemList.clear();
 				player[0]->init(ressources);
-				//	player.clear();
+				//player.clear();
 				//player.push_back(new Player(ressources, loopTime, 0));
 				globalClock.restart();
 				restart = false;
@@ -60,13 +70,18 @@ void GameEngine::run()
 			if (ref.dealDamage(player) == false)
 				state = MENU;
 			ref.cleanEnemyList();
+			ref.cleanItemList();
 			ref.moveBullet(player);
 			spawner.spawnEnnemies(ressources.ennemy);
+			spawner.spawnAmmo(player[0], ressources.texture["ammo"], &map);
 			physics.playerAction(0);
 			IA.setEnnemiesIM();
 			physics.enemyAction();
 			map.checkPlatform();
+			
+			//player[0]->spell.launch();
 
+			graphic.affSpell();
 			graphic.affInterface();
 			graphic.affMap();
 			graphic.affUnits();
@@ -79,11 +94,20 @@ void GameEngine::run()
 			graphic.RefreshWindow();
 
 			if (pause == true)
+			{
 				state = PAUSE;
+				menu.menuPause();
+			}
 		}
 		else if (state == PAUSE)
 		{
-			menu.pause();
+			menu.run();
+			if (goMenu == true)
+			{
+				state = MENU;
+				goMenu = false;
+				pause = false;
+			}
 			if (restart == true)
 			{
 				pause = false;

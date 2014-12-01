@@ -21,7 +21,7 @@ private:
 	float time;
 
 public:
-	Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & ennemyList, std::vector<Bullet*> & b, std::vector<Item*> &ItemList,Ressources & ressource, float & Time);
+	Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & ennemyList, std::vector<Bullet*> & b, std::vector<Item*> &ItemList, Ressources & ressource, float & Time);
 	~Graphic(void);
 
 	void RefreshWindow();
@@ -29,6 +29,7 @@ public:
 	void affMap();
 	void affUnits();
 	void affBullets();
+	void affSpell();
 	void affItems();
 };
 

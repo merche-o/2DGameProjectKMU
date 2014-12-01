@@ -10,12 +10,15 @@ public:
 	enum itemType 
 {
 	COINS,
+	AMMO,
+	D_WEAPON
 };
 	float x;
 	float y;
 	float spawnTime;
 	float lifeTime;
 	float loopTime;
+	float timeSpawn;
 	sf::Texture texture;
 	itemType type;
 	int score;

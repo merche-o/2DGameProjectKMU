@@ -6,6 +6,8 @@
 #include "Ammo.h"
 #include "Ressources.h"
 #include "Settings.h"
+#include "Player.h"
+#include "Map.h"
 
 class Spawner
 {
@@ -31,6 +33,7 @@ public:
 	Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList, float &LoopTime);
 	~Spawner(void);
 	void spawnEnnemies(std::vector<AUnit*> &ennemy);
-	void spawnAmmo();
+	void spawnAmmo(Player *, sf::Texture texture, Map *map);
+	bool setAmmoSpawnerPos(Map *map, float &x, float &y);
 };
 

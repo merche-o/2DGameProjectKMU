@@ -1,8 +1,8 @@
 #include "GameMenu.h"
 #include <iostream>
 
-GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s)
-	: Display(w), win(w), event(e), param(p), start(s)
+GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bool & m)
+	: Display(w), win(w), event(e), param(p), start(s), menu(m)
 {
 	refresh = true;
 	posMenu = 0;
@@ -26,6 +26,7 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s)
 
 	addTextMenu(PAUSE, new TextMenu(600, 300, "Pause", 64, 200, 200, 200));
 	addKeyTextMenu(PAUSE, new TextMenu(600, 400, "Resume", 48), &GameMenu::menuPlay);
+	addKeyTextMenu(PAUSE, new TextMenu(600, 450, "Back to menu", 48), &GameMenu::menuReturn);
 }
 
 
@@ -60,14 +61,17 @@ void GameMenu::run()
 		}
 		posInsideTheMenu();
 		
-		win.clear();
+		if (currentState != PAUSE)
+			win.clear();
 		displayCurrentMenu();
 		win.display();
 
 		refresh = false;
 	}
-
-	event.menuEvent(posMenu, isPushed, refresh);
+	if (currentState == PAUSE)
+		event.menuEvent(posMenu, isPushed, refresh, true);
+	else
+		event.menuEvent(posMenu, isPushed, refresh);
 }
 
 void GameMenu::pause()
@@ -85,7 +89,7 @@ void GameMenu::pause()
 				return;
 			}
 		}
-		posMenu = 0;
+		posInsideTheMenu();
 		
 		displayPause();
 		win.display();
@@ -180,6 +184,11 @@ void GameMenu::menuSettings()
 	currentState = SETTINGS;
 }
 
+void GameMenu::menuPause()
+{
+	currentState = PAUSE;
+}
+
 void GameMenu::menuReturn()
 {
 	if (beforeState[beforeState.size() - 1] == NONE)
@@ -189,6 +198,11 @@ void GameMenu::menuReturn()
 		currentState = beforeState[beforeState.size() - 1];
 		beforeState.erase(beforeState.begin() + beforeState.size() - 1);
 	}
+}
+
+void GameMenu::backToMenu()
+{
+	menu = true;
 }
 
 void GameMenu::menuPlay()

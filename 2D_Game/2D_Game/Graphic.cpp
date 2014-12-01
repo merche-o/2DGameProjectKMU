@@ -3,8 +3,8 @@
 #include "Utils.h"
 #include <iostream>
 
-Graphic::Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & e, std::vector<Bullet*> & b,std::vector<Item*> &i, Ressources & ressource, float & Time)
-	: Display(w), win(w), map(m), player(p), ennemyList(e), bulletList(b), itemList(i),ress(ressource), loopTime(Time)
+Graphic::Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & e, std::vector<Bullet*> & b, std::vector<Item*> &i, Ressources & ressource, float & Time)
+	: Display(w), win(w), map(m), player(p), ennemyList(e), bulletList(b), itemList(i), ress(ressource), loopTime(Time)
 {
 }
 
@@ -39,25 +39,28 @@ void Graphic::affInterface()
 	int sec = (int)t % 60;
 	loadText(18 * Settings::CASE_SIZE, 0, font, std::string(testDecade(min) + IntToString(min) + ":" + testDecade(sec) + IntToString(sec)), 32, 250, 180, 60);
 	
-	/*** Player 1 ***/
-	loadText(1 * Settings::CASE_SIZE, 0, font, std::string("Player1"), 32, 250, 250, 60);
-	// Score
-	loadText(4 * Settings::CASE_SIZE, 0, font, std::string("Score " + IntToString(player[0]->score)), 32, 250, 250, 60);
-	// Ammo
-	texture.loadFromFile("../Ressources/Images/IAmmo.png");
-	loadImage(4 * Settings::CASE_SIZE, 1 * Settings::CASE_SIZE, texture);
-	loadText(5 * Settings::CASE_SIZE, 1 * Settings::CASE_SIZE, font, IntToString(player[0]->weapon[0]->ammo), 32, 250, 250, 60);
-	// Life
-	texture.loadFromFile("../Ressources/Images/LifeBar.png");
-	for (int j = 0; j < player[0]->life; ++j)
+	for (int i = 0; i < player.size(); ++i)
 	{
-		loadImage(1 * Settings::CASE_SIZE + (j * texture.getSize().x), 1 * Settings::CASE_SIZE, texture);
-	}
-	// Shield
-	texture.loadFromFile("../Ressources/Images/ShieldBar.png");
-	for (int k = player[0]->life; k < player[0]->life + player[0]->shield; ++k)
-	{
-		loadImage(1 * Settings::CASE_SIZE + (k * texture.getSize().x), 1 * Settings::CASE_SIZE, texture);
+		/*** Player n ***/
+		loadText(1 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 0, font, std::string("Player" + IntToString(i + 1)), 32, 250, 250, 60);
+		// Score
+		loadText(4 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 0, font, std::string("Score " + IntToString(player[i]->score)), 32, 250, 250, 60);
+		// Ammo
+		texture.loadFromFile("../Ressources/Images/IAmmo.png");
+		loadImage(4 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, texture);
+		loadText(5 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, font, IntToString(player[i]->weapon[0]->ammo), 32, 250, 250, 60);
+		// Life
+		texture.loadFromFile("../Ressources/Images/LifeBar.png");
+		for (int j = 0; j < player[i]->life; ++j)
+		{
+			loadImage(1 * Settings::CASE_SIZE + (j * texture.getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, texture);
+		}
+		// Shield
+		texture.loadFromFile("../Ressources/Images/ShieldBar.png");
+		for (int k = player[i]->life; k < player[i]->life + player[i]->shield; ++k)
+		{
+			loadImage(1 * Settings::CASE_SIZE + (k * texture.getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, texture);
+		}
 	}
 }
 
@@ -126,6 +129,21 @@ void Graphic::affBullets()
 	for (int i = 0; i < bulletList.size(); ++i)
 	{
 		loadImage(bulletList[i]->x, bulletList[i]->y + Settings::HEIGHT_INTERFACE, bulletList[i]->texture);
+	}
+}
+
+void Graphic::affSpell()
+{
+	if (player[0]->spell.play == true)
+	{
+		sf::Sprite Sprite;
+
+		Sprite.setTexture(player[0]->spell.texture);
+		Sprite.scale(player[0]->spell.scaleX, player[0]->spell.scaleY);
+	
+		Sprite.setOrigin(16, 16);
+		Sprite.setPosition(player[0]->spell.x, player[0]->spell.y);
+		loadSprite(Sprite);
 	}
 }
 

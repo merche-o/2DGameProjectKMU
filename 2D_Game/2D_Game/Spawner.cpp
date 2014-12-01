@@ -6,6 +6,8 @@
 Spawner::Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList, float &LoopTime)
 	: ennemies(ennemyList), itemList(itemList), posx(-2), posy(0), spawnPosState(UP_LEFT), loopTime(LoopTime)
 {
+
+
 }
 
 Spawner::~Spawner(void)
@@ -52,12 +54,41 @@ void Spawner::spawnEnnemies(std::vector <AUnit*> &ennemy)
 	
 }
 
-void Spawner::spawnAmmo()
+void Spawner::spawnAmmo(Player *src, sf::Texture texture, Map *map)
 {
 	e_dir dir;
-
+	float x;
+	float y;
 	// mettre un timer de pop ammo dans la weapon dans ressources, se baser dessus pour pop les ammo de l'arme en question
+	int i= 0;
+	while (i < src->weapon.size())
+		{
+			src->weapon[i]->spawn = src->weapon[i]->timer.getElapsedTime();
+			if (src->weapon[i]->spawn.asSeconds() >= src->weapon[i]->spawnTime)
+				{
+					src->weapon[i]->timer.restart();
+					if (setAmmoSpawnerPos(map,x , y) == false)
+						return;
+					itemList.push_back(new Ammo(x, y, 5,loopTime, texture, Item::AMMO,src->weapon[i]->type));
+			//	changePlaceSpawner();
+			}
+		
+			i++;
+		}
+	
+	
+}
 
-	//itemList.push_back(new Ammo());
-	changePlaceSpawner();
+bool Spawner::setAmmoSpawnerPos(Map *map, float &x, float &y)
+{
+int i;
+
+i = map->platform.size();
+srand(loopTime * 100000);
+i = rand() %i;
+if (i == 0)
+	return false;
+x = map->platform[i]->x + ((map->platform[i]->length * Settings::CASE_SIZE) /2);
+				y = map->platform[i]->y - Settings::CASE_SIZE;
+return true;
 }

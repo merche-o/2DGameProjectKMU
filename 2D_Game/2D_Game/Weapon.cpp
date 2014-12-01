@@ -1,10 +1,11 @@
 #include "Weapon.h"
 
 
-Weapon::Weapon(int Damage, float FireRate, int Range, int Speed, int NumPlayer)
-	: ammo(10), damage(Damage), fireRate(FireRate), range(Range), speed(Speed), numPlayer(NumPlayer)
+Weapon::Weapon(int Damage, float FireRate, int Range, int Speed, int NumPlayer, Item::itemType WeaponType)
+	: ammo(10), damage(Damage), fireRate(FireRate), range(Range), speed(Speed), numPlayer(NumPlayer), type(WeaponType)
 {
 	fireRateCount = fireRate;
+	spawnTime = 50;
 }
 
 Weapon::Weapon(int Damage, float FireRate, int Range, int Speed)

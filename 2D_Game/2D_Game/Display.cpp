@@ -23,6 +23,11 @@ void Display::loadImage(float x, float y, sf::Texture & Texture, int transparenc
 	win.draw(Sprite);
 }
 
+void Display::loadSprite(sf::Sprite Sprite)
+{
+	win.draw(Sprite);
+}
+
 void Display::loadUnit(AUnit* unit)
 {
 	sf::Sprite	Sprite;

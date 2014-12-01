@@ -34,6 +34,7 @@ void IA::basicIA(Enemy *src)
 	src->prevY = src->y;
 	src->prevX = src->x;
 	int dir = _ref.colliderCheck(src, Event::I_NONE);
+
 	
 	if (dir == 3 && src->dir == RIGHT)
 		{
@@ -70,4 +71,11 @@ void IA::basicIA(Enemy *src)
 	 src->inputMap[Event::I_RIGHT] = false;
 	 src->nextFrame();
 	 }	
+}
+
+void IA::randIA(Enemy *src)
+ {
+	
+	basicIA(src);
+	
 }

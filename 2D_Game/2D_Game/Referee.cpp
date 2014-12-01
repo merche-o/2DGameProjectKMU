@@ -8,6 +8,7 @@ Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList,
 	collideManager.push_back(&Referee::collideBonus);
 	collideManager.push_back(&Referee::collideWall);
 	_res.texture["coin"].loadFromFile("../Ressources/Images/ShieldBar.png");
+	_res.texture["ammo"].loadFromFile("../Ressources/Images/Ammo0.png");
 }
 
 
@@ -39,6 +40,19 @@ int 	Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 		{
 			if (_itemList[i]->type == Item::COINS)
 				((Player *)src)->score += _itemList[i]->score;
+			if(_itemList[i]->type == Item::AMMO)
+				{
+					int i2 = 0;
+					while (i2 < ((Player*)src)->weapon.size())
+						{
+
+						if (((Player*)src)->weapon[i2]->type == ((Ammo *)(_itemList[i]))->weaponType)
+						((Player *)src)->weapon[i2]->ammo += 10;
+						i2++;	
+					}
+				}
+			
+				
 			_itemList.erase(_itemList.begin() + i);
 			return 5;
 		}
@@ -165,6 +179,18 @@ void Referee::cleanEnemyList()
 			}
 	}
 }
+
+void Referee::cleanItemList(){
+	for (int i = 0; i < this->_itemList.size(); i++)
+	{
+		this->_itemList[i]->timeSpawn += loopTime;
+		if (this->_itemList[i]->lifeTime <  this->_itemList[i]->timeSpawn)
+			{this->_itemList.erase(_itemList.begin() + i);
+			std::cout << "Should delete something" << std::endl; 
+		}
+	}
+}
+
 
 void Referee::dropCoins(Enemy *src)
 {

@@ -4,11 +4,13 @@
 
 class Ammo : public Item
 {
-private:
+	
+public:
 	//type
 
+	Item::itemType weaponType;
 public:
-	Ammo(float X, float Y);
+	Ammo(float X, float Y, float lifeTime, float loopTime,sf::Texture texture, Item::itemType iType, Item::itemType wType);
 	~Ammo(void);
 };
 
