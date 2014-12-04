@@ -14,7 +14,8 @@ public:
 	float invTime;
 	//::vector<Weapon*> weapon;
 	std::vector<Bonus*> bonus;
-
+	float inDash;
+		float tmpTime;
 	Spell spell;
 	int numPlayer;
 
