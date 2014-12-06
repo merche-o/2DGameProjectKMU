@@ -81,6 +81,7 @@ void PhysicEngine::moveLeft(AUnit *src)
 	if (((Player *)src)->inDash == 2 && ((Player *)src)->tmpTime < 0.2)
 		{
 			((Player *)src)->inDash = 3;
+			src->x -= (src->speed * 5 * src->loopTime);
 		//	std::cout << "DASH UP" << std::endl;
 }
 }
@@ -95,7 +96,8 @@ void PhysicEngine::moveRight(AUnit *src)
 		((Player *)src)->inDash = -1;
 	if (((Player *)src)->inDash == -2 && ((Player *)src)->tmpTime < 0.2)
 		{
-			((Player *)src)->inDash = -3;
+				((Player *)src)->inDash = -3;
+			src->x += (src->speed * 5 * src->loopTime);
 		//	std::cout << "DASH DOWN" << std::endl;
 			}
 
