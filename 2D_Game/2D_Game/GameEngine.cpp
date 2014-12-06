@@ -42,6 +42,7 @@ void GameEngine::resetElement()
 				bulletList.clear();
 				itemList.clear();
 				player[0]->init(ressources);
+				graphic.resetInterface();
 				//player.clear();
 				//player.push_back(new Player(ressources, loopTime, 0));
 				globalClock.restart();
