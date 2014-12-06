@@ -195,6 +195,9 @@ void GameMenu::menuReturn()
 		win.close();
 	else
 	{
+		if (currentState == PAUSE && beforeState[beforeState.size() -1] == MAIN)
+			menu= true;
+
 		currentState = beforeState[beforeState.size() - 1];
 		beforeState.erase(beforeState.begin() + beforeState.size() - 1);
 	}
@@ -202,12 +205,19 @@ void GameMenu::menuReturn()
 
 void GameMenu::backToMenu()
 {
+	
 	menu = true;
 }
 
 void GameMenu::menuPlay()
 {
 	start = true;
+	if (beforeState.size() > 2 )
+		{
+			
+				currentState = MAIN;
+		beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+}
 }
 
 void GameMenu::addTextMenu(e_state state, TextMenu * text)

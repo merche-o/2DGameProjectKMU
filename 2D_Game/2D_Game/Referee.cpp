@@ -186,7 +186,7 @@ void Referee::cleanItemList(){
 		this->_itemList[i]->timeSpawn += loopTime;
 		if (this->_itemList[i]->lifeTime <  this->_itemList[i]->timeSpawn)
 			{this->_itemList.erase(_itemList.begin() + i);
-			std::cout << "Should delete something" << std::endl; 
+	
 		}
 	}
 }

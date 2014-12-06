@@ -81,7 +81,7 @@ void PhysicEngine::moveLeft(AUnit *src)
 	if (((Player *)src)->inDash == 2 && ((Player *)src)->tmpTime < 0.2)
 		{
 			((Player *)src)->inDash = 3;
-			std::cout << "DASH UP" << std::endl;
+		//	std::cout << "DASH UP" << std::endl;
 }
 }
 
@@ -96,7 +96,7 @@ void PhysicEngine::moveRight(AUnit *src)
 	if (((Player *)src)->inDash == -2 && ((Player *)src)->tmpTime < 0.2)
 		{
 			((Player *)src)->inDash = -3;
-			std::cout << "DASH DOWN" << std::endl;
+		//	std::cout << "DASH DOWN" << std::endl;
 			}
 
 }
@@ -142,6 +142,8 @@ void PhysicEngine::moveDown(AUnit *src)
 
 void PhysicEngine::useBonus(AUnit *src)
 {
+	if (src->isPlayer == true)
+	((Player *)src)->spell.launch();
 	return;
 }
 
