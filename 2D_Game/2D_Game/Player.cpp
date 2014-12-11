@@ -26,8 +26,8 @@ void Player::init(Ressources &Ress)
 {
 	x = -2;
 	y = 0;
-	life = 3;
-	shield = 3;
+	life = 2;
+	shield = 1;
 	int i = 0;
 	while (i < 9)
 	{

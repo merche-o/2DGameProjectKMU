@@ -31,11 +31,11 @@ void Event::checkEvent(bool & pause)
 			else if (event.key.code == sf::Keyboard::Right)
 				player[0]->inputMap[Event::I_FIRE_RIGHT] = true;
 			/*** MOVE EVENTS ***/
-			else if (event.key.code == sf::Keyboard::Z)
+			else if (event.key.code == sf::Keyboard::W)
 				player[0]->inputMap[Event::I_UP] = true;
 			else if (event.key.code == sf::Keyboard::S)
 				player[0]->inputMap[Event::I_DOWN] = true;
-			else if (event.key.code == sf::Keyboard::Q)
+			else if (event.key.code == sf::Keyboard::A)
 			{
 				player[0]->dir = LEFT;
 				player[0]->inputMap[Event::I_LEFT] = true;
@@ -58,11 +58,11 @@ void Event::checkEvent(bool & pause)
 				player[0]->inputMap[Event::I_FIRE_LEFT] = false;
 			else if (event.key.code == sf::Keyboard::Right)
 				player[0]->inputMap[Event::I_FIRE_RIGHT] = false;
-			else if (event.key.code == sf::Keyboard::Z)
+			else if (event.key.code == sf::Keyboard::W)
 				player[0]->inputMap[Event::I_UP] = false;
 			else if (event.key.code == sf::Keyboard::S)
 				player[0]->inputMap[Event::I_DOWN] = false;
-			else if (event.key.code == sf::Keyboard::Q)
+			else if (event.key.code == sf::Keyboard::A)
 				player[0]->inputMap[Event::I_LEFT] = false;
 			else if (event.key.code == sf::Keyboard::D)
 				player[0]->inputMap[Event::I_RIGHT] = false;

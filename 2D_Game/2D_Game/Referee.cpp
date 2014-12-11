@@ -35,27 +35,30 @@ int 	Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 	{
 		for (int i = 0; i < this->_itemList.size(); i++)
 		{
-			if (src->x  <= this->_itemList[i]->x + Settings::CASE_SIZE  && src->x > this->_itemList[i]->x
-			&&  src->y >= this->_itemList[i]->y && src->y <= this->_itemList[i]->y + Settings::CASE_SIZE)
+			bool intersection;
+			if (src->x + Settings::CASE_SIZE < this->_itemList[i]->x || this->_itemList[i]->x < src->x
+			||  src->y + Settings::CASE_SIZE < this->_itemList[i]->y || this->_itemList[i]->y < src->y)
 		{
-			if (_itemList[i]->type == Item::COINS)
+			intersection = false;
+		}
+			else
+			{
+				intersection = true;
+				if (_itemList[i]->type == Item::COINS)
 				((Player *)src)->score += _itemList[i]->score;
 			if(_itemList[i]->type == Item::AMMO)
 				{
 					int i2 = 0;
 					while (i2 < ((Player*)src)->weapon.size())
 						{
-
-						if (((Player*)src)->weapon[i2]->type == ((Ammo *)(_itemList[i]))->weaponType)
-						((Player *)src)->weapon[i2]->ammo += 10;
-						i2++;	
-					}
+							if (((Player*)src)->weapon[i2]->type == ((Ammo *)(_itemList[i]))->weaponType)
+							((Player *)src)->weapon[i2]->ammo += 10;
+								i2++;	
+						}
 				}
-			
-				
 			_itemList.erase(_itemList.begin() + i);
 			return 5;
-		}
+			}
 		}
 	}
 	return -1;
@@ -114,16 +117,22 @@ int Referee::collideEnemy(AUnit  *src, Event::Input const &btn)
 	{
 		for (int i = 0; i < this->_enemyList.size(); i++)
 		{
-			if (src->x  <= this->_enemyList[i]->x + Settings::CASE_SIZE  && src->x > this->_enemyList[i]->x
-			&&  src->y >= this->_enemyList[i]->y && src->y <= this->_enemyList[i]->y + Settings::CASE_SIZE)
+			bool intersection;
+			if (	src->x + Settings::CASE_SIZE < this->_enemyList[i]->x || this->_enemyList[i]->x + Settings::CASE_SIZE < src->x 
+				||	src->y + Settings::CASE_SIZE < this->_enemyList[i]->y || this->_enemyList[i]->y + Settings::CASE_SIZE < src->y)
 			{
-				if (src->y > src->prevY)
-				{
-					this->_enemyList[i]->getHit(10);
-					return -1;
-				}
-				return 2;
+				intersection = false;
 			}
+			else
+				{
+					intersection = true;
+					if (src->y > src->prevY)
+					{
+						this->_enemyList[i]->getHit(10);
+						return -1;
+					}
+				return 2;
+				}
 		}
 	}
 	return -1;
@@ -140,12 +149,11 @@ for (int i = 0; i < this->_map.platform.size(); i++)
 				src->x							<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 			{				
 				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
-
-				// Fais bouger avec la platform si cette derniere bouge
-		if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_LEFT)
-			src->x -= (this->_map.platform[i]->speed * src->loopTime);
-		else if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_RIGHT)
-			src->x += (this->_map.platform[i]->speed * src->loopTime);
+		//		// Fais bouger avec la platform si cette derniere bouge
+		//if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_LEFT)
+		//	src->x -= (this->_map.platform[i]->speed * src->loopTime);
+		//else if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_RIGHT)
+		//	src->x += (this->_map.platform[i]->speed * src->loopTime);
 
 				return false;
 			}
@@ -154,11 +162,11 @@ for (int i = 0; i < this->_map.platform.size(); i++)
 			{
 				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
 
-				// Fais bouger avec la platform si cette derniere bouge
-		if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_LEFT)
-			src->x -= (this->_map.platform[i]->speed * src->loopTime);
-		else if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_RIGHT)
-			src->x += (this->_map.platform[i]->speed * src->loopTime);
+		//		// Fais bouger avec la platform si cette derniere bouge
+		//if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_LEFT)
+		//	src->x -= (this->_map.platform[i]->speed * src->loopTime);
+		//else if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_RIGHT)
+		//	src->x += (this->_map.platform[i]->speed * src->loopTime);
 
 				return false;
 			}
@@ -263,14 +271,20 @@ void Referee::bulletHit(std::vector<Player *> &_player)
 	{
 		for (int i2 = 0; i2 < this->_enemyList.size(); i2++)
 		{
-			if (this->_bulletList[i]->x  <= this->_enemyList[i2]->x + Settings::CASE_SIZE  && this->_bulletList[i]->x > this->_enemyList[i2]->x
-			&&  this->_bulletList[i]->y >= this->_enemyList[i2]->y && this->_bulletList[i]->y <= this->_enemyList[i2]->y + Settings::CASE_SIZE)
+			bool intersection;
+
+			if (this->_enemyList[i2]->x  + Settings::CASE_SIZE < this->_bulletList[i]->x || this->_bulletList[i]->x < this->_enemyList[i2]->x
+			||  this->_enemyList[i2]->y  + Settings::CASE_SIZE < this->_bulletList[i]->y || this->_bulletList[i]->y < this->_enemyList[i2]->y)
 				{
-					this->_enemyList[i2]->getHit(this->_bulletList[i]->damage);
-				
-					this->_bulletList.erase(this->_bulletList.begin() + i);
-					return ;
+					intersection = false;
 				}
+			else
+			{
+				intersection = true;
+				this->_enemyList[i2]->getHit(this->_bulletList[i]->damage);
+				this->_bulletList.erase(this->_bulletList.begin() + i);
+				return ;
+			}
 		}
 	}
 	return;		   
