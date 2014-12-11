@@ -6,6 +6,7 @@
 Graphic::Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & e, std::vector<Bullet*> & b, std::vector<Item*> &i, Ressources & ressource, float & Time)
 	: Display(w), win(w), map(m), player(p), ennemyList(e), bulletList(b), itemList(i), ress(ressource), loopTime(Time)
 {
+	time =0;
 }
 
 
@@ -25,6 +26,10 @@ std::string testDecade(int n)
 	return ("");
 }
 
+void Graphic::resetInterface()
+	{
+		time = 0;
+}
 void Graphic::affInterface()
 {
 	/*** Fond Interface ***/

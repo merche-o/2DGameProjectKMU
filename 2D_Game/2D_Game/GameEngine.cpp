@@ -36,6 +36,17 @@ GameEngine::GameEngine(void)
 GameEngine::~GameEngine(void)
 {
 }
+void GameEngine::resetElement()
+{
+	ennemyList.clear();
+				bulletList.clear();
+				itemList.clear();
+				player[0]->init(ressources);
+				graphic.resetInterface();
+				//player.clear();
+				//player.push_back(new Player(ressources, loopTime, 0));
+				globalClock.restart();
+}
 
 void GameEngine::run()
 {
@@ -44,6 +55,7 @@ void GameEngine::run()
 		if (state == MENU)
 		{
 			menu.run();
+			
 			if (restart == true)
 				state = GAME;
 		}
@@ -51,13 +63,7 @@ void GameEngine::run()
 		{
 			if (restart == true)
 			{
-				ennemyList.clear();
-				bulletList.clear();
-				itemList.clear();
-				player[0]->init(ressources);
-				//player.clear();
-				//player.push_back(new Player(ressources, loopTime, 0));
-				globalClock.restart();
+				resetElement();
 				restart = false;
 			}
 			
@@ -79,7 +85,7 @@ void GameEngine::run()
 			physics.enemyAction();
 			map.checkPlatform();
 			
-			//player[0]->spell.launch();
+			
 
 			graphic.affSpell();
 			graphic.affInterface();
@@ -104,6 +110,7 @@ void GameEngine::run()
 			menu.run();
 			if (goMenu == true)
 			{
+				resetElement();
 				state = MENU;
 				goMenu = false;
 				pause = false;

@@ -31,5 +31,6 @@ public:
 	void affBullets();
 	void affSpell();
 	void affItems();
+	void resetInterface();
 };
 

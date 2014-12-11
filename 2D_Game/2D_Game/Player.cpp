@@ -15,7 +15,8 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 	shield = 3;
 	
 	score = 0;
-
+	tmpTime = 0;
+	inDash = 0;
 	spell.type = LASER;
 	isPlayer = true;
 	weapon.push_back(new Weapon(Ress.weapon[0]->damage, Ress.weapon[0]->fireRate, Ress.weapon[0]->range, Ress.weapon[0]->speed, numPlayer, Item::D_WEAPON));

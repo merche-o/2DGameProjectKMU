@@ -59,5 +59,6 @@ public:
 	~GameEngine(void);
 
 	void run();
+	void resetElement();
 };
 
