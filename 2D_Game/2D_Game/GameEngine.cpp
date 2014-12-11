@@ -13,8 +13,8 @@ GameEngine::GameEngine(void)
 		spawner(ennemyList, itemList, loopTime),
 		IA(ref, ennemyList) 
 {
-	ressources.loadEnnemiesFromFile("../Ressources/Ennemies.txt");
-	ressources.loadWeaponsFromFile("../Ressources/Weapons.txt");
+	ressources.loadEnnemiesFromFile("./Ressources/Ennemies.txt");
+	ressources.loadWeaponsFromFile("./Ressources/Weapons.txt");
 	sound.musicOFF();
 	sound.playMusic(sound.music);
 

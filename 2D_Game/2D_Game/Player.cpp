@@ -5,7 +5,7 @@
 Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 	: AUnit(LoopTime), spell(x, y), numPlayer(NumPlayer)
 {
-	texture.loadFromFile("../Ressources/Images/Player.png");
+	texture.loadFromFile("./Ressources/Images/Player.png");
 	x = -2;
 	y = 0;
 	width = 32;

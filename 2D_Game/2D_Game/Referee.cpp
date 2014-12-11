@@ -7,8 +7,8 @@ Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList,
 	collideManager.push_back(&Referee::collideEnemy);
 	collideManager.push_back(&Referee::collideBonus);
 	collideManager.push_back(&Referee::collideWall);
-	_res.texture["coin"].loadFromFile("../Ressources/Images/ShieldBar.png");
-	_res.texture["ammo"].loadFromFile("../Ressources/Images/Ammo0.png");
+	_res.texture["coin"].loadFromFile("./Ressources/Images/ShieldBar.png");
+	_res.texture["ammo"].loadFromFile("./Ressources/Images/Ammo0.png");
 }
 
 
