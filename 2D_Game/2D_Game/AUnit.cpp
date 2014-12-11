@@ -17,7 +17,7 @@ AUnit::AUnit(float &LoopTime) : loopTime(LoopTime)
 		++i;
 	}
 	doubleJump = true;
-	fallingSpeed = 10 * Settings::CASE_SIZE;
+	fallingSpeed = 12 * Settings::CASE_SIZE;
 	prevX = x;
 	prevY = y;
 	isPlayer = false;
@@ -37,7 +37,7 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 	texture.loadFromFile(TextureFile);
 	width = texture.getSize().x / 3;
 	height = texture.getSize().y / 2;
-	fallingSpeed = 10 * Settings::CASE_SIZE;
+	fallingSpeed = 12 * Settings::CASE_SIZE;
 	timeDone = 0;
 		int i = 0;
 	while (i < 9)
@@ -73,7 +73,7 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture
 		++i;
 	}
 	doubleJump = true;
-	fallingSpeed = 10 * Settings::CASE_SIZE;
+	fallingSpeed = 12 * Settings::CASE_SIZE;
 	prevX = x;
 	prevY = y;
 	isPlayer = false;

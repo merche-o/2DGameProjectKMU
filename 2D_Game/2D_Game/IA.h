@@ -12,13 +12,13 @@ class IA
 private:
 	Referee &_ref;
 	std::vector<AUnit*> &_ennemyList;
-	void fillInputMap(Enemy  *);
-	void basicIA(Enemy *);
-	void randIA(Enemy *src);
-	std::map<enemy_type, void(IA:: *)(Enemy *src)> IAManager;
+	void fillInputMap(Enemy  *,float x, float y);
+	void basicIA(Enemy *, float x, float y);
+	void randIA(Enemy *src, float x, float y);
+	std::map<enemy_type, void(IA:: *)(Enemy *src, float x, float y)> IAManager;
 
 public:
-	void setEnnemiesIM();
+	void setEnnemiesIM(float x, float y);
 	IA(Referee &,  std::vector<AUnit*>  &enemylist);
 	~IA(void);
 };

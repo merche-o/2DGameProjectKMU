@@ -23,8 +23,8 @@ Platform::Platform(int X, int Y, int Length, float & Time)
 		type = DAMAGE;
 
 	isMorphing = false;
-	activMorph = 200;
-	morphTime = 2;
+	activMorph = 60;
+	morphTime = 1;
 	transp = 255;
 	speed = 1 * Settings::CASE_SIZE;
 }

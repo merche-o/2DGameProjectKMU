@@ -10,7 +10,7 @@ IA::~IA(void)
  {
  }
 
-void IA::setEnnemiesIM()
+void IA::setEnnemiesIM(float x, float y)
 {
 	int i;
 
@@ -18,18 +18,18 @@ void IA::setEnnemiesIM()
 
 	while (i < _ennemyList.size())
 		{
-			fillInputMap((Enemy *)_ennemyList[i]);
+			fillInputMap((Enemy *)_ennemyList[i],x,y);
 			++i;
 		}
 
 }
 
-void IA::fillInputMap(Enemy *src)
+void IA::fillInputMap(Enemy *src, float x, float y)
 {
-	(this->*(IAManager[src->etype]))(src);		
+	(this->*(IAManager[src->etype]))(src,x,y);		
 }
 
-void IA::basicIA(Enemy *src)
+void IA::basicIA(Enemy *src, float x, float y)
 {
 	src->prevY = src->y;
 	src->prevX = src->x;
@@ -58,7 +58,19 @@ void IA::basicIA(Enemy *src)
 		src->fallingSpeed = 10 * Settings::CASE_SIZE;
 		//src->doubleJump = true;
 	}
-	
+		// Check with Player position
+	if ( y == src->y)
+	{
+		if (x < src->x)
+		{
+			src->dir = LEFT;
+		}
+		else if (x > src->x)
+		{
+			src->dir = RIGHT;
+		}
+	}
+
 	if (src->dir == RIGHT)
 	{
 	 src->inputMap[Event::I_LEFT] = false;
@@ -73,9 +85,9 @@ void IA::basicIA(Enemy *src)
 	 }	
 }
 
-void IA::randIA(Enemy *src)
+void IA::randIA(Enemy *src,float x, float y)
  {
 	
-	basicIA(src);
+	basicIA(src,x,y);
 	
 }

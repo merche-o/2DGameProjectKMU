@@ -19,8 +19,6 @@ Map::Map(float & Time)
 	createPlatform(0, 4, 4, true);
 	createPlatform(1, 0, width_map - 2);
 
-	createPlatform(7, 21, 1);
-	createPlatform(width_map - 7, 21, 1);
 }
 
 
