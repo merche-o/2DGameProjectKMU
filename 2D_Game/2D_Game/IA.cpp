@@ -1,3 +1,4 @@
+//Joris & Olivier
 #include "IA.h"	
 
 IA::IA(Referee &ref,  std::vector<AUnit*>  &enemylist)
@@ -10,6 +11,7 @@ IA::~IA(void)
  {
  }
 
+//Use different IA type
 void IA::setEnnemiesIM(float x, float y)
 {
 	int i;
@@ -48,17 +50,14 @@ void IA::basicIA(Enemy *src, float x, float y)
 		if (_ref.applyGravity(src) == true)
 	{
 		src->y += (src->fallingSpeed * (src->loopTime));
-		/*if (src->fallingSpeed < 25 * Settings::CASE_SIZE)
-			src->fallingSpeed += ((10 * Settings::CASE_SIZE)  * (src->loopTime));*/
 		_ref.applyGravity(src);
 	return;
 	}
 	else
 	{
 		src->fallingSpeed = 10 * Settings::CASE_SIZE;
-		//src->doubleJump = true;
 	}
-		// Check with Player position
+		// Check with Player position to follow him
 	if ( y == src->y)
 	{
 		if (x < src->x)

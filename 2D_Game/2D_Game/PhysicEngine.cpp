@@ -1,8 +1,10 @@
+//Joris
+
 #include "PhysicEngine.h"
 
 
-PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map & map, float  &LoopTime)
-: _player(player), _ennemyList(enemylist), _itemList(itemList), _bulletList(bulletList), _map(map), loopTime(LoopTime)
+PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map & map, float  &LoopTime, SoundEngine &sound)
+: _player(player), _ennemyList(enemylist), _itemList(itemList), _bulletList(bulletList), _map(map), loopTime(LoopTime), _sound(sound)
 {
 	//actionManager
 
@@ -81,7 +83,6 @@ void PhysicEngine::moveLeft(AUnit *src)
 		{
 			((Player *)src)->inDash = 3;
 			src->x -= (src->speed * 5 * src->loopTime);
-		//	std::cout << "DASH UP" << std::endl;
 }
 }
 
@@ -97,7 +98,6 @@ void PhysicEngine::moveRight(AUnit *src)
 		{
 				((Player *)src)->inDash = -3;
 			src->x += (src->speed * 5 * src->loopTime);
-		//	std::cout << "DASH DOWN" << std::endl;
 			}
 
 }
@@ -119,6 +119,7 @@ void PhysicEngine::Jump(AUnit *src)
 			}
 			if (src->state == U_NORMAL)
 			{
+				_sound.playSound(_sound.sound["jump"], true);
 				src->act = JUMP;
 				src->state = U_JUMP;
 				src->y -= (32) * Settings::CASE_SIZE * (src->loopTime);
@@ -156,9 +157,10 @@ void PhysicEngine::shootUp(AUnit *src)
 		{
 			src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
 		if (src->weapon[0]->ammo > 0)
+			{_sound.playSound(_sound.sound["shoot"], true);
 			this->_bulletList.push_back(src->weapon[0]->createBullet(src->x + (src->width /2), src->y,0, -1,loopTime));
+		}
 		}	
-	//return;
 }
 
 void PhysicEngine::shootDown(AUnit *src)
@@ -172,8 +174,10 @@ void PhysicEngine::shootLeft(AUnit *src)
 		{
 				src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
 			if (src->weapon[0]->ammo > 0)
+				{_sound.playSound(_sound.sound["shoot"], true);
 				this->_bulletList.push_back(src->weapon[0]->createBullet(src->x, src->y + src->height /2,-1, 0,loopTime));
 		}
+			}
 	
 	return;
 }
@@ -184,8 +188,10 @@ void PhysicEngine::shootRight(AUnit *src)
 		{
 				src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
 			if (src->weapon[0]->ammo > 0)
+				{_sound.playSound(_sound.sound["shoot"], true);
 				this->_bulletList.push_back(src->weapon[0]->createBullet(src->x + src->width, src->y+ (src->height /2),1, 0,loopTime));
 		}
+			}
 	return;
 }
 
@@ -197,6 +203,8 @@ void PhysicEngine::RmoveLeft(AUnit *src)
 	src->animFrame = 1;
 if (src->isPlayer == false)
 		return;
+
+//For Dash
 if(((Player *)src)->inDash == 1)
 	{
 		((Player *)src)->tmpTime = 0;
@@ -226,6 +234,8 @@ void PhysicEngine::RmoveRight(AUnit *src)
 	src->animFrame = 1;
 if (src->isPlayer == false)
 		return;
+
+//For Dash
 if(((Player *)src)->inDash == -1)
 	{
 		((Player *)src)->tmpTime = 0;

@@ -1,3 +1,6 @@
+
+//Marc
+
 #include "Player.h"
 #include "Settings.h"
 
@@ -18,9 +21,9 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 	tmpTime = 0;
 	inDash = 0;
 	spell.type = LASER;
+	spell.texture.loadFromFile("./Ressources/Images/laser.png");
 	isPlayer = true;
 	weapon.push_back(new Weapon(Ress.weapon[0]->damage, Ress.weapon[0]->fireRate, Ress.weapon[0]->range, Ress.weapon[0]->speed, numPlayer, Item::D_WEAPON));
-	//weapon.push_back(new Weapon(Ress.weapon[0]->damage, Ress.weapon[0]->fireRate, Ress.weapon[0]->range, Ress.weapon[0]->speed));
 }
 
 void Player::init(Ressources &Ress)

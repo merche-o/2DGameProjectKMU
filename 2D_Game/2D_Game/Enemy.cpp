@@ -1,3 +1,5 @@
+// Olivier
+
 #include "Enemy.h"
 
 
@@ -15,13 +17,7 @@ Enemy::~Enemy(void)
 void Enemy::getHit(int dam)
 {
 		
-	if (this->shield > 0 )
-			{this->l_state = HIT;
-				this->shield-= dam;
-				if (this->shield < 0)
-					this->shield = 0;
-			}	
-		else if (this->life > 0)
+		 if (this->life > 0)
 			{this->l_state = HIT;
 			this->life-=dam;
 			}

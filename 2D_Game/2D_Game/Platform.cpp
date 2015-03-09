@@ -1,3 +1,5 @@
+// Marc
+
 #include "Platform.h"
 #include "Settings.h"
 #include <iostream>
@@ -11,6 +13,7 @@ Platform::Platform(int X, int Y, int Length, float & Time)
 		pos.push_back(std::make_pair((i * Settings::CASE_SIZE) + x, y));
 	}
 
+	// Choose a type randomly
 	srand(x + y + length);
 	int r = rand() % 4;
 	if (r == 0)
@@ -22,10 +25,10 @@ Platform::Platform(int X, int Y, int Length, float & Time)
 	else if (r == 3)
 		type = DAMAGE;
 
-	isMorphing = false;
-	activMorph = 60;
-	morphTime = 1;
-	transp = 255;
+	isMorphing = false; // not activ
+	activMorph = 60; // time before active
+	morphTime = 1; // time for animation
+	transp = 255; // transparency
 	speed = 1 * Settings::CASE_SIZE;
 }
 
@@ -34,6 +37,7 @@ Platform::~Platform(void)
 {
 }
 
+// Check for activation
 void Platform::checkMorphTime()
 {
 	if (isMorphing == false && morph > activMorph)
@@ -63,6 +67,7 @@ void Platform::playMorph(std::vector<Platform*> & platform)
 	}
 }
 
+// Delete useless platforms
 bool Platform::checkDead()
 {
 	if (type == DISAPPEAR && transp <= 0)

@@ -1,8 +1,10 @@
+// Joris & Olivier
+
 #include "Referee.h"
 
 
-Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList ,Map &map, float &LoopTime, Ressources &Res) 
-: _enemyList(enemylist), _itemList(itemList),_bulletList(bulletList), _map(map), loopTime(LoopTime), _res(Res)
+Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList ,Map &map, float &LoopTime, Ressources &Res, SoundEngine &sound) 
+: _enemyList(enemylist), _itemList(itemList),_bulletList(bulletList), _map(map), loopTime(LoopTime), _res(Res), _sound(sound)
 {
 	collideManager.push_back(&Referee::collideEnemy);
 	collideManager.push_back(&Referee::collideBonus);
@@ -16,6 +18,7 @@ Referee::~Referee()
 {
 }
 
+// Function to use all colliders
 int Referee::colliderCheck(AUnit  *src, Event::Input const &btn)
 {
 	int i = 0;
@@ -29,13 +32,14 @@ int Referee::colliderCheck(AUnit  *src, Event::Input const &btn)
 	return -1;
 }
 
+// collide function for all bonus items
 int 	Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 {
 	if (btn == Event::I_NONE && src->isPlayer == true)
 	{
 		for (int i = 0; i < this->_itemList.size(); i++)
 		{
-			bool intersection;
+			bool intersection; // factorised  algo for collide between 2 rectangles
 			if (src->x + Settings::CASE_SIZE < this->_itemList[i]->x || this->_itemList[i]->x < src->x
 			||  src->y + Settings::CASE_SIZE < this->_itemList[i]->y || this->_itemList[i]->y < src->y)
 		{
@@ -44,9 +48,10 @@ int 	Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 			else
 			{
 				intersection = true;
-				if (_itemList[i]->type == Item::COINS)
+				if (_itemList[i]->type == Item::COINS) // Check if it's a coin to increment this value
 				((Player *)src)->score += _itemList[i]->score;
-			if(_itemList[i]->type == Item::AMMO)
+				_sound.playSound(_sound.sound["coin"], true);
+			if(_itemList[i]->type == Item::AMMO) // check if it's an ammo to increment this value
 				{
 					int i2 = 0;
 					while (i2 < ((Player*)src)->weapon.size())
@@ -64,6 +69,8 @@ int 	Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 	return -1;
 }
 
+
+//check collision with wall
 int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 {
 	for (int i = 0; i < this->_map.platform.size(); i++)
@@ -88,29 +95,27 @@ int Referee::collideWall(AUnit  *src, Event::Input const &btn)
 								return 1;
 							}
 						}
-					/*if (btn == Event::I_RIGHT)
-						{*/
+					// check with right of player
 					else if (src->x + Settings::CASE_SIZE	>	this->_map.platform[i]->x  &&
 							src->x + Settings::CASE_SIZE	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 							{				
 								src->x = this->_map.platform[i]->x - Settings::CASE_SIZE - 1;
 								return 3;
 							}
-						//}
-					/*if (btn == Event::I_LEFT)
-						{*/
+					// check with left of player
 					else if (src->x			<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
 							src->x			>	this->_map.platform[i]->x)
 							{		
 								src->x = this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length + 1;
 								return 4;
 							}
-						//}
 				}
 		}	
 	return -1;
 }
 
+
+//collision with enemies
 int Referee::collideEnemy(AUnit  *src, Event::Input const &btn)
 {
 	if (btn == Event::I_NONE && src->isPlayer == true)
@@ -138,6 +143,8 @@ int Referee::collideEnemy(AUnit  *src, Event::Input const &btn)
 	return -1;
 }
 
+
+//function to apply gravity
 bool  Referee::applyGravity(AUnit  *src)
 {
 for (int i = 0; i < this->_map.platform.size(); i++)
@@ -149,25 +156,12 @@ for (int i = 0; i < this->_map.platform.size(); i++)
 				src->x							<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 			{				
 				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
-		//		// Fais bouger avec la platform si cette derniere bouge
-		//if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_LEFT)
-		//	src->x -= (this->_map.platform[i]->speed * src->loopTime);
-		//else if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_RIGHT)
-		//	src->x += (this->_map.platform[i]->speed * src->loopTime);
-
 				return false;
 			}
 			else if (src->x + Settings::CASE_SIZE	>=	this->_map.platform[i]->x  &&
 					src->x + Settings::CASE_SIZE	<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 			{
 				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
-
-		//		// Fais bouger avec la platform si cette derniere bouge
-		//if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_LEFT)
-		//	src->x -= (this->_map.platform[i]->speed * src->loopTime);
-		//else if (this->_map.platform[i]->isMorphing == true && this->_map.platform[i]->type == Platform::platform_type::GO_RIGHT)
-		//	src->x += (this->_map.platform[i]->speed * src->loopTime);
-
 				return false;
 			}
 		}
@@ -175,6 +169,8 @@ for (int i = 0; i < this->_map.platform.size(); i++)
 	return true;
 }
 
+
+//erase an enemy of the enemylist if he is dead
 void Referee::cleanEnemyList()
 {
 	for (int i = 0; i < this->_enemyList.size(); i++)
@@ -188,6 +184,7 @@ void Referee::cleanEnemyList()
 	}
 }
 
+
 void Referee::cleanItemList(){
 	for (int i = 0; i < this->_itemList.size(); i++)
 	{
@@ -199,11 +196,13 @@ void Referee::cleanItemList(){
 	}
 }
 
-
+//when an enemy diesm he drop a coin
 void Referee::dropCoins(Enemy *src)
 {
 	this->_itemList.push_back(new Coin(src->x, src->y, this->loopTime , 10 ,Item::COINS, _res.texture["coin"]));
 }
+
+// when player is hit, he is invincible
 void Referee::playerInvinsibility(Player *player)
 	{
 		if (player->l_state == HIT)
@@ -222,7 +221,9 @@ bool Referee::dealDamage(std::vector<Player *> &_player)
 		{
 			playerInvinsibility(_player[i]);
 			if (collideEnemy(_player[i], Event::I_NONE) == 2)
+			{	_sound.playSound(_sound.sound["hit"], true);
 			_player[i]->getHit(1);
+			}
 		i++;
 		}
 		i = 0;
@@ -280,6 +281,7 @@ void Referee::bulletHit(std::vector<Player *> &_player)
 				}
 			else
 			{
+				_sound.playSound(_sound.sound["hit"], true);
 				intersection = true;
 				this->_enemyList[i2]->getHit(this->_bulletList[i]->damage);
 				this->_bulletList.erase(this->_bulletList.begin() + i);

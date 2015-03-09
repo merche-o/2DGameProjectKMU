@@ -16,6 +16,7 @@ private:
 	{
 		MAIN,
 		SETTINGS,
+		HOWPLAY,
 		CREDITS,
 		PAUSE,
 		NONE
@@ -43,6 +44,7 @@ public:
 	~GameMenu(void);
 
 	void posInsideTheMenu();
+	void menuHowPlay();
 	void run();
 	void pause();
 	void displayCurrentMenu();

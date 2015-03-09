@@ -1,3 +1,5 @@
+// Marc
+
 #include "Display.h"
 #include "Settings.h"
 #include <iostream>
@@ -5,7 +7,7 @@
 Display::Display(sf::RenderWindow & w)
 	: win(w)
 {
-	font.loadFromFile("../Ressources/Text/Text.ttf");
+	font.loadFromFile("./Ressources/Text/Text.ttf");
 }
 
 

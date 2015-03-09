@@ -1,3 +1,5 @@
+// Olivier
+
 #include "Coin.h"
 
 

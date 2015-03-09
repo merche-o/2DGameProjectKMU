@@ -14,15 +14,15 @@
 
 class PhysicEngine
 {
-	//Enum tu put in Event
+	//Enum to put in Event
 public:
 	void playerAction(int playerId); 
 	void enemyAction();
 	void mapMove();
 	void projectileMove();
 	Referee *_referee;
-
-	PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map  &map, float  &LoopTime);
+	SoundEngine &_sound;
+	PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map  &map, float  &LoopTime, SoundEngine &sound);
 	~PhysicEngine(void);
 
 private:

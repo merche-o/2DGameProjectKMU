@@ -1,15 +1,15 @@
+// Marc
+
 #include "Spell.h"
 
 
 Spell::Spell(float & X, float & Y)
 	: px(X), py(Y)
 {
+	// List of spells relative to functions
 	actionSpell[EXPLOSION] = &Spell::explosion;
 	actionSpell[LASER] = &Spell::laser;
 
-	type = EXPLOSION;
-
-	texture.loadFromFile("../Ressources/Images/laser.png");
 	sf::Vector2u vec;
 	vec = texture.getSize();
 	width = vec.x;
@@ -26,13 +26,13 @@ Spell::~Spell(void)
 
 void Spell::launch()
 {
-	if (play == false)
+	if (play == false) // Take position of the player when launched
 	{
 		play = true;
 		x = px + 16;
 		y = py + 80;
 	}
-	else if (play == true)
+	else if (play == true) // Play the spell
 	{
 		(this->*(actionSpell[type]))();
 		if (scaleX > 5.0)
@@ -44,6 +44,7 @@ void Spell::launch()
 	}
 }
 
+// Scaling of spell when launched
 void Spell::explosion()
 {
 	scaleX += 0.1;

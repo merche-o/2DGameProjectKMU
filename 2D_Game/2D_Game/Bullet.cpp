@@ -1,3 +1,5 @@
+// Olivier
+
 #include "Bullet.h"
 
 
@@ -5,7 +7,7 @@ Bullet::Bullet(float X, float Y, int Damage, float Range, int DirX, int DirY, fl
 x(X), y(Y), damage(Damage), range(Range), dirX(DirX), dirY(DirY), speed(Speed * Settings::CASE_SIZE),loopTime(LoopTime), numPlayer(NumPlayer)
 {
 	type = NORMAL;
-	texture.loadFromFile("../Ressources/Images/bullet1.png");
+	texture.loadFromFile("./Ressources/Images/bullet1.png");
 	pX = x;
 	pY = y;
 }

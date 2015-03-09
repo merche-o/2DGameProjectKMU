@@ -1,3 +1,5 @@
+//Marc
+
 #include "Graphic.h"
 #include "Settings.h"
 #include "Utils.h"
@@ -34,7 +36,7 @@ void Graphic::affInterface()
 {
 	/*** Fond Interface ***/
 	sf::Texture texture;
-	texture.loadFromFile("../Ressources/Images/Interface.png");
+	texture.loadFromFile("./Ressources/Images/Interface.png");
 	loadImage(0, 0, texture);
 
 	/*** Chrono ***/
@@ -51,17 +53,17 @@ void Graphic::affInterface()
 		// Score
 		loadText(4 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 0, font, std::string("Score " + IntToString(player[i]->score)), 32, 250, 250, 60);
 		// Ammo
-		texture.loadFromFile("../Ressources/Images/IAmmo.png");
+		texture.loadFromFile("./Ressources/Images/IAmmo.png");
 		loadImage(4 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, texture);
 		loadText(5 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, font, IntToString(player[i]->weapon[0]->ammo), 32, 250, 250, 60);
 		// Life
-		texture.loadFromFile("../Ressources/Images/LifeBar.png");
+		texture.loadFromFile("./Ressources/Images/LifeBar.png");
 		for (int j = 0; j < player[i]->life; ++j)
 		{
 			loadImage(1 * Settings::CASE_SIZE + (j * texture.getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, texture);
 		}
 		// Shield
-		texture.loadFromFile("../Ressources/Images/ShieldBar.png");
+		texture.loadFromFile("./Ressources/Images/ShieldBar.png");
 		for (int k = player[i]->life; k < player[i]->life + player[i]->shield; ++k)
 		{
 			loadImage(1 * Settings::CASE_SIZE + (k * texture.getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, texture);
@@ -75,7 +77,7 @@ void Graphic::affMap()
 	int width_map = Settings::WIDTH / Settings::CASE_SIZE;
 	
 	sf::Texture texture;
-	texture.loadFromFile("../Ressources/Images/Wall.png");
+	texture.loadFromFile("./Ressources/Images/Wall.png");
 
 	for (int i = 0; i < map.platform.size(); ++i)
 	{
@@ -83,23 +85,15 @@ void Graphic::affMap()
 		{
 			// Display
 			if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DISAPPEAR)
-				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture/*ress.texture["wall"]*/, map.platform[i]->transp);
+				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture, map.platform[i]->transp);
 			else if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DAMAGE)
 			{
 				sf::Texture texture2;
-				texture2.loadFromFile("../Ressources/Images/WallDmg.png");
-				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture2/*ress.texture["wallDmg"]*/);
+				texture2.loadFromFile("./Ressources/Images/WallDmg.png");
+				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture2);
 			}
 			else
-				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture/*ress.texture["wall"]*/);
-			//for (int y = 0; y < height_map; ++y)
-			//{
-			//	for (int x = 0; x < width_map; ++x)
-			//	{
-			//		if (map[std::make_pair(y, x)].type == WALL)
-			//			loadImage(x * (float)Settings::CASE_SIZE, y * (float)Settings::CASE_SIZE, texture/*ress.texture["wall"]*/);
-			//	}
-			//}
+				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture);
 		}
 	}
 }

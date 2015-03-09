@@ -1,3 +1,4 @@
+//Marc
 #include "GameMenu.h"
 #include <iostream>
 
@@ -6,17 +7,29 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 {
 	refresh = true;
 	posMenu = 0;
-	currentState = MAIN;
-	beforeState.push_back(NONE);
+	currentState = MAIN; // Begin main menu
+	beforeState.push_back(NONE); // No previous page
 
+	/*****	MENU *****/
 	addTextMenu(MAIN, new TextMenu(350, 0, "Menu", 128, 250, 60, 60));
 	addKeyTextMenu(MAIN, new TextMenu(400, 200, "Play", 64), &GameMenu::menuPlay);
 	addKeyTextMenu(MAIN, new TextMenu(400, 300, "Settings", 64), &GameMenu::menuSettings);
-	addKeyTextMenu(MAIN, new TextMenu(400, 400, "Credits", 64), &GameMenu::menuCredits);
-	addKeyTextMenu(MAIN, new TextMenu(400, 500, "Quit", 64), &GameMenu::menuReturn);
+	addKeyTextMenu(MAIN, new TextMenu(400, 400, "How to Play", 64), &GameMenu::menuHowPlay);
+	addKeyTextMenu(MAIN, new TextMenu(400, 500, "Credits", 64), &GameMenu::menuCredits);
+	addKeyTextMenu(MAIN, new TextMenu(400, 600, "Quit", 64), &GameMenu::menuReturn);
 	
 	addTextMenu(SETTINGS, new TextMenu(350, 0, "Settings", 128, 250, 60, 60));
 	addKeyTextMenu(SETTINGS, new TextMenu(400, 200, "Back", 64), &GameMenu::menuReturn);
+
+	addTextMenu(HOWPLAY, new TextMenu(350, 0, "How to Play", 128, 250, 60, 60));
+	addTextMenu(HOWPLAY, new TextMenu(200, 200, "A : Left", 64, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(200, 300, "D : Right", 64, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(200, 400, "W : Jump", 64, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(600, 200, "Left Arrow : Fire left", 64, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(600, 300, "Right Arrow : Fire right", 64, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(600, 400, "Up Arrow : Fire up", 64, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(600, 500, "Space : Use spell", 64, 60, 250, 250));
+	addKeyTextMenu(HOWPLAY, new TextMenu(400, 600, "Back", 64), &GameMenu::menuReturn);
 
 	addTextMenu(CREDITS, new TextMenu(350, 0, "Credits", 128, 250, 60, 60));
 	addTextMenu(CREDITS, new TextMenu(300, 200, "Producer & Engine Dev :\tOlivier", 64, 60, 250, 150));
@@ -34,7 +47,7 @@ GameMenu::~GameMenu(void)
 {
 }
 
-void GameMenu::posInsideTheMenu()
+void GameMenu::posInsideTheMenu() // loop the cursor in menu
 {
 	if (posMenu < 0)
 		posMenu = sizeKeyTextMenu[currentState] - 1;
@@ -44,30 +57,31 @@ void GameMenu::posInsideTheMenu()
 
 void GameMenu::run()
 {
-	if (refresh == true)
+	if (refresh == true) // Refresh the screen only if necessary
 	{
-		if (isPushed == true)
+		if (isPushed == true) // Enter Event
 		{
-			if (posMenu != sizeKeyTextMenu[currentState] - 1) // If action != Return
+			if (posMenu != sizeKeyTextMenu[currentState] - 1) // If action != Return/Back
 				beforeState.push_back(currentState);
-			(this->*(actionMenu[std::make_pair(currentState, posMenu)]))();
-			posMenu = 0;
+			(this->*(actionMenu[std::make_pair(currentState, posMenu)]))(); // Call KeyTextMenu function
+			posMenu = 0; // Reset cursor to 0
 			isPushed = false;
-			if (start == true)
+			if (start == true) // Play the game
 			{
 				refresh = true;
 				return;
 			}
 		}
-		posInsideTheMenu();
+		posInsideTheMenu(); // Keep cursor inside the menu
 		
-		if (currentState != PAUSE)
+		if (currentState != PAUSE) // Do not clear the screen in Pause menu (we can see the game behind)
 			win.clear();
-		displayCurrentMenu();
+		displayCurrentMenu(); // Display texts
 		win.display();
 
 		refresh = false;
 	}
+	// Menu Event
 	if (currentState == PAUSE)
 		event.menuEvent(posMenu, isPushed, refresh, true);
 	else
@@ -100,6 +114,7 @@ void GameMenu::pause()
 	event.menuEvent(posMenu, isPushed, refresh, true);
 }
 
+// Display Texts
 void GameMenu::displayCurrentMenu()
 {
 	for (int i = 0; i < sizeTextMenu[currentState]; ++i)
@@ -116,7 +131,7 @@ void GameMenu::displayCurrentMenu()
 
 	for (int i = 0; i < sizeKeyTextMenu[currentState]; ++i)
 	{
-		if (posMenu == i)
+		if (posMenu == i) // Change color on cursor
 		{
 			loadText(keyTextMenu[std::make_pair(currentState, i)]->x, 
 					keyTextMenu[std::make_pair(currentState, i)]->y, 
@@ -174,6 +189,12 @@ void GameMenu::displayPause()
 	}
 }
 
+// Change state functions
+void GameMenu::menuHowPlay()
+{
+	currentState = HOWPLAY;
+}
+
 void GameMenu::menuCredits()
 {
 	currentState = CREDITS;
@@ -189,9 +210,10 @@ void GameMenu::menuPause()
 	currentState = PAUSE;
 }
 
+// Back to previous menu
 void GameMenu::menuReturn()
 {
-	if (beforeState[beforeState.size() - 1] == NONE)
+	if (beforeState[beforeState.size() - 1] == NONE) // Quit
 		win.close();
 	else
 	{
@@ -213,19 +235,20 @@ void GameMenu::menuPlay()
 {
 	start = true;
 	if (beforeState.size() > 2 )
-		{
-			
-				currentState = MAIN;
-		beforeState.erase(beforeState.begin() + beforeState.size() - 1);
-}
+		{	
+			currentState = MAIN;
+			beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+		}
 }
 
+// Simple texte
 void GameMenu::addTextMenu(e_state state, TextMenu * text)
 {
 	textMenu[std::make_pair(state, sizeTextMenu[state])] = text;
 	sizeTextMenu[state]++;
 }
 
+// Text linked to function
 void GameMenu::addKeyTextMenu(e_state state, TextMenu * text, void(GameMenu:: *p)())
 {
 	keyTextMenu[std::make_pair(state, sizeKeyTextMenu[state])] = text;

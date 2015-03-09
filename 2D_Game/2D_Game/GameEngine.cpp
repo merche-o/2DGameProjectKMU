@@ -1,3 +1,5 @@
+// Marc
+
 #include "GameEngine.h"
 #include <iostream>
 
@@ -8,8 +10,8 @@ GameEngine::GameEngine(void)
 		sound(),
 		map(loopTime),
 		event(window, player),
-		ref(ennemyList, itemList, bulletList, map, loopTime, ressources),
-		physics(player, ennemyList, itemList, bulletList, map, loopTime),
+		ref(ennemyList, itemList, bulletList, map, loopTime, ressources, sound),
+		physics(player, ennemyList, itemList, bulletList, map, loopTime, sound),
 		spawner(ennemyList, itemList, loopTime),
 		IA(ref, ennemyList) 
 {
@@ -18,8 +20,8 @@ GameEngine::GameEngine(void)
 	sound.musicOFF();
 	sound.playMusic(sound.music);
 
-
-	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME);
+	// Create window
+	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME, sf::Style::Fullscreen);
 	window.setFramerateLimit(30);
 
 	physics._referee = &ref;
@@ -36,16 +38,15 @@ GameEngine::GameEngine(void)
 GameEngine::~GameEngine(void)
 {
 }
+
 void GameEngine::resetElement()
 {
 	ennemyList.clear();
-				bulletList.clear();
-				itemList.clear();
-				player[0]->init(ressources);
-				graphic.resetInterface();
-				//player.clear();
-				//player.push_back(new Player(ressources, loopTime, 0));
-				globalClock.restart();
+	bulletList.clear();
+	itemList.clear();
+	player[0]->init(ressources);
+	graphic.resetInterface();
+	globalClock.restart();
 }
 
 void GameEngine::run()

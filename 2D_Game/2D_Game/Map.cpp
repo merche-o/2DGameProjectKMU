@@ -1,3 +1,5 @@
+// Marc
+
 #include "Map.h"
 #include "Settings.h"
 
@@ -39,6 +41,7 @@ void Map::createPlatform(int x, int y, int length, bool symmetry)
 	}
 }
 
+// Run function for platform
 void Map::checkPlatform()
 {
 	for (int i = 0; i < platform.size(); ++i)
