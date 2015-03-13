@@ -75,7 +75,12 @@ void GameEngine::run()
 			globalClock.restart();
 
 			if (ref.dealDamage(player) == false)
+			{
+					resetElement();
 				state = MENU;
+				goMenu = false;
+				pause = false;
+			}
 			ref.cleanEnemyList();
 			ref.cleanItemList();
 			ref.moveBullet(player);

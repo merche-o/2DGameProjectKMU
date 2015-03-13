@@ -73,6 +73,8 @@ void PhysicEngine::playerAction(int playerId)
 
 void PhysicEngine::moveLeft(AUnit *src)
 {
+	 if (src->x - (src->speed * src->loopTime) <= -5)
+		return;
 	src->x -= (src->speed * src->loopTime);
 	src->nextFrame();
 	if (src->isPlayer == false)
@@ -88,6 +90,9 @@ void PhysicEngine::moveLeft(AUnit *src)
 
 void PhysicEngine::moveRight(AUnit *src)
 {
+	//le 5 doit surement etre changer
+	if (src->x + (src->speed *src->loopTime) >= Settings::WIDTH_GAME + 5 - src->width )
+		return;
 	src->x += (src->speed *src->loopTime);
 	src->nextFrame();
 	if (src->isPlayer == false)

@@ -213,7 +213,7 @@ void GameMenu::menuPause()
 // Back to previous menu
 void GameMenu::menuReturn()
 {
-	if (beforeState[beforeState.size() - 1] == NONE) // Quit
+	if (beforeState[beforeState.size() - 1] == NONE || currentState == MAIN	) // Quit
 		win.close();
 	else
 	{
@@ -226,8 +226,7 @@ void GameMenu::menuReturn()
 }
 
 void GameMenu::backToMenu()
-{
-	
+{	
 	menu = true;
 }
 
