@@ -21,6 +21,7 @@ enum e_state
 {
 	MENU,
 	GAME,
+	ENDGAME,
 	PAUSE
 };
 

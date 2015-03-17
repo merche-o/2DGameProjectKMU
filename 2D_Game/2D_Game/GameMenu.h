@@ -18,13 +18,15 @@ private:
 		SETTINGS,
 		HOWPLAY,
 		CREDITS,
+		HIGHSCORE,
 		PAUSE,
 		NONE
 	};
-
+	void getScore();
 public:
 	sf::RenderWindow & win;
 	Parameters & param;
+	std::vector<std::string> scoreTable;
 	std::map<std::pair<e_state, int>, TextMenu*> textMenu;
 	std::map<std::pair<e_state, int>, void(GameMenu:: *)()> actionMenu;
 	std::map<std::pair<e_state, int>, TextMenu*> keyTextMenu;
@@ -50,6 +52,7 @@ public:
 	void displayCurrentMenu();
 	void displayPause();
 	void menuSettings();
+	void menuHighscore();
 	void menuCredits();
 	void menuPause();
 	void menuReturn();

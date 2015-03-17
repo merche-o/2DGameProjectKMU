@@ -77,7 +77,7 @@ void GameEngine::run()
 			if (ref.dealDamage(player) == false)
 			{
 					resetElement();
-				state = MENU;
+				state = ENDGAME;
 				goMenu = false;
 				pause = false;
 			}

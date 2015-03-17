@@ -1,6 +1,8 @@
 //Marc
 #include "GameMenu.h"
 #include <iostream>
+#include <fstream>
+#include <string>
 
 GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bool & m)
 	: Display(w), win(w), event(e), param(p), start(s), menu(m)
@@ -15,8 +17,9 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 	addKeyTextMenu(MAIN, new TextMenu(400, 200, "Play", 64), &GameMenu::menuPlay);
 	addKeyTextMenu(MAIN, new TextMenu(400, 300, "Settings", 64), &GameMenu::menuSettings);
 	addKeyTextMenu(MAIN, new TextMenu(400, 400, "How to Play", 64), &GameMenu::menuHowPlay);
-	addKeyTextMenu(MAIN, new TextMenu(400, 500, "Credits", 64), &GameMenu::menuCredits);
-	addKeyTextMenu(MAIN, new TextMenu(400, 600, "Quit", 64), &GameMenu::menuReturn);
+	addKeyTextMenu(MAIN, new TextMenu(400, 500, "Highscore", 64), &GameMenu::menuHighscore);
+	addKeyTextMenu(MAIN, new TextMenu(400, 600, "Credits", 64), &GameMenu::menuCredits);
+	addKeyTextMenu(MAIN, new TextMenu(400, 700, "Quit", 64), &GameMenu::menuReturn);
 	
 	addTextMenu(SETTINGS, new TextMenu(350, 0, "Settings", 128, 250, 60, 60));
 	addKeyTextMenu(SETTINGS, new TextMenu(400, 200, "Back", 64), &GameMenu::menuReturn);
@@ -30,6 +33,8 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 	addTextMenu(HOWPLAY, new TextMenu(600, 400, "Up Arrow : Fire up", 64, 60, 250, 250));
 	addTextMenu(HOWPLAY, new TextMenu(600, 500, "Space : Use spell", 64, 60, 250, 250));
 	addKeyTextMenu(HOWPLAY, new TextMenu(400, 600, "Back", 64), &GameMenu::menuReturn);
+
+	
 
 	addTextMenu(CREDITS, new TextMenu(350, 0, "Credits", 128, 250, 60, 60));
 	addTextMenu(CREDITS, new TextMenu(300, 200, "Producer & Engine Dev :\tOlivier", 64, 60, 250, 150));
@@ -195,6 +200,20 @@ void GameMenu::menuHowPlay()
 	currentState = HOWPLAY;
 }
 
+void GameMenu::menuHighscore()
+{
+	
+	getScore();
+	addTextMenu(HIGHSCORE, new TextMenu(350, 0, "Highscore", 128, 250, 60, 60));
+	addTextMenu(HIGHSCORE, new TextMenu(400, 150, "1 : " + scoreTable[0], 64, 60, 250, 250));
+	addTextMenu(HIGHSCORE, new TextMenu(400, 250, "2 : "+ scoreTable[1], 64, 60, 250, 250));
+	addTextMenu(HIGHSCORE, new TextMenu(400, 350, "3 : "+ scoreTable[2], 64, 60, 250, 250));
+	addTextMenu(HIGHSCORE, new TextMenu(400, 450, "4 : "+ scoreTable[3], 64, 60, 250, 250));
+	addTextMenu(HIGHSCORE, new TextMenu(400, 550, "5 : "+ scoreTable[4], 64, 60, 250, 250));
+	addKeyTextMenu(HIGHSCORE, new TextMenu(400, 650, "Back", 64), &GameMenu::menuReturn);
+	currentState = HIGHSCORE;
+}
+
 void GameMenu::menuCredits()
 {
 	currentState = CREDITS;
@@ -253,4 +272,27 @@ void GameMenu::addKeyTextMenu(e_state state, TextMenu * text, void(GameMenu:: *p
 	keyTextMenu[std::make_pair(state, sizeKeyTextMenu[state])] = text;
 	actionMenu[std::make_pair(state, sizeKeyTextMenu[state])] = p;
 	sizeKeyTextMenu[state]++;
+}
+
+void GameMenu::getScore()
+{
+	int rank; char score[100];
+	std::string fileName = "./Ressources/Highscore.txt";
+	std::ifstream file(fileName.c_str(), std::ios::in);
+	char line[256];
+	bool firstline = true;
+	if (file)
+	{
+		while(file.getline(line, 256))
+		{
+			if (firstline == true)
+				firstline = false;
+			else
+			{
+				int aNumb = sscanf_s(line, "%i:%s",&rank,&score);
+				scoreTable.push_back(score);
+			}
+		}
+		file.close();
+	}
 }
