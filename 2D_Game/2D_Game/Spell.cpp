@@ -6,10 +6,12 @@
 Spell::Spell(float & X, float & Y)
 	: px(X), py(Y)
 {
-	// List of spells relative to functions
 	actionSpell[EXPLOSION] = &Spell::explosion;
 	actionSpell[LASER] = &Spell::laser;
 
+	type = EXPLOSION;
+
+	texture.loadFromFile("./Ressources/Images/laser.png");
 	sf::Vector2u vec;
 	vec = texture.getSize();
 	width = vec.x;
@@ -26,25 +28,30 @@ Spell::~Spell(void)
 
 void Spell::launch()
 {
-	if (play == false) // Take position of the player when launched
+	if (launched == true)
 	{
+		launched = false;
 		play = true;
 		x = px + 16;
 		y = py + 80;
 	}
-	else if (play == true) // Play the spell
+	else if (play == true)
 	{
 		(this->*(actionSpell[type]))();
-		if (scaleX > 5.0)
+		if (type == EXPLOSION && scaleX > 5.0)
 		{
 			scaleX = 1.0;
 			scaleY = 1.0;
 			play = false;
 		}
+		else if (type == LASER && scaleX > 20.0);
+		{
+			scaleX = 1.0;
+			play = false;
+		}
 	}
 }
 
-// Scaling of spell when launched
 void Spell::explosion()
 {
 	scaleX += 0.1;

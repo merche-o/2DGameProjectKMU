@@ -3,6 +3,7 @@
 #include "SFML\Graphics.hpp"
 #include <iostream>
 #include "Weapon.h"
+#include "Particle.h"
 
 
 enum e_dir
@@ -68,6 +69,8 @@ public:
 	float prevX;
 	float prevY;
 	bool isPlayer;
+
+	std::vector<Particle*> particles;
 
 private:
 	

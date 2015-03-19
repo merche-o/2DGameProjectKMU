@@ -15,6 +15,16 @@ Display::~Display(void)
 {
 }
 
+void Display::loadCircle(float x, float y, float radius, sf::Color color, int transparency)
+{
+	sf::CircleShape circle;
+
+	circle.setRadius(radius);
+	circle.setFillColor(sf::Color(color.r, color.g, color.b, transparency));
+	circle.setPosition(x, y);
+	win.draw(circle);
+}
+
 void Display::loadImage(float x, float y, sf::Texture & Texture, int transparency)
 {
 	sf::Sprite		Sprite;

@@ -27,7 +27,7 @@ public:
 	std::vector<std::pair<int, int> > pos;
 	float activMorph;
 	float morphTime;
-	float & loopTime; // time of one gloabal loop
+	float & loopTime; // time of one global loop
 	float morph; // additionnal loopTime
 
 private:

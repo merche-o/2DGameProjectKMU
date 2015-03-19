@@ -21,7 +21,7 @@ GameEngine::GameEngine(void)
 	sound.playMusic(sound.music);
 
 	// Create window
-	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME, sf::Style::Fullscreen);
+	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME/*, sf::Style::Fullscreen*/);
 	window.setFramerateLimit(30);
 
 	physics._referee = &ref;
@@ -76,7 +76,7 @@ void GameEngine::run()
 
 			if (ref.dealDamage(player) == false)
 			{
-					resetElement();
+				resetElement();
 				state = ENDGAME;
 				goMenu = false;
 				pause = false;
@@ -91,8 +91,12 @@ void GameEngine::run()
 			physics.enemyAction();
 			map.checkPlatform();
 			
+			player[0]->createParticles();
 			
-
+			if (player[0]->spell.launched == true);
+				player[0]->spell.launch();
+			
+			/*** DISPLAY ***/
 			graphic.affSpell();
 			graphic.affInterface();
 			graphic.affMap();
@@ -113,6 +117,7 @@ void GameEngine::run()
 		}
 		else if (state == PAUSE)
 		{
+			graphic.affPauseBG();
 			menu.run();
 			if (goMenu == true)
 			{

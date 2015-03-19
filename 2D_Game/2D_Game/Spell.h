@@ -25,6 +25,7 @@ public:
 	float scaleX;
 	float scaleY;
 	bool play;
+	bool launched;
 
 public:
 	Spell(float & X, float & Y);

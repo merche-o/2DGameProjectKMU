@@ -8,7 +8,7 @@
 Graphic::Graphic(sf::RenderWindow & w, Map & m, std::vector<Player*> & p, std::vector<AUnit*> & e, std::vector<Bullet*> & b, std::vector<Item*> &i, Ressources & ressource, float & Time)
 	: Display(w), win(w), map(m), player(p), ennemyList(e), bulletList(b), itemList(i), ress(ressource), loopTime(Time)
 {
-	time =0;
+	time = 0;
 }
 
 
@@ -32,6 +32,7 @@ void Graphic::resetInterface()
 	{
 		time = 0;
 }
+
 void Graphic::affInterface()
 {
 	/*** Fond Interface ***/
@@ -68,6 +69,10 @@ void Graphic::affInterface()
 		{
 			loadImage(1 * Settings::CASE_SIZE + (k * texture.getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, texture);
 		}
+		// Spell
+		if (player[i]->isSpell == true)
+			loadText(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 0, font, std::string("Spell"), 32, 250, 250, 60);
+			loadImage(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, player[i]->spell.texture);
 	}
 }
 
@@ -115,6 +120,15 @@ void Graphic::affUnits()
 	}
 	else
 		loadUnit(player[0]);
+	/*** Particles ***/
+	for (int i = 0; i < player[0]->particles.size(); ++i)
+	{
+		player[0]->particles[i]->update();
+		//loadImage(player[0]->particles[i]->x, player[0]->particles[i]->y + Settings::HEIGHT_INTERFACE, player[0]->particles[i]->texture, player[0]->particles[i]->transp);
+		loadCircle(player[0]->particles[i]->x, player[0]->particles[i]->y + Settings::HEIGHT_INTERFACE, 3, player[0]->particles[i]->color, player[0]->particles[i]->transp);
+		if (player[0]->particles[i]->transp == 0)
+			player[0]->particles.erase(player[0]->particles.begin() + i);
+	}
 
 	/*** Display Enemies ***/
 	for (int i = 0; i < ennemyList.size(); ++i)
@@ -152,4 +166,12 @@ void Graphic::affItems()
 	{
 		loadImage(itemList[i]->x, itemList[i]->y + Settings::HEIGHT_INTERFACE, itemList[i]->texture);
 	}
+}
+
+void Graphic::affPauseBG()
+{
+	sf::Texture texture;
+
+	texture.loadFromFile("../Ressources/Images/pause_bg.png");
+	loadImage(0, Settings::HEIGHT_INTERFACE, texture);
 }

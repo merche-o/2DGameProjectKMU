@@ -32,5 +32,6 @@ public:
 	void affSpell();
 	void affItems();
 	void resetInterface();
+	void affPauseBG();
 };
 
