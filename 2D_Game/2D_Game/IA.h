@@ -14,6 +14,7 @@ private:
 	std::vector<AUnit*> &_ennemyList;
 	void fillInputMap(Enemy  *,float x, float y);
 	void basicIA(Enemy *, float x, float y);
+	void jumpIA(Enemy *, float x, float y);
 	void randIA(Enemy *src, float x, float y);
 	std::map<enemy_type, void(IA:: *)(Enemy *src, float x, float y)> IAManager;
 

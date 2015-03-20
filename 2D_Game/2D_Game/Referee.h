@@ -18,6 +18,7 @@ class Referee
 public:
 	int colliderCheck(AUnit  *,  Event::Input const &);
 	bool applyGravity(AUnit *);
+	bool IAJumpToPlatform(AUnit *);
 	void cleanEnemyList();
 	void cleanItemList();
 	void moveBullet(std::vector<Player *> &_player);

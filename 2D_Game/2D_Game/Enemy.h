@@ -9,7 +9,7 @@
 enum enemy_type 
 	{
 		E_BASIC,
-		E_FLY,
+		E_JUMPCASE
 	};
 
 enum damageType  	{

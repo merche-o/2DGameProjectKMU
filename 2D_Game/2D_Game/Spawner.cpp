@@ -2,6 +2,7 @@
 
 #include "Spawner.h"
 #include "Enemy.h"
+#include <cstdlib>
 
 
 
@@ -48,7 +49,7 @@ void Spawner::spawnEnnemies(std::vector <AUnit*> &ennemy)
 			else
 				dir = LEFT;
 
-			ennemies.push_back(new Enemy(ennemy[i]->life, ennemy[i]->speed, ennemy[i]->damage, ennemy[i]->spawnTime, ennemy[i]->texture, posx, posy, dir, E_BASIC, loopTime));
+			ennemies.push_back(new Enemy(ennemy[i]->life, ennemy[i]->speed, ennemy[i]->damage, ennemy[i]->spawnTime, ennemy[i]->texture, posx, posy, dir, enemy_type(rand() % 2), loopTime));
 			changePlaceSpawner();
 		}
 	}
