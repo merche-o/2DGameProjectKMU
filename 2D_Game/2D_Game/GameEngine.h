@@ -51,7 +51,8 @@ private:
 	sf::Clock globalClock;
 	sf::Time globalTimer;
 	float loopTime;
-
+	
+	void writeScore();
 public:
 	sf::RenderWindow window;
 

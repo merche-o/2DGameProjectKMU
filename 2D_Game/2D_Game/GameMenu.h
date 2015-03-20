@@ -22,7 +22,7 @@ private:
 		PAUSE,
 		NONE
 	};
-	void getScore();
+	
 public:
 	sf::RenderWindow & win;
 	Parameters & param;
@@ -60,5 +60,6 @@ public:
 	void menuPlay();
 	void addTextMenu(e_state state, TextMenu * text);
 	void addKeyTextMenu(e_state state, TextMenu * text, void(GameMenu:: *p)());
+	void getScore();
 };
 

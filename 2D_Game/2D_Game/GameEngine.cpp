@@ -2,6 +2,7 @@
 
 #include "GameEngine.h"
 #include <iostream>
+#include <fstream>
 
 GameEngine::GameEngine(void)
 	: ressources(),
@@ -32,6 +33,7 @@ GameEngine::GameEngine(void)
 	restart = false;
 	goMenu = false;
 	pause = false;
+	menu.getScore();
 }
 
 
@@ -39,6 +41,27 @@ GameEngine::~GameEngine(void)
 {
 }
 
+void GameEngine::writeScore()
+{
+	int i = 0;
+	std::string fileName = "./Ressources/Highscore.txt";
+	std::ofstream file(fileName.c_str(), std::ios::out | std::ios::trunc);
+	std::string::size_type sz;
+	bool write = true;
+	file << "rank:score\n";
+	while (i < 5)
+	{
+		
+		 if (std::stoi(this->menu.scoreTable[i],&sz) < this->player[0]->score && write == true)
+		{
+			this->menu.scoreTable[i] = std::to_string((long double)this->player[0]->score);
+			write = false;
+		}
+			file << std::to_string((long double)i +1 ) << ":" << this->menu.scoreTable[i] << '\n';
+		i++;
+	}
+	file.close();
+}
 void GameEngine::resetElement()
 {
 	ennemyList.clear();
@@ -48,6 +71,7 @@ void GameEngine::resetElement()
 	graphic.resetInterface();
 	globalClock.restart();
 }
+
 
 void GameEngine::run()
 {
@@ -76,6 +100,7 @@ void GameEngine::run()
 
 			if (ref.dealDamage(player) == false)
 			{
+				writeScore();
 				resetElement();
 				state = ENDGAME;
 				goMenu = false;
@@ -93,7 +118,7 @@ void GameEngine::run()
 			
 			player[0]->createParticles();
 			
-			if (player[0]->spell.launched == true);
+			if (player[0]->spell.launched == true)
 				player[0]->spell.launch();
 			
 			/*** DISPLAY ***/

@@ -14,6 +14,8 @@ Ressources::~Ressources(void)
 {
 }
 
+
+
 void Ressources::loadEnnemiesFromFile(std::string fileName)
 {
 	std::ifstream file(fileName.c_str(), std::ios::in);

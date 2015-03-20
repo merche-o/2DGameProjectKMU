@@ -203,7 +203,7 @@ void GameMenu::menuHowPlay()
 void GameMenu::menuHighscore()
 {
 	
-	getScore();
+	
 	addTextMenu(HIGHSCORE, new TextMenu(350, 0, "Highscore", 128, 250, 60, 60));
 	addTextMenu(HIGHSCORE, new TextMenu(400, 150, "1 : " + scoreTable[0], 64, 60, 250, 250));
 	addTextMenu(HIGHSCORE, new TextMenu(400, 250, "2 : "+ scoreTable[1], 64, 60, 250, 250));
