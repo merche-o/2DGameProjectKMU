@@ -19,7 +19,6 @@ public:
 	Spell spell;
 	bool isSpell;
 	int numPlayer;
-	float generateParticle;
 
 private:
 
@@ -27,6 +26,5 @@ public:
 	Player(Ressources & Ress, float &LoopTime, int NumPlayer);
 	~Player(void);
 	void init(Ressources &);
-	void createParticles();
 };
 

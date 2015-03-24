@@ -45,23 +45,44 @@ void Display::loadUnit(AUnit* unit)
 	sf::Sprite	Sprite;
 
 	Sprite.setTexture(unit->texture);
-	Sprite.setPosition(unit->x, unit->y + Settings::HEIGHT_INTERFACE);
-	Sprite.setTextureRect(sf::IntRect(unit->width * unit->animFrame + (3 * unit->width * unit->act), unit->height * unit->dir, unit->width, unit->height));
+	Sprite.setPosition(unit->x, unit->y/* + Settings::HEIGHT_INTERFACE*/);
 	win.draw(Sprite);
+	
+	/*** Particles ***/
+	for (int j = 0; j < unit->particles.size(); ++j)
+	{
+		unit->particles[j]->update();
+		//loadImage(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->texture, unit->particles[j]->transp);
+		loadCircle(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, 3, unit->particles[j]->color, unit->particles[j]->transp);
+		if (unit->particles[j]->transp == 0)
+			unit->particles.erase(unit->particles.begin() + j);
+	}
 }
 
 void Display::loadHitUnit(AUnit* unit, bool b)
 {
 	sf::Sprite	Sprite;
 
+	for (int i = 0; i < unit->particles.size(); ++i)
+		unit->particles[i]->color = sf::Color(255, 0, 0);
+
 	Sprite.setTexture(unit->texture);
-	Sprite.setPosition(unit->x, unit->y + Settings::HEIGHT_INTERFACE);
-	Sprite.setTextureRect(sf::IntRect(unit->width * unit->animFrame + (3 * unit->width * unit->act), unit->height * unit->dir, unit->width, unit->height));
+	Sprite.setPosition(unit->x, unit->y/* + Settings::HEIGHT_INTERFACE*/);
 	if (b == true)
 		Sprite.setColor(sf::Color(255, 255, 255, 50));
 	else
 		Sprite.setColor(sf::Color(255, 255, 255, 255));
 	win.draw(Sprite);
+
+	/*** Particles ***/
+	for (int j = 0; j < unit->particles.size(); ++j)
+	{
+		unit->particles[j]->update();
+		//loadImage(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->texture, unit->particles[j]->transp);
+		loadCircle(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, 3, unit->particles[j]->color, unit->particles[j]->transp);
+		if (unit->particles[j]->transp == 0)
+			unit->particles.erase(unit->particles.begin() + j);
+	}
 }
 
 void Display::loadText(float x, float y, sf::Font font, std::string str, int size, int r, int g, int b)

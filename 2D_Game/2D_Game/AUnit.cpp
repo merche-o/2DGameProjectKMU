@@ -119,3 +119,17 @@ void AUnit::updateClock()
 {
 	this->weapon[0]->fireRateCount -= loopTime;
 }
+
+
+void AUnit::createParticles()
+{
+	generateParticle += loopTime;
+	if (generateParticle >= 0.03)
+	{
+		srand(loopTime * time(NULL));
+		float xx = rand() % 32 + 0;
+		float yy = rand() % 32 + 0;
+		particles.push_back(new Particle(x + xx, y + yy, particleColor, loopTime));
+		generateParticle = 0;
+	}
+}

@@ -29,7 +29,8 @@ void IA::setEnnemiesIM(float x, float y)
 
 void IA::fillInputMap(Enemy *src, float x, float y)
 {
-	(this->*(IAManager[src->etype]))(src,x,y);		
+	(this->*(IAManager[src->etype]))(src,x,y);
+	src->createParticles();
 }
 
 void IA::jumpIA(Enemy *src, float x, float y)
