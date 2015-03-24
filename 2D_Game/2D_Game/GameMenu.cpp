@@ -13,38 +13,38 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 	beforeState.push_back(NONE); // No previous page
 
 	/*****	MENU *****/
-	addTextMenu(MAIN, new TextMenu(350, 0, "Menu", 128, 250, 60, 60));
-	addKeyTextMenu(MAIN, new TextMenu(400, 200, "Play", 64), &GameMenu::menuPlay);
-	addKeyTextMenu(MAIN, new TextMenu(400, 300, "Settings", 64), &GameMenu::menuSettings);
-	addKeyTextMenu(MAIN, new TextMenu(400, 400, "How to Play", 64), &GameMenu::menuHowPlay);
-	addKeyTextMenu(MAIN, new TextMenu(400, 500, "Highscore", 64), &GameMenu::menuHighscore);
-	addKeyTextMenu(MAIN, new TextMenu(400, 600, "Credits", 64), &GameMenu::menuCredits);
-	addKeyTextMenu(MAIN, new TextMenu(400, 700, "Quit", 64), &GameMenu::menuReturn);
+	addTextMenu(MAIN, new TextMenu(350, 0, "Menu", 96, 250, 60, 60));
+	addKeyTextMenu(MAIN, new TextMenu(400, 200, "Play", 48), &GameMenu::menuPlay);
+	addKeyTextMenu(MAIN, new TextMenu(400, 300, "Settings", 48), &GameMenu::menuSettings);
+	addKeyTextMenu(MAIN, new TextMenu(400, 400, "How to Play", 48), &GameMenu::menuHowPlay);
+	addKeyTextMenu(MAIN, new TextMenu(400, 500, "Highscore", 48), &GameMenu::menuHighscore);
+	addKeyTextMenu(MAIN, new TextMenu(400, 600, "Credits", 48), &GameMenu::menuCredits);
+	addKeyTextMenu(MAIN, new TextMenu(400, 700, "Quit", 48), &GameMenu::menuReturn);
 	
-	addTextMenu(SETTINGS, new TextMenu(350, 0, "Settings", 128, 250, 60, 60));
-	addKeyTextMenu(SETTINGS, new TextMenu(400, 200, "Back", 64), &GameMenu::menuReturn);
+	addTextMenu(SETTINGS, new TextMenu(350, 0, "Settings", 96, 250, 60, 60));
+	addKeyTextMenu(SETTINGS, new TextMenu(400, 200, "Back", 48), &GameMenu::menuReturn);
 
-	addTextMenu(HOWPLAY, new TextMenu(350, 0, "How to Play", 128, 250, 60, 60));
-	addTextMenu(HOWPLAY, new TextMenu(200, 200, "A : Left", 64, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(200, 300, "D : Right", 64, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(200, 400, "W : Jump", 64, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(600, 200, "Left Arrow : Fire left", 64, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(600, 300, "Right Arrow : Fire right", 64, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(600, 400, "Up Arrow : Fire up", 64, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(600, 500, "Space : Use spell", 64, 60, 250, 250));
-	addKeyTextMenu(HOWPLAY, new TextMenu(400, 600, "Back", 64), &GameMenu::menuReturn);
+	addTextMenu(HOWPLAY, new TextMenu(350, 0, "How to Play", 96, 250, 60, 60));
+	addTextMenu(HOWPLAY, new TextMenu(200, 200, "A : Left", 48, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(200, 300, "D : Right", 48, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(200, 400, "W : Jump", 48, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(600, 200, "Left Arrow : Fire left", 48, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(600, 300, "Right Arrow : Fire right", 48, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(600, 400, "Up Arrow : Fire up", 48, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(600, 500, "Space : Use spell", 48, 60, 250, 250));
+	addKeyTextMenu(HOWPLAY, new TextMenu(400, 600, "Back", 48), &GameMenu::menuReturn);
 
 	
 
-	addTextMenu(CREDITS, new TextMenu(350, 0, "Credits", 128, 250, 60, 60));
-	addTextMenu(CREDITS, new TextMenu(300, 200, "Producer & Engine Dev :\tOlivier", 64, 60, 250, 150));
-	addTextMenu(CREDITS, new TextMenu(300, 300, "Graphic Dev & Menu Dev :\tMarc", 64, 60, 150, 150));
-	addTextMenu(CREDITS, new TextMenu(300, 400, "Physic Dev & Logic Dev :\tJoris", 64, 60, 250, 250));
-	addKeyTextMenu(CREDITS, new TextMenu(400, 600, "Back", 64), &GameMenu::menuReturn);
+	addTextMenu(CREDITS, new TextMenu(350, 0, "Credits", 96, 250, 60, 60));
+	addTextMenu(CREDITS, new TextMenu(300, 200, "Producer & Engine Dev :\tOlivier", 48, 60, 250, 150));
+	addTextMenu(CREDITS, new TextMenu(300, 300, "Graphic Dev & Menu Dev :\tMarc", 48, 60, 150, 150));
+	addTextMenu(CREDITS, new TextMenu(300, 400, "Physic Dev & Logic Dev :\tJoris", 48, 60, 250, 250));
+	addKeyTextMenu(CREDITS, new TextMenu(400, 600, "Back", 48), &GameMenu::menuReturn);
 
-	addTextMenu(PAUSE, new TextMenu(600, 300, "Pause", 64, 200, 200, 200));
-	addKeyTextMenu(PAUSE, new TextMenu(600, 400, "Resume", 48), &GameMenu::menuPlay);
-	addKeyTextMenu(PAUSE, new TextMenu(600, 450, "Back to menu", 48), &GameMenu::menuReturn);
+	addTextMenu(PAUSE, new TextMenu(600, 300, "Pause", 48, 200, 200, 200));
+	addKeyTextMenu(PAUSE, new TextMenu(600, 400, "Resume", 32), &GameMenu::menuPlay);
+	addKeyTextMenu(PAUSE, new TextMenu(600, 450, "Back to menu", 32), &GameMenu::menuReturn);
 }
 
 

@@ -7,7 +7,7 @@
 Display::Display(sf::RenderWindow & w)
 	: win(w)
 {
-	font.loadFromFile("./Ressources/Text/Text.ttf");
+	font.loadFromFile("./Ressources/Text/04B_30__.ttf");
 }
 
 

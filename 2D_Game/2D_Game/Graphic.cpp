@@ -45,18 +45,18 @@ void Graphic::affInterface()
 	float t = floor(time);
 	int min = (int)t / 60;
 	int sec = (int)t % 60;
-	loadText(18 * Settings::CASE_SIZE, 0 + Settings::HEIGHT_GAME, font, std::string(testDecade(min) + IntToString(min) + ":" + testDecade(sec) + IntToString(sec)), 32, 250, 180, 60);
+	loadText(18 * Settings::CASE_SIZE, 8 + Settings::HEIGHT_GAME, font, std::string(testDecade(min) + IntToString(min) + ":" + testDecade(sec) + IntToString(sec)), 32, 250, 180, 60);
 	
 	for (int i = 0; i < player.size(); ++i)
 	{
 		/*** Player n ***/
-		loadText(1 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 0 + Settings::HEIGHT_GAME, font, std::string("Player" + IntToString(i + 1)), 32, 250, 250, 60);
+		loadText(1 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Player" + IntToString(i + 1)), 16, 250, 250, 60);
 		// Score
-		loadText(4 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 0 + Settings::HEIGHT_GAME, font, std::string("Score " + IntToString(player[i]->score)), 32, 250, 250, 60);
+		loadText(4 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Score " + IntToString(player[i]->score)), 16, 250, 250, 60);
 		// Ammo
 		texture.loadFromFile("./Ressources/Images/IAmmo.png");
 		loadImage(4 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, texture);
-		loadText(5 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, font, IntToString(player[i]->weapon[0]->ammo), 32, 250, 250, 60);
+		loadText(5 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, font, IntToString(player[i]->weapon[0]->ammo), 16, 250, 250, 60);
 		// Life
 		texture.loadFromFile("./Ressources/Images/LifeBar.png");
 		for (int j = 0; j < player[i]->life; ++j)
@@ -71,7 +71,7 @@ void Graphic::affInterface()
 		}
 		// Spell
 		if (player[i]->isSpell == true)
-			loadText(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 0 + Settings::HEIGHT_GAME, font, std::string("Spell"), 32, 250, 250, 60);
+			loadText(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Spell"), 16, 250, 250, 60);
 			loadImage(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, player[i]->spell.texture);
 	}
 }
