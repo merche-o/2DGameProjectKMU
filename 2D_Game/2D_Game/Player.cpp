@@ -1,4 +1,3 @@
-
 //Marc
 
 #include "Player.h"
@@ -25,6 +24,8 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 	spell.type = LASER;
 	isSpell = true;
 
+	particleColor = sf::Color(255, 255, 255);
+
 	weapon.push_back(new Weapon(Ress.weapon[0]->damage, Ress.weapon[0]->fireRate, Ress.weapon[0]->range, Ress.weapon[0]->speed, numPlayer, Item::D_WEAPON));
 	weapon[0]->spawnTime = 5;
 }
@@ -33,7 +34,7 @@ void Player::init(Ressources &Ress)
 {
 	x = -2;
 	y = 0;
-	life = 2;
+	life = 4;
 	shield = 1;
 	int i = 0;
 	while (i < 9)
@@ -50,18 +51,4 @@ void Player::init(Ressources &Ress)
 
 Player::~Player(void)
 {
-}
-
-
-void Player::createParticles()
-{
-	generateParticle += loopTime;
-	if (generateParticle >= 0.03)
-	{
-		srand(loopTime * time(NULL));
-		float xx = rand() % 32 + 0;
-		float yy = rand() % 32 + 0;
-		particles.push_back(new Particle(x + xx, y + yy, loopTime));
-		generateParticle = 0;
-	}
 }

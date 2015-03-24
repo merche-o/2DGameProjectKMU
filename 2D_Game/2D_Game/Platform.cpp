@@ -27,7 +27,7 @@ Platform::Platform(int X, int Y, int Length, float & Time)
 
 	isMorphing = false; // not activ
 	activMorph = 60; // time before active
-	morphTime = 1; // time for animation
+	morphTime = 3; // time for animation
 	transp = 255; // transparency
 	speed = 1 * Settings::CASE_SIZE;
 }

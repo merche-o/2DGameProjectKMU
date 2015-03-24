@@ -35,6 +35,7 @@ enum life_state
 	HIT,
 	DEAD
 };
+
 class AUnit
 {
 public:
@@ -71,6 +72,8 @@ public:
 	bool isPlayer;
 
 	std::vector<Particle*> particles;
+	sf::Color particleColor;
+	float generateParticle;
 
 private:
 	
@@ -83,4 +86,5 @@ public:
 
 	void nextFrame();
 	void updateClock();
+	void createParticles();
 };

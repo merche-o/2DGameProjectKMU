@@ -17,7 +17,7 @@ public:
 	float & loopTime;
 
 public:
-	Particle(float X, float Y, float & Time);
+	Particle(float X, float Y, sf::Color, float & Time);
 	~Particle(void);
 
 	void update();

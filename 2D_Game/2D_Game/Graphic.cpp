@@ -38,67 +38,97 @@ void Graphic::affInterface()
 	/*** Fond Interface ***/
 	sf::Texture texture;
 	texture.loadFromFile("./Ressources/Images/Interface.png");
-	loadImage(0, 0, texture);
+	loadImage(0, 0 + Settings::HEIGHT_GAME, texture);
 
 	/*** Chrono ***/
 	time += loopTime;
 	float t = floor(time);
 	int min = (int)t / 60;
 	int sec = (int)t % 60;
-	loadText(18 * Settings::CASE_SIZE, 0, font, std::string(testDecade(min) + IntToString(min) + ":" + testDecade(sec) + IntToString(sec)), 32, 250, 180, 60);
+	loadText(18 * Settings::CASE_SIZE, 0 + Settings::HEIGHT_GAME, font, std::string(testDecade(min) + IntToString(min) + ":" + testDecade(sec) + IntToString(sec)), 32, 250, 180, 60);
 	
 	for (int i = 0; i < player.size(); ++i)
 	{
 		/*** Player n ***/
-		loadText(1 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 0, font, std::string("Player" + IntToString(i + 1)), 32, 250, 250, 60);
+		loadText(1 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 0 + Settings::HEIGHT_GAME, font, std::string("Player" + IntToString(i + 1)), 32, 250, 250, 60);
 		// Score
-		loadText(4 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 0, font, std::string("Score " + IntToString(player[i]->score)), 32, 250, 250, 60);
+		loadText(4 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 0 + Settings::HEIGHT_GAME, font, std::string("Score " + IntToString(player[i]->score)), 32, 250, 250, 60);
 		// Ammo
 		texture.loadFromFile("./Ressources/Images/IAmmo.png");
-		loadImage(4 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, texture);
-		loadText(5 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, font, IntToString(player[i]->weapon[0]->ammo), 32, 250, 250, 60);
+		loadImage(4 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, texture);
+		loadText(5 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, font, IntToString(player[i]->weapon[0]->ammo), 32, 250, 250, 60);
 		// Life
 		texture.loadFromFile("./Ressources/Images/LifeBar.png");
 		for (int j = 0; j < player[i]->life; ++j)
 		{
-			loadImage(1 * Settings::CASE_SIZE + (j * texture.getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, texture);
+			loadImage(1 * Settings::CASE_SIZE + (j * texture.getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, texture);
 		}
 		// Shield
 		texture.loadFromFile("./Ressources/Images/ShieldBar.png");
 		for (int k = player[i]->life; k < player[i]->life + player[i]->shield; ++k)
 		{
-			loadImage(1 * Settings::CASE_SIZE + (k * texture.getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, texture);
+			loadImage(1 * Settings::CASE_SIZE + (k * texture.getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, texture);
 		}
 		// Spell
 		if (player[i]->isSpell == true)
-			loadText(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 0, font, std::string("Spell"), 32, 250, 250, 60);
-			loadImage(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE, player[i]->spell.texture);
+			loadText(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 0 + Settings::HEIGHT_GAME, font, std::string("Spell"), 32, 250, 250, 60);
+			loadImage(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, player[i]->spell.texture);
 	}
 }
 
 void Graphic::affMap()
 {
-	int height_map = (Settings::HEIGHT + Settings::HEIGHT_INTERFACE) / Settings::CASE_SIZE;
+	sf::Texture Background;
+	Background.loadFromFile("./Ressources/Images/BackgroundGame.png");
+	loadImage(0, 0/* + Settings::HEIGHT_INTERFACE*/, Background);
+
+
+	int height_map = (Settings::HEIGHT/* + Settings::HEIGHT_INTERFACE*/) / Settings::CASE_SIZE;
 	int width_map = Settings::WIDTH / Settings::CASE_SIZE;
 	
-	sf::Texture texture;
-	texture.loadFromFile("./Ressources/Images/Wall.png");
+	sf::Texture Ltexture;
+	sf::Texture Mtexture;
+	sf::Texture Rtexture;
+	Ltexture.loadFromFile("./Ressources/Images/L_Platform.png");
+	Mtexture.loadFromFile("./Ressources/Images/M_Platform.png");
+	Rtexture.loadFromFile("./Ressources/Images/R_Platform.png");
 
-	for (int i = 0; i < map.platform.size(); ++i)
+	for (unsigned int i = 0; i < map.platform.size(); ++i)
 	{
-		for (int j = 0; j < (int)map.platform[i]->length; ++j)
+		for (unsigned int j = 0; j < map.platform[i]->length; ++j)
 		{
 			// Display
 			if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DISAPPEAR)
-				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture, map.platform[i]->transp);
+				if (j == 0)
+					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, Ltexture, map.platform[i]->transp);
+				else if (j == map.platform[i]->length -1)
+					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, Rtexture, map.platform[i]->transp);
+				else
+					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, Mtexture, map.platform[i]->transp);
 			else if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DAMAGE)
 			{
-				sf::Texture texture2;
-				texture2.loadFromFile("./Ressources/Images/WallDmg.png");
-				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture2);
+				sf::Texture LDtexture;
+				sf::Texture MDtexture;
+				sf::Texture RDtexture;
+				LDtexture.loadFromFile("./Ressources/Images/L_Dmg_Platform.png");
+				MDtexture.loadFromFile("./Ressources/Images/M_Dmg_Platform.png");
+				RDtexture.loadFromFile("./Ressources/Images/R_Dmg_Platform.png");
+				if (j == 0)
+					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, LDtexture);
+				else if (j == map.platform[i]->length -1)
+					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, RDtexture);
+				else
+					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, MDtexture);
 			}
 			else
-				loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y + Settings::HEIGHT_INTERFACE, texture);
+			{
+				if (j == 0)
+					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, Ltexture);
+				else if (j == map.platform[i]->length -1)
+					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, Rtexture);
+				else
+					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, Mtexture);
+			}
 		}
 	}
 }
@@ -120,15 +150,6 @@ void Graphic::affUnits()
 	}
 	else
 		loadUnit(player[0]);
-	/*** Particles ***/
-	for (int i = 0; i < player[0]->particles.size(); ++i)
-	{
-		player[0]->particles[i]->update();
-		//loadImage(player[0]->particles[i]->x, player[0]->particles[i]->y + Settings::HEIGHT_INTERFACE, player[0]->particles[i]->texture, player[0]->particles[i]->transp);
-		loadCircle(player[0]->particles[i]->x, player[0]->particles[i]->y + Settings::HEIGHT_INTERFACE, 3, player[0]->particles[i]->color, player[0]->particles[i]->transp);
-		if (player[0]->particles[i]->transp == 0)
-			player[0]->particles.erase(player[0]->particles.begin() + i);
-	}
 
 	/*** Display Enemies ***/
 	for (int i = 0; i < ennemyList.size(); ++i)
@@ -141,7 +162,7 @@ void Graphic::affBullets()
 {
 	for (int i = 0; i < bulletList.size(); ++i)
 	{
-		loadImage(bulletList[i]->x, bulletList[i]->y + Settings::HEIGHT_INTERFACE, bulletList[i]->texture);
+		loadImage(bulletList[i]->x, bulletList[i]->y/* + Settings::HEIGHT_INTERFACE*/, bulletList[i]->texture);
 	}
 }
 
@@ -164,7 +185,7 @@ void Graphic::affItems()
 {
 	for (int i = 0; i < itemList.size(); ++i)
 	{
-		loadImage(itemList[i]->x, itemList[i]->y + Settings::HEIGHT_INTERFACE, itemList[i]->texture);
+		loadImage(itemList[i]->x, itemList[i]->y/* + Settings::HEIGHT_INTERFACE*/, itemList[i]->texture);
 	}
 }
 
@@ -172,6 +193,6 @@ void Graphic::affPauseBG()
 {
 	sf::Texture texture;
 
-	texture.loadFromFile("../Ressources/Images/pause_bg.png");
-	loadImage(0, Settings::HEIGHT_INTERFACE, texture);
+	texture.loadFromFile("./Ressources/Images/pause_bg.png");
+	loadImage(0, 0/* + Settings::HEIGHT_INTERFACE*/, texture);
 }

@@ -196,7 +196,7 @@ void Referee::cleanItemList(){
 	}
 }
 
-//when an enemy diesm he drop a coin
+//when an enemy dies, he drop a coin
 void Referee::dropCoins(Enemy *src)
 {
 	this->_itemList.push_back(new Coin(src->x, src->y, this->loopTime , 10 ,Item::COINS, _res.texture["coin"]));
@@ -290,4 +290,27 @@ void Referee::bulletHit(std::vector<Player *> &_player)
 		}
 	}
 	return;		   
-}	
+}
+bool Referee::IAJumpToPlatform(AUnit *src)
+{
+	for (int i = 0; i < _map.platform.size(); ++i)
+		{
+			if (src->dir == RIGHT)
+			{
+				if (((src->x > _map.platform[i]->x - Settings::CASE_SIZE * 2) && (src->x < _map.platform[i]->x - Settings::CASE_SIZE * 1)) &&
+					((_map.platform[i]->y >= src->y - Settings::CASE_SIZE * 5) && (_map.platform[i]->y < src->y + Settings::CASE_SIZE)))
+				{
+					return true;
+				}
+			}
+			else
+			{
+				if (((src->x < _map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE + Settings::CASE_SIZE * 1) && (src->x > _map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE + Settings::CASE_SIZE * 0)) &&
+					((_map.platform[i]->y >= src->y - Settings::CASE_SIZE * 5) && (_map.platform[i]->y < src->y + Settings::CASE_SIZE)))
+				{
+					return true;
+				}
+			}
+		}
+	return false;
+}
