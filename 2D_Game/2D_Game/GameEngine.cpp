@@ -102,7 +102,7 @@ void GameEngine::run()
 			{
 				writeScore();
 				resetElement();
-				state = ENDGAME;
+				state = MENU;
 				goMenu = false;
 				pause = false;
 			}
@@ -123,11 +123,11 @@ void GameEngine::run()
 			
 			/*** DISPLAY ***/
 			graphic.affSpell();
-			graphic.affInterface();
 			graphic.affMap();
 			graphic.affUnits();
 			graphic.affBullets();
 			graphic.affItems();
+			graphic.affInterface();
 
 			if (state == GAME)
 				event.checkEvent(pause);
