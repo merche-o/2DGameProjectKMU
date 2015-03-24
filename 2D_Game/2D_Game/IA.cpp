@@ -17,7 +17,7 @@ void IA::setEnnemiesIM(float x, float y)
 	int i;
 
 	i = 0;
-
+		
 	while (i < _ennemyList.size())
 		{
 			fillInputMap((Enemy *)_ennemyList[i],x,y);

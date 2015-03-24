@@ -86,6 +86,8 @@ int i;
 
 i = map->platform.size();
 srand(loopTime * 100000);
+if (i == 0)
+	return false;
 i = rand() %i;
 if (i == 0)
 	return false;
