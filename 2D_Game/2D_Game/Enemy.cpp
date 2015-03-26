@@ -19,11 +19,22 @@ void Enemy::getHit(int dam)
 	if (this->life > 0)
 	{
 		this->l_state = HIT;
-		this->life-=dam;
+		this->life -= dam;
 	}
 	if (this->life <= 0)
 	{
 		this->life = 0;
 		this->l_state = DEAD;
 	}
+}
+
+void Enemy::explode()
+{
+	// Create Particles in explosionList
+
+	// ouest
+	// nord-ouest
+	// nord
+	// nord-est
+	// est
 }

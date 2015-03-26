@@ -12,11 +12,9 @@ AUnit::AUnit(float &LoopTime) : loopTime(LoopTime)
 	fireRate = 5; // depend of the weapon
 	fireRateCount = fireRate;
 	timeDone = 0;
-	int i = 0;
-	while (i < 9)
+	for (int i = 0; i < 9; ++i)
 	{
 		inputMap.push_back(false);
-		++i;
 	}
 	doubleJump = true;
 	fallingSpeed = 12 * Settings::CASE_SIZE;
@@ -41,11 +39,9 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 	height = texture.getSize().y / 2;
 	fallingSpeed = 12 * Settings::CASE_SIZE;
 	timeDone = 0;
-		int i = 0;
-	while (i < 9)
+	for (int i = 0; i < 9; ++i)
 	{
 		inputMap.push_back(false);
-		++i;
 	}
 	speed *= Settings::CASE_SIZE;
 	doubleJump = true;
@@ -68,11 +64,9 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture
 	l_state = IN_LIFE;
 	timeDone = 0;
 	
-	int i = 0;
-	while (i < 9)
+	for (int i = 0; i < 9; ++i)
 	{
 		inputMap.push_back(false);
-		++i;
 	}
 	doubleJump = true;
 	fallingSpeed = 12 * Settings::CASE_SIZE;
@@ -96,23 +90,24 @@ void AUnit::nextFrame()
 
 void AUnit::getHit(int dam)
 {
-		
 	if (this->shield > 0 && this->l_state != HIT)
-			{this->l_state = HIT;
-				this->shield-= dam;
-				if (this->shield < 0)
-					this->shield = 0;
-			}	
-		else if (this->life > 0 && this->l_state != HIT)
-			{this->l_state = HIT;
-			this->life-=dam;
-			}
-		if (this->life <= 0)
-			{
-				this->life = 0;
-				this->l_state = DEAD;
-			}
+	{
+		this->l_state = HIT;
+		this->shield -= dam;
+		if (this->shield < 0)
+			this->shield = 0;
+	}	
+	else if (this->life > 0 && this->l_state != HIT)
+	{
+		this->l_state = HIT;
+		this->life -= dam;
+	}
 
+	if (this->life <= 0)
+	{
+		this->life = 0;
+		this->l_state = DEAD;
+	}
 }
 
 void AUnit::updateClock()
@@ -129,7 +124,7 @@ void AUnit::createParticles()
 		srand(loopTime * time(NULL));
 		float xx = rand() % 32 + 0;
 		float yy = rand() % 32 + 0;
-		particles.push_back(new Particle(x + xx, y + yy, particleColor, loopTime));
+		particles.push_back(new Particle(x + xx, y + yy, particleColor, 1, 0, NONE, loopTime));
 		generateParticle = 0;
 	}
 }

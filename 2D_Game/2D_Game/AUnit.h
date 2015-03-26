@@ -72,6 +72,7 @@ public:
 	bool isPlayer;
 
 	std::vector<Particle*> particles;
+	std::vector<Particle*> explosionList;
 	sf::Color particleColor;
 	float generateParticle;
 

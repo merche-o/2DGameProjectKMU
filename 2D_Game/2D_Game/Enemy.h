@@ -7,29 +7,30 @@
 #include "Spell.h"
 
 enum enemy_type 
-	{
-		E_BASIC,
-		E_JUMPCASE
-	};
+{
+	E_BASIC,
+	E_JUMPCASE
+};
 
-enum damageType  	{
-		E_JUMP,
-		E_BULLET,
-		E_BOTH
-	};
+enum damageType 
+{
+	E_JUMP,
+	E_BULLET,
+	E_BOTH
+};
 
 
 class Enemy : public AUnit
 {
 public:
-	
+	enemy_type etype;	
 
 private:
-
 
 public:
 	Enemy(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, enemy_type type, float &loopTime);
 	~Enemy(void);
-	enemy_type etype;
+
 	void getHit(int);
+	void explode();
 };

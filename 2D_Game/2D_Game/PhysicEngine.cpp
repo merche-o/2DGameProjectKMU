@@ -6,7 +6,7 @@
 PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map & map, float  &LoopTime, SoundEngine &sound)
 : _player(player), _ennemyList(enemylist), _itemList(itemList), _bulletList(bulletList), _map(map), loopTime(LoopTime), _sound(sound)
 {
-	//actionManager
+	// actionManager
 
 	actionManager[Event::I_UP] = &PhysicEngine::Jump;
 	actionManager[Event::I_DOWN] = &PhysicEngine::moveDown;
@@ -82,15 +82,15 @@ void PhysicEngine::moveLeft(AUnit *src)
 	if (((Player *)src)->inDash == 0)
 		((Player *)src)->inDash = 1;
 	if (((Player *)src)->inDash == 2 && ((Player *)src)->tmpTime < 0.2)
-		{
-			((Player *)src)->inDash = 3;
-			src->x -= (src->speed * 5 * src->loopTime);
-}
+	{
+		((Player *)src)->inDash = 3;
+		src->x -= (src->speed * 5 * src->loopTime);
+	}
 }
 
 void PhysicEngine::moveRight(AUnit *src)
 {
-	//le 5 doit surement etre changer
+	// Le 5 doit surement etre changer
 	if (src->x + (src->speed *src->loopTime) >= Settings::WIDTH_GAME + 5 - src->width )
 		return;
 	src->x += (src->speed *src->loopTime);
@@ -100,41 +100,40 @@ void PhysicEngine::moveRight(AUnit *src)
 	if (((Player *)src)->inDash == 0)
 		((Player *)src)->inDash = -1;
 	if (((Player *)src)->inDash == -2 && ((Player *)src)->tmpTime < 0.2)
-		{
-				((Player *)src)->inDash = -3;
-			src->x += (src->speed * 5 * src->loopTime);
-			}
-
+	{
+		((Player *)src)->inDash = -3;
+		src->x += (src->speed * 5 * src->loopTime);
+	}
 }
 
 void PhysicEngine::Jump(AUnit *src)
 {
 	if (_referee->colliderCheck(src, Event::I_UP) == -1)
+	{
+		if (src->doubleJump == true && src->state == U_END_JUMP)
 		{
-			if (src->doubleJump == true && src->state == U_END_JUMP)
-			{
-				src->doubleJump = false;
-				src->jumpTmpY += (32) * Settings::CASE_SIZE * (src->loopTime);
-				src->state = U_NORMAL;
-			}
-			if (src->state == U_JUMP)
-			{
-				src->jumpTmpY -= (32) * Settings::CASE_SIZE * (src->loopTime);
-				src->y -= (24) * Settings::CASE_SIZE * (src->loopTime);
-			}
-			if (src->state == U_NORMAL)
-			{
-				_sound.playSound(_sound.sound["jump"], true);
-				src->act = JUMP;
-				src->state = U_JUMP;
-				src->y -= (32) * Settings::CASE_SIZE * (src->loopTime);
-			}
-			if (src->jumpTmpY + Settings::HIGH_JUMP <= 0)
-			{
-				src->state = U_END_JUMP;
-				src->jumpTmpY = 0;
-			}
+			src->doubleJump = false;
+			src->jumpTmpY += (32) * Settings::CASE_SIZE * (src->loopTime);
+			src->state = U_NORMAL;
 		}
+		if (src->state == U_JUMP)
+		{
+			src->jumpTmpY -= (32) * Settings::CASE_SIZE * (src->loopTime);
+			src->y -= (24) * Settings::CASE_SIZE * (src->loopTime);
+		}
+		if (src->state == U_NORMAL)
+		{
+			_sound.playSound(_sound.sound["jump"], true);
+			src->act = JUMP;
+			src->state = U_JUMP;
+			src->y -= (32) * Settings::CASE_SIZE * (src->loopTime);
+		}
+		if (src->jumpTmpY + Settings::HIGH_JUMP <= 0)
+		{
+			src->state = U_END_JUMP;
+			src->jumpTmpY = 0;
+		}
+	}
 	if (_referee->colliderCheck(src, Event::I_UP) == 1)
 	{
 		src->state = U_END_JUMP;
@@ -159,13 +158,14 @@ void PhysicEngine::useBonus(AUnit *src)
 void PhysicEngine::shootUp(AUnit *src)
 {
 	if (src->weapon[0]->fireRateCount <= 0.f)
-		{
-			src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
+	{
+		src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
 		if (src->weapon[0]->ammo > 0)
-			{_sound.playSound(_sound.sound["shoot"], true);
+		{
+			_sound.playSound(_sound.sound["shoot"], true);
 			this->_bulletList.push_back(src->weapon[0]->createBullet(src->x + (src->width /2), src->y,0, -1,loopTime));
 		}
-		}	
+	}	
 }
 
 void PhysicEngine::shootDown(AUnit *src)
@@ -176,27 +176,28 @@ void PhysicEngine::shootDown(AUnit *src)
 void PhysicEngine::shootLeft(AUnit *src)
 {
 	if (src->weapon[0]->fireRateCount <= 0.f)
+	{
+		src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
+		if (src->weapon[0]->ammo > 0)
 		{
-				src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
-			if (src->weapon[0]->ammo > 0)
-				{_sound.playSound(_sound.sound["shoot"], true);
-				this->_bulletList.push_back(src->weapon[0]->createBullet(src->x, src->y + src->height /2,-1, 0,loopTime));
+			_sound.playSound(_sound.sound["shoot"], true);
+			this->_bulletList.push_back(src->weapon[0]->createBullet(src->x, src->y + src->height /2,-1, 0,loopTime));
 		}
-			}
-	
+	}
 	return;
 }
 
 void PhysicEngine::shootRight(AUnit *src)
 {
 	if (src->weapon[0]->fireRateCount <= 0.f)
-		{
-				src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
+	{
+			src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
 			if (src->weapon[0]->ammo > 0)
-				{_sound.playSound(_sound.sound["shoot"], true);
+			{
+				_sound.playSound(_sound.sound["shoot"], true);
 				this->_bulletList.push_back(src->weapon[0]->createBullet(src->x + src->width, src->y+ (src->height /2),1, 0,loopTime));
-		}
 			}
+	}
 	return;
 }
 
@@ -206,29 +207,30 @@ void PhysicEngine::shootRight(AUnit *src)
 void PhysicEngine::RmoveLeft(AUnit *src)
 {
 	src->animFrame = 1;
-if (src->isPlayer == false)
+	if (src->isPlayer == false)
 		return;
 
-//For Dash
-if(((Player *)src)->inDash == 1)
+	//For Dash
+	if (((Player *)src)->inDash == 1)
 	{
 		((Player *)src)->tmpTime = 0;
 		((Player *)src)->inDash = 2;
 		((Player *)src)->tmpTime += src->loopTime;
 	}
 	else if (((Player *)src)->inDash == 2)
-		{
-			((Player *)src)->tmpTime += loopTime;
-		}
-	 if (((Player *)src)->inDash > 0 && ((Player *)src)->tmpTime > 0.5)
-		{
-			
-			((Player *)src)->inDash = 0;
-			((Player *)src)->tmpTime = 0;
+	{
+		((Player *)src)->tmpTime += loopTime;
 	}
-	 if (((Player *)src)->inDash == 0)
+
+	if (((Player *)src)->inDash > 0 && ((Player *)src)->tmpTime > 0.5)
+	{
+			
+		((Player *)src)->inDash = 0;
 		((Player *)src)->tmpTime = 0;
-	 if (((Player *)src)->inDash == 3)
+	}
+	if (((Player *)src)->inDash == 0)
+		((Player *)src)->tmpTime = 0;
+	if (((Player *)src)->inDash == 3)
 		((Player *)src)->tmpTime += src->loopTime;
 	return;
 }
@@ -237,28 +239,28 @@ if(((Player *)src)->inDash == 1)
 void PhysicEngine::RmoveRight(AUnit *src)
 {
 	src->animFrame = 1;
-if (src->isPlayer == false)
+	if (src->isPlayer == false)
 		return;
 
-//For Dash
-if(((Player *)src)->inDash == -1)
+	//For Dash
+	if (((Player *)src)->inDash == -1)
 	{
 		((Player *)src)->tmpTime = 0;
 		((Player *)src)->inDash = -2;
 		((Player *)src)->tmpTime += src->loopTime;
 	}
 	else if (((Player *)src)->inDash == -2)
-		{
-			((Player *)src)->tmpTime += loopTime;
-		}
-	 if (((Player *)src)->inDash < 0 && ((Player *)src)->tmpTime > 0.5)
-		{
-			((Player *)src)->inDash = 0;
-			((Player *)src)->tmpTime = 0;
+	{
+		((Player *)src)->tmpTime += loopTime;
 	}
-	 if (((Player *)src)->inDash == 0)
+	if (((Player *)src)->inDash < 0 && ((Player *)src)->tmpTime > 0.5)
+	{
+		((Player *)src)->inDash = 0;
 		((Player *)src)->tmpTime = 0;
-	 if (((Player *)src)->inDash == -3)
+	}
+	if (((Player *)src)->inDash == 0)
+		((Player *)src)->tmpTime = 0;
+	if (((Player *)src)->inDash == -3)
 		((Player *)src)->tmpTime += src->loopTime;
 
 	return;

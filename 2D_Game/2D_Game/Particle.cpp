@@ -2,13 +2,12 @@
 #include "Settings.h"
 
 
-Particle::Particle(float X, float Y, sf::Color Color, float & Time)
-	: x(X), y(Y), color(Color), loopTime(Time)
+Particle::Particle(float X, float Y, sf::Color Color, float LifeTime, int Speed, e_type Type, float & Time)
+	: x(X), y(Y), color(Color), lifeTime(LifeTime), type(Type), loopTime(Time)
 {
 	transp = 255;
-	lifeTime = 1;
-	speed = 3 * Settings::CASE_SIZE;
-	texture.loadFromFile("./Ressources/Images/particle.png");
+	speed = Speed * Settings::CASE_SIZE;
+	//texture.loadFromFile("./Ressources/Images/particle.png");
 }
 
 
@@ -22,5 +21,13 @@ void Particle::update()
 	transp = (lifeTime - currentTime) * 255 / lifeTime;
 	if (transp < 0)
 		transp = 0;
-	//y -= speed * loopTime;
+	
+	if (type == UP)
+		y -= speed * loopTime;
+	else if (type == DOWN)
+		y += speed * loopTime;
+	else if (type == DISPERSE)
+	{
+		// Random direction (un vecteur directeur) and color
+	}
 }
