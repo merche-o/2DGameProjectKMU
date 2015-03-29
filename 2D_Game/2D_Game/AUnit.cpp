@@ -35,8 +35,8 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 	jumpTmpY = 0;
 	l_state = IN_LIFE;
 	texture.loadFromFile(TextureFile);
-	width = texture.getSize().x / 3;
-	height = texture.getSize().y / 2;
+	width = texture.getSize().x;
+	height = texture.getSize().y;
 	fallingSpeed = 12 * Settings::CASE_SIZE;
 	timeDone = 0;
 	for (int i = 0; i < 9; ++i)
@@ -57,8 +57,8 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture
 	act = WALK;
 	fireRate = 5; // depend of the weapon
 	fireRateCount = fireRate;
-	width = texture.getSize().x / 3;
-	height = texture.getSize().y / 2;
+	width = texture.getSize().x;
+	height = texture.getSize().y;
 	state = U_NORMAL;
 	jumpTmpY = 0;
 	l_state = IN_LIFE;
@@ -115,16 +115,15 @@ void AUnit::updateClock()
 	this->weapon[0]->fireRateCount -= loopTime;
 }
 
-
 void AUnit::createParticles()
 {
 	generateParticle += loopTime;
 	if (generateParticle >= 0.03)
 	{
 		srand(loopTime * time(NULL));
-		float xx = rand() % 32 + 0;
-		float yy = rand() % 32 + 0;
-		particles.push_back(new Particle(x + xx, y + yy, particleColor, 1, 0, NONE, loopTime));
+		float xx = rand() % width + 0;
+		float yy = rand() % height + 0;
+		particles.push_back(new Particle(x + xx, y + yy, particleColor, 1, 0, 0, 3, loopTime));
 		generateParticle = 0;
 	}
 }

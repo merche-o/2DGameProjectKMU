@@ -73,7 +73,7 @@ void Graphic::affInterface()
 			loadText(12 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Spell"), 16, 250, 250, 60);
 			loadImage(12 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, player[i]->spell.texture);
 		// Score
-		loadText(25 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Score " + IntToString(player[i]->score)), 25, 250, 250, 60);
+		loadText(25 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 12 + Settings::HEIGHT_GAME, font, std::string("Score " + IntToString(player[i]->score)), 25, 250, 250, 60);
 	}
 }
 

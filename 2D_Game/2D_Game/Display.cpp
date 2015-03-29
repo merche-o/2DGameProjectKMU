@@ -53,7 +53,7 @@ void Display::loadUnit(AUnit* unit)
 	{
 		unit->particles[j]->update();
 		//loadImage(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->texture, unit->particles[j]->transp);
-		loadCircle(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, 3, unit->particles[j]->color, unit->particles[j]->transp);
+		loadCircle(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->radius, unit->particles[j]->color, unit->particles[j]->transp);
 		if (unit->particles[j]->transp == 0)
 			unit->particles.erase(unit->particles.begin() + j);
 	}
@@ -79,7 +79,7 @@ void Display::loadHitUnit(AUnit* unit, bool b)
 	{
 		unit->particles[j]->update();
 		//loadImage(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->texture, unit->particles[j]->transp);
-		loadCircle(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, 3, unit->particles[j]->color, unit->particles[j]->transp);
+		loadCircle(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->radius, unit->particles[j]->color, unit->particles[j]->transp);
 		if (unit->particles[j]->transp == 0)
 			unit->particles.erase(unit->particles.begin() + j);
 	}

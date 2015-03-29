@@ -32,9 +32,15 @@ void Enemy::explode()
 {
 	// Create Particles in explosionList
 
+	sf::Color col(255, 255, 0);
 	// ouest
+	explosionList.push_back(new Particle(x + width / 2, y + height / 2, col, 2, -2, 0, 2, loopTime));
 	// nord-ouest
+	explosionList.push_back(new Particle(x + width / 2, y + height / 2, col, 2, -1, -1, 2, loopTime));
 	// nord
+	explosionList.push_back(new Particle(x + width / 2, y + height / 2, col, 2, 0, -2, 2, loopTime));
 	// nord-est
+	explosionList.push_back(new Particle(x + width / 2, y + height / 2, col, 2, 1, -1, 2, loopTime));
 	// est
+	explosionList.push_back(new Particle(x + width / 2, y + height / 2, col, 2, 2, 0, 2, loopTime));
 }

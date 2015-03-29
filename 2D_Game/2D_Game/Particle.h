@@ -1,32 +1,28 @@
 #pragma once
 
 #include "SFML\Graphics.hpp"
-
-enum e_type
-{
-	UP,
-	DOWN,
-	DISPERSE,
-	NONE
-};
+#include "Pos.h"
 
 class Particle
 {
 public:
 	float x;
 	float y;
-	int speed;
 	float transp;
 	sf::Texture texture;
 	sf::Color color;
-	e_type type;
+	float radius;
 
-	float lifeTime;
-	float currentTime;
+	std::vector<int> transpGradient;
+	std::vector<float> lifeGradient;
+	float lifeTime; // Temps de vie max
+	float currentTime; // Temps de vie actuel
 	float & loopTime;
 
+	Pos speed;
+
 public:
-	Particle(float X, float Y, sf::Color, float LifeTime, int Speed, e_type Type, float & Time);
+	Particle(float X, float Y, sf::Color, float LifeTime, int SpeedX, int SpeedY, float Radius, float & Time);
 	~Particle(void);
 
 	void update();
