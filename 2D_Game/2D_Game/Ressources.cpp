@@ -81,7 +81,7 @@ void Ressources::loadTextures()
 	texture["LDplatform"].loadFromFile("./Ressources/Images/R_Dmg_Platform.png");
 	texture["LDplatform"].loadFromFile("./Ressources/Images/R_Dmg_Platform.png");
 
-	texture["coin"].loadFromFile("./Ressources/Images/ShieldBar.png");
+	texture["coin"].loadFromFile("./Ressources/Images/coin.png");
 	texture["life"].loadFromFile("./Ressources/Images/LifeBar.png");
 	texture["shield"].loadFromFile("./Ressources/Images/ShieldBar.png");
 	texture["ammo"].loadFromFile("./Ressources/Images/Ammo0.png");

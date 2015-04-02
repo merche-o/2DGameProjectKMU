@@ -10,11 +10,8 @@ Item::Item(Item const & src) :x(src.x), y(src.y), spawnTime(src.spawnTime), life
 }
 
 Item::Item()
-	{
+{
 }
-
-
-
 
 
 Item::~Item(void)

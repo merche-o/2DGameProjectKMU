@@ -9,16 +9,20 @@ Spell::Spell(float & X, float & Y)
 	actionSpell[EXPLOSION] = &Spell::explosion;
 	actionSpell[LASER] = &Spell::laser;
 
-	type = EXPLOSION;
+	type = LASER;
 
 	texture.loadFromFile("./Ressources/Images/laser.png");
+
 	sf::Vector2u vec;
 	vec = texture.getSize();
 	width = vec.x;
 	height = vec.y;
+
 	scaleX = 1.0;
 	scaleY = 1.0;
+
 	play = false;
+	launched = false;
 }
 
 
@@ -33,9 +37,9 @@ void Spell::launch()
 		launched = false;
 		play = true;
 		x = px + 16;
-		y = py + 80;
+		y = py + 16;
 	}
-	else if (play == true)
+	if (play == true)
 	{
 		(this->*(actionSpell[type]))();
 		if (type == EXPLOSION && scaleX > 5.0)
