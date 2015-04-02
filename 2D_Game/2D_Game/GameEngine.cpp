@@ -89,6 +89,7 @@ void GameEngine::run()
 		{
 			if (restart == true)
 			{
+				map.init(false);
 				resetElement();
 				restart = false;
 				//sound.musicON();
