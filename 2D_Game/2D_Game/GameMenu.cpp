@@ -46,6 +46,9 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 	addKeyTextMenu(PAUSE, new TextMenu(600, 400, "Resume", 32), &GameMenu::menuPlay);
 	addKeyTextMenu(PAUSE, new TextMenu(600, 450, "Back to menu", 32), &GameMenu::menuReturn);
 
+	addTextMenu(HIGHSCORE, new TextMenu(350, 0, "Highscore", 128, 250, 60, 60));
+	addKeyTextMenu(HIGHSCORE, new TextMenu(400, 650, "Back", 64), &GameMenu::menuReturn);
+
 	addTextMenu(ENDGAME, new TextMenu(600, 300, "Game Over", 48, 200, 200, 200));
 	//addTextMenu(ENDGAME, new TextMenu(600, 350, "Your score :" + std::to_string((long double)score), 48, 200, 200, 200));
 	addKeyTextMenu(ENDGAME, new TextMenu(600, 450, "New game", 32), &GameMenu::menuPlay);
@@ -191,6 +194,14 @@ void GameMenu::displayCurrentMenu()
 					250, 150, 60);
 		}
 	}
+	if (currentState == HIGHSCORE)
+	{
+		loadText(400, 150, font, "1 : " + scoreTable[0], 64, 60, 250, 250);
+		loadText(400, 250, font, "2 : " + scoreTable[1], 64, 60, 250, 250);
+		loadText(400, 350, font, "3 : " + scoreTable[2], 64, 60, 250, 250);
+		loadText(400, 450, font, "4 : " + scoreTable[3], 64, 60, 250, 250);
+		loadText(400, 550, font, "5 : " + scoreTable[4], 64, 60, 250, 250);
+	}
 }
 
 void GameMenu::displayPause()
@@ -268,6 +279,13 @@ void GameMenu::displayEndGame(int score)
 	//fix de merde
 	if (currentState == ENDGAME)
 		loadText(600, 350, font, "Your score :" + std::to_string((long double)score), 48, 200, 200, 200);
+	if (currentState == HIGHSCORE) {
+		loadText(400, 150, font, "1 : " + scoreTable[0], 64, 60, 250, 250);
+		loadText(400, 250, font, "2 : " + scoreTable[1], 64, 60, 250, 250);
+		loadText(400, 350, font, "3 : " + scoreTable[2], 64, 60, 250, 250);
+		loadText(400, 450, font, "4 : " + scoreTable[3], 64, 60, 250, 250);
+		loadText(400, 550, font, "5 : " + scoreTable[4], 64, 60, 250, 250);
+	}
 }
 
 
@@ -280,13 +298,7 @@ void GameMenu::menuHowPlay()
 
 void GameMenu::menuHighscore()
 {
-	addTextMenu(HIGHSCORE, new TextMenu(350, 0, "Highscore", 128, 250, 60, 60));
-	addTextMenu(HIGHSCORE, new TextMenu(400, 150, "1 : " + scoreTable[0], 64, 60, 250, 250));
-	addTextMenu(HIGHSCORE, new TextMenu(400, 250, "2 : "+ scoreTable[1], 64, 60, 250, 250));
-	addTextMenu(HIGHSCORE, new TextMenu(400, 350, "3 : "+ scoreTable[2], 64, 60, 250, 250));
-	addTextMenu(HIGHSCORE, new TextMenu(400, 450, "4 : "+ scoreTable[3], 64, 60, 250, 250));
-	addTextMenu(HIGHSCORE, new TextMenu(400, 550, "5 : "+ scoreTable[4], 64, 60, 250, 250));
-	addKeyTextMenu(HIGHSCORE, new TextMenu(400, 650, "Back", 64), &GameMenu::menuReturn);
+	
 	currentState = HIGHSCORE;
 }
 
