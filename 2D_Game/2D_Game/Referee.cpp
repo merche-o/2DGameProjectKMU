@@ -144,7 +144,7 @@ int Referee::collideEnemy(AUnit  *src, Event::Input const &btn)
 // Function to apply gravity
 bool Referee::applyGravity(AUnit  *src)
 {
-for (int i = 0; i < this->_map.platform.size(); ++i)
+	for (int i = 0; i < this->_map.platform.size(); ++i)
 	{
 		if (src->y + Settings::CASE_SIZE	>=	this->_map.platform[i]->y &&
 			src->y + Settings::CASE_SIZE	<	this->_map.platform[i]->y + Settings::CASE_SIZE)
