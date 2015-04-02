@@ -73,6 +73,7 @@ void GameEngine::resetElement()
 	player[0]->init(ressources);
 	graphic.resetInterface();
 	globalClock.restart();
+	map.init(false);
 }
 
 
@@ -91,7 +92,6 @@ void GameEngine::run()
 		{
 			if (restart == true)
 			{
-				map.init(false);
 				resetElement();
 				restart = false;
 				//sound.musicON();
@@ -107,10 +107,11 @@ void GameEngine::run()
 			if (ref.dealDamage(player) == false)
 			{
 				writeScore();
-				resetElement();
-				state = MENU;
+				
+				state = ENDGAME;
 				goMenu = false;
 				pause = false;
+				menu.menuEndGame();
 			}
 			ref.cleanEnemyList();
 			ref.cleanItemList();
@@ -148,10 +149,11 @@ void GameEngine::run()
 		}
 		else if (state == PAUSE)
 		{
-			//affPauseBG();
 			menu.run();
+			//graphic.affPauseBG();
 			if (goMenu == true)
 			{
+
 				resetElement();
 				state = MENU;
 				goMenu = false;
@@ -159,6 +161,27 @@ void GameEngine::run()
 			}
 			if (restart == true)
 			{
+				pause = false;
+				state = GAME;
+				restart = false;
+				globalClock.restart();
+			}
+		}
+		else if (state == ENDGAME)
+		{
+			menu.endGame(player[0]->score);
+			
+			if (goMenu == true)
+			{
+				resetElement();
+				state = MENU;
+				menu.menuMain();
+				goMenu = false;
+				pause = false;
+			}
+			if (restart == true)
+			{
+				resetElement();
 				pause = false;
 				state = GAME;
 				restart = false;

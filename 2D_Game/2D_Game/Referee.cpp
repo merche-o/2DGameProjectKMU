@@ -2,8 +2,7 @@
 
 #include "Referee.h"
 
-
-Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map &map, float &LoopTime, Ressources &Res, SoundEngine &sound) 
+Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map &map, float &LoopTime, Ressources &Res, SoundEngine &sound)
 	: _enemyList(enemylist), _itemList(itemList),_bulletList(bulletList), _map(map), loopTime(LoopTime), _res(Res), _sound(sound)
 {
 	collideManager.push_back(&Referee::collideEnemy);
@@ -80,13 +79,13 @@ int Referee::collideWall(AUnit *src, Event::Input const &btn)
 						if (src->x				>	this->_map.platform[i]->x &&
 							src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 						{
-							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE + 1;
+							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE +1;
 							return (1);
 						}
 						else if (src->x + Settings::CASE_SIZE	>	this->_map.platform[i]->x &&
 								src->x + Settings::CASE_SIZE	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 						{				
-							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE + 1;
+							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE +1;
 							return (1);
 						}
 					}
@@ -142,19 +141,19 @@ int Referee::collideEnemy(AUnit  *src, Event::Input const &btn)
 // Function to apply gravity
 bool Referee::applyGravity(AUnit  *src)
 {
-for (int i = 0; i < this->_map.platform.size(); ++i)
+	for (int i = 0; i < this->_map.platform.size(); ++i)
 	{
 		if (src->y + Settings::CASE_SIZE	>=	this->_map.platform[i]->y &&
 			src->y + Settings::CASE_SIZE	<	this->_map.platform[i]->y + Settings::CASE_SIZE)
 		{
-			if (src->x							>=	this->_map.platform[i]->x  &&
-				src->x							<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+			if (src->x		>=	this->_map.platform[i]->x  &&
+				src->x		<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 			{				
 				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
 				return (false);
 			}
 			else if (src->x + Settings::CASE_SIZE	>=	this->_map.platform[i]->x  &&
-					src->x + Settings::CASE_SIZE	<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+					 src->x + Settings::CASE_SIZE	<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 			{
 				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
 				return (false);
@@ -237,6 +236,9 @@ void Referee::moveBullet(std::vector<Player *> &_player)
 {
 	for (int i = 0; i < this->_bulletList.size(); i++)
 	{
+		this->_bulletList[i]->prevX = this->_bulletList[i]->x;
+		this->_bulletList[i]->prevY = this->_bulletList[i]->y;
+
 		this->_bulletList[i]->x += this->_bulletList[i]->dirX *  this->_bulletList[i]->speed * (this->loopTime);
 		this->_bulletList[i]->y += this->_bulletList[i]->dirY * this->_bulletList[i]->speed * (this->loopTime);
 		if(this->_bulletList[i]->destroy() == true)
@@ -262,17 +264,48 @@ void Referee::bulletHit(std::vector<Player *> &_player)
 	{
 		for (int i2 = 0; i2 < this->_enemyList.size(); i2++)
 		{
-			bool intersection;
+			bool intersection = true;
 
-			if (this->_enemyList[i2]->x  + Settings::CASE_SIZE < this->_bulletList[i]->x || this->_bulletList[i]->x + this->_bulletList[i]->texture.getSize().x < this->_enemyList[i2]->x
-				||  this->_enemyList[i2]->y  + Settings::CASE_SIZE < this->_bulletList[i]->y || this->_bulletList[i]->y + this->_bulletList[i]->texture.getSize().y < this->_enemyList[i2]->y)
+			if (this->_bulletList[i]->dirY == 0)
+			{
+				if (this->_bulletList[i]->dirX == -1)
+				{
+					if (this->_enemyList[i2]->x  + this->_enemyList[i2]->width < this->_bulletList[i]->x ||
+						this->_bulletList[i]->prevX + this->_bulletList[i]->texture.getSize().x < this->_enemyList[i2]->x ||
+						this->_enemyList[i2]->y  + this->_enemyList[i2]->height < this->_bulletList[i]->y ||
+						this->_bulletList[i]->y + this->_bulletList[i]->texture.getSize().y < this->_enemyList[i2]->y)
+					intersection = false;
+				}
+				else if (this->_bulletList[i]->dirX == 1)
+				{
+					if (this->_enemyList[i2]->x  + this->_enemyList[i2]->width < this->_bulletList[i]->prevX ||
+						this->_bulletList[i]->x + this->_bulletList[i]->texture.getSize().x < this->_enemyList[i2]->x ||
+						this->_enemyList[i2]->y  + this->_enemyList[i2]->height < this->_bulletList[i]->prevY ||
+						this->_bulletList[i]->prevY + this->_bulletList[i]->texture.getSize().y < this->_enemyList[i2]->y)
+					intersection = false;
+				}
+			}
+			else if (this->_bulletList[i]->dirX == 0)
+			{
+				if (this->_bulletList[i]->dirY == -1)
+				{
+					if (this->_enemyList[i2]->x  + this->_enemyList[i2]->width < this->_bulletList[i]->x ||
+						this->_bulletList[i]->prevX + this->_bulletList[i]->texture.getSize().x < this->_enemyList[i2]->x ||
+						this->_enemyList[i2]->y  + this->_enemyList[i2]->height < this->_bulletList[i]->y ||
+						this->_bulletList[i]->prevY + this->_bulletList[i]->texture.getSize().y < this->_enemyList[i2]->y)
+					intersection = false;
+				}
+			}
+			/*if (this->_enemyList[i2]->x  + this->_enemyList[i2]->width < this->_bulletList[i]->x ||
+				  this->_bulletList[i]->x + this->_bulletList[i]->texture.getSize().x < this->_enemyList[i2]->x ||
+				  this->_enemyList[i2]->y  + this->_enemyList[i2]->height < this->_bulletList[i]->y ||
+				  this->_bulletList[i]->y + this->_bulletList[i]->texture.getSize().y < this->_enemyList[i2]->y)
 			{
 				intersection = false;
-			}
-			else
+			}*/
+			if (intersection == true)
 			{
 				_sound.playSound(_sound.sound["hit"], true);
-				intersection = true;
 				this->_enemyList[i2]->getHit(this->_bulletList[i]->damage);
 				this->_bulletList.erase(this->_bulletList.begin() + i);
 				return;
