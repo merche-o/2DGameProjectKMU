@@ -40,7 +40,8 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 	addTextMenu(CREDITS, new TextMenu(300, 200, "Producer & Engine Dev :\tOlivier", 48, 60, 250, 150));
 	addTextMenu(CREDITS, new TextMenu(300, 300, "Graphic Dev & Menu Dev :\tMarc", 48, 60, 150, 150));
 	addTextMenu(CREDITS, new TextMenu(300, 400, "Physic Dev & Logic Dev :\tJoris", 48, 60, 250, 250));
-	addKeyTextMenu(CREDITS, new TextMenu(400, 600, "Back", 48), &GameMenu::menuReturn);
+	addTextMenu(CREDITS, new TextMenu(300, 500, "IA Dev & Logic Dev :\tAxel", 48, 60, 250, 250));
+	addKeyTextMenu(CREDITS, new TextMenu(400, 700, "Back", 48), &GameMenu::menuReturn);
 
 	addTextMenu(PAUSE, new TextMenu(600, 300, "Pause", 48, 200, 200, 200));
 	addKeyTextMenu(PAUSE, new TextMenu(600, 400, "Resume", 32), &GameMenu::menuPlay);

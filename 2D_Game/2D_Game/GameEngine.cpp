@@ -24,6 +24,8 @@ GameEngine::GameEngine(void)
 	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME/*, sf::Style::Fullscreen*/);
 	window.setFramerateLimit(30);
 
+	init_randomize(randomize);
+
 	physics._referee = &ref;
 	
 	player.push_back(new Player(ressources, loopTime, 0));
@@ -122,12 +124,12 @@ void GameEngine::run()
 			
 			player[0]->createParticles();
 			
-			if (player[0]->spell.launched == true)
+			if (player[0]->spell.launched == true || player[0]->spell.play == true)
 				player[0]->spell.launch();
 			
 			/*** DISPLAY ***/
-			graphic.affSpell();
 			graphic.affMap();
+			graphic.affSpell();
 			graphic.affUnits();
 			graphic.affBullets();
 			graphic.affItems();
@@ -146,7 +148,7 @@ void GameEngine::run()
 		}
 		else if (state == PAUSE)
 		{
-			graphic.affPauseBG();
+			//affPauseBG();
 			menu.run();
 			if (goMenu == true)
 			{

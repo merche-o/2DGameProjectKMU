@@ -3,7 +3,7 @@
 #include "Referee.h"
 
 
-Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList ,Map &map, float &LoopTime, Ressources &Res, SoundEngine &sound) 
+Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map &map, float &LoopTime, Ressources &Res, SoundEngine &sound) 
 	: _enemyList(enemylist), _itemList(itemList),_bulletList(bulletList), _map(map), loopTime(LoopTime), _res(Res), _sound(sound)
 {
 	collideManager.push_back(&Referee::collideEnemy);
@@ -46,7 +46,7 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 				intersection = true;
 				if (_itemList[i]->type == Item::COINS) // Check if it's a coin to increment this value
 				((Player *)src)->score += _itemList[i]->score;
-					_sound.playSound(_sound.sound["coin"], true);
+					_sound.playSound(_sound.sound["coin"], false);
 
 				if(_itemList[i]->type == Item::AMMO) // Check if it's an ammo to increment this value
 				{
@@ -180,7 +180,8 @@ void Referee::cleanEnemyList()
 }
 
 
-void Referee::cleanItemList(){
+void Referee::cleanItemList()
+{
 	for (int i = 0; i < this->_itemList.size(); i++)
 	{
 		this->_itemList[i]->timeSpawn += loopTime;
@@ -194,7 +195,7 @@ void Referee::cleanItemList(){
 //when an enemy dies, he drop a coin
 void Referee::dropCoins(Enemy *src)
 {
-	this->_itemList.push_back(new Coin(src->x, src->y, this->loopTime , 10 ,Item::COINS, _res.texture["coin"]));
+	this->_itemList.push_back(new Coin(src->x, src->y, this->loopTime , 20, Item::COINS, _res.texture["coin"]));
 }
 
 // when player is hit, he is invincible

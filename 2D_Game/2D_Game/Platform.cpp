@@ -24,7 +24,6 @@ Platform::Platform(int X, int Y, int Length, float & Time)
 		type = GO_RIGHT;
 	//else if (r == 3)
 		//type = DAMAGE;
-	std::cout << y << std::endl;
 	if (y / Settings::CASE_SIZE == 22 || y / Settings::CASE_SIZE == 0)
 		type = NONE;
 
