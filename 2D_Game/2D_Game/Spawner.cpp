@@ -63,36 +63,45 @@ void Spawner::spawnAmmo(Player *src, sf::Texture texture, Map *map)
 	float x;
 	float y;
 	// mettre un timer de pop ammo dans la weapon dans ressources, se baser dessus pour pop les ammo de l'arme en question
-	int i= 0;
+	int i = 0;
 	while (i < src->weapon.size())
-		{
-			src->weapon[i]->spawn = src->weapon[i]->timer.getElapsedTime();
-			if (src->weapon[i]->spawn.asSeconds() >= src->weapon[i]->spawnTime)
-				{
-					src->weapon[i]->timer.restart();
-					if (setAmmoSpawnerPos(map,x , y) == false)
-						return;
-					itemList.push_back(new Ammo(x, y, 5,loopTime, texture, Item::AMMO,src->weapon[i]->type));
-			}
-		
-			i++;
+	{
+		src->weapon[i]->spawn = src->weapon[i]->timer.getElapsedTime();
+		if (src->weapon[i]->spawn.asSeconds() >= src->weapon[i]->spawnTime)
+			{
+				src->weapon[i]->timer.restart();
+				if (setAmmoSpawnerPos(map, x, y) == false)
+					return;
+				itemList.push_back(new Ammo(x, y, 10, loopTime, texture, Item::AMMO,src->weapon[i]->type));
 		}
-	
-	
+		i++;
+	}
 }
 
-bool Spawner::setAmmoSpawnerPos(Map *map, float &x, float &y)
+bool Spawner::setAmmoSpawnerPos(Map *map, float & x, float & y)
 {
-int i;
+	int i;
+	int r;
 
-i = map->platform.size();
-srand(loopTime * 100000);
-if (i == 0)
-	return false;
-i = rand() %i;
-if (i == 0)
-	return false;
-x = map->platform[i]->x + ((map->platform[i]->length * Settings::CASE_SIZE) /2);
-				y = map->platform[i]->y - Settings::CASE_SIZE;
-return true;
+	srand(loopTime * time(NULL));
+
+	// Check si platform pas au plafond
+	i = rand() % map->platform.size();
+	if (map->platform[i]->y == 0)
+		return (false);
+
+	// Assign Pos
+	r = (rand() % (map->platform[i]->length - 1)) + 1;
+	x = map->platform[i]->x + (r * Settings::CASE_SIZE);
+	y = map->platform[i]->y - Settings::CASE_SIZE;
+
+
+	// Si hors de map
+	if (x < 0 && x > Settings::WIDTH)
+	{
+		x = Settings::WIDTH / 2;
+		y = Settings::HEIGHT_GAME - (Settings::CASE_SIZE * 2);
+	}
+	
+	return (true);
 }

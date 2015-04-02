@@ -10,6 +10,8 @@ x(X), y(Y), damage(Damage), range(Range), dirX(DirX), dirY(DirY), speed(Speed * 
 	texture.loadFromFile("./Ressources/Images/bullet1.png");
 	pX = x;
 	pY = y;
+	prevX = x;
+	prevY = y;
 }
 
 bool Bullet::destroy()

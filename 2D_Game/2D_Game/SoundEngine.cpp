@@ -38,8 +38,8 @@ SoundEngine::~SoundEngine(void)
 
 void SoundEngine::playSound(sf::Sound & Sound, bool b)
 {
-  if (!b || (b && Sound.getStatus() != sf::Sound::Playing)) // True = Wait until the sound is finished before playing once again
-    Sound.play();
+	if (!b || (b && Sound.getStatus() != sf::Sound::Playing)) // True = Wait until the sound is finished before playing once again
+		Sound.play();
 }
 
 void SoundEngine::playMusic(sf::Music & Music)

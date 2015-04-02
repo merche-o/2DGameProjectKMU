@@ -16,6 +16,7 @@
 #include "SoundEngine.h"
 #include "Ressources.h"
 #include "IA.h"
+#include "Utils.h"
 
 enum e_state
 {
@@ -51,6 +52,8 @@ private:
 	sf::Clock globalClock;
 	sf::Time globalTimer;
 	float loopTime;
+	
+	std::vector<int> randomize;
 	
 	void writeScore();
 public:

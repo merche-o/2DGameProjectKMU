@@ -40,11 +40,21 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 	addTextMenu(CREDITS, new TextMenu(300, 200, "Producer & Engine Dev :\tOlivier", 48, 60, 250, 150));
 	addTextMenu(CREDITS, new TextMenu(300, 300, "Graphic Dev & Menu Dev :\tMarc", 48, 60, 150, 150));
 	addTextMenu(CREDITS, new TextMenu(300, 400, "Physic Dev & Logic Dev :\tJoris", 48, 60, 250, 250));
-	addKeyTextMenu(CREDITS, new TextMenu(400, 600, "Back", 48), &GameMenu::menuReturn);
+	addTextMenu(CREDITS, new TextMenu(300, 500, "IA Dev & Logic Dev :\tAxel", 48, 60, 250, 250));
+	addKeyTextMenu(CREDITS, new TextMenu(400, 700, "Back", 48), &GameMenu::menuReturn);
 
 	addTextMenu(PAUSE, new TextMenu(600, 300, "Pause", 48, 200, 200, 200));
 	addKeyTextMenu(PAUSE, new TextMenu(600, 400, "Resume", 32), &GameMenu::menuPlay);
 	addKeyTextMenu(PAUSE, new TextMenu(600, 450, "Back to menu", 32), &GameMenu::menuReturn);
+
+	addTextMenu(HIGHSCORE, new TextMenu(350, 0, "Highscore", 128, 250, 60, 60));
+	addKeyTextMenu(HIGHSCORE, new TextMenu(400, 650, "Back", 64), &GameMenu::menuReturn);
+
+	addTextMenu(ENDGAME, new TextMenu(600, 300, "Game Over", 48, 200, 200, 200));
+	//addTextMenu(ENDGAME, new TextMenu(600, 350, "Your score :" + std::to_string((long double)score), 48, 200, 200, 200));
+	addKeyTextMenu(ENDGAME, new TextMenu(600, 450, "New game", 32), &GameMenu::menuPlay);
+	addKeyTextMenu(ENDGAME, new TextMenu(600, 500, "Back to main menu", 32), &GameMenu::menuReturn);
+
 }
 
 
@@ -80,14 +90,14 @@ void GameMenu::run()
 		posInsideTheMenu(); // Keep cursor inside the menu
 		
 		if (currentState != PAUSE) // Do not clear the screen in Pause menu (we can see the game behind)
-			win.clear();
+		win.clear();
 		displayCurrentMenu(); // Display texts
 		win.display();
 
 		refresh = false;
 	}
 	// Menu Event
-	if (currentState == PAUSE)
+	if (currentState == PAUSE || currentState == ENDGAME)
 		event.menuEvent(posMenu, isPushed, refresh, true);
 	else
 		event.menuEvent(posMenu, isPushed, refresh);
@@ -99,10 +109,12 @@ void GameMenu::pause()
 	{
 		if (isPushed == true)
 		{
-			(this->*(actionMenu[std::make_pair(currentState, posMenu)]))();
-			posMenu = 0;
+			if (posMenu != sizeKeyTextMenu[currentState] - 1) // If action != Return/Back
+				beforeState.push_back(currentState);
+			(this->*(actionMenu[std::make_pair(currentState, posMenu)]))(); // Call KeyTextMenu function
+			posMenu = 0; // Reset cursor to 0
 			isPushed = false;
-			if (start == true)
+			if (start == true) // Play the game
 			{
 				refresh = true;
 				return;
@@ -111,6 +123,34 @@ void GameMenu::pause()
 		posInsideTheMenu();
 		
 		displayPause();
+		win.display();
+
+		refresh = false;
+	}
+
+	event.menuEvent(posMenu, isPushed, refresh, true);
+}
+
+void GameMenu::endGame(int score)
+{
+	if (refresh == true)
+	{
+		if (isPushed == true)
+		{
+			if (posMenu != sizeKeyTextMenu[currentState] - 1) // If action != Return/Back
+				beforeState.push_back(currentState);
+			(this->*(actionMenu[std::make_pair(currentState, posMenu)]))(); // Call KeyTextMenu function
+			posMenu = 0; // Reset cursor to 0
+			isPushed = false;
+			if (start == true) // Play the game
+			{
+				refresh = true;
+				return;
+			}
+		}
+		posInsideTheMenu();
+		win.clear();
+		displayEndGame(score);
 		win.display();
 
 		refresh = false;
@@ -155,44 +195,101 @@ void GameMenu::displayCurrentMenu()
 					250, 150, 60);
 		}
 	}
+	if (currentState == HIGHSCORE)
+	{
+		loadText(400, 150, font, "1 : " + scoreTable[0], 64, 60, 250, 250);
+		loadText(400, 250, font, "2 : " + scoreTable[1], 64, 60, 250, 250);
+		loadText(400, 350, font, "3 : " + scoreTable[2], 64, 60, 250, 250);
+		loadText(400, 450, font, "4 : " + scoreTable[3], 64, 60, 250, 250);
+		loadText(400, 550, font, "5 : " + scoreTable[4], 64, 60, 250, 250);
+	}
 }
 
 void GameMenu::displayPause()
 {
-	for (int i = 0; i < sizeTextMenu[PAUSE]; ++i)
+	for (int i = 0; i < sizeTextMenu[currentState]; ++i)
 	{
-		loadText(textMenu[std::make_pair(PAUSE, i)]->x, 
-				textMenu[std::make_pair(PAUSE, i)]->y, 
+		loadText(textMenu[std::make_pair(currentState, i)]->x, 
+				textMenu[std::make_pair(currentState, i)]->y, 
 				font, 
-				textMenu[std::make_pair(PAUSE, i)]->text, 
-				textMenu[std::make_pair(PAUSE, i)]->size,
-				textMenu[std::make_pair(PAUSE, i)]->color.r, 
-				textMenu[std::make_pair(PAUSE, i)]->color.g, 
-				textMenu[std::make_pair(PAUSE, i)]->color.b);
+				textMenu[std::make_pair(currentState, i)]->text, 
+				textMenu[std::make_pair(currentState, i)]->size,
+				textMenu[std::make_pair(currentState, i)]->color.r, 
+				textMenu[std::make_pair(currentState, i)]->color.g, 
+				textMenu[std::make_pair(currentState, i)]->color.b);
 	}
 
-	for (int i = 0; i < sizeKeyTextMenu[PAUSE]; ++i)
+	for (int i = 0; i < sizeKeyTextMenu[currentState]; ++i)
 	{
-		if (posMenu == i)
+		if (posMenu == i) // Change color on cursor
 		{
-			loadText(keyTextMenu[std::make_pair(PAUSE, i)]->x, 
-					keyTextMenu[std::make_pair(PAUSE, i)]->y, 
+			loadText(keyTextMenu[std::make_pair(currentState, i)]->x, 
+					keyTextMenu[std::make_pair(currentState, i)]->y, 
 					font, 
-					keyTextMenu[std::make_pair(PAUSE, i)]->text, 
-					keyTextMenu[std::make_pair(PAUSE, i)]->size, 
-					250, 250, 250);
+					keyTextMenu[std::make_pair(currentState, i)]->text, 
+					keyTextMenu[std::make_pair(currentState, i)]->size, 
+					250, 250, 60);
 		}
 		else
 		{
-			loadText(keyTextMenu[std::make_pair(PAUSE, i)]->x, 
-					keyTextMenu[std::make_pair(PAUSE, i)]->y, 
+			loadText(keyTextMenu[std::make_pair(currentState, i)]->x, 
+					keyTextMenu[std::make_pair(currentState, i)]->y, 
 					font, 
-					keyTextMenu[std::make_pair(PAUSE, i)]->text, 
-					keyTextMenu[std::make_pair(PAUSE, i)]->size, 
-					150, 150, 150);
+					keyTextMenu[std::make_pair(currentState, i)]->text, 
+					keyTextMenu[std::make_pair(currentState, i)]->size, 
+					250, 150, 60);
 		}
 	}
 }
+
+void GameMenu::displayEndGame(int score)
+{
+	for (int i = 0; i < sizeTextMenu[currentState]; ++i)
+	{
+		loadText(textMenu[std::make_pair(currentState, i)]->x, 
+				textMenu[std::make_pair(currentState, i)]->y, 
+				font, 
+				textMenu[std::make_pair(currentState, i)]->text, 
+				textMenu[std::make_pair(currentState, i)]->size,
+				textMenu[std::make_pair(currentState, i)]->color.r, 
+				textMenu[std::make_pair(currentState, i)]->color.g, 
+				textMenu[std::make_pair(currentState, i)]->color.b);
+	}
+
+	for (int i = 0; i < sizeKeyTextMenu[currentState]; ++i)
+	{
+		if (posMenu == i) // Change color on cursor
+		{
+			loadText(keyTextMenu[std::make_pair(currentState, i)]->x, 
+					keyTextMenu[std::make_pair(currentState, i)]->y, 
+					font, 
+					keyTextMenu[std::make_pair(currentState, i)]->text, 
+					keyTextMenu[std::make_pair(currentState, i)]->size, 
+					250, 250, 60);
+		}
+		else
+		{
+			loadText(keyTextMenu[std::make_pair(currentState, i)]->x, 
+					keyTextMenu[std::make_pair(currentState, i)]->y, 
+					font, 
+					keyTextMenu[std::make_pair(currentState, i)]->text, 
+					keyTextMenu[std::make_pair(currentState, i)]->size, 
+					250, 150, 60);
+		}
+	}
+	//fix de merde
+	if (currentState == ENDGAME)
+		loadText(600, 350, font, "Your score :" + std::to_string((long double)score), 48, 200, 200, 200);
+	if (currentState == HIGHSCORE) {
+		loadText(400, 150, font, "1 : " + scoreTable[0], 64, 60, 250, 250);
+		loadText(400, 250, font, "2 : " + scoreTable[1], 64, 60, 250, 250);
+		loadText(400, 350, font, "3 : " + scoreTable[2], 64, 60, 250, 250);
+		loadText(400, 450, font, "4 : " + scoreTable[3], 64, 60, 250, 250);
+		loadText(400, 550, font, "5 : " + scoreTable[4], 64, 60, 250, 250);
+	}
+}
+
+
 
 // Change state functions
 void GameMenu::menuHowPlay()
@@ -203,15 +300,12 @@ void GameMenu::menuHowPlay()
 void GameMenu::menuHighscore()
 {
 	
-	
-	addTextMenu(HIGHSCORE, new TextMenu(350, 0, "Highscore", 128, 250, 60, 60));
-	addTextMenu(HIGHSCORE, new TextMenu(400, 150, "1 : " + scoreTable[0], 64, 60, 250, 250));
-	addTextMenu(HIGHSCORE, new TextMenu(400, 250, "2 : "+ scoreTable[1], 64, 60, 250, 250));
-	addTextMenu(HIGHSCORE, new TextMenu(400, 350, "3 : "+ scoreTable[2], 64, 60, 250, 250));
-	addTextMenu(HIGHSCORE, new TextMenu(400, 450, "4 : "+ scoreTable[3], 64, 60, 250, 250));
-	addTextMenu(HIGHSCORE, new TextMenu(400, 550, "5 : "+ scoreTable[4], 64, 60, 250, 250));
-	addKeyTextMenu(HIGHSCORE, new TextMenu(400, 650, "Back", 64), &GameMenu::menuReturn);
 	currentState = HIGHSCORE;
+}
+
+void GameMenu::menuMain()
+{
+	currentState = MAIN;
 }
 
 void GameMenu::menuCredits()
@@ -227,6 +321,11 @@ void GameMenu::menuSettings()
 void GameMenu::menuPause()
 {
 	currentState = PAUSE;
+}
+
+void GameMenu::menuEndGame()
+{
+	currentState = ENDGAME;
 }
 
 // Back to previous menu

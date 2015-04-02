@@ -1,6 +1,8 @@
 //Joris & Olivier
 #include "IA.h"	
 
+#include <iostream>
+
 IA::IA(Referee &ref,  std::vector<AUnit*>  &enemylist)
 	: _ref(ref), _ennemyList(enemylist)  
 {
@@ -42,11 +44,11 @@ void IA::jumpIA(Enemy *src, float x, float y)
 	if (src->state == U_END_JUMP)
 		src->inputMap[Event::I_UP] = false;
 
-	if (dir == 3 && src->dir == RIGHT)
+	if ((dir == 3 && src->dir == RIGHT) || (src->x + src->width >= Settings::WIDTH_GAME - 2 && src->dir == RIGHT))
 	{
 		src->dir = LEFT;
 	}
-	else if (dir == 4 && src->dir == LEFT)
+	else if ((dir == 4 && src->dir == LEFT) || (src->x <= 2 && src->dir == LEFT))
 	{
 		src->dir = RIGHT;
 	}
@@ -55,7 +57,7 @@ void IA::jumpIA(Enemy *src, float x, float y)
 	{
 		src->y += (src->fallingSpeed * (src->loopTime));
 		_ref.applyGravity(src);
-		return;
+		//return;
 	}
 	else
 	{
@@ -101,12 +103,13 @@ void IA::basicIA(Enemy *src, float x, float y)
 	src->prevY = src->y;
 	src->prevX = src->x;
 	int dir = _ref.colliderCheck(src, Event::I_NONE);
-	
-	if (dir == 3 && src->dir == RIGHT)
+
+
+	if ((dir == 3 && src->dir == RIGHT) || (src->x + src->width >= Settings::WIDTH_GAME - 2 && src->dir == RIGHT))
 	{
 		src->dir = LEFT;
 	}
-	else if (dir == 4 && src->dir == LEFT)
+	else if ((dir == 4 && src->dir == LEFT) || (src->x <= 2 && src->dir == LEFT))
 	{
 			
 		src->dir = RIGHT;
@@ -116,7 +119,7 @@ void IA::basicIA(Enemy *src, float x, float y)
 	{
 		src->y += (src->fallingSpeed * (src->loopTime));
 		_ref.applyGravity(src);
-		return;
+		//return;
 	}
 	else
 	{

@@ -1,2 +1,2 @@
 life:speed:damage:spawnTime:textureFile
-1:3:2:5:Ennemy01.png
+1:3:2:1:Ennemy01.png
