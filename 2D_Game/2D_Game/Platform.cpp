@@ -27,7 +27,7 @@ Platform::Platform(int X, int Y, int Length, float & Time)
 
 	r = rand() % 20 + 5;
 	isMorphing = false; // not activ
-	activMorph = r; // time before active
+	activMorph = 5; // time before active
 	morphTime = 3; // time for animation
 	transp = 255; // transparency
 	speed = 1 * Settings::CASE_SIZE;
@@ -59,7 +59,10 @@ Platform::~Platform(void)
 void Platform::checkMorphTime()
 {
 	if (isMorphing == false && morph > activMorph)
+	{
 		isMorphing = true;
+		resetTime();
+	}
 }
 
 void Platform::playMorph(std::vector<Platform*> & platform)
@@ -82,15 +85,15 @@ void Platform::playMorph(std::vector<Platform*> & platform)
 		x -= speed * loopTime;
 	else if (type == GO_RIGHT)
 		x += speed * loopTime;
-	else if (type == DAMAGE)
-	{
-		if ((morph -  activMorph) >= morphTime)
-		{
-			type = DISAPPEAR;
-			resetTime();
-			isMorphing = false;
-		}
-	}
+	//else if (type == DAMAGE)
+	//{
+	//	if ((morph -  activMorph) >= morphTime)
+	//	{
+	//		type = DISAPPEAR;
+	//		resetTime();
+	//		isMorphing = false;
+	//	}
+	//}
 }
 
 // Delete useless platforms

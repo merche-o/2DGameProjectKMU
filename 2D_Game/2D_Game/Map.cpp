@@ -41,6 +41,7 @@ void Map::createPlatform(int x, int y, int length, bool symmetry)
 	}
 }
 
+#include <iostream>
 // Run function for platform
 void Map::checkPlatform()
 {

@@ -18,6 +18,7 @@ GameEngine::GameEngine(void)
 {
 	ressources.loadEnnemiesFromFile("./Ressources/Ennemies.txt");
 	ressources.loadWeaponsFromFile("./Ressources/Weapons.txt");
+	ressources.loadTextures();
 
 	// Create window
 	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME/*, sf::Style::Fullscreen*/);
@@ -42,24 +43,26 @@ GameEngine::~GameEngine(void)
 void GameEngine::writeScore()
 {
 	int i = 0;
+
 	std::string fileName = "./Ressources/Highscore.txt";
 	std::ofstream file(fileName.c_str(), std::ios::out | std::ios::trunc);
 	std::string::size_type sz;
 	bool write = true;
 	file << "rank:score\n";
+
 	while (i < 5)
 	{
-		
-		 if (std::stoi(this->menu.scoreTable[i],&sz) < this->player[0]->score && write == true)
+		if (std::stoi(this->menu.scoreTable[i], &sz) < this->player[0]->score && write == true)
 		{
 			this->menu.scoreTable[i] = std::to_string((long double)this->player[0]->score);
 			write = false;
 		}
-			file << std::to_string((long double)i +1 ) << ":" << this->menu.scoreTable[i] << '\n';
+		file << std::to_string((long double)i +1 ) << ":" << this->menu.scoreTable[i] << '\n';
 		i++;
 	}
 	file.close();
 }
+
 void GameEngine::resetElement()
 {
 	ennemyList.clear();
@@ -88,7 +91,7 @@ void GameEngine::run()
 			{
 				resetElement();
 				restart = false;
-				sound.musicON();
+				//sound.musicON();
 				sound.playMusic(sound.music);
 			}
 			
