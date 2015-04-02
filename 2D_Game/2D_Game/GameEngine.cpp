@@ -101,10 +101,11 @@ void GameEngine::run()
 			if (ref.dealDamage(player) == false)
 			{
 				writeScore();
-				resetElement();
-				state = MENU;
+				
+				state = ENDGAME;
 				goMenu = false;
 				pause = false;
+				menu.menuEndGame();
 			}
 			ref.cleanEnemyList();
 			ref.cleanItemList();
@@ -142,11 +143,31 @@ void GameEngine::run()
 		}
 		else if (state == PAUSE)
 		{
-			graphic.affPauseBG();
 			menu.run();
+			graphic.affPauseBG();
 			if (goMenu == true)
 			{
 				resetElement();
+				state = MENU;
+				goMenu = false;
+				pause = false;
+			}
+			if (restart == true)
+			{
+				pause = false;
+				state = GAME;
+				restart = false;
+				globalClock.restart();
+			}
+		}
+		else if (state == ENDGAME)
+		{
+			menu.endGame(player[0]->score);
+			
+			resetElement();
+			if (goMenu == true)
+			{
+		//		resetElement();
 				state = MENU;
 				goMenu = false;
 				pause = false;
