@@ -24,30 +24,38 @@ Platform::Platform(int X, int Y, int Length, float & Time)
 		type = GO_RIGHT;
 	//else if (r == 3)
 		//type = DAMAGE;
+	std::cout << y << std::endl;
+	if (y / Settings::CASE_SIZE == 22 || y / Settings::CASE_SIZE == 0)
+		type = NONE;
+
 
 	r = rand() % 20 + 5;
 	isMorphing = false; // not activ
-	activMorph = r; // time before active
+	activMorph = 5; // time before active
 	morphTime = 3; // time for animation
 	transp = 255; // transparency
 	speed = 1 * Settings::CASE_SIZE;
 
-	float tmp;
-	tmp = morphTime / 6;
 
-	lifeGradient.push_back(morphTime);
-	lifeGradient.push_back(tmp * 5);
-	lifeGradient.push_back(tmp * 4);
-	lifeGradient.push_back(tmp * 3);
-	lifeGradient.push_back(tmp * 2);
-	lifeGradient.push_back(tmp);
+	if (type == DISAPPEAR)
+	{
+		float tmp;
+		tmp = morphTime / 6;
 
-	transpGradient.push_back(0);
-	transpGradient.push_back(50);
-	transpGradient.push_back(100);
-	transpGradient.push_back(150);
-	transpGradient.push_back(200);
-	transpGradient.push_back(250);
+		lifeGradient.push_back(morphTime);
+		lifeGradient.push_back(tmp * 5);
+		lifeGradient.push_back(tmp * 4);
+		lifeGradient.push_back(tmp * 3);
+		lifeGradient.push_back(tmp * 2);
+		lifeGradient.push_back(tmp);
+
+		transpGradient.push_back(0);
+		transpGradient.push_back(50);
+		transpGradient.push_back(100);
+		transpGradient.push_back(150);
+		transpGradient.push_back(200);
+		transpGradient.push_back(250);
+	}
 }
 
 
@@ -59,7 +67,10 @@ Platform::~Platform(void)
 void Platform::checkMorphTime()
 {
 	if (isMorphing == false && morph > activMorph)
+	{
 		isMorphing = true;
+		resetTime();
+	}
 }
 
 void Platform::playMorph(std::vector<Platform*> & platform)
@@ -82,15 +93,15 @@ void Platform::playMorph(std::vector<Platform*> & platform)
 		x -= speed * loopTime;
 	else if (type == GO_RIGHT)
 		x += speed * loopTime;
-	else if (type == DAMAGE)
-	{
-		if ((morph -  activMorph) >= morphTime)
-		{
-			type = DISAPPEAR;
-			resetTime();
-			isMorphing = false;
-		}
-	}
+	//else if (type == DAMAGE)
+	//{
+	//	if ((morph -  activMorph) >= morphTime)
+	//	{
+	//		type = DISAPPEAR;
+	//		resetTime();
+	//		isMorphing = false;
+	//	}
+	//}
 }
 
 // Delete useless platforms
