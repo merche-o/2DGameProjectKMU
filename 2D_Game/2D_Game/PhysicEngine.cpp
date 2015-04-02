@@ -69,6 +69,7 @@ void PhysicEngine::playerAction(int playerId)
 		this->_player[playerId]->updateClock();
 	}
 	gravity(this->_player[playerId]);
+	_referee->collideSpell(this->_player[playerId]);
 }
 
 void PhysicEngine::moveLeft(AUnit *src)

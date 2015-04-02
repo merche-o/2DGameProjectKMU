@@ -64,6 +64,32 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 }
 
 
+int Referee::collideSpell(AUnit *src)
+{
+	if (((Player *)src)->spell.play == true)
+	{
+		for (int i = 0; i < this->_enemyList.size(); ++i)
+		{
+			bool intersection;
+
+			if (/*Settings::WIDTH_GAME < this->_enemyList[i]->x ||*/
+				/*this->_enemyList[i]->x + Settings::CASE_SIZE < 0 ||*/
+				((Player *)src)->spell.y /*+ ((Player *)src)->spell.height*/ < this->_enemyList[i]->y ||
+				this->_enemyList[i]->y + Settings::CASE_SIZE < ((Player *)src)->spell.y)
+			{
+				intersection = false;
+			}
+			else
+			{
+				intersection = true;
+				this->_enemyList[i]->getHit(100);
+				return (-1);
+			}
+		}
+	}
+	return (0);
+}
+
 // Check collision with wall
 int Referee::collideWall(AUnit *src, Event::Input const &btn)
 {
