@@ -66,6 +66,68 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 	return (-1);
 }
 
+void Referee::AICollideScreen(Enemy * enemy)
+{
+	if (enemy->x < 0)
+	{
+		enemy->x = 0;
+		enemy->dir = RIGHT;
+	}
+	else if (enemy->x + enemy->width > Settings::WIDTH - 1)
+	{
+		enemy->x = Settings::WIDTH - 1 - enemy->width;
+		enemy->dir = LEFT;
+	}
+	if (enemy->y < 0)
+	{
+		enemy->y = 0;
+		enemy->currentDirection == DOWN;
+	}
+	else if (enemy->y + enemy->height > Settings::HEIGHT - 1)
+	{
+		enemy->y = Settings::HEIGHT - 1 - enemy->height;
+		enemy->currentDirection == UP;
+	}
+}
+
+bool Referee::AICollideWalls(Enemy * enemy)
+{
+	for (int i = 0; i < this->_map.platform.size(); i++)
+	{
+		if (!(	enemy->x + enemy->width		<	_map.platform[i]->x														||
+			enemy->x					>	_map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE	||
+			enemy->y + enemy->height	<	_map.platform[i]->y														||
+			enemy->y					>	_map.platform[i]->y + Settings::CASE_SIZE	))
+		{
+			if (enemy->currentDirection == FORWARD)
+			{
+				if (enemy->dir == RIGHT)
+				{
+					enemy->x = _map.platform[i]->x - enemy->width - 1;
+					enemy->dir = LEFT;
+				}
+				else //if (enemy->dir == LEFT)
+				{
+					enemy->x = _map.platform[i]->x + Settings::CASE_SIZE * _map.platform[i]->length + 1;
+					enemy->dir = RIGHT;
+				}
+			}
+			else if (enemy->currentDirection == UP)
+			{
+				enemy->y = _map.platform[i]->y + Settings::CASE_SIZE + 1;
+				enemy->currentDirection == FORWARD;
+			}
+			else if (enemy->currentDirection == DOWN)
+			{
+				enemy->y = _map.platform[i]->y - enemy->height - 1;
+				enemy->currentDirection == FORWARD;
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
 
 // Check collision with wall
 int Referee::collideWall(AUnit *src, Event::Input const &btn)
