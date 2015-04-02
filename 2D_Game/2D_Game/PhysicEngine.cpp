@@ -73,42 +73,42 @@ void PhysicEngine::playerAction(int playerId)
 
 void PhysicEngine::moveLeft(AUnit *src)
 {
-	 if (src->x - (src->speed * src->loopTime) <= -5)
-		return;
+// 	 if (src->x - (src->speed * src->loopTime) <= -5)
+// 		return;
 	src->x -= (src->speed * src->loopTime);
 	src->nextFrame();
 	if (src->isPlayer == false)
 		return;
-	if (((Player *)src)->inDash == 0)
-		((Player *)src)->inDash = 1;
-	if (((Player *)src)->inDash == 2 && ((Player *)src)->tmpTime < 0.2)
-	{
-		((Player *)src)->inDash = 3;
-		src->x -= (src->speed * 5 * src->loopTime);
-	}
+	//if (((Player *)src)->inDash == 0)
+	//	((Player *)src)->inDash = 1;
+	//if (((Player *)src)->inDash == 2 && ((Player *)src)->tmpTime < 0.2)
+	//{
+	//	((Player *)src)->inDash = 3;
+	//	src->x -= (src->speed * 5 * src->loopTime);
+	//}
 }
 
 void PhysicEngine::moveRight(AUnit *src)
 {
 	// Le 5 doit surement etre changer
-	if (src->x + (src->speed *src->loopTime) >= Settings::WIDTH_GAME + 5 - src->width )
-		return;
+// 	if (src->x + (src->speed *src->loopTime) >= Settings::WIDTH_GAME + 5 - src->width )
+// 		return;
 	src->x += (src->speed *src->loopTime);
 	src->nextFrame();
 	if (src->isPlayer == false)
 		return;
-	if (((Player *)src)->inDash == 0)
-		((Player *)src)->inDash = -1;
+	/*if (((Player *)src)->inDash == 0)
+	((Player *)src)->inDash = -1;
 	if (((Player *)src)->inDash == -2 && ((Player *)src)->tmpTime < 0.2)
 	{
-		((Player *)src)->inDash = -3;
-		src->x += (src->speed * 5 * src->loopTime);
-	}
+	((Player *)src)->inDash = -3;
+	src->x += (src->speed * 5 * src->loopTime);
+	}*/
 }
 
 void PhysicEngine::Jump(AUnit *src)
 {
-	if (_referee->colliderCheck(src, Event::I_UP) == -1)
+	if (_referee->colliderCheck(src, Event::I_UP) != 1)
 	{
 		if (src->doubleJump == true && src->state == U_END_JUMP)
 		{

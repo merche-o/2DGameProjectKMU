@@ -26,6 +26,8 @@ public:
 	float const &loopTime;
 	e_type type;
 	sf::Texture texture;
+	float prevX;
+	float prevY;
 private:
 	float pX;
 	float pY;

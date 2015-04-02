@@ -286,6 +286,17 @@ void Referee::bulletHit(std::vector<Player *> &_player)
 					intersection = false;
 				}
 			}
+			else if (this->_bulletList[i]->dirX == 0)
+			{
+				if (this->_bulletList[i]->dirY == -1)
+				{
+					if (this->_enemyList[i2]->x  + this->_enemyList[i2]->width < this->_bulletList[i]->x ||
+						this->_bulletList[i]->prevX + this->_bulletList[i]->texture.getSize().x < this->_enemyList[i2]->x ||
+						this->_enemyList[i2]->y  + this->_enemyList[i2]->height < this->_bulletList[i]->y ||
+						this->_bulletList[i]->prevY + this->_bulletList[i]->texture.getSize().y < this->_enemyList[i2]->y)
+					intersection = false;
+				}
+			}
 			/*if (this->_enemyList[i2]->x  + this->_enemyList[i2]->width < this->_bulletList[i]->x ||
 				  this->_bulletList[i]->x + this->_bulletList[i]->texture.getSize().x < this->_enemyList[i2]->x ||
 				  this->_enemyList[i2]->y  + this->_enemyList[i2]->height < this->_bulletList[i]->y ||
