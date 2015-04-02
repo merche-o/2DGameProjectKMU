@@ -11,6 +11,4 @@ std::string		IntToString(int);
 int			StringToInt(std::string);
 int			Case(int);
 
-void init_randomize(std::vector<int> & randomize);
-
 #endif

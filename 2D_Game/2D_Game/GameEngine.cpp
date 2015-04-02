@@ -24,8 +24,6 @@ GameEngine::GameEngine(void)
 	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME/*, sf::Style::Fullscreen*/);
 	window.setFramerateLimit(30);
 
-	init_randomize(randomize);
-
 	physics._referee = &ref;
 	
 	player.push_back(new Player(ressources, loopTime, 0));

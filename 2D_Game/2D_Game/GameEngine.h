@@ -53,8 +53,6 @@ private:
 	sf::Time globalTimer;
 	float loopTime;
 	
-	std::vector<int> randomize;
-	
 	void writeScore();
 public:
 	sf::RenderWindow window;

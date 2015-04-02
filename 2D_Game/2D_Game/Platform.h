@@ -36,7 +36,7 @@ public:
 private:
 
 public:
-	Platform(int X, int Y, int Length, float & Time);
+	Platform(int X, int Y, int Length, float & Time, unsigned int randomize);
 	~Platform(void);
 
 	void checkMorphTime();
@@ -44,6 +44,7 @@ public:
 	bool checkDead();
 	void refreshTime();
 	void resetTime();
+	void recycle();
 };
 
 // Refaire les plateforms sous forme de class = stockage dynamique pour application dynamique

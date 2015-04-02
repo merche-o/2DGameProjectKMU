@@ -2,6 +2,7 @@
 
 #include "Map.h"
 #include "Settings.h"
+#include <iostream>
 
 Map::Map(float & Time)
 	: loopTime(Time)
@@ -52,18 +53,17 @@ Map::~Map(void)
 
 void Map::createPlatform(int x, int y, int length, bool symmetry)
 {
-	platform.push_back(new Platform(x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime));
+	platform.push_back(new Platform(x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime, (unsigned int)(100 * loopTime)));
 
 	if (symmetry == true)
 	{
 		int width_map = Settings::WIDTH / Settings::CASE_SIZE;
 		int new_x = width_map - (x + length);
 
-		platform.push_back(new Platform(new_x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime));
+		platform.push_back(new Platform(new_x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime, (unsigned int)(50 * loopTime)));
 	}
 }
 
-#include <iostream>
 // Run function for platform
 void Map::checkPlatform()
 {
@@ -77,7 +77,11 @@ void Map::checkPlatform()
 		if (platform[i]->isMorphing == true)
 		{
 			if (platform[i]->checkDead() == true)
-				platform.erase(platform.begin() + i);
+			{
+				platform[i]->recycle();
+				if (platform[i]->type == platform[i]->DISAPPEAR)
+					platform.erase(platform.begin() + i);
+			}
 			else
 				platform[i]->playMorph(platform);
 		}

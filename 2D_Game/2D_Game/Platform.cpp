@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cstdlib>
 
-Platform::Platform(int X, int Y, int Length, float & Time)
+Platform::Platform(int X, int Y, int Length, float & Time, unsigned int randomize)
 	: x(X), y(Y), length(Length), loopTime(Time)
 {
 	for (int i = 0; i < length; ++i)
@@ -14,7 +14,7 @@ Platform::Platform(int X, int Y, int Length, float & Time)
 	}
 
 	// Choose a type randomly
-	srand(x + y + length);
+	srand(x + y + length + randomize + time(NULL));
 	int r = rand() % 3;
 	if (r == 0)
 		type = DISAPPEAR;
@@ -123,4 +123,16 @@ void Platform::refreshTime()
 void Platform::resetTime()
 {
 	morph = 0;
+}
+
+void Platform::recycle()
+{
+	if (type == GO_LEFT)
+		type = GO_RIGHT;
+	else if (type == GO_RIGHT)
+		type = GO_LEFT;
+	else if (type == DISAPPEAR)
+	{
+
+	}
 }
