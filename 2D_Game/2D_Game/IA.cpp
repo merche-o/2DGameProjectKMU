@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-IA::IA(Referee &ref,  std::vector<AUnit*>  &enemylist)
+IA::IA(Referee &ref, std::vector<AUnit*> &enemylist)
 	: _ref(ref), _ennemyList(enemylist)  
 {
 	this->IAManager[E_BASIC] = &IA::basicIA;

@@ -92,7 +92,7 @@ void GameEngine::run()
 			{
 				resetElement();
 				restart = false;
-				//sound.musicON();
+				sound.musicON();
 				sound.playMusic(sound.music);
 			}
 			

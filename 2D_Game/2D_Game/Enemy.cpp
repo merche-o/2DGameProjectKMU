@@ -6,7 +6,17 @@
 Enemy::Enemy(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, enemy_type type, float &loopTime)
 	: AUnit(Life, Speed, Damage, SpawnTime, Texture, X, Y, Dir,  loopTime), etype(type)
 {
-	particleColor = sf::Color(255, 150, 0);
+	// Mettre les coins dans le txt Ennemies, recupere dans ressources
+	if (etype == E_BASIC)
+	{
+		particleColor = sf::Color(255, 150, 0);
+		coins = 10;
+	}
+	else if (etype == E_JUMPCASE)
+	{
+		particleColor = sf::Color(0, 200, 255);
+		coins = 20;
+	}
 }
 
 

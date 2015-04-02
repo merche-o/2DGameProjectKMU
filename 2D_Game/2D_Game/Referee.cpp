@@ -220,7 +220,7 @@ void Referee::cleanItemList()
 //when an enemy dies, he drop a coin
 void Referee::dropCoins(Enemy *src)
 {
-	this->_itemList.push_back(new Coin(src->x, src->y, this->loopTime , 20, Item::COINS, _res.texture["coin"]));
+	this->_itemList.push_back(new Coin(src->x, src->y, this->loopTime , src->coins, Item::COINS, _res.texture["coin"]));
 }
 
 // when player is hit, he is invincible
