@@ -79,9 +79,9 @@ void Graphic::affInterface()
 
 void Graphic::affMap()
 {
-	sf::Texture Background;
-	Background.loadFromFile("./Ressources/Images/BackgroundGame.png");
-	loadImage(0, 0/* + Settings::HEIGHT_INTERFACE*/, Background);
+	//sf::Texture Background;
+	//Background.loadFromFile("./Ressources/Images/BackgroundGame.png");
+	//loadImage(0, 0/* + Settings::HEIGHT_INTERFACE*/, Background);
 
 
 	int height_map = (Settings::HEIGHT/* + Settings::HEIGHT_INTERFACE*/) / Settings::CASE_SIZE;

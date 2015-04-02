@@ -15,18 +15,19 @@ Platform::Platform(int X, int Y, int Length, float & Time)
 
 	// Choose a type randomly
 	srand(x + y + length);
-	int r = rand() % 4;
+	int r = rand() % 3;
 	if (r == 0)
 		type = DISAPPEAR;
 	else if (r == 1)
 		type = GO_LEFT;
 	else if (r == 2)
 		type = GO_RIGHT;
-	else if (r == 3)
-		type = DAMAGE;
+	//else if (r == 3)
+		//type = DAMAGE;
 
+	r = rand() % 20 + 5;
 	isMorphing = false; // not activ
-	activMorph = 60; // time before active
+	activMorph = r; // time before active
 	morphTime = 3; // time for animation
 	transp = 255; // transparency
 	speed = 1 * Settings::CASE_SIZE;
