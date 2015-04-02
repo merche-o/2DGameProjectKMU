@@ -18,6 +18,7 @@ GameEngine::GameEngine(void)
 {
 	ressources.loadEnnemiesFromFile("./Ressources/Ennemies.txt");
 	ressources.loadWeaponsFromFile("./Ressources/Weapons.txt");
+	ressources.loadTextures();
 
 	// Create window
 	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME/*, sf::Style::Fullscreen*/);
@@ -42,24 +43,26 @@ GameEngine::~GameEngine(void)
 void GameEngine::writeScore()
 {
 	int i = 0;
+
 	std::string fileName = "./Ressources/Highscore.txt";
 	std::ofstream file(fileName.c_str(), std::ios::out | std::ios::trunc);
 	std::string::size_type sz;
 	bool write = true;
 	file << "rank:score\n";
+
 	while (i < 5)
 	{
-		
-		 if (std::stoi(this->menu.scoreTable[i],&sz) < this->player[0]->score && write == true)
+		if (std::stoi(this->menu.scoreTable[i], &sz) < this->player[0]->score && write == true)
 		{
 			this->menu.scoreTable[i] = std::to_string((long double)this->player[0]->score);
 			write = false;
 		}
-			file << std::to_string((long double)i +1 ) << ":" << this->menu.scoreTable[i] << '\n';
+		file << std::to_string((long double)i +1 ) << ":" << this->menu.scoreTable[i] << '\n';
 		i++;
 	}
 	file.close();
 }
+
 void GameEngine::resetElement()
 {
 	ennemyList.clear();
@@ -68,6 +71,7 @@ void GameEngine::resetElement()
 	player[0]->init(ressources);
 	graphic.resetInterface();
 	globalClock.restart();
+	map.init(false);
 }
 
 
@@ -88,7 +92,7 @@ void GameEngine::run()
 			{
 				resetElement();
 				restart = false;
-				sound.musicON();
+				//sound.musicON();
 				sound.playMusic(sound.music);
 			}
 			
@@ -101,10 +105,11 @@ void GameEngine::run()
 			if (ref.dealDamage(player) == false)
 			{
 				writeScore();
-				resetElement();
-				state = MENU;
+				
+				state = ENDGAME;
 				goMenu = false;
 				pause = false;
+				menu.menuEndGame();
 			}
 			ref.cleanEnemyList();
 			ref.cleanItemList();
@@ -142,10 +147,11 @@ void GameEngine::run()
 		}
 		else if (state == PAUSE)
 		{
-			graphic.affPauseBG();
 			menu.run();
+			//graphic.affPauseBG();
 			if (goMenu == true)
 			{
+
 				resetElement();
 				state = MENU;
 				goMenu = false;
@@ -153,6 +159,27 @@ void GameEngine::run()
 			}
 			if (restart == true)
 			{
+				pause = false;
+				state = GAME;
+				restart = false;
+				globalClock.restart();
+			}
+		}
+		else if (state == ENDGAME)
+		{
+			menu.endGame(player[0]->score);
+			
+			if (goMenu == true)
+			{
+				resetElement();
+				state = MENU;
+				menu.menuMain();
+				goMenu = false;
+				pause = false;
+			}
+			if (restart == true)
+			{
+				resetElement();
 				pause = false;
 				state = GAME;
 				restart = false;

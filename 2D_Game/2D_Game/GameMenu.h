@@ -20,6 +20,7 @@ private:
 		CREDITS,
 		HIGHSCORE,
 		PAUSE,
+		ENDGAME,
 		NONE
 	};
 	
@@ -48,14 +49,18 @@ public:
 	void posInsideTheMenu();
 	void menuHowPlay();
 	void run();
+	void endGame(int score);
 	void pause();
 	void displayCurrentMenu();
 	void displayPause();
+	void displayEndGame(int score);
 	void menuSettings();
 	void menuHighscore();
 	void menuCredits();
 	void menuPause();
 	void menuReturn();
+	void menuEndGame();
+	void menuMain();
 	void backToMenu();
 	void menuPlay();
 	void addTextMenu(e_state state, TextMenu * text);

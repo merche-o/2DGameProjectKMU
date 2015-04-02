@@ -70,10 +70,23 @@ void Ressources::loadWeaponsFromFile(std::string fileName)
 	}
 }
 
-void Ressources::loadTexturesFromFile(std::string fileName)
+void Ressources::loadTextures()
 {
 	// Map Texture
-	texture["wall"].loadFromFile("./Ressources/Images/Wall.png");
+	texture["Lplatform"].loadFromFile("./Ressources/Images/L_Platform.png");
+	texture["Mplatform"].loadFromFile("./Ressources/Images/M_Platform.png");
+	texture["Rplatform"].loadFromFile("./Ressources/Images/R_Platform.png");
+
+	texture["LDplatform"].loadFromFile("./Ressources/Images/R_Dmg_Platform.png");
+	texture["LDplatform"].loadFromFile("./Ressources/Images/R_Dmg_Platform.png");
+	texture["LDplatform"].loadFromFile("./Ressources/Images/R_Dmg_Platform.png");
+
 	texture["coin"].loadFromFile("./Ressources/Images/ShieldBar.png");
+	texture["life"].loadFromFile("./Ressources/Images/LifeBar.png");
+	texture["shield"].loadFromFile("./Ressources/Images/ShieldBar.png");
 	texture["ammo"].loadFromFile("./Ressources/Images/Ammo0.png");
+	texture["interface"].loadFromFile("./Ressources/Images/Interface.png");
+	texture["ammoLogo"].loadFromFile("./Ressources/Images/IAmmo.png");
+	texture["background"].loadFromFile("./Ressources/Images/BackgroundGame.png");
+	texture["pause"].loadFromFile("./Ressources/Images/pause_bg.png");
 }

@@ -10,8 +10,6 @@ Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList,
 	collideManager.push_back(&Referee::collideEnemy);
 	collideManager.push_back(&Referee::collideBonus);
 	collideManager.push_back(&Referee::collideWall);
-	_res.texture["coin"].loadFromFile("./Ressources/Images/ShieldBar.png");
-	_res.texture["ammo"].loadFromFile("./Ressources/Images/Ammo0.png");
 }
 
 
@@ -145,7 +143,7 @@ int Referee::collideEnemy(AUnit  *src, Event::Input const &btn)
 // Function to apply gravity
 bool Referee::applyGravity(AUnit  *src)
 {
-for (int i = 0; i < this->_map.platform.size(); ++i)
+	for (int i = 0; i < this->_map.platform.size(); ++i)
 	{
 		if (src->y + Settings::CASE_SIZE	>=	this->_map.platform[i]->y &&
 			src->y + Settings::CASE_SIZE	<	this->_map.platform[i]->y + Settings::CASE_SIZE)

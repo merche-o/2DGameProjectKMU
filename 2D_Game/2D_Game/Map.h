@@ -18,6 +18,7 @@ private:
 
 public:
 	Map(float & Time);
+	void init(bool);
 	~Map(void);
 
 	void createPlatform(int x, int y, int length, bool symmetry = false);
