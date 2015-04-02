@@ -71,6 +71,7 @@ void GameEngine::resetElement()
 	player[0]->init(ressources);
 	graphic.resetInterface();
 	globalClock.restart();
+	map.init(false);
 }
 
 
@@ -89,7 +90,6 @@ void GameEngine::run()
 		{
 			if (restart == true)
 			{
-				map.init(false);
 				resetElement();
 				restart = false;
 				//sound.musicON();
@@ -148,9 +148,10 @@ void GameEngine::run()
 		else if (state == PAUSE)
 		{
 			menu.run();
-			graphic.affPauseBG();
+			//graphic.affPauseBG();
 			if (goMenu == true)
 			{
+
 				resetElement();
 				state = MENU;
 				goMenu = false;
@@ -168,16 +169,17 @@ void GameEngine::run()
 		{
 			menu.endGame(player[0]->score);
 			
-			resetElement();
 			if (goMenu == true)
 			{
-		//		resetElement();
+				resetElement();
 				state = MENU;
+				menu.menuMain();
 				goMenu = false;
 				pause = false;
 			}
 			if (restart == true)
 			{
+				resetElement();
 				pause = false;
 				state = GAME;
 				restart = false;
