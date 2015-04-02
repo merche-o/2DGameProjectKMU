@@ -30,6 +30,9 @@ public:
 	float & loopTime; // time of one global loop
 	float morph; // additionnal loopTime
 
+	std::vector<int> transpGradient;
+	std::vector<float> lifeGradient;
+
 private:
 
 public:

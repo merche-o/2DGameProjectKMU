@@ -15,21 +15,39 @@ Platform::Platform(int X, int Y, int Length, float & Time)
 
 	// Choose a type randomly
 	srand(x + y + length);
-	int r = rand() % 4;
+	int r = rand() % 3;
 	if (r == 0)
 		type = DISAPPEAR;
 	else if (r == 1)
 		type = GO_LEFT;
 	else if (r == 2)
 		type = GO_RIGHT;
-	else if (r == 3)
-		type = DAMAGE;
+	//else if (r == 3)
+		//type = DAMAGE;
 
+	r = rand() % 20 + 5;
 	isMorphing = false; // not activ
-	activMorph = 60; // time before active
+	activMorph = r; // time before active
 	morphTime = 3; // time for animation
 	transp = 255; // transparency
 	speed = 1 * Settings::CASE_SIZE;
+
+	float tmp;
+	tmp = morphTime / 6;
+
+	lifeGradient.push_back(morphTime);
+	lifeGradient.push_back(tmp * 5);
+	lifeGradient.push_back(tmp * 4);
+	lifeGradient.push_back(tmp * 3);
+	lifeGradient.push_back(tmp * 2);
+	lifeGradient.push_back(tmp);
+
+	transpGradient.push_back(0);
+	transpGradient.push_back(50);
+	transpGradient.push_back(100);
+	transpGradient.push_back(150);
+	transpGradient.push_back(200);
+	transpGradient.push_back(250);
 }
 
 
@@ -48,9 +66,17 @@ void Platform::playMorph(std::vector<Platform*> & platform)
 {
 	if (type == DISAPPEAR)
 	{
-		transp = (morphTime - (morph - activMorph)) * 255 / morphTime;
+		for (int i = 0; i < lifeGradient.size(); ++i)
+		{
+			if (morph >= lifeGradient[i])
+			{
+				transp = transpGradient[i];
+				break;
+			}
+		}
+		/*transp = (morphTime - (morph - activMorph)) * 255 / morphTime;
 		if (transp < 0)
-			transp = 0;
+			transp = 0;*/
 	}
 	else if (type == GO_LEFT)
 		x -= speed * loopTime;

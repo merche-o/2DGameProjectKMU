@@ -38,8 +38,8 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 		for (int i = 0; i < this->_itemList.size(); i++)
 		{
 			bool intersection; // Factorised  algo for collide between 2 rectangles
-			if (src->x + Settings::CASE_SIZE < this->_itemList[i]->x || this->_itemList[i]->x < src->x
-				||  src->y + Settings::CASE_SIZE < this->_itemList[i]->y || this->_itemList[i]->y < src->y)
+			if (src->x + Settings::CASE_SIZE < this->_itemList[i]->x || this->_itemList[i]->x + this->_itemList[i]->texture.getSize().x < src->x
+				||  src->y + Settings::CASE_SIZE < this->_itemList[i]->y || this->_itemList[i]->y + this->_itemList[i]->texture.getSize().y < src->y)
 			{
 				intersection = false;
 			}
@@ -265,8 +265,8 @@ void Referee::bulletHit(std::vector<Player *> &_player)
 		{
 			bool intersection;
 
-			if (this->_enemyList[i2]->x  + Settings::CASE_SIZE < this->_bulletList[i]->x || this->_bulletList[i]->x < this->_enemyList[i2]->x
-				||  this->_enemyList[i2]->y  + Settings::CASE_SIZE < this->_bulletList[i]->y || this->_bulletList[i]->y < this->_enemyList[i2]->y)
+			if (this->_enemyList[i2]->x  + Settings::CASE_SIZE < this->_bulletList[i]->x || this->_bulletList[i]->x + this->_bulletList[i]->texture.getSize().x < this->_enemyList[i2]->x
+				||  this->_enemyList[i2]->y  + Settings::CASE_SIZE < this->_bulletList[i]->y || this->_bulletList[i]->y + this->_bulletList[i]->texture.getSize().y < this->_enemyList[i2]->y)
 			{
 				intersection = false;
 			}

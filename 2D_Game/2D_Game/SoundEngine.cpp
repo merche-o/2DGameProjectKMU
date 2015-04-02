@@ -6,7 +6,7 @@
 SoundEngine::SoundEngine(void)
 {
 	// Musics List
-	music.openFromFile("./Ressources/Musics/119-under-the-ground.ogg");
+	music.openFromFile("./Ressources/Musics/MusicBob.ogg");
 	activeMusic = false;
 	
 	// Sounds List
@@ -47,7 +47,7 @@ void SoundEngine::playMusic(sf::Music & Music)
 	if (activeMusic == true)
 	{
 		Music.setLoop(true);
-		Music.setVolume(20);
+		Music.setVolume(60);
 		Music.play();
 	}
 }

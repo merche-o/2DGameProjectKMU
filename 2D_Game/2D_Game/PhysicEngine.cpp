@@ -211,27 +211,27 @@ void PhysicEngine::RmoveLeft(AUnit *src)
 		return;
 
 	//For Dash
-	if (((Player *)src)->inDash == 1)
-	{
-		((Player *)src)->tmpTime = 0;
-		((Player *)src)->inDash = 2;
-		((Player *)src)->tmpTime += src->loopTime;
-	}
-	else if (((Player *)src)->inDash == 2)
-	{
-		((Player *)src)->tmpTime += loopTime;
-	}
+	//if (((Player *)src)->inDash == 1)
+	//{
+	//	((Player *)src)->tmpTime = 0;
+	//	((Player *)src)->inDash = 2;
+	//	((Player *)src)->tmpTime += src->loopTime;
+	//}
+	//else if (((Player *)src)->inDash == 2)
+	//{
+	//	((Player *)src)->tmpTime += loopTime;
+	//}
 
-	if (((Player *)src)->inDash > 0 && ((Player *)src)->tmpTime > 0.5)
-	{
-			
-		((Player *)src)->inDash = 0;
-		((Player *)src)->tmpTime = 0;
-	}
-	if (((Player *)src)->inDash == 0)
-		((Player *)src)->tmpTime = 0;
-	if (((Player *)src)->inDash == 3)
-		((Player *)src)->tmpTime += src->loopTime;
+	//if (((Player *)src)->inDash > 0 && ((Player *)src)->tmpTime > 0.5)
+	//{
+	//		
+	//	((Player *)src)->inDash = 0;
+	//	((Player *)src)->tmpTime = 0;
+	//}
+	//if (((Player *)src)->inDash == 0)
+	//	((Player *)src)->tmpTime = 0;
+	//if (((Player *)src)->inDash == 3)
+	//	((Player *)src)->tmpTime += src->loopTime;
 	return;
 }
 
@@ -243,25 +243,25 @@ void PhysicEngine::RmoveRight(AUnit *src)
 		return;
 
 	//For Dash
-	if (((Player *)src)->inDash == -1)
-	{
-		((Player *)src)->tmpTime = 0;
-		((Player *)src)->inDash = -2;
-		((Player *)src)->tmpTime += src->loopTime;
-	}
-	else if (((Player *)src)->inDash == -2)
-	{
-		((Player *)src)->tmpTime += loopTime;
-	}
-	if (((Player *)src)->inDash < 0 && ((Player *)src)->tmpTime > 0.5)
-	{
-		((Player *)src)->inDash = 0;
-		((Player *)src)->tmpTime = 0;
-	}
-	if (((Player *)src)->inDash == 0)
-		((Player *)src)->tmpTime = 0;
-	if (((Player *)src)->inDash == -3)
-		((Player *)src)->tmpTime += src->loopTime;
+	//if (((Player *)src)->inDash == -1)
+	//{
+	//	((Player *)src)->tmpTime = 0;
+	//	((Player *)src)->inDash = -2;
+	//	((Player *)src)->tmpTime += src->loopTime;
+	//}
+	//else if (((Player *)src)->inDash == -2)
+	//{
+	//	((Player *)src)->tmpTime += loopTime;
+	//}
+	//if (((Player *)src)->inDash < 0 && ((Player *)src)->tmpTime > 0.5)
+	//{
+	//	((Player *)src)->inDash = 0;
+	//	((Player *)src)->tmpTime = 0;
+	//}
+	//if (((Player *)src)->inDash == 0)
+	//	((Player *)src)->tmpTime = 0;
+	//if (((Player *)src)->inDash == -3)
+	//	((Player *)src)->tmpTime += src->loopTime;
 
 	return;
 }

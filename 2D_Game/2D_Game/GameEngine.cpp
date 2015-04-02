@@ -18,8 +18,6 @@ GameEngine::GameEngine(void)
 {
 	ressources.loadEnnemiesFromFile("./Ressources/Ennemies.txt");
 	ressources.loadWeaponsFromFile("./Ressources/Weapons.txt");
-	sound.musicOFF();
-	sound.playMusic(sound.music);
 
 	// Create window
 	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME/*, sf::Style::Fullscreen*/);
@@ -90,6 +88,8 @@ void GameEngine::run()
 			{
 				resetElement();
 				restart = false;
+				sound.musicON();
+				sound.playMusic(sound.music);
 			}
 			
 			window.clear();
