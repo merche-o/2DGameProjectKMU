@@ -2,8 +2,6 @@
 
 #include "Referee.h"
 
-#include <iostream>
-
 Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList ,Map &map, float &LoopTime, Ressources &Res, SoundEngine &sound) 
 	: _enemyList(enemylist), _itemList(itemList),_bulletList(bulletList), _map(map), loopTime(LoopTime), _res(Res), _sound(sound)
 {
