@@ -24,30 +24,30 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 	addTextMenu(SETTINGS, new TextMenu(350, 0, "Settings", 96, 250, 60, 60));
 	addKeyTextMenu(SETTINGS, new TextMenu(400, 200, "Back", 48), &GameMenu::menuReturn);
 
-	addTextMenu(HOWPLAY, new TextMenu(350, 0, "How to Play", 96, 250, 60, 60));
-	addTextMenu(HOWPLAY, new TextMenu(200, 200, "A : Left", 48, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(200, 300, "D : Right", 48, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(200, 400, "W : Jump", 48, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(600, 200, "Left Arrow : Fire left", 48, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(600, 300, "Right Arrow : Fire right", 48, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(600, 400, "Up Arrow : Fire up", 48, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(600, 500, "Space : Use spell", 48, 60, 250, 250));
-	addKeyTextMenu(HOWPLAY, new TextMenu(400, 600, "Back", 48), &GameMenu::menuReturn);
+	addTextMenu(HOWPLAY, new TextMenu(350, 0, "How to Play", 80, 250, 60, 60));
+	addTextMenu(HOWPLAY, new TextMenu(200, 200, "A : Left", 32, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(200, 300, "D : Right", 32, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(200, 400, "W : Jump", 32, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(600, 200, "Left Arrow : Fire left", 32, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(600, 300, "Right Arrow : Fire right", 32, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(600, 400, "Up Arrow : Fire up", 32, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(600, 500, "Space : Use spell", 32, 60, 250, 250));
+	addKeyTextMenu(HOWPLAY, new TextMenu(400, 600, "Back", 32), &GameMenu::menuReturn);
 
 	
 
 	addTextMenu(CREDITS, new TextMenu(350, 0, "Credits", 96, 250, 60, 60));
-	addTextMenu(CREDITS, new TextMenu(300, 200, "Producer & Engine Dev :\tOlivier", 48, 60, 250, 150));
-	addTextMenu(CREDITS, new TextMenu(300, 300, "Graphic Dev & Menu Dev :\tMarc", 48, 60, 150, 150));
-	addTextMenu(CREDITS, new TextMenu(300, 400, "Physic Dev & Logic Dev :\tJoris", 48, 60, 250, 250));
-	addTextMenu(CREDITS, new TextMenu(300, 500, "IA Dev & Logic Dev :\tAxel", 48, 60, 250, 250));
-	addKeyTextMenu(CREDITS, new TextMenu(400, 700, "Back", 48), &GameMenu::menuReturn);
+	addTextMenu(CREDITS, new TextMenu(300, 200, "Producer & Engine Dev :\tOlivier", 32, 60, 250, 150));
+	addTextMenu(CREDITS, new TextMenu(300, 300, "Graphic Dev & Menu Dev :\tMarc", 32, 60, 150, 150));
+	addTextMenu(CREDITS, new TextMenu(300, 400, "Physic Dev & Logic Dev :\tJoris", 32, 60, 250, 250));
+	addTextMenu(CREDITS, new TextMenu(300, 500, "IA Dev & Logic Dev :\tAxel", 32, 60, 250, 250));
+	addKeyTextMenu(CREDITS, new TextMenu(400, 700, "Back", 32), &GameMenu::menuReturn);
 
 	addTextMenu(PAUSE, new TextMenu(600, 300, "Pause", 48, 200, 200, 200));
 	addKeyTextMenu(PAUSE, new TextMenu(600, 400, "Resume", 32), &GameMenu::menuPlay);
 	addKeyTextMenu(PAUSE, new TextMenu(600, 450, "Back to menu", 32), &GameMenu::menuReturn);
 
-	addTextMenu(HIGHSCORE, new TextMenu(350, 0, "Highscore", 128, 250, 60, 60));
+	addTextMenu(HIGHSCORE, new TextMenu(350, 0, "Highscore", 96, 250, 60, 60));
 	addKeyTextMenu(HIGHSCORE, new TextMenu(400, 650, "Back", 64), &GameMenu::menuReturn);
 
 	addTextMenu(ENDGAME, new TextMenu(600, 300, "Game Over", 48, 200, 200, 200));
@@ -197,11 +197,11 @@ void GameMenu::displayCurrentMenu()
 	}
 	if (currentState == HIGHSCORE)
 	{
-		loadText(400, 150, font, "1 : " + scoreTable[0], 64, 60, 250, 250);
-		loadText(400, 250, font, "2 : " + scoreTable[1], 64, 60, 250, 250);
-		loadText(400, 350, font, "3 : " + scoreTable[2], 64, 60, 250, 250);
-		loadText(400, 450, font, "4 : " + scoreTable[3], 64, 60, 250, 250);
-		loadText(400, 550, font, "5 : " + scoreTable[4], 64, 60, 250, 250);
+		loadText(400, 150, font, "1 : " + scoreTable[0], 48, 60, 250, 250);
+		loadText(400, 250, font, "2 : " + scoreTable[1], 48, 60, 250, 250);
+		loadText(400, 350, font, "3 : " + scoreTable[2], 48, 60, 250, 250);
+		loadText(400, 450, font, "4 : " + scoreTable[3], 48, 60, 250, 250);
+		loadText(400, 550, font, "5 : " + scoreTable[4], 48, 60, 250, 250);
 	}
 }
 

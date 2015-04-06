@@ -23,7 +23,8 @@ enum damageType
 class Enemy : public AUnit
 {
 public:
-	enemy_type etype;	
+	enemy_type etype;
+	int coins;
 
 private:
 
