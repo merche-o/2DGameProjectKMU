@@ -28,7 +28,7 @@ Platform::Platform(int X, int Y, int Length, float & Time, unsigned int randomiz
 		type = NONE;
 
 
-	r = rand() % 120 + 5;
+	r = rand() % 20 + 10;
 	isMorphing = false; // not activ
 	activMorph = 5; // time before active
 	morphTime = 3; // time for animation

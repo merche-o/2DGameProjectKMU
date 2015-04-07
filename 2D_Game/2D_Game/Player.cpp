@@ -20,7 +20,7 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 	tmpTime = 0;
 	inDash = 0;
 	isPlayer = true;
-
+	spellUsed = false;
 	spell.type = LASER;
 	isSpell = true;
 
@@ -36,6 +36,7 @@ void Player::init(Ressources &Ress)
 	y = 100;
 	life = 4;
 	shield = 1;
+	spellUsed = false;
 	int i = 0;
 	while (i < 9)
 	{
