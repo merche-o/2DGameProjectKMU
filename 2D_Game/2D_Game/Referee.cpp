@@ -217,10 +217,23 @@ void Referee::cleanItemList()
 	}
 }
 
-//when an enemy dies, he drop a coin
+//when an enemy dies, he drops a coin
 void Referee::dropCoins(Enemy *src)
 {
-	this->_itemList.push_back(new Coin(src->x, src->y, this->loopTime , src->coins, Item::COINS, _res.texture["coin"]));
+	int nb_coin = (src->coins / 10);
+	
+	for (int i = 0; i < nb_coin; ++i)
+	{
+		float xx = 0;
+		float yy = 0;
+		if (nb_coin > 1)
+		{
+			srand(loopTime * (i + nb_coin) * time(NULL));
+			xx = rand() % src->width;
+			yy = rand() % src->height;
+		}
+		this->_itemList.push_back(new Coin(src->x + xx, src->y + yy, loopTime , (src->coins / nb_coin), Item::COINS, _res.texture["coin"]));
+	}
 }
 
 // when player is hit, he is invincible
