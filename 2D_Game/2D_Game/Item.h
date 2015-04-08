@@ -4,15 +4,14 @@
 
 class Item
 {
-
-
 public:
 	enum itemType 
-{
+	{
 	COINS,
 	AMMO,
 	D_WEAPON
-};
+	};
+
 	float x;
 	float y;
 	float spawnTime;
@@ -22,6 +21,7 @@ public:
 	sf::Texture texture;
 	itemType type;
 	int score;
+
 public:
 	Item(float X, float Y,  float LifeTime, sf::Texture Texture, itemType type, int score);
 	Item(Item const &);

@@ -117,13 +117,19 @@ void AUnit::updateClock()
 
 void AUnit::createParticles()
 {
-	generateParticle += loopTime;
-	if (generateParticle >= 0.03)
+	//generateParticle += loopTime;
+	//if (generateParticle >= 0.03)
 	{
 		srand(loopTime * time(NULL));
 		float xx = rand() % width + 0;
 		float yy = rand() % height + 0;
-		particles.push_back(new Particle(x + xx, y + yy, particleColor, 1, 0, 0, 3, loopTime));
+		float s = rand() % 1 + 1;
+		particles.push_back(new Particle(x + xx, y + yy, particleColor, 1, 0, 0, s, loopTime));
 		generateParticle = 0;
 	}
 }
+
+// Weapon : Very fast bullet, dropping lots of small particles on his trail, after one sec the particles grow really fast like exploding
+// Particles popping randomly and going to a focused point (ex : Player charging exploding spell)
+// Platforms appearing (Particles show the appearing platform)
+// Enemies hit effect with particles (kind of chock/blooding effect
