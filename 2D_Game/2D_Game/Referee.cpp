@@ -87,14 +87,14 @@ void Referee::AICollideScreen(Enemy * enemy)
 	}
 }
 
-bool Referee::AICollideWalls(Enemy * enemy)
+bool Referee::AICollideWalls(Enemy * enemy, int flyHeight)
 {
 	for (int i = 0; i < this->_map.platform.size(); i++)
 	{
-		if (!(	enemy->x + enemy->width		<	_map.platform[i]->x														||
+		if (!(	enemy->x + enemy->width	<	_map.platform[i]->x														||
 			enemy->x					>	_map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE	||
-			enemy->y + enemy->height	<	_map.platform[i]->y														||
-			enemy->y					>	_map.platform[i]->y + Settings::CASE_SIZE	))
+			enemy->y + enemy->height	<	_map.platform[i]->y + flyHeight											||
+			enemy->y					>	_map.platform[i]->y + Settings::CASE_SIZE + flyHeight	))
 		{
 			if (enemy->currentDirection == FORWARD)
 			{
@@ -111,12 +111,12 @@ bool Referee::AICollideWalls(Enemy * enemy)
 			}
 			else if (enemy->currentDirection == UP)
 			{
-				enemy->y = _map.platform[i]->y + Settings::CASE_SIZE + 1;
+				enemy->y = _map.platform[i]->y + Settings::CASE_SIZE + 1 + flyHeight;
 				enemy->currentDirection == FORWARD;
 			}
 			else if (enemy->currentDirection == DOWN)
 			{
-				enemy->y = _map.platform[i]->y - enemy->height - 1;
+				enemy->y = _map.platform[i]->y - enemy->height - 1 - flyHeight;
 				enemy->currentDirection == FORWARD;
 			}
 			return true;

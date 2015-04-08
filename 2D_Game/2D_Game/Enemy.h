@@ -6,13 +6,23 @@
 #include "Bonus.h"
 #include "Spell.h"
 
-enum enemy_type 
+enum enemyDirection
 {
-	E_BASIC,
-	E_JUMPCASE
+	UP,
+	DOWN,
+	FORWARD,
+	ENEMYDIRECTION_SIZE
 };
 
-enum damageType 
+enum enemyType
+{
+	E_BASIC,
+	E_FLY,
+	E_JUMPCASE,
+	ENEMYTYPE_SIZE
+};
+
+enum damageType
 {
 	E_JUMP,
 	E_BULLET,
@@ -23,14 +33,16 @@ enum damageType
 class Enemy : public AUnit
 {
 public:
-	enemy_type etype;	
+	enemyType etype;	
 
 private:
 
 public:
-	Enemy(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, enemy_type type, float &loopTime);
+	Enemy(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, enemyType type, float &loopTime);
 	~Enemy(void);
-
+	enemyType type;
+	enemyDirection currentDirection;
+	enemyDirection nextDirection;
 	void getHit(int);
 	void explode();
 };

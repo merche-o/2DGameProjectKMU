@@ -4,7 +4,7 @@
 #include <iostream>
 
 IA::IA(Referee &ref,  std::vector<AUnit*>  &enemylist)
-	: _ref(ref), _ennemyList(enemylist)  
+	: _ref(ref), _ennemyList(enemylist), flyHeight(Settings::CASE_SIZE / 2)  
 {
 	this->IAManager[E_BASIC] = &IA::basicIA;
 	this->IAManager[E_JUMPCASE] = &IA::jumpIA;
@@ -158,8 +158,10 @@ void IA::flyIA(Enemy *src, float x, float y)
 {
 	src->prevY = src->y;
 	src->prevX = src->x;
-
-	
+// 	Enemy enemyTemp = *src;
+// 
+// 	if (! _ref.AICollideWalls(&enemyTemp, flyHeight + 1))
+// 		src->currentDirection = src->nextDirection;
 
 	if (src->currentDirection == FORWARD)
 	{
@@ -179,7 +181,7 @@ void IA::flyIA(Enemy *src, float x, float y)
 	}
 
 	_ref.AICollideScreen(src);
-	if (_ref.AICollideWalls(src))
+	if (_ref.AICollideWalls(src, flyHeight))
 	{
 		src->nextDirection = (enemyDirection)(rand() % (int)ENEMYDIRECTION_SIZE);
 	}
