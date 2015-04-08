@@ -35,8 +35,10 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 		for (int i = 0; i < this->_itemList.size(); i++)
 		{
 			bool intersection; // Factorised  algo for collide between 2 rectangles
-			if (src->x + Settings::CASE_SIZE < this->_itemList[i]->x || this->_itemList[i]->x + this->_itemList[i]->texture.getSize().x < src->x
-				||  src->y + Settings::CASE_SIZE < this->_itemList[i]->y || this->_itemList[i]->y + this->_itemList[i]->texture.getSize().y < src->y)
+			if (src->x + src->width < this->_itemList[i]->x ||
+				this->_itemList[i]->x + this->_itemList[i]->texture.getSize().x < src->x ||
+				src->y + src->height < this->_itemList[i]->y ||
+				this->_itemList[i]->y + this->_itemList[i]->texture.getSize().y < src->y)
 			{
 				intersection = false;
 			}
@@ -72,10 +74,10 @@ int Referee::collideSpell(AUnit *src)
 		{
 			bool intersection;
 
-			if (/*Settings::WIDTH_GAME < this->_enemyList[i]->x ||*/
-				/*this->_enemyList[i]->x + Settings::CASE_SIZE < 0 ||*/
-				((Player *)src)->spell.y /*+ ((Player *)src)->spell.height*/ < this->_enemyList[i]->y ||
-				this->_enemyList[i]->y + Settings::CASE_SIZE < ((Player *)src)->spell.y)
+			if (((Player *)src)->spell.x - ((Player *)src)->spell.scaleX * ((float)((Player *)src)->spell.texture.getSize().x / 2.0) + ((Player *)src)->spell.texture.getSize().x * ((Player *)src)->spell.scaleX < this->_enemyList[i]->x ||
+				this->_enemyList[i]->x + this->_enemyList[i]->width < ((Player *)src)->spell.x - ((Player *)src)->spell.scaleX * ((float)((Player *)src)->spell.texture.getSize().x / 2.0) ||
+				((Player *)src)->spell.y + ((Player *)src)->spell.texture.getSize().y < this->_enemyList[i]->y ||
+				this->_enemyList[i]->y + this->_enemyList[i]->height < ((Player *)src)->spell.y)
 			{
 				intersection = false;
 			}
@@ -143,8 +145,8 @@ int Referee::collideEnemy(AUnit  *src, Event::Input const &btn)
 		for (int i = 0; i < this->_enemyList.size(); ++i)
 		{
 			bool intersection;
-			if (	src->x + Settings::CASE_SIZE < this->_enemyList[i]->x || this->_enemyList[i]->x + Settings::CASE_SIZE < src->x 
-				||	src->y + Settings::CASE_SIZE < this->_enemyList[i]->y || this->_enemyList[i]->y + Settings::CASE_SIZE < src->y)
+			if (	src->x + src->width < this->_enemyList[i]->x || this->_enemyList[i]->x + this->_enemyList[i]->width < src->x 
+				||	src->y + src->height < this->_enemyList[i]->y || this->_enemyList[i]->y + this->_enemyList[i]->height < src->y)
 			{
 				intersection = false;
 			}

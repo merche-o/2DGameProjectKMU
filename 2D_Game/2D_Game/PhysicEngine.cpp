@@ -152,9 +152,12 @@ void PhysicEngine::moveDown(AUnit *src)
 void PhysicEngine::useBonus(AUnit *src)
 {
 	//if (src->isPlayer == true)
-	if (((Player *)src)->spell.play == false)
+	if (((Player *)src)->spell.play == false && ((Player *)src)->spellUsed == false)
+	{
+		//((Player *)src)->spellUsed = true;
 		((Player *)src)->spell.launched = true;
 		//((Player *)src)->spell.launch();
+	}
 	return;
 }
 
