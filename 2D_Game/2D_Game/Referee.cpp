@@ -76,8 +76,8 @@ int Referee::collideSpell(AUnit *src)
 
 			if (((Player *)src)->spell.x - ((Player *)src)->spell.scaleX * ((float)((Player *)src)->spell.texture.getSize().x / 2.0) + ((Player *)src)->spell.texture.getSize().x * ((Player *)src)->spell.scaleX < this->_enemyList[i]->x ||
 				this->_enemyList[i]->x + this->_enemyList[i]->width < ((Player *)src)->spell.x - ((Player *)src)->spell.scaleX * ((float)((Player *)src)->spell.texture.getSize().x / 2.0) ||
-				((Player *)src)->spell.y + ((Player *)src)->spell.texture.getSize().y < this->_enemyList[i]->y ||
-				this->_enemyList[i]->y + this->_enemyList[i]->height < ((Player *)src)->spell.y)
+				((Player *)src)->spell.y - ((Player *)src)->spell.scaleY * ((float)((Player *)src)->spell.texture.getSize().y / 2.0) + ((Player *)src)->spell.texture.getSize().y * ((Player *)src)->spell.scaleY < this->_enemyList[i]->y ||
+				this->_enemyList[i]->y + this->_enemyList[i]->height < ((Player *)src)->spell.y - ((Player *)src)->spell.scaleY * ((float)((Player *)src)->spell.texture.getSize().y / 2.0))
 			{
 				intersection = false;
 			}
