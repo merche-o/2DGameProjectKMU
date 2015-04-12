@@ -9,6 +9,7 @@ public:
 	enum platform_type
 	{
 		DISAPPEAR,
+		APPEARING,
 		GO_LEFT,
 		GO_RIGHT,
 		DAMAGE,
@@ -36,7 +37,7 @@ public:
 private:
 
 public:
-	Platform(int X, int Y, int Length, float & Time, unsigned int randomize);
+	Platform(int X, int Y, int Length, float & Time, unsigned int randomize, bool rebuild = false);
 	~Platform(void);
 
 	void checkMorphTime();
@@ -45,6 +46,7 @@ public:
 	void refreshTime();
 	void resetTime();
 	void recycle();
+	void setNewEvent();
 };
 
 // Refaire les plateforms sous forme de class = stockage dynamique pour application dynamique
