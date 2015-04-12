@@ -257,7 +257,7 @@ bool Referee::dealDamage(std::vector<Player *> &_player)
 		playerInvinsibility(_player[i]);
 		if (collideEnemy(_player[i], Event::I_NONE) == 2)
 		{
-			_sound.playSound(_sound.sound["hit"], true);
+			//_sound.playSound(_sound.sound["hit"], true);
 			_player[i]->getHit(1);
 		}
 	}
