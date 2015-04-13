@@ -35,8 +35,10 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 		for (int i = 0; i < this->_itemList.size(); i++)
 		{
 			bool intersection; // Factorised  algo for collide between 2 rectangles
-			if (src->x + Settings::CASE_SIZE < this->_itemList[i]->x || this->_itemList[i]->x + this->_itemList[i]->texture.getSize().x < src->x
-				||  src->y + Settings::CASE_SIZE < this->_itemList[i]->y || this->_itemList[i]->y + this->_itemList[i]->texture.getSize().y < src->y)
+			if (src->x + src->width < this->_itemList[i]->x ||
+				this->_itemList[i]->x + this->_itemList[i]->texture.getSize().x < src->x ||
+				src->y + src->height < this->_itemList[i]->y ||
+				this->_itemList[i]->y + this->_itemList[i]->texture.getSize().y < src->y)
 			{
 				intersection = false;
 			}
@@ -72,10 +74,10 @@ int Referee::collideSpell(AUnit *src)
 		{
 			bool intersection;
 
-			if (/*Settings::WIDTH_GAME < this->_enemyList[i]->x ||*/
-				/*this->_enemyList[i]->x + Settings::CASE_SIZE < 0 ||*/
-				((Player *)src)->spell.y /*+ ((Player *)src)->spell.height*/ < this->_enemyList[i]->y ||
-				this->_enemyList[i]->y + Settings::CASE_SIZE < ((Player *)src)->spell.y)
+			if (((Player *)src)->spell.x - ((Player *)src)->spell.scaleX * ((float)((Player *)src)->spell.texture.getSize().x / 2.0) + ((Player *)src)->spell.texture.getSize().x * ((Player *)src)->spell.scaleX < this->_enemyList[i]->x ||
+				this->_enemyList[i]->x + this->_enemyList[i]->width < ((Player *)src)->spell.x - ((Player *)src)->spell.scaleX * ((float)((Player *)src)->spell.texture.getSize().x / 2.0) ||
+				((Player *)src)->spell.y - ((Player *)src)->spell.scaleY * ((float)((Player *)src)->spell.texture.getSize().y / 2.0) + ((Player *)src)->spell.texture.getSize().y * ((Player *)src)->spell.scaleY < this->_enemyList[i]->y ||
+				this->_enemyList[i]->y + this->_enemyList[i]->height < ((Player *)src)->spell.y - ((Player *)src)->spell.scaleY * ((float)((Player *)src)->spell.texture.getSize().y / 2.0))
 			{
 				intersection = false;
 			}
@@ -143,8 +145,8 @@ int Referee::collideEnemy(AUnit  *src, Event::Input const &btn)
 		for (int i = 0; i < this->_enemyList.size(); ++i)
 		{
 			bool intersection;
-			if (	src->x + Settings::CASE_SIZE < this->_enemyList[i]->x || this->_enemyList[i]->x + Settings::CASE_SIZE < src->x 
-				||	src->y + Settings::CASE_SIZE < this->_enemyList[i]->y || this->_enemyList[i]->y + Settings::CASE_SIZE < src->y)
+			if (	src->x + src->width < this->_enemyList[i]->x || this->_enemyList[i]->x + this->_enemyList[i]->width < src->x 
+				||	src->y + src->height < this->_enemyList[i]->y || this->_enemyList[i]->y + this->_enemyList[i]->height < src->y)
 			{
 				intersection = false;
 			}
@@ -217,10 +219,23 @@ void Referee::cleanItemList()
 	}
 }
 
-//when an enemy dies, he drop a coin
+//when an enemy dies, he drops a coin
 void Referee::dropCoins(Enemy *src)
 {
-	this->_itemList.push_back(new Coin(src->x, src->y, this->loopTime , src->coins, Item::COINS, _res.texture["coin"]));
+	int nb_coin = (src->coins / 10);
+	
+	for (int i = 0; i < nb_coin; ++i)
+	{
+		float xx = 0;
+		float yy = 0;
+		if (nb_coin > 1)
+		{
+			srand(loopTime * (i + nb_coin) * time(NULL));
+			xx = rand() % src->width;
+			yy = rand() % src->height;
+		}
+		this->_itemList.push_back(new Coin(src->x + xx, src->y + yy, loopTime , (src->coins / nb_coin), Item::COINS, _res.texture["coin"]));
+	}
 }
 
 // when player is hit, he is invincible
@@ -242,7 +257,7 @@ bool Referee::dealDamage(std::vector<Player *> &_player)
 		playerInvinsibility(_player[i]);
 		if (collideEnemy(_player[i], Event::I_NONE) == 2)
 		{
-			_sound.playSound(_sound.sound["hit"], true);
+			//_sound.playSound(_sound.sound["hit"], true);
 			_player[i]->getHit(1);
 		}
 	}

@@ -8,7 +8,7 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 	: AUnit(LoopTime), spell(x, y), numPlayer(NumPlayer)
 {
 	texture.loadFromFile("./Ressources/Images/Player.png");
-	x = 100;
+	x = 500;
 	y = 100;
 	width = 32;
 	height = 32;
@@ -20,7 +20,7 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 	tmpTime = 0;
 	inDash = 0;
 	isPlayer = true;
-
+	spellUsed = false;
 	spell.type = LASER;
 	isSpell = true;
 
@@ -32,10 +32,11 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 
 void Player::init(Ressources &Ress)
 {
-	x = 100;
+	x = 500;
 	y = 100;
 	life = 4;
 	shield = 1;
+	spellUsed = false;
 	int i = 0;
 	while (i < 9)
 	{

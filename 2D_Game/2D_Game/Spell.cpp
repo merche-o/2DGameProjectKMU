@@ -15,8 +15,8 @@ Spell::Spell(float & X, float & Y)
 
 	sf::Vector2u vec;
 	vec = texture.getSize();
-	width = vec.x;
-	height = vec.y;
+	//width = vec.x;
+	//height = vec.y;
 
 	scaleX = 1.0;
 	scaleY = 1.0;

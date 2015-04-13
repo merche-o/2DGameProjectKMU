@@ -18,6 +18,7 @@ public:
 	float tmpTime;
 	Spell spell;
 	bool isSpell;
+	bool spellUsed;
 	int numPlayer;
 
 private:

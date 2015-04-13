@@ -48,25 +48,25 @@ void Graphic::affInterface()
 	for (int i = 0; i < player.size(); ++i)
 	{
 		/*** Player n ***/
-		loadText(1 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Life"), 16, 250, 250, 60);
+		loadText(Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Life"), 16, 250, 250, 60);
 		// Life
 		for (int j = 0; j < player[i]->life; ++j)
 		{
-			loadImage(1 * Settings::CASE_SIZE + (j * ress.texture["life"].getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, ress.texture["life"]);
+			loadImage(Settings::CASE_SIZE + (j * ress.texture["life"].getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, ress.texture["life"]);
 		}
 		// Shield
 		for (int k = player[i]->life; k < player[i]->life + player[i]->shield; ++k)
 		{
-			loadImage(1 * Settings::CASE_SIZE + (k * ress.texture["shield"].getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, ress.texture["shield"]);
+			loadImage(Settings::CASE_SIZE + (k * ress.texture["shield"].getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, ress.texture["shield"]);
 		}
 		// Ammo
 		loadText(6 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Ammo"), 16, 250, 250, 60);
-		loadImage(6 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, ress.texture["ammoLogo"]);
-		loadText(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, font, IntToString(player[i]->weapon[0]->ammo), 16, 250, 250, 60);
+		loadImage(6 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["ammoLogo"]);
+		loadText(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME, font, IntToString(player[i]->weapon[0]->ammo), 16, 250, 250, 60);
 		// Spell
 		loadText(12 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Spell"), 16, 250, 250, 60);
 		if (player[i]->isSpell == true)
-			loadImage(12 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, player[i]->spell.texture);
+			loadImage(12 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)) + 8, Settings::CASE_SIZE + Settings::HEIGHT_GAME - 8, player[i]->spell.texture);
 		// Score
 		loadText(25 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 12 + Settings::HEIGHT_GAME, font, std::string("Score " + IntToString(player[i]->score)), 25, 250, 250, 60);
 	}
@@ -85,22 +85,22 @@ void Graphic::affMap()
 		for (unsigned int j = 0; j < map.platform[i]->length; ++j)
 		{
 			// Display
-			if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DISAPPEAR)
+			if (map.platform[i]->isMorphing == true && (map.platform[i]->type == Platform::DISAPPEAR || map.platform[i]->type == Platform::APPEARING))
 				if (j == 0)
 					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Lplatform"], map.platform[i]->transp);
 				else if (j == map.platform[i]->length -1)
 					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Rplatform"], map.platform[i]->transp);
 				else
 					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Mplatform"], map.platform[i]->transp);
-			else if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DAMAGE)
-			{
-				if (j == 0)
-					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["LDplatform"]);
-				else if (j == map.platform[i]->length -1)
-					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["RDplatform"]);
-				else
-					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["MDplatform"]);
-			}
+			//else if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DAMAGE)
+			//{
+			//	if (j == 0)
+			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["LDplatform"]);
+			//	else if (j == map.platform[i]->length -1)
+			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["RDplatform"]);
+			//	else
+			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["MDplatform"]);
+			//}
 			else
 			{
 				if (j == 0)

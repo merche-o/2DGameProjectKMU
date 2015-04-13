@@ -4,39 +4,60 @@
 #include "Settings.h"
 #include <iostream>
 #include <cstdlib>
+#include <algorithm>
 
-Platform::Platform(int X, int Y, int Length, float & Time, unsigned int randomize)
+Platform::Platform(int X, int Y, int Length, float & Time, unsigned int randomize, bool rebuild)
 	: x(X), y(Y), length(Length), loopTime(Time)
 {
+	// CREATE EACH CASE
 	for (int i = 0; i < length; ++i)
 	{
 		pos.push_back(std::make_pair((i * Settings::CASE_SIZE) + x, y));
 	}
-
-	// Choose a type randomly
+	morph = 0;
+	
+	// Random STATS
 	srand(x + y + length + randomize + time(NULL));
 	int r = rand() % 3;
-	if (r == 0)
-		type = DISAPPEAR;
-	else if (r == 1)
-		type = GO_LEFT;
-	else if (r == 2)
-		type = GO_RIGHT;
-	//else if (r == 3)
-		//type = DAMAGE;
-	if (y / Settings::CASE_SIZE == 22 || y / Settings::CASE_SIZE == 0)
-		type = NONE;
 
+	// PLATFORM TYPE ///////////////////////////
+	if (rebuild == false) // Platform from beginning
+	{
+		if (r == 0)
+			type = DISAPPEAR;
+		else if (r == 1)
+			type = GO_LEFT;
+		else if (r == 2)
+			type = GO_RIGHT;
+		//else if (r == 3)
+			//type = DAMAGE;
+		if (y / Settings::CASE_SIZE == 22 || y / Settings::CASE_SIZE == 0)
+			type = NONE;
+	}
+	else if (rebuild == true) // Platform rebuild
+		type = APPEARING;
+	////////////////////////////////////////////
 
-	r = rand() % 120 + 5;
+	// PLATFORM STATS///////////////////////////
+	if (rebuild == false) // Platform from beginning
+	{
+		r = rand() % 15 + 5;
+		activMorph = r; // time before active
+		transp = 255; // transparency
+	}
+	else if (rebuild == true) // Platform rebuild
+	{
+		activMorph = 0;
+		transp = 0;
+	}
+
 	isMorphing = false; // not activ
-	activMorph = 5; // time before active
-	morphTime = 3; // time for animation
-	transp = 255; // transparency
+	morphTime = 6; // time for animation
 	speed = 1 * Settings::CASE_SIZE;
+	////////////////////////////////////////////
 
-
-	if (type == DISAPPEAR)
+	// VECTOR OF TRANSPARENCY //////////////////
+	if (type == DISAPPEAR || type == APPEARING)
 	{
 		float tmp;
 		tmp = morphTime / 6;
@@ -54,7 +75,14 @@ Platform::Platform(int X, int Y, int Length, float & Time, unsigned int randomiz
 		transpGradient.push_back(150);
 		transpGradient.push_back(200);
 		transpGradient.push_back(250);
+
+		if (type == APPEARING)
+		{
+			reverse(transpGradient.begin(), transpGradient.end());
+			//reverse(lifeGradient.begin(), lifeGradient.end());
+		}
 	}
+	////////////////////////////////////////////
 }
 
 
@@ -72,7 +100,7 @@ void Platform::checkMorphTime()
 	}
 }
 
-void Platform::playMorph(std::vector<Platform*> & platform)
+void Platform::playMorph(std::vector<Platform*> & platform) // Creer des collisions de croisement grace a la liste de platform
 {
 	if (type == DISAPPEAR)
 	{
@@ -84,14 +112,27 @@ void Platform::playMorph(std::vector<Platform*> & platform)
 				break;
 			}
 		}
+		// No more calculation
 		/*transp = (morphTime - (morph - activMorph)) * 255 / morphTime;
 		if (transp < 0)
 			transp = 0;*/
+	}
+	else if (type == APPEARING)
+	{
+		for (int i = 0; i < lifeGradient.size(); ++i)
+		{
+			if (morph >= lifeGradient[i])
+			{
+				transp = transpGradient[i];
+				break;
+			}
+		}
 	}
 	else if (type == GO_LEFT)
 		x -= speed * loopTime;
 	else if (type == GO_RIGHT)
 		x += speed * loopTime;
+	// No more Damage Platform
 	//else if (type == DAMAGE)
 	//{
 	//	if ((morph -  activMorph) >= morphTime)
@@ -108,6 +149,8 @@ bool Platform::checkDead()
 {
 	if (type == DISAPPEAR && transp <= 0)
 		return (true);
+	else if (type == APPEARING && transp == 255)
+		setNewEvent();
 	else if (type == GO_LEFT && (x + Settings::CASE_SIZE * length) <= 0)
 		return (true);
 	else if (type == GO_RIGHT && x >= Settings::WIDTH)
@@ -136,3 +179,21 @@ void Platform::recycle()
 
 	}
 }
+
+void Platform::setNewEvent()
+{
+	srand(x + y + length + type + time(NULL));
+	
+	int r = rand() % 15 + 5;
+	activMorph = r; // time before active
+
+	r = rand() % 3;
+	if (r == 0)
+		type = DISAPPEAR;
+	else if (r == 1)
+		type = GO_LEFT;
+	else if (r == 2)
+		type = GO_RIGHT;
+}
+
+// Voir si c'est mieux de stocker la texture dans la platform plutot que faire des if dans Graphic

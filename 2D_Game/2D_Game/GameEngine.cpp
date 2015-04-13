@@ -93,6 +93,7 @@ void GameEngine::run()
 				resetElement();
 				restart = false;
 				sound.musicON();
+																		sound.musicOFF(); // For coding
 				sound.playMusic(sound.music);
 			}
 			
@@ -136,7 +137,7 @@ void GameEngine::run()
 
 			if (state == GAME)
 				event.checkEvent(pause);
-		
+			
 			graphic.RefreshWindow();
 
 			if (pause == true)
@@ -151,7 +152,6 @@ void GameEngine::run()
 			//graphic.affPauseBG();
 			if (goMenu == true)
 			{
-
 				resetElement();
 				state = MENU;
 				goMenu = false;
