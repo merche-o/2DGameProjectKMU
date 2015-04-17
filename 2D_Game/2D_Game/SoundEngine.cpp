@@ -7,7 +7,7 @@ SoundEngine::SoundEngine(void)
 {
 	// Musics List
 	music.openFromFile("./Ressources/Musics/MusicBob.ogg");
-	activeMusic = false;
+	activeMusic = true;
 	
 	// Sounds List
 	soundBuffer["jump"] = (sf::SoundBuffer());
@@ -50,14 +50,19 @@ void SoundEngine::playMusic(sf::Music & Music)
 		Music.setVolume(60);
 		Music.play();
 	}
+	else
+		Music.pause();
 }
 
 void SoundEngine::musicON()
 {
 	activeMusic = true;
+	if (music.Stopped)
+		music.play();
 }
 
 void SoundEngine::musicOFF()
 {
 	activeMusic = false;
+	music.stop();
 }

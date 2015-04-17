@@ -1,7 +1,7 @@
 #include "Parameters.h"
 
 
-Parameters::Parameters(void)
+Parameters::Parameters(SoundEngine &_sound): sound(_sound)
 {
 }
 

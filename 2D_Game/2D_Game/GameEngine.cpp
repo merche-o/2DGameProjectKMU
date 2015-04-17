@@ -7,7 +7,7 @@
 GameEngine::GameEngine(void)
 	: ressources(),
 		graphic(window, map, player, ennemyList, bulletList, itemList, ressources, loopTime),
-		menu(window, event, parameters, restart, goMenu),
+		menu(window, event, new Parameters(sound), restart, goMenu),
 		sound(),
 		map(loopTime),
 		event(window, player),
@@ -92,8 +92,8 @@ void GameEngine::run()
 			{
 				resetElement();
 				restart = false;
-				sound.musicON();
-				sound.musicOFF(); // For coding
+				//sound.musicON();
+				//sound.musicOFF(); // For coding
 				sound.playMusic(sound.music);
 			}
 			
@@ -142,6 +142,7 @@ void GameEngine::run()
 
 			if (pause == true)
 			{
+				sound.music.pause();
 				state = PAUSE;
 				menu.menuPause();
 			}
@@ -177,6 +178,8 @@ void GameEngine::run()
 						resetElement();
 						menu.restart = false;
 					}
+				else if (sound.activeMusic)
+					sound.music.play();
 				pause = false;
 				state = GAME;
 				restart = false;
@@ -188,7 +191,7 @@ void GameEngine::run()
 		else if (state == ENDGAME)
 		{
 			menu.endGame(player[0]->score);
-			
+			sound.musicOFF();
 			if (goMenu == true)
 			{
 				resetElement();
