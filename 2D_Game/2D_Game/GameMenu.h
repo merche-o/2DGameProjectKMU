@@ -41,6 +41,7 @@ public:
 	bool & start;
 	bool & menu;
 	bool refresh;
+	bool restart;
 
 public:
 	GameMenu(sf::RenderWindow & w, Event & e, Parameters &p, bool & s, bool & m);
@@ -61,6 +62,7 @@ public:
 	void menuReturn();
 	void menuEndGame();
 	void menuMain();
+	void menuRestart();
 	void backToMenu();
 	void menuPlay();
 	void addTextMenu(e_state state, TextMenu * text);

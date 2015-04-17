@@ -9,6 +9,7 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 {
 	refresh = true;
 	posMenu = 0;
+	restart = false;
 	currentState = MAIN; // Begin main menu
 	beforeState.push_back(NONE); // No previous page
 
@@ -45,13 +46,14 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 
 	addTextMenu(PAUSE, new TextMenu(600, 300, "Pause", 48, 200, 200, 200));
 	addKeyTextMenu(PAUSE, new TextMenu(600, 400, "Resume", 32), &GameMenu::menuPlay);
-	addKeyTextMenu(PAUSE, new TextMenu(600, 450, "Back to menu", 32), &GameMenu::menuReturn);
+	addKeyTextMenu(PAUSE, new TextMenu(600, 450, "New game", 32), &GameMenu::menuRestart);
+	addKeyTextMenu(PAUSE, new TextMenu(600, 500, "How to Play", 32), &GameMenu::menuHowPlay);
+	addKeyTextMenu(PAUSE, new TextMenu(600, 550, "Back to menu", 32), &GameMenu::menuReturn);
 
 	addTextMenu(HIGHSCORE, new TextMenu(350, 0, "Highscore", 96, 250, 60, 60));
 	addKeyTextMenu(HIGHSCORE, new TextMenu(400, 650, "Back", 64), &GameMenu::menuReturn);
 
 	addTextMenu(ENDGAME, new TextMenu(600, 300, "Game Over", 48, 200, 200, 200));
-	//addTextMenu(ENDGAME, new TextMenu(600, 350, "Your score :" + std::to_string((long double)score), 48, 200, 200, 200));
 	addKeyTextMenu(ENDGAME, new TextMenu(600, 450, "New game", 32), &GameMenu::menuPlay);
 	addKeyTextMenu(ENDGAME, new TextMenu(600, 500, "Back to main menu", 32), &GameMenu::menuReturn);
 
@@ -90,8 +92,9 @@ void GameMenu::run()
 		posInsideTheMenu(); // Keep cursor inside the menu
 		
 		if (currentState != PAUSE) // Do not clear the screen in Pause menu (we can see the game behind)
-		win.clear();
+			win.clear();
 		displayCurrentMenu(); // Display texts
+		
 		win.display();
 
 		refresh = false;
@@ -357,6 +360,18 @@ void GameMenu::menuPlay()
 			beforeState.erase(beforeState.begin() + beforeState.size() - 1);
 		}
 }
+
+void GameMenu::menuRestart()
+{
+	restart = true;
+	start = true;
+	if (beforeState.size() > 2 )
+		{	
+			currentState = MAIN;
+			beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+		}
+}
+
 
 // Simple texte
 void GameMenu::addTextMenu(e_state state, TextMenu * text)

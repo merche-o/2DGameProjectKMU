@@ -93,7 +93,7 @@ void GameEngine::run()
 				resetElement();
 				restart = false;
 				sound.musicON();
-																		sound.musicOFF(); // For coding
+				sound.musicOFF(); // For coding
 				sound.playMusic(sound.music);
 			}
 			
@@ -148,8 +148,20 @@ void GameEngine::run()
 		}
 		else if (state == PAUSE)
 		{
+			//refesh l'affichage du jeux. pour pas avoir le bug cheloux de la pause
+			if (menu.refresh == true)
+			{
+				graphic.affMap();
+				graphic.affSpell();
+				graphic.affUnits();
+				graphic.affBullets();
+				graphic.affItems();
+				graphic.affPauseBG();
+			}
+			//graphic.affInterface();*/
+		
 			menu.run();
-			//graphic.affPauseBG();
+			
 			if (goMenu == true)
 			{
 				resetElement();
@@ -157,13 +169,21 @@ void GameEngine::run()
 				goMenu = false;
 				pause = false;
 			}
-			if (restart == true)
+
+		if (restart == true)
 			{
+				if (menu.restart == true)
+					{
+						resetElement();
+						menu.restart = false;
+					}
 				pause = false;
 				state = GAME;
 				restart = false;
 				globalClock.restart();
 			}
+
+
 		}
 		else if (state == ENDGAME)
 		{
