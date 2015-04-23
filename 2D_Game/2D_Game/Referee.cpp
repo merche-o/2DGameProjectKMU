@@ -178,12 +178,26 @@ bool Referee::applyGravity(AUnit  *src)
 				src->x		<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 			{				
 				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
+				if (this->_map.platform[i]->isMorphing == true)
+				{
+					if (this->_map.platform[i]->type == Platform::GO_LEFT)
+						src->x -= this->_map.platform[i]->speed * loopTime / 2;
+					if (this->_map.platform[i]->type == Platform::GO_RIGHT)
+						src->x += this->_map.platform[i]->speed * loopTime / 2;
+				}
 				return (false);
 			}
 			else if (src->x + Settings::CASE_SIZE	>=	this->_map.platform[i]->x  &&
 					 src->x + Settings::CASE_SIZE	<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 			{
 				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
+				if (this->_map.platform[i]->isMorphing == true)
+				{
+					if (this->_map.platform[i]->type == Platform::GO_LEFT)
+						src->x -= this->_map.platform[i]->speed * loopTime / 2;
+					if (this->_map.platform[i]->type == Platform::GO_RIGHT)
+						src->x += this->_map.platform[i]->speed * loopTime / 2;
+				}
 				return (false);
 			}
 		}

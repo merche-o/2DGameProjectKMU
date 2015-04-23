@@ -48,7 +48,7 @@ void Spell::launch()
 			scaleY = 1.0;
 			play = false;
 		}
-		else if (type == LASER && scaleX > 20.0)
+		else if (type == LASER && scaleX > 28.0)
 		{
 			scaleX = 1.0;
 			play = false;
@@ -64,5 +64,5 @@ void Spell::explosion()
 
 void Spell::laser()
 {
-	scaleX += 1.0;
+	scaleX += 4.0;
 }
