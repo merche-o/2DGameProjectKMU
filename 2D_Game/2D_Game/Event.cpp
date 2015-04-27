@@ -49,6 +49,10 @@ void Event::checkEvent(bool & pause)
 			}
 			else if (event.key.code == sf::Keyboard::Space)
 				player[0]->inputMap[Event::I_BONUS] = true;
+			else if (event.key.code == sf::Keyboard::Q)
+				player[0]->inputMap[Event::I_WEAPON_LEFT] = true;
+			else if (event.key.code == sf::Keyboard::E)
+				player[0]->inputMap[Event::I_WEAPON_RIGHT] = true;
 		}
 		else if (event.type == sf::Event::KeyReleased)
 		{
@@ -70,6 +74,10 @@ void Event::checkEvent(bool & pause)
 				player[0]->inputMap[Event::I_RIGHT] = false;
 			else if (event.key.code == sf::Keyboard::Space)
 				player[0]->inputMap[Event::I_BONUS] = false;
+			else if (event.key.code == sf::Keyboard::Q)
+				player[0]->inputMap[Event::I_WEAPON_LEFT] = false;
+			else if (event.key.code == sf::Keyboard::E)
+				player[0]->inputMap[Event::I_WEAPON_RIGHT] = false;
 		}
     }
 }

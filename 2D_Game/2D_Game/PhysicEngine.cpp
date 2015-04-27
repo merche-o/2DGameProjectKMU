@@ -17,6 +17,8 @@ PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &
 	actionManager[Event::I_FIRE_LEFT] = &PhysicEngine::shootLeft;
 	actionManager[Event::I_FIRE_RIGHT] = &PhysicEngine::shootRight;
 	actionManager[Event::I_BONUS] = &PhysicEngine::useBonus;
+	actionManager[Event::I_WEAPON_RIGHT] = &PhysicEngine::changeWeaponRight;//
+	actionManager[Event::I_WEAPON_LEFT] = &PhysicEngine::changeWeaponLeft;//
 
 	releaseActionManager[Event::I_UP] = &PhysicEngine::RJump;
 	releaseActionManager[Event::I_DOWN] = &PhysicEngine::RmoveDown;
@@ -27,6 +29,8 @@ PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &
 	releaseActionManager[Event::I_FIRE_LEFT] = &PhysicEngine::RshootLeft;
 	releaseActionManager[Event::I_FIRE_RIGHT] = &PhysicEngine::RshootRight;
 	releaseActionManager[Event::I_BONUS] = &PhysicEngine::RuseBonus;
+	releaseActionManager[Event::I_WEAPON_RIGHT] = &PhysicEngine::RchangeWeaponRight;
+	releaseActionManager[Event::I_WEAPON_LEFT] = &PhysicEngine::RchangeWeaponLeft;
 
 	gravityMax = 28 * Settings::CASE_SIZE;	
 }
@@ -163,13 +167,13 @@ void PhysicEngine::useBonus(AUnit *src)
 
 void PhysicEngine::shootUp(AUnit *src)
 {
-	if (src->weapon[0]->fireRateCount <= 0.f)
+	if (src->weapon[src->weaponUsed]->fireRateCount <= 0.f)
 	{
-		src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
-		if (src->weapon[0]->ammo > 0)
+		src->weapon[src->weaponUsed]->fireRateCount = src->weapon[0]->fireRate;
+		if (src->weapon[src->weaponUsed]->ammo > 0)
 		{
 			_sound.playSound(_sound.sound["shoot"], true);
-			this->_bulletList.push_back(src->weapon[0]->createBullet(src->x + (src->width /2), src->y,0, -1,loopTime));
+			this->_bulletList.push_back(src->weapon[src->weaponUsed]->createBullet(src->x + (src->width /2), src->y,0, -1,loopTime));
 		}
 	}	
 }
@@ -181,13 +185,13 @@ void PhysicEngine::shootDown(AUnit *src)
 
 void PhysicEngine::shootLeft(AUnit *src)
 {
-	if (src->weapon[0]->fireRateCount <= 0.f)
+	if (src->weapon[src->weaponUsed]->fireRateCount <= 0.f)
 	{
-		src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
-		if (src->weapon[0]->ammo > 0)
+		src->weapon[src->weaponUsed]->fireRateCount = src->weapon[0]->fireRate;
+		if (src->weapon[src->weaponUsed]->ammo > 0)
 		{
 			_sound.playSound(_sound.sound["shoot"], true);
-			this->_bulletList.push_back(src->weapon[0]->createBullet(src->x, src->y + src->height /2,-1, 0,loopTime));
+			this->_bulletList.push_back(src->weapon[src->weaponUsed]->createBullet(src->x, src->y + src->height /2,-1, 0,loopTime));
 		}
 	}
 	return;
@@ -197,16 +201,31 @@ void PhysicEngine::shootRight(AUnit *src)
 {
 	if (src->weapon[0]->fireRateCount <= 0.f)
 	{
-			src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
-			if (src->weapon[0]->ammo > 0)
+			src->weapon[0]->fireRateCount = src->weapon[src->weaponUsed]->fireRate;
+			if (src->weapon[src->weaponUsed]->ammo > 0)
 			{
 				_sound.playSound(_sound.sound["shoot"], true);
-				this->_bulletList.push_back(src->weapon[0]->createBullet(src->x + src->width, src->y+ (src->height /2),1, 0,loopTime));
+				this->_bulletList.push_back(src->weapon[src->weaponUsed]->createBullet(src->x + src->width, src->y+ (src->height /2),1, 0,loopTime));
 			}
 	}
 	return;
 }
 
+void PhysicEngine::changeWeaponRight(AUnit *src)
+{
+	src->weaponUsed = src->weaponUsed + 1;
+	if (src->weaponUsed > src->numWeapon && src->numWeapon != 0)
+		src->weaponUsed %= src->numWeapon;
+}
+
+void PhysicEngine::changeWeaponLeft(AUnit *src)
+{
+	src->weaponUsed = src->weaponUsed - 1;
+	if (src->weaponUsed < 0)
+		src->weaponUsed *= -1;
+	if (src->weaponUsed > src->numWeapon && src->numWeapon != 0)
+		src->weaponUsed %= src->numWeapon;
+}
 
 //Release button
 
@@ -315,6 +334,13 @@ void PhysicEngine::RshootRight(AUnit *src)
 	return;
 }
 
+void PhysicEngine::RchangeWeaponLeft(AUnit *src)
+{
+}
+
+void PhysicEngine::RchangeWeaponRight(AUnit *src)
+{
+}
 
 //Physics
 

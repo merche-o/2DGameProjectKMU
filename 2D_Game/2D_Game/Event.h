@@ -18,6 +18,8 @@ public:
 		I_FIRE_LEFT,
 		I_FIRE_RIGHT,
 		I_BONUS,
+		I_WEAPON_LEFT,
+		I_WEAPON_RIGHT,
 		I_NONE,
 	};
 

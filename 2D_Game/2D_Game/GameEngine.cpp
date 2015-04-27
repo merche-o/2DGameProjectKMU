@@ -27,7 +27,10 @@ GameEngine::GameEngine(void)
 	physics._referee = &ref;
 	
 	player.push_back(new Player(ressources, loopTime, 0));
-	
+	//have to put that on the event : touching new weapon
+	player[0]->getNewWeapon(1,ressources);
+	player[0]->numWeapon += 1;
+	//
 	state = MENU;
 	restart = false;
 	goMenu = false;
@@ -69,6 +72,10 @@ void GameEngine::resetElement()
 	bulletList.clear();
 	itemList.clear();
 	player[0]->init(ressources);
+	//have to put that on the event : touching new weapon
+	player[0]->getNewWeapon(1,ressources);
+	player[0]->numWeapon += 1;
+	//
 	graphic.resetInterface();
 	globalClock.restart();
 	map.init(false);
