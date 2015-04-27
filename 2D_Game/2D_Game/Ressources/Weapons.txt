@@ -1,2 +1,3 @@
 damage:fireRate:range:speed
 1:5:5:15
+1:1:500:2

@@ -9,7 +9,8 @@
 enum enemy_type 
 {
 	E_BASIC,
-	E_JUMPCASE
+	E_JUMPCASE,
+	E_NONE
 };
 
 enum damageType 

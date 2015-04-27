@@ -25,6 +25,9 @@ private:
 
 public:
 	Player(Ressources & Ress, float &LoopTime, int NumPlayer);
+	void changeWeaponLeft();
+	void changeWeaponRight();
+	void getNewWeapon(int weaponID, Ressources &Ress);
 	~Player(void);
 	void init(Ressources &);
 };
