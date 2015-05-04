@@ -29,7 +29,10 @@ GameEngine::GameEngine(void)
 	player.push_back(new Player(ressources, loopTime, 0));
 	//have to put that on the event : touching new weapon
 	player[0]->getNewWeapon(1,ressources);
-	player[0]->numWeapon += 1;
+	player[0]->getNewWeapon(2,ressources);
+	player[0]->getNewWeapon(3,ressources);
+	//player[0]->getNewWeapon(4,ressources);
+	player[0]->numWeapon = 3;
 	//
 	state = MENU;
 	restart = false;

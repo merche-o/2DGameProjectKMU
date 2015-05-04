@@ -51,9 +51,10 @@ private:
 	void shootRight(AUnit *src);
 	void shootLeft(AUnit *src);
 	void useBonus(AUnit *src);
-	void changeWeaponRight(AUnit *src);
-	void changeWeaponLeft(AUnit *src);
-	 
+	void changeWeapon1(AUnit *src);
+	void changeWeapon2(AUnit *src);
+	void changeWeapon3(AUnit *src);
+	void changeWeapon4(AUnit *src);
 
 	//-----Passive Action
 
@@ -83,8 +84,10 @@ private:
 	void RshootRight(AUnit *src);
 	void RshootLeft(AUnit *src);
 	void RuseBonus(AUnit *src);
-	void RchangeWeaponRight(AUnit *src);
-	void RchangeWeaponLeft(AUnit *src);
+	void RchangeWeapon1(AUnit *src);
+	void RchangeWeapon2(AUnit *src);
+	void RchangeWeapon3(AUnit *src);
+	void RchangeWeapon4(AUnit *src);
 
 
 };
