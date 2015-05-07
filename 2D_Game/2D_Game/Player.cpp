@@ -8,7 +8,7 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 {
 	texture.loadFromFile("./Ressources/Images/Player.png");
 	x = 500;
-	y = 100;
+	y = 500;
 	width = 32;
 	height = 32;
 	speed = 7 * Settings::CASE_SIZE;
@@ -35,7 +35,7 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 void Player::init(Ressources &Ress)
 {
 	x = 500;
-	y = 100;
+	y = 500;
 	life = 4;
 	shield = 1;
 	spellUsed = false;

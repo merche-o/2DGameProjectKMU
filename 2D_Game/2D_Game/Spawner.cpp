@@ -9,7 +9,10 @@
 Spawner::Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList, float &LoopTime)
 	: ennemies(ennemyList), itemList(itemList), posx(-2), posy(0), spawnPosState(UP_LEFT), loopTime(LoopTime)
 {
-
+	enemyLuckToSpawn[enemyType::E_BASIC] = 40;
+	enemyLuckToSpawn[enemyType::E_JUMPCASE] = 40;
+	enemyLuckToSpawn[enemyType::E_FLOAT] = 10;
+	enemyLuckToSpawn[enemyType::E_FLY] = 10;
 
 }
 
@@ -48,11 +51,27 @@ void Spawner::spawnEnnemies(std::vector<AUnit*> &ennemy)
 				dir = RIGHT;
 			else
 				dir = LEFT;
-
-			ennemies.push_back(new Enemy(ennemy[i]->life, ennemy[i]->speed, ennemy[i]->damage, ennemy[i]->spawnTime, ennemy[i]->texture, posx, posy, dir, enemy_type(i), loopTime));
+			ennemies.push_back(new Enemy(ennemy[i]->life, ennemy[i]->speed, ennemy[i]->damage, ennemy[i]->spawnTime, ennemy[i]->texture, posx, posy, dir, (enemyType)i/*randEnnemyType(ennemy[i])*//*enemyType(rand() % (int)enemyType::ENEMYTYPE_SIZE)*/, loopTime));
 			changePlaceSpawner();
 		}
 	}
+}
+
+enemyType	Spawner::randEnnemyType(AUnit * ennemy)
+{
+	srand(time(NULL) + ennemy->timer.getElapsedTime().asSeconds() + ennemy->x + ennemy->y + (int)ennemy);
+	int randNumber = (rand() / 10) % 10 + (rand() % 10) * 10 + 1;
+	int currentCount = 0;
+
+	for (int currentType = 0; currentType < (int)enemyType::ENEMYTYPE_SIZE; ++currentType)
+	{
+		currentCount += enemyLuckToSpawn[(enemyType) currentType];
+		if (currentCount > 100)
+			return (enemyType)0;
+		if (randNumber <= currentCount)
+			return (enemyType)currentType;
+	}
+	return (enemyType)0;
 }
 
 void Spawner::spawnAmmo(Player *src, sf::Texture texture, Map *map)

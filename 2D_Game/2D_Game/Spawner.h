@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "AUnit.h"
+#include "Enemy.h"
 #include "Item.h"
 #include "Ammo.h"
 #include "Ressources.h"
@@ -28,6 +29,10 @@ private:
 	void changePlaceSpawner();
 	e_posState spawnPosState;
 	float &loopTime;
+	std::map<enemyType, int> enemyLuckToSpawn;
+
+	enemyType randEnnemyType(AUnit *);
+	
 
 public:
 	Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList, float &LoopTime);

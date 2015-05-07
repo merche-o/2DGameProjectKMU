@@ -66,6 +66,119 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 	return (-1);
 }
 
+void Referee::AICollideScreen(Enemy * enemy)
+{
+	if (enemy->x < 0)
+	{
+		enemy->x = 0;
+		enemy->dir = RIGHT;
+		//std::cout << "collide screen left" << std::endl;
+	}
+	else if (enemy->x + enemy->width > Settings::WIDTH - 1)
+	{
+		enemy->x = Settings::WIDTH - 1 - enemy->width;
+		enemy->dir = LEFT;
+		//std::cout << "collide screen right" << std::endl;
+	}
+	if (enemy->y < 0)
+	{
+		enemy->y = 0;
+		enemy->currentDirection == DOWN;
+		//std::cout << "collide screen up" << std::endl;
+	}
+	else if (enemy->y + enemy->height > Settings::HEIGHT - 1)
+	{
+		enemy->y = Settings::HEIGHT - 1 - enemy->height;
+		enemy->currentDirection == UP;
+		//std::cout << "collide screen down" << std::endl;
+	}
+}
+
+bool Referee::AICheckDown(Enemy * enemy, int flyHeight)
+{
+	for (int i = 0; i < this->_map.platform.size(); i++)
+	{
+		if (!(	enemy->x + enemy->width					<	_map.platform[i]->x	- flyHeight												||
+			enemy->x							>	_map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE + flyHeight 	||
+			enemy->y + enemy->height + flyHeight + 5	<	_map.platform[i]->y																||
+			enemy->y									>	_map.platform[i]->y + Settings::CASE_SIZE	))
+		{
+			return false;
+		}
+		/*if (enemy->y < _map.platform[i]->y + Settings::CASE_SIZE &&
+			enemy->y + enemy->height > _map.platform[i]->y - flyHeight - 5 &&
+			enemy->x + enemy->width > _map.platform[i]->x - flyHeight * 2 &&
+			enemy->x < _map.platform[i]->x + flyHeight * 2)
+		{
+			return false;
+		}*/
+	}
+	return true;
+}
+
+bool Referee::AICheckUp(Enemy * enemy, int flyHeight)
+{
+	for (int i = 0; i < this->_map.platform.size(); i++)
+	{
+		if (!(	enemy->x + enemy->width	+ flyHeight * 2	<	_map.platform[i]->x														||
+			enemy->x - flyHeight * 2					>	_map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE	||
+			enemy->y + enemy->height					<	_map.platform[i]->y														||
+			enemy->y									>	_map.platform[i]->y + Settings::CASE_SIZE + flyHeight	))
+		{
+			return false;
+		}
+		/*if (enemy->y < _map.platform[i]->y + Settings::CASE_SIZE + flyHeight + 5 &&
+			enemy->y + enemy->height > _map.platform[i]->y &&
+			enemy->x + enemy->width > _map.platform[i]->x - flyHeight * 2 &&
+			enemy->x < _map.platform[i]->x + flyHeight * 2)
+		{
+			return false;
+		}*/
+	}
+	return true;
+}
+
+bool Referee::AICollideWalls(Enemy * enemy, int flyHeight)
+{
+	for (int i = 0; i < this->_map.platform.size(); i++)
+	{
+		if (!(	enemy->x + enemy->width	<	_map.platform[i]->x														||
+			enemy->x					>	_map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE	||
+			enemy->y + enemy->height	<	_map.platform[i]->y - flyHeight										||
+			enemy->y					>	_map.platform[i]->y + Settings::CASE_SIZE /*+ flyHeight*/	))
+		{
+			if (enemy->currentDirection == FORWARD)
+			{
+				if (enemy->dir == RIGHT)
+				{
+					enemy->x = _map.platform[i]->x - enemy->width - 1;
+					enemy->dir = LEFT;
+				}
+				else //if (enemy->dir == LEFT)
+				{
+					enemy->x = _map.platform[i]->x + Settings::CASE_SIZE * _map.platform[i]->length + 1;
+					enemy->dir = RIGHT;
+				}
+			}
+			else if (enemy->currentDirection == UP)
+			{
+				enemy->y = _map.platform[i]->y + Settings::CASE_SIZE + 1 /*+ flyHeight*/;
+				enemy->currentDirection == FORWARD;
+			}
+			else if (enemy->currentDirection == DOWN)
+			{
+				//std::cout << "collide wall down" << std::endl;
+				enemy->y = _map.platform[i]->y - enemy->height - 1 - flyHeight;
+				enemy->currentDirection == FORWARD;
+			}
+			//std::cout << "collide walls true" << std::endl;
+			return true;
+		}
+	}
+	//std::cout << "collide walls false" << std::endl;
+	return false;
+}
+
 
 int Referee::collideSpell(AUnit *src)
 {

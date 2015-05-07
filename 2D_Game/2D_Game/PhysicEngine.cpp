@@ -316,13 +316,16 @@ void PhysicEngine::RmoveRight(AUnit *src)
 
 void PhysicEngine::RJump(AUnit *src)
 {
-	if (src->state == U_JUMP)
-		src->state = U_END_JUMP;
-	if (_referee->applyGravity(src) == false)
+	if (src->isPlayer || (((Enemy *)src)->type == enemyType::E_BASIC && ((Enemy *)src)->type == enemyType::E_JUMPCASE))
 	{
-		src->jumpTmpY = 0;
-		src->state = U_NORMAL;
-		src->act = WALK;
+		if (src->state == U_JUMP)
+			src->state = U_END_JUMP;
+		if (_referee->applyGravity(src) == false)
+		{
+			src->jumpTmpY = 0;
+			src->state = U_NORMAL;
+			src->act = WALK;
+		}
 	}
 	return;
 }
