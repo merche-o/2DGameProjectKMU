@@ -87,6 +87,9 @@ void Ressources::loadTextures()
 	texture["ammo"].loadFromFile("./Ressources/Images/Ammo0.png");
 	texture["interface"].loadFromFile("./Ressources/Images/Interface.png");
 	texture["ammoLogo"].loadFromFile("./Ressources/Images/IAmmo.png");
+	texture["ammoLogo1"].loadFromFile("./Ressources/Images/IAmmo1.png");
+	texture["ammoLogo2"].loadFromFile("./Ressources/Images/IAmmo2.png");
+	texture["ammoLogo3"].loadFromFile("./Ressources/Images/IAmmo3.png");
 	texture["background"].loadFromFile("./Ressources/Images/BackgroundGame.png");
 	texture["pause"].loadFromFile("./Ressources/Images/pause_bg.png");
 }
