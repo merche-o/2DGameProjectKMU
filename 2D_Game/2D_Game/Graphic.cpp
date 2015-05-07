@@ -93,31 +93,32 @@ void Graphic::affMap()
 		for (unsigned int j = 0; j < map.platform[i]->length; ++j)
 		{
 			// Display
-			if (map.platform[i]->isMorphing == true && (map.platform[i]->type == Platform::DISAPPEAR || map.platform[i]->type == Platform::APPEARING))
-				if (j == 0)
-					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Lplatform"], map.platform[i]->transp);
-				else if (j == map.platform[i]->length -1)
-					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Rplatform"], map.platform[i]->transp);
-				else
-					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Mplatform"], map.platform[i]->transp);
-			//else if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DAMAGE)
+					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y, map.platform[i]->texture[j], map.platform[i]->transp);
+			//if (map.platform[i]->isMorphing == true && (map.platform[i]->type == Platform::DISAPPEAR || map.platform[i]->type == Platform::APPEARING))
+			//	if (j == 0)
+			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Lplatform"], map.platform[i]->transp);
+			//	else if (j == map.platform[i]->length -1)
+			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Rplatform"], map.platform[i]->transp);
+			//	else
+			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Mplatform"], map.platform[i]->transp);
+			////else if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DAMAGE)
+			////{
+			////	if (j == 0)
+			////		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["LDplatform"]);
+			////	else if (j == map.platform[i]->length -1)
+			////		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["RDplatform"]);
+			////	else
+			////		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["MDplatform"]);
+			////}
+			//else
 			//{
 			//	if (j == 0)
-			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["LDplatform"]);
+			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Lplatform"]);
 			//	else if (j == map.platform[i]->length -1)
-			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["RDplatform"]);
+			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Rplatform"]);
 			//	else
-			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["MDplatform"]);
+			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Mplatform"]);
 			//}
-			else
-			{
-				if (j == 0)
-					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Lplatform"]);
-				else if (j == map.platform[i]->length -1)
-					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Rplatform"]);
-				else
-					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Mplatform"]);
-			}
 		}
 	}
 }

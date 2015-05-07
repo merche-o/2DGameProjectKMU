@@ -5,6 +5,7 @@
 #include <utility>
 #include "Case.h"
 #include "Platform.h"
+#include "Ressources.h"
 
 class Map
 {
@@ -14,11 +15,12 @@ public:
 	int number_platfoms;
 
 	float & loopTime;
+	Ressources & ress;
 
 private:
 
 public:
-	Map(float & Time);
+	Map(Ressources & r, float & Time);
 	void init(bool);
 	~Map(void);
 

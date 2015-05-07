@@ -7,6 +7,9 @@
 
 Ressources::Ressources(void)
 {
+	loadEnnemiesFromFile("./Ressources/Ennemies.txt");
+	loadWeaponsFromFile("./Ressources/Weapons.txt");
+	loadTextures();
 }
 
 
@@ -80,6 +83,10 @@ void Ressources::loadTextures()
 	texture["LDplatform"].loadFromFile("./Ressources/Images/R_Dmg_Platform.png");
 	texture["LDplatform"].loadFromFile("./Ressources/Images/R_Dmg_Platform.png");
 	texture["LDplatform"].loadFromFile("./Ressources/Images/R_Dmg_Platform.png");
+	
+	//texture["htp_arrow"].loadFromFile("./Ressources/Images/htp_arrow.png");
+	//texture["htp_space"].loadFromFile("./Ressources/Images/htp_space.png");
+	//texture["htp_awd"].loadFromFile("./Ressources/Images/htp_awd.png");
 
 	texture["coin"].loadFromFile("./Ressources/Images/coin.png");
 	texture["life"].loadFromFile("./Ressources/Images/LifeBar.png");

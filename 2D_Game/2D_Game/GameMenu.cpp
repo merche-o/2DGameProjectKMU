@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 
-GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters * p, bool & s, bool & m)
+GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bool & m)
 	: Display(w), win(w), event(e), param(p), start(s), menu(m)
 {
 	refresh = true;
@@ -210,7 +210,7 @@ void GameMenu::displayCurrentMenu()
 	}
 	if (currentState == SETTINGS)
 	{
-		if (param->sound.activeMusic == true)
+		if (param.sound.activeMusic == true)
 			loadText(400, 250, font, "music : ON", 48, 60, 250, 250);
 		else
 			loadText(400, 250, font, "music : OFF", 48, 60, 250, 250);
@@ -344,10 +344,10 @@ void GameMenu::menuMute()
 {
 	currentState = beforeState[beforeState.size() - 1];
 		beforeState.erase(beforeState.begin() + beforeState.size() - 1);
-	if (param->sound.activeMusic)
-		param->sound.musicOFF();
+	if (param.sound.activeMusic)
+		param.sound.musicOFF();
 	else
-		param->sound.musicON();
+		param.sound.musicON();
 }
 
 // Back to previous menu

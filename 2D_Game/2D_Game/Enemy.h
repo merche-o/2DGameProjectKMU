@@ -50,4 +50,5 @@ public:
 	enemyDirection nextDirection;
 	void getHit(int);
 	void explode();
+	void hit();
 };
