@@ -2,6 +2,7 @@
 
 #include <utility>
 #include "SFML\Graphics.hpp"
+#include "Ressources.h"
 
 class Platform
 {
@@ -12,6 +13,8 @@ public:
 		APPEARING,
 		GO_LEFT,
 		GO_RIGHT,
+		GO_UP,
+		GO_DOWN,
 		DAMAGE,
 		SLOWING,
 		NONE
@@ -26,10 +29,12 @@ public:
 	bool isMorphing;
 	int transp;
 	std::vector<std::pair<int, int> > pos;
+	std::vector<sf::Texture> texture;
 	float activMorph;
 	float morphTime;
-	float & loopTime; // time of one global loop
 	float morph; // additionnal loopTime
+	float & loopTime; // time of one global loop
+	Ressources & ress;
 
 	std::vector<int> transpGradient;
 	std::vector<float> lifeGradient;
@@ -37,7 +42,7 @@ public:
 private:
 
 public:
-	Platform(int X, int Y, int Length, float & Time, unsigned int randomize, bool rebuild = false);
+	Platform(int X, int Y, int Length, float & Time, Ressources & r, unsigned int randomize, bool rebuild = false);
 	~Platform(void);
 
 	void checkMorphTime();
@@ -47,10 +52,5 @@ public:
 	void resetTime();
 	void recycle();
 	void setNewEvent();
+	void isCollidingWithPlatform(std::vector<Platform*> & platform);
 };
-
-// Refaire les plateforms sous forme de class = stockage dynamique pour application dynamique
-// Check it :
-// creer une enum de type de platform, et donner un type a chaque platform
-// en fonction de ce type, la plateform va changer differement
-// tableau de pointeur sur fonction de type

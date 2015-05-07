@@ -6,14 +6,22 @@
 #include <cstdlib>
 #include <algorithm>
 
-Platform::Platform(int X, int Y, int Length, float & Time, unsigned int randomize, bool rebuild)
-	: x(X), y(Y), length(Length), loopTime(Time)
+Platform::Platform(int X, int Y, int Length, float & Time, Ressources & re, unsigned int randomize, bool rebuild)
+	: x(X), y(Y), length(Length), loopTime(Time), ress(re)
 {
 	// CREATE EACH CASE
 	for (int i = 0; i < length; ++i)
 	{
+		if (i == 0)
+			texture.push_back(ress.texture["Lplatform"]);
+		else if (i == length - 1)
+			texture.push_back(ress.texture["Rplatform"]);
+		else
+			texture.push_back(ress.texture["Mplatform"]);
+
 		pos.push_back(std::make_pair((i * Settings::CASE_SIZE) + x, y));
 	}
+
 	morph = 0;
 	
 	// Random STATS
@@ -29,6 +37,10 @@ Platform::Platform(int X, int Y, int Length, float & Time, unsigned int randomiz
 			type = GO_LEFT;
 		else if (r == 2)
 			type = GO_RIGHT;
+		//else if (r == 3)
+		//	type = GO_UP;
+		//else if (type == 4)
+		//	type = GO_DOWN;
 		//else if (r == 3)
 			//type = DAMAGE;
 		if (y / Settings::CASE_SIZE == 22 || y / Settings::CASE_SIZE == 0)
@@ -53,7 +65,8 @@ Platform::Platform(int X, int Y, int Length, float & Time, unsigned int randomiz
 
 	isMorphing = false; // not activ
 	morphTime = 6; // time for animation
-	speed = 1 * Settings::CASE_SIZE;
+	r = rand() % 3 + 1;
+	speed = r * Settings::CASE_SIZE;
 	////////////////////////////////////////////
 
 	// VECTOR OF TRANSPARENCY //////////////////
@@ -102,6 +115,8 @@ void Platform::checkMorphTime()
 
 void Platform::playMorph(std::vector<Platform*> & platform) // Creer des collisions de croisement grace a la liste de platform
 {
+	if (type == GO_RIGHT || type == GO_LEFT)
+		isCollidingWithPlatform(platform);
 	if (type == DISAPPEAR)
 	{
 		for (int i = 0; i < lifeGradient.size(); ++i)
@@ -129,9 +144,23 @@ void Platform::playMorph(std::vector<Platform*> & platform) // Creer des collisi
 		}
 	}
 	else if (type == GO_LEFT)
+	{
 		x -= speed * loopTime;
+	}
 	else if (type == GO_RIGHT)
+	{
 		x += speed * loopTime;
+	}
+	//else if (type == GO_UP)
+	//{
+	//	y -= speed * loopTime;
+	//}
+	//else if (type == GO_DOWN)
+	//{
+	//	y += speed * loopTime;
+	//}
+
+
 	// No more Damage Platform
 	//else if (type == DAMAGE)
 	//{
@@ -196,4 +225,38 @@ void Platform::setNewEvent()
 		type = GO_RIGHT;
 }
 
-// Voir si c'est mieux de stocker la texture dans la platform plutot que faire des if dans Graphic
+void Platform::isCollidingWithPlatform(std::vector<Platform*> & platform)
+{
+	for (int i = 0; i < platform.size(); ++i)
+	{
+		if (y == platform[i]->y && platform[i] != this)
+		{
+			if (type == GO_RIGHT)
+			{
+				// check collision
+				if (((x + (length * Settings::CASE_SIZE)) >= (platform[i]->x))
+					&& (x < (platform[i]->x + (platform[i]->length * Settings::CASE_SIZE))))
+				{
+					type = GO_LEFT; // Change de direction
+
+					if (platform[i]->type == GO_LEFT)
+						platform[i]->type = GO_RIGHT; // Change de direction
+					break;
+				}
+			}
+			else if (type == GO_LEFT)
+			{
+				// check collision
+				if ((x <= (platform[i]->x + (platform[i]->length * Settings::CASE_SIZE)))
+					&& ((x + (length * Settings::CASE_SIZE)) > (platform[i]->x)))
+				{
+					type = GO_RIGHT; // Change de direction
+
+					if (platform[i]->type == GO_RIGHT)
+						platform[i]->type = GO_LEFT; // Change de direction
+					break;
+				}
+			}
+		}
+	}
+}

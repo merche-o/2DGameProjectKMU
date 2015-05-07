@@ -4,14 +4,27 @@
 #include <fstream>
 #include <string>
 
-GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters * p, bool & s, bool & m)
-	: Display(w), win(w), event(e), param(p), start(s), menu(m)
+GameMenu::GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters & p, bool & s, bool & m, float & LoopTime)
+	: Display(w), win(w), ress(r), event(e), param(p), start(s), menu(m), loopTime(LoopTime)
 {
 	refresh = true;
 	posMenu = 0;
-	restart = false;
 	currentState = MAIN; // Begin main menu
 	beforeState.push_back(NONE); // No previous page
+	
+	//partEmitter.push_back(new ParticleEmitter(200, 750, 0.5, 10, 2, sf::Color(250, 0, 0), loopTime, false));
+	//partEmitter[0]->createParticle(0, -1.925);
+	//partEmitter[0]->createParticle(0.1, -1.9);
+	//partEmitter[0]->createParticle(0.2, -1.85);
+	//partEmitter[0]->createParticle(-0.1, -1.9);
+	//partEmitter[0]->createParticle(-0.2, -1.85);
+	//partEmitter.push_back(new ParticleEmitter(1000, 750, 0.5, 10, 2, sf::Color(0, 250, 0), loopTime, false));
+	//partEmitter[1]->createParticle(0, -1.925);
+	//partEmitter[1]->createParticle(0.1, -1.9);
+	//partEmitter[1]->createParticle(0.2, -1.85);
+	//partEmitter[1]->createParticle(-0.1, -1.9);
+	//partEmitter[1]->createParticle(-0.2, -1.85);
+
 
 	/*****	MENU *****/
 	addTextMenu(MAIN, new TextMenu(350, 0, "Menu", 96, 250, 60, 60));
@@ -23,10 +36,10 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters * p, bool & s, bo
 	addKeyTextMenu(MAIN, new TextMenu(400, 700, "Quit", 48), &GameMenu::menuReturn);
 	
 	addTextMenu(SETTINGS, new TextMenu(350, 0, "Settings", 96, 250, 60, 60));
-	addKeyTextMenu(SETTINGS, new TextMenu(400, 350, "Mute", 48), &GameMenu::menuMute);
-	addKeyTextMenu(SETTINGS, new TextMenu(400, 600, "Back", 48), &GameMenu::menuReturn);
+	addKeyTextMenu(SETTINGS, new TextMenu(400, 200, "Back", 48), &GameMenu::menuReturn);
 
 	addTextMenu(HOWPLAY, new TextMenu(350, 0, "How to Play", 80, 250, 60, 60));
+	//addImgMenu(HOWPLAY, new ImageMenu(200, 300, ress.texture["htp_arrow"]));
 	addTextMenu(HOWPLAY, new TextMenu(200, 200, "A : Left", 32, 60, 250, 250));
 	addTextMenu(HOWPLAY, new TextMenu(200, 300, "D : Right", 32, 60, 250, 250));
 	addTextMenu(HOWPLAY, new TextMenu(200, 400, "W : Jump", 32, 60, 250, 250));
@@ -47,15 +60,13 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters * p, bool & s, bo
 
 	addTextMenu(PAUSE, new TextMenu(600, 300, "Pause", 48, 200, 200, 200));
 	addKeyTextMenu(PAUSE, new TextMenu(600, 400, "Resume", 32), &GameMenu::menuPlay);
-	addKeyTextMenu(PAUSE, new TextMenu(600, 450, "New game", 32), &GameMenu::menuRestart);
-	addKeyTextMenu(PAUSE, new TextMenu(600, 500, "How to Play", 32), &GameMenu::menuHowPlay);
-	addKeyTextMenu(PAUSE, new TextMenu(600, 550, "Settings", 32), &GameMenu::menuSettings);
-	addKeyTextMenu(PAUSE, new TextMenu(600, 600, "Back to menu", 32), &GameMenu::menuReturn);
+	addKeyTextMenu(PAUSE, new TextMenu(600, 450, "Back to menu", 32), &GameMenu::menuReturn);
 
 	addTextMenu(HIGHSCORE, new TextMenu(350, 0, "Highscore", 96, 250, 60, 60));
 	addKeyTextMenu(HIGHSCORE, new TextMenu(400, 650, "Back", 64), &GameMenu::menuReturn);
 
 	addTextMenu(ENDGAME, new TextMenu(600, 300, "Game Over", 48, 200, 200, 200));
+	//addTextMenu(ENDGAME, new TextMenu(600, 350, "Your score :" + std::to_string((long double)score), 48, 200, 200, 200));
 	addKeyTextMenu(ENDGAME, new TextMenu(600, 450, "New game", 32), &GameMenu::menuPlay);
 	addKeyTextMenu(ENDGAME, new TextMenu(600, 500, "Back to main menu", 32), &GameMenu::menuReturn);
 
@@ -76,7 +87,7 @@ void GameMenu::posInsideTheMenu() // loop the cursor in menu
 
 void GameMenu::run()
 {
-	if (refresh == true) // Refresh the screen only if necessary
+	//if (refresh == true) // Refresh the screen only if necessary
 	{
 		if (isPushed == true) // Enter Event
 		{
@@ -90,13 +101,22 @@ void GameMenu::run()
 				refresh = true;
 				return;
 			}
+
+				//partEmitter.push_back(new ParticleEmitter(400, 400, 0.5, 10, 2, sf::Color(250, 250, 0), loopTime, false, 3));
+				//partEmitter[partEmitter.size() - 1]->createParticle(-1, 0);
+				//partEmitter[partEmitter.size() - 1]->createParticle(-0.75, -0.75);
+				//partEmitter[partEmitter.size() - 1]->createParticle(0, -1);
+				//partEmitter[partEmitter.size() - 1]->createParticle(0.75, -0.75);
+				//partEmitter[partEmitter.size() - 1]->createParticle(1, 0);
+				//partEmitter[partEmitter.size() - 1]->createParticle(0.75, 0.75);
+				//partEmitter[partEmitter.size() - 1]->createParticle(0, 1);
+				//partEmitter[partEmitter.size() - 1]->createParticle(-0.75, 0.75);
 		}
 		posInsideTheMenu(); // Keep cursor inside the menu
 		
 		if (currentState != PAUSE) // Do not clear the screen in Pause menu (we can see the game behind)
-			win.clear();
+		win.clear();
 		displayCurrentMenu(); // Display texts
-		
 		win.display();
 
 		refresh = false;
@@ -167,13 +187,30 @@ void GameMenu::endGame(int score)
 // Display Texts
 void GameMenu::displayCurrentMenu()
 {
+	if (currentState != PAUSE && currentState != ENDGAME)
+		for (int i = 0; i < partEmitter.size(); ++i)
+		{
+			partEmitter[i]->update();
+			loadParticleVector(partEmitter[i]->emitter);
+			if (partEmitter[i]->emissionTime == 0 && partEmitter[i]->emitter.size() == 0)
+				partEmitter.erase(partEmitter.begin() + i);
+		}
+
+
+	for (int i = 0; i < sizeImgMenu[currentState]; ++i)
+	{
+		loadImage(imgMenu[std::make_pair(currentState, i)]->x, 
+			imgMenu[std::make_pair(currentState, i)]->y,
+			imgMenu[std::make_pair(currentState, i)]->texture);
+	}
+
 	for (int i = 0; i < sizeTextMenu[currentState]; ++i)
 	{
 		loadText(textMenu[std::make_pair(currentState, i)]->x, 
 				textMenu[std::make_pair(currentState, i)]->y, 
 				font, 
 				textMenu[std::make_pair(currentState, i)]->text, 
-				textMenu[std::make_pair(currentState, i)]->size,
+				textMenu[std::make_pair(currentState, i)]->size, 
 				textMenu[std::make_pair(currentState, i)]->color.r, 
 				textMenu[std::make_pair(currentState, i)]->color.g, 
 				textMenu[std::make_pair(currentState, i)]->color.b);
@@ -207,13 +244,6 @@ void GameMenu::displayCurrentMenu()
 		loadText(400, 350, font, "3 : " + scoreTable[2], 48, 60, 250, 250);
 		loadText(400, 450, font, "4 : " + scoreTable[3], 48, 60, 250, 250);
 		loadText(400, 550, font, "5 : " + scoreTable[4], 48, 60, 250, 250);
-	}
-	if (currentState == SETTINGS)
-	{
-		if (param->sound.activeMusic == true)
-			loadText(400, 250, font, "music : ON", 48, 60, 250, 250);
-		else
-			loadText(400, 250, font, "music : OFF", 48, 60, 250, 250);
 	}
 }
 
@@ -340,16 +370,6 @@ void GameMenu::menuEndGame()
 	currentState = ENDGAME;
 }
 
-void GameMenu::menuMute()
-{
-	currentState = beforeState[beforeState.size() - 1];
-		beforeState.erase(beforeState.begin() + beforeState.size() - 1);
-	if (param->sound.activeMusic)
-		param->sound.musicOFF();
-	else
-		param->sound.musicON();
-}
-
 // Back to previous menu
 void GameMenu::menuReturn()
 {
@@ -380,17 +400,12 @@ void GameMenu::menuPlay()
 		}
 }
 
-void GameMenu::menuRestart()
+// Simple image
+void GameMenu::addImgMenu(e_state state, ImageMenu * img)
 {
-	restart = true;
-	start = true;
-	if (beforeState.size() > 2 )
-		{	
-			currentState = MAIN;
-			beforeState.erase(beforeState.begin() + beforeState.size() - 1);
-		}
+	imgMenu[std::make_pair(state, sizeTextMenu[state])] = img;
+	sizeImgMenu[state]++;
 }
-
 
 // Simple texte
 void GameMenu::addTextMenu(e_state state, TextMenu * text)

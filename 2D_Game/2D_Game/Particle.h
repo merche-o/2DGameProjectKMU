@@ -22,7 +22,7 @@ public:
 	Pos speed;
 
 public:
-	Particle(float X, float Y, sf::Color, float LifeTime, int SpeedX, int SpeedY, float Radius, float & Time);
+	Particle(float X, float Y, sf::Color, float LifeTime, float SpeedX, float SpeedY, float Radius, float & Time);
 	~Particle(void);
 
 	void update();

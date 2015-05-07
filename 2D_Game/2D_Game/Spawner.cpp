@@ -49,7 +49,7 @@ void Spawner::spawnEnnemies(std::vector<AUnit*> &ennemy)
 			else
 				dir = LEFT;
 
-			ennemies.push_back(new Enemy(ennemy[i]->life, ennemy[i]->speed, ennemy[i]->damage, ennemy[i]->spawnTime, ennemy[i]->texture, posx, posy, dir, enemy_type(i), loopTime));
+			ennemies.push_back(new Enemy(2/*ennemy[i]->life*/, ennemy[i]->speed, ennemy[i]->damage, ennemy[i]->spawnTime, ennemy[i]->texture, posx, posy, dir, enemy_type(i), loopTime));
 			changePlaceSpawner();
 		}
 	}
