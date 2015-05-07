@@ -18,13 +18,21 @@ public:
 	float tmpTime;
 	Spell spell;
 	bool isSpell;
-	bool spellUsed;
 	int numPlayer;
+
+	// For spell limitation ----> put it on the spell class, cd per spells
+	bool spellUsed;
+	sf::Clock timer;
+	sf::Time cd;
+	float cdTime;
 
 private:
 
 public:
 	Player(Ressources & Ress, float &LoopTime, int NumPlayer);
+	void changeWeaponLeft();
+	void changeWeaponRight();
+	void getNewWeapon(int weaponID, Ressources &Ress);
 	~Player(void);
 	void init(Ressources &);
 };

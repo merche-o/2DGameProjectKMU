@@ -54,6 +54,8 @@ public:
 	float &loopTime;
 	float fireRate;
 	float timeDone;
+	int weaponUsed;
+	int numWeapon;
 	e_dir dir;
 	e_act act;
 	life_state l_state;

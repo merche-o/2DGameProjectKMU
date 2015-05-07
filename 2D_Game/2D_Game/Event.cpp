@@ -49,6 +49,16 @@ void Event::checkEvent(bool & pause)
 			}
 			else if (event.key.code == sf::Keyboard::Space)
 				player[0]->inputMap[Event::I_BONUS] = true;
+			else if (event.key.code == sf::Keyboard::Q)
+				player[0]->inputMap[Event::I_SWAP] = true;
+			else if (event.key.code == sf::Keyboard::Num1)
+				player[0]->inputMap[Event::I_WEAPON_1] = true;
+			else if (event.key.code == sf::Keyboard::Num2)
+				player[0]->inputMap[Event::I_WEAPON_2] = true;
+			else if (event.key.code == sf::Keyboard::Num3)
+				player[0]->inputMap[Event::I_WEAPON_3] = true;
+			else if (event.key.code == sf::Keyboard::Num4)
+				player[0]->inputMap[Event::I_WEAPON_4] = true;
 		}
 		else if (event.type == sf::Event::KeyReleased)
 		{
@@ -70,6 +80,16 @@ void Event::checkEvent(bool & pause)
 				player[0]->inputMap[Event::I_RIGHT] = false;
 			else if (event.key.code == sf::Keyboard::Space)
 				player[0]->inputMap[Event::I_BONUS] = false;
+			else if (event.key.code == sf::Keyboard::Q)
+				player[0]->inputMap[Event::I_SWAP] = false;
+			else if (event.key.code == sf::Keyboard::Num1)
+				player[0]->inputMap[Event::I_WEAPON_1] = false;
+			else if (event.key.code == sf::Keyboard::Num2)
+				player[0]->inputMap[Event::I_WEAPON_2] = false;
+			else if (event.key.code == sf::Keyboard::Num3)
+				player[0]->inputMap[Event::I_WEAPON_3] = false;
+			else if (event.key.code == sf::Keyboard::Num4)
+				player[0]->inputMap[Event::I_WEAPON_4] = false;
 		}
     }
 }

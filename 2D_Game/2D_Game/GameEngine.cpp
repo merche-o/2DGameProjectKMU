@@ -7,7 +7,7 @@
 GameEngine::GameEngine(void)
 	: ressources(),
 		graphic(window, map, player, ennemyList, bulletList, itemList, ressources, loopTime),
-		menu(window, event, parameters, restart, goMenu),
+		menu(window, event, new Parameters(sound), restart, goMenu),
 		sound(),
 		map(loopTime),
 		event(window, player),
@@ -27,7 +27,13 @@ GameEngine::GameEngine(void)
 	physics._referee = &ref;
 	
 	player.push_back(new Player(ressources, loopTime, 0));
-	
+	//have to put that on the event : touching new weapon
+	player[0]->getNewWeapon(1,ressources);
+	player[0]->getNewWeapon(2,ressources);
+	player[0]->getNewWeapon(3,ressources);
+	//player[0]->getNewWeapon(4,ressources);
+	player[0]->numWeapon = 3;
+	//
 	state = MENU;
 	restart = false;
 	goMenu = false;
@@ -69,6 +75,10 @@ void GameEngine::resetElement()
 	bulletList.clear();
 	itemList.clear();
 	player[0]->init(ressources);
+	//have to put that on the event : touching new weapon
+	player[0]->getNewWeapon(1,ressources);
+	player[0]->numWeapon += 1;
+	//
 	graphic.resetInterface();
 	globalClock.restart();
 	map.init(false);
@@ -92,7 +102,8 @@ void GameEngine::run()
 			{
 				resetElement();
 				restart = false;
-				sound.musicON();
+				//sound.musicON();
+				//sound.musicOFF(); // For coding
 				sound.playMusic(sound.music);
 			}
 			
@@ -136,39 +147,61 @@ void GameEngine::run()
 
 			if (state == GAME)
 				event.checkEvent(pause);
-		
+			
 			graphic.RefreshWindow();
 
 			if (pause == true)
 			{
+				sound.music.pause();
 				state = PAUSE;
 				menu.menuPause();
 			}
 		}
 		else if (state == PAUSE)
 		{
+			//refesh l'affichage du jeux. pour pas avoir le bug cheloux de la pause
+			if (menu.refresh == true)
+			{
+				graphic.affMap();
+				graphic.affSpell();
+				graphic.affUnits();
+				graphic.affBullets();
+				graphic.affItems();
+				graphic.affPauseBG();
+			}
+			//graphic.affInterface();*/
+		
 			menu.run();
-			//graphic.affPauseBG();
+			
 			if (goMenu == true)
 			{
-
 				resetElement();
 				state = MENU;
 				goMenu = false;
 				pause = false;
 			}
-			if (restart == true)
+
+		if (restart == true)
 			{
+				if (menu.restart == true)
+					{
+						resetElement();
+						menu.restart = false;
+					}
+				else if (sound.activeMusic)
+					sound.music.play();
 				pause = false;
 				state = GAME;
 				restart = false;
 				globalClock.restart();
 			}
+
+
 		}
 		else if (state == ENDGAME)
 		{
 			menu.endGame(player[0]->score);
-			
+			sound.musicOFF();
 			if (goMenu == true)
 			{
 				resetElement();

@@ -31,7 +31,7 @@ class GameEngine
 private:
 	e_state state;
 	Ressources ressources;
-	Parameters parameters;
+	Parameters *parameters;
 	Graphic graphic;
 	GameMenu menu;
 	SoundEngine sound;

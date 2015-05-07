@@ -11,6 +11,7 @@ class Map
 public:
 	std::map<std::pair<int, int>, Case> map;
 	std::vector<Platform*> platform;
+	int number_platfoms;
 
 	float & loopTime;
 
@@ -23,4 +24,6 @@ public:
 
 	void createPlatform(int x, int y, int length, bool symmetry = false);
 	void checkPlatform();
+	bool isRecyclable(int n);
+	void rebuildPlatform();
 };

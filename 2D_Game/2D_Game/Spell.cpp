@@ -1,18 +1,11 @@
-// Marc
+// Joris
 
 #include "Spell.h"
 
 
-Spell::Spell(float & X, float & Y)
-	: px(X), py(Y)
+Spell::Spell(float & X, float & Y, e_spell_type spellType)
+	: px(X), py(Y), type(spellType)
 {
-	actionSpell[EXPLOSION] = &Spell::explosion;
-	actionSpell[LASER] = &Spell::laser;
-
-	type = LASER;
-
-	texture.loadFromFile("./Ressources/Images/laser.png");
-
 	sf::Vector2u vec;
 	vec = texture.getSize();
 	//width = vec.x;
@@ -23,11 +16,24 @@ Spell::Spell(float & X, float & Y)
 
 	play = false;
 	launched = false;
+	updateSpell(spellType);
 }
 
 
 Spell::~Spell(void)
 {
+}
+
+void Spell::updateSpell(e_spell_type spellType)
+{
+	type = spellType;
+	actionSpell[EXPLOSION] = &Spell::explosion;
+	actionSpell[LASER] = &Spell::laser;
+
+	if (type == LASER)
+		texture.loadFromFile("./Ressources/Images/laser.png");
+	else if (type == EXPLOSION)
+		texture.loadFromFile("./Ressources/Images/explosion.png");
 }
 
 void Spell::launch()
@@ -42,13 +48,13 @@ void Spell::launch()
 	if (play == true)
 	{
 		(this->*(actionSpell[type]))();
-		if (type == EXPLOSION && scaleX > 5.0)
+		if (type == EXPLOSION && scaleX > 25.0)
 		{
 			scaleX = 1.0;
 			scaleY = 1.0;
 			play = false;
 		}
-		else if (type == LASER && scaleX > 20.0)
+		else if (type == LASER && scaleX > 28.0)
 		{
 			scaleX = 1.0;
 			play = false;
@@ -58,11 +64,11 @@ void Spell::launch()
 
 void Spell::explosion()
 {
-	scaleX += 0.1;
-	scaleY += 0.1;
+	scaleX += 5;
+	scaleY += 5;
 }
 
 void Spell::laser()
 {
-	scaleX += 1.0;
+	scaleX += 4.0;
 }
