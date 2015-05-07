@@ -8,8 +8,8 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 	: AUnit(LoopTime), spell(x, y), numPlayer(NumPlayer)
 {
 	texture.loadFromFile("./Ressources/Images/Player.png");
-	x = -2;
-	y = 0;
+	x = 500;
+	y = 100;
 	width = 32;
 	height = 32;
 	speed = 7 * Settings::CASE_SIZE;
@@ -20,7 +20,7 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 	tmpTime = 0;
 	inDash = 0;
 	isPlayer = true;
-
+	spellUsed = false;
 	spell.type = LASER;
 	isSpell = true;
 
@@ -32,10 +32,11 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 
 void Player::init(Ressources &Ress)
 {
-	x = -2;
-	y = 0;
+	x = 500;
+	y = 100;
 	life = 4;
 	shield = 1;
+	spellUsed = false;
 	int i = 0;
 	while (i < 9)
 	{
@@ -44,6 +45,7 @@ void Player::init(Ressources &Ress)
 	}
 	score = 0;
 	weapon.clear();
+	particles.clear();
 	isPlayer = true;
 	weapon.push_back(new Weapon(Ress.weapon[0]->damage, Ress.weapon[0]->fireRate, Ress.weapon[0]->range, Ress.weapon[0]->speed, numPlayer, Item::D_WEAPON));
 }

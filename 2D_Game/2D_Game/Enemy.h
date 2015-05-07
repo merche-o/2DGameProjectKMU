@@ -5,6 +5,8 @@
 #include "Weapon.h"
 #include "Bonus.h"
 #include "Spell.h"
+#include "Settings.h"
+#include <cmath>
 
 enum enemyDirection
 {
@@ -18,6 +20,7 @@ enum enemyType
 {
 	E_BASIC,
 	E_FLY,
+	E_FLOAT,
 	E_JUMPCASE,
 	ENEMYTYPE_SIZE
 };
@@ -34,6 +37,8 @@ class Enemy : public AUnit
 {
 public:
 	enemyType etype;	
+	int coins;
+	sf::Vector2f directionVector;
 
 private:
 

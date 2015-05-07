@@ -20,8 +20,8 @@ public:
 	e_spell_type type;
 	std::map<e_spell_type, void(Spell:: *)()> actionSpell;
 	sf::Texture texture;
-	unsigned int width;
-	unsigned int height;
+	//unsigned int width;
+	//unsigned int height;
 	float scaleX;
 	float scaleY;
 	bool play;

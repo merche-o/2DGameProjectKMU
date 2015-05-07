@@ -33,10 +33,10 @@ void Spawner::changePlaceSpawner()
 	}
 }
 
-void Spawner::spawnEnnemies(std::vector <AUnit*> &ennemy)
+void Spawner::spawnEnnemies(std::vector<AUnit*> &ennemy)
 {
 	e_dir dir;
-	
+
 	for (int i = 0; i < ennemy.size(); i++)
 	{
 		ennemy[i]->spawn = ennemy[i]->timer.getElapsedTime();
@@ -48,13 +48,10 @@ void Spawner::spawnEnnemies(std::vector <AUnit*> &ennemy)
 				dir = RIGHT;
 			else
 				dir = LEFT;
-
 			ennemies.push_back(new Enemy(ennemy[i]->life, ennemy[i]->speed, ennemy[i]->damage, ennemy[i]->spawnTime, ennemy[i]->texture, posx, posy, dir, enemyType(rand() % (int)enemyType::ENEMYTYPE_SIZE), loopTime));
 			changePlaceSpawner();
 		}
 	}
-
-	
 }
 
 void Spawner::spawnAmmo(Player *src, sf::Texture texture, Map *map)
