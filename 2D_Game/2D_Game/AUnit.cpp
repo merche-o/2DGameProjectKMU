@@ -1,8 +1,7 @@
-// Olivier & Marc & Jors
+// Olivier & Marc & Joris
 
 #include "AUnit.h"
 #include "Event.h"
-
 
 AUnit::AUnit(float &LoopTime) : loopTime(LoopTime)
 {

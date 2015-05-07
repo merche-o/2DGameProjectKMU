@@ -3,9 +3,8 @@
 #include "Player.h"
 #include "Settings.h"
 
-
 Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
-	: AUnit(LoopTime), spell(x, y), numPlayer(NumPlayer)
+	: AUnit(LoopTime), spell(x, y, LASER), numPlayer(NumPlayer)
 {
 	texture.loadFromFile("./Ressources/Images/Player.png");
 	x = 500;
@@ -13,16 +12,17 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 	width = 32;
 	height = 32;
 	speed = 7 * Settings::CASE_SIZE;
-	life = 3;
-	shield = 3;
+	life = 4;
+	shield = 1;
 	
 	score = 0;
 	tmpTime = 0;
 	inDash = 0;
 	isPlayer = true;
+
 	spellUsed = false;
-	spell.type = LASER;
 	isSpell = true;
+	cdTime = 10;
 
 	particleColor = sf::Color(255, 255, 255);
 
@@ -37,6 +37,7 @@ void Player::init(Ressources &Ress)
 	life = 4;
 	shield = 1;
 	spellUsed = false;
+	cdTime = 10;
 	int i = 0;
 	while (i < 9)
 	{

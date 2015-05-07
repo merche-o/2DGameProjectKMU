@@ -1,7 +1,7 @@
 //Joris
 
 #include "PhysicEngine.h"
-
+#include <iostream>
 
 PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map & map, float  &LoopTime, SoundEngine &sound)
 : _player(player), _ennemyList(enemylist), _itemList(itemList), _bulletList(bulletList), _map(map), loopTime(LoopTime), _sound(sound)
@@ -17,6 +17,7 @@ PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &
 	actionManager[Event::I_FIRE_LEFT] = &PhysicEngine::shootLeft;
 	actionManager[Event::I_FIRE_RIGHT] = &PhysicEngine::shootRight;
 	actionManager[Event::I_BONUS] = &PhysicEngine::useBonus;
+	actionManager[Event::I_SWAP] = &PhysicEngine::swapSpell;
 
 	releaseActionManager[Event::I_UP] = &PhysicEngine::RJump;
 	releaseActionManager[Event::I_DOWN] = &PhysicEngine::RmoveDown;
@@ -27,6 +28,7 @@ PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &
 	releaseActionManager[Event::I_FIRE_LEFT] = &PhysicEngine::RshootLeft;
 	releaseActionManager[Event::I_FIRE_RIGHT] = &PhysicEngine::RshootRight;
 	releaseActionManager[Event::I_BONUS] = &PhysicEngine::RuseBonus;
+	releaseActionManager[Event::I_SWAP] = &PhysicEngine::RswapSpell;
 
 	gravityMax = 28 * Settings::CASE_SIZE;	
 }
@@ -68,7 +70,7 @@ void PhysicEngine::playerAction(int playerId)
 			(this->*(releaseActionManager[(Event::Input)i]))(_player[playerId]);
 		this->_player[playerId]->updateClock();
 	}
-	gravity(this->_player[playerId]);
+	collide(this->_player[playerId]);
 	_referee->collideSpell(this->_player[playerId]);
 }
 
@@ -154,11 +156,23 @@ void PhysicEngine::useBonus(AUnit *src)
 	//if (src->isPlayer == true)
 	if (((Player *)src)->spell.play == false && ((Player *)src)->spellUsed == false)
 	{
-		//((Player *)src)->spellUsed = true;
+		((Player *)src)->spellUsed = true;
 		((Player *)src)->spell.launched = true;
 		//((Player *)src)->spell.launch();
 	}
 	return;
+}
+
+void PhysicEngine::swapSpell(AUnit *src)
+{
+	std::cout << "Swap Spell" << std::endl;
+	if (((Player *)src)->spell.type == LASER)
+	{
+		//((Player*)src)->spell.type = EXPLOSION;
+		((Player *)src)->spell.updateSpell(EXPLOSION);
+	}
+	else
+		((Player *)src)->spell.updateSpell(LASER);
 }
 
 void PhysicEngine::shootUp(AUnit *src)
@@ -315,10 +329,15 @@ void PhysicEngine::RshootRight(AUnit *src)
 	return;
 }
 
+void PhysicEngine::RswapSpell(AUnit *src)
+{
+	return;
+}
+
 
 //Physics
 
-void PhysicEngine::gravity(AUnit *src) 
+void PhysicEngine::collide(AUnit *src) 
 {
 	_referee->colliderCheck(src, Event::I_NONE);
 	if (_referee->applyGravity(src) == true)

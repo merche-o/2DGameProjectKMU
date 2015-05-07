@@ -51,6 +51,7 @@ private:
 	void shootRight(AUnit *src);
 	void shootLeft(AUnit *src);
 	void useBonus(AUnit *src);
+	void swapSpell(AUnit *src);
 	 
 
 	//-----Passive Action
@@ -64,7 +65,7 @@ private:
 	//BonusManager - Have to complete in function of implemented bonus
 	void getBonus();
 
-	void gravity(AUnit *src);
+	void collide(AUnit *src);
 
 	
 	//ReleaseAction
@@ -81,6 +82,7 @@ private:
 	void RshootRight(AUnit *src);
 	void RshootLeft(AUnit *src);
 	void RuseBonus(AUnit *src);
+	void RswapSpell(AUnit *src);
 
 
 };
