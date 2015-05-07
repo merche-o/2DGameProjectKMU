@@ -18,6 +18,8 @@ class Referee
 public:
 	void AICollideScreen(Enemy *);
 	bool AICollideWalls(Enemy *, int);
+	bool AICheckDown(Enemy *, int);
+	bool AICheckUp(Enemy *, int);
 	int colliderCheck(AUnit *,  Event::Input const &);
 	bool applyGravity(AUnit *);
 	bool IAJumpToPlatform(AUnit *);
