@@ -27,7 +27,7 @@ void Map::init(bool firstTime)
 		createPlatform(2, 11, 4, true);
 		createPlatform(7, 6, 2, true);
 		createPlatform(0, 4, 4, true);
-		createPlatform(1, 0, width_map - 2);
+		createPlatform(2, 0, width_map - 4);
 	}
 	else
 	{
@@ -43,7 +43,7 @@ void Map::init(bool firstTime)
 		createPlatform(2, 11, 4, true);
 		createPlatform(7, 6, 2, true);
 		createPlatform(0, 4, 4, true);
-		createPlatform(1, 0, width_map - 2);
+		createPlatform(2, 0, width_map - 4);
 	}
 }
 
