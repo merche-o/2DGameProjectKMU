@@ -19,6 +19,10 @@ public:
 		I_FIRE_RIGHT,
 		I_BONUS,
 		I_SWAP,
+		I_WEAPON_1,
+		I_WEAPON_2,
+		I_WEAPON_3,
+		I_WEAPON_4,
 		I_NONE,
 	};
 

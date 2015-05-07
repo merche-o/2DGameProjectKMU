@@ -18,6 +18,10 @@ PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &
 	actionManager[Event::I_FIRE_RIGHT] = &PhysicEngine::shootRight;
 	actionManager[Event::I_BONUS] = &PhysicEngine::useBonus;
 	actionManager[Event::I_SWAP] = &PhysicEngine::swapSpell;
+	actionManager[Event::I_WEAPON_1] = &PhysicEngine::changeWeapon1;//
+	actionManager[Event::I_WEAPON_2] = &PhysicEngine::changeWeapon2;//
+	actionManager[Event::I_WEAPON_3] = &PhysicEngine::changeWeapon3;//
+	actionManager[Event::I_WEAPON_4] = &PhysicEngine::changeWeapon4;//
 
 	releaseActionManager[Event::I_UP] = &PhysicEngine::RJump;
 	releaseActionManager[Event::I_DOWN] = &PhysicEngine::RmoveDown;
@@ -29,6 +33,10 @@ PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &
 	releaseActionManager[Event::I_FIRE_RIGHT] = &PhysicEngine::RshootRight;
 	releaseActionManager[Event::I_BONUS] = &PhysicEngine::RuseBonus;
 	releaseActionManager[Event::I_SWAP] = &PhysicEngine::RswapSpell;
+	releaseActionManager[Event::I_WEAPON_1] = &PhysicEngine::RchangeWeapon1;
+	releaseActionManager[Event::I_WEAPON_2] = &PhysicEngine::RchangeWeapon2;
+	releaseActionManager[Event::I_WEAPON_3] = &PhysicEngine::RchangeWeapon3;
+	releaseActionManager[Event::I_WEAPON_4] = &PhysicEngine::RchangeWeapon4;
 
 	gravityMax = 28 * Settings::CASE_SIZE;	
 }
@@ -177,13 +185,13 @@ void PhysicEngine::swapSpell(AUnit *src)
 
 void PhysicEngine::shootUp(AUnit *src)
 {
-	if (src->weapon[0]->fireRateCount <= 0.f)
+	if (src->weapon[src->weaponUsed]->fireRateCount <= 0.f)
 	{
-		src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
-		if (src->weapon[0]->ammo > 0)
+		src->weapon[src->weaponUsed]->fireRateCount = src->weapon[0]->fireRate;
+		if (src->weapon[src->weaponUsed]->ammo > 0)
 		{
 			_sound.playSound(_sound.sound["shoot"], true);
-			this->_bulletList.push_back(src->weapon[0]->createBullet(src->x + (src->width /2), src->y,0, -1,loopTime));
+			this->_bulletList.push_back(src->weapon[src->weaponUsed]->createBullet(src->x + (src->width /2), src->y,0, -1,loopTime));
 		}
 	}	
 }
@@ -195,13 +203,13 @@ void PhysicEngine::shootDown(AUnit *src)
 
 void PhysicEngine::shootLeft(AUnit *src)
 {
-	if (src->weapon[0]->fireRateCount <= 0.f)
+	if (src->weapon[src->weaponUsed]->fireRateCount <= 0.f)
 	{
-		src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
-		if (src->weapon[0]->ammo > 0)
+		src->weapon[src->weaponUsed]->fireRateCount = src->weapon[src->weaponUsed]->fireRate;
+		if (src->weapon[src->weaponUsed]->ammo > 0)
 		{
 			_sound.playSound(_sound.sound["shoot"], true);
-			this->_bulletList.push_back(src->weapon[0]->createBullet(src->x, src->y + src->height /2,-1, 0,loopTime));
+			this->_bulletList.push_back(src->weapon[src->weaponUsed]->createBullet(src->x, src->y + src->height /2,-1, 0,loopTime));
 		}
 	}
 	return;
@@ -209,16 +217,36 @@ void PhysicEngine::shootLeft(AUnit *src)
 
 void PhysicEngine::shootRight(AUnit *src)
 {
-	if (src->weapon[0]->fireRateCount <= 0.f)
+	if (src->weapon[src->weaponUsed]->fireRateCount <= 0.f)
 	{
-			src->weapon[0]->fireRateCount = src->weapon[0]->fireRate;
-			if (src->weapon[0]->ammo > 0)
+		src->weapon[src->weaponUsed]->fireRateCount = src->weapon[src->weaponUsed]->fireRate;
+			if (src->weapon[src->weaponUsed]->ammo > 0)
 			{
 				_sound.playSound(_sound.sound["shoot"], true);
-				this->_bulletList.push_back(src->weapon[0]->createBullet(src->x + src->width, src->y+ (src->height /2),1, 0,loopTime));
+				this->_bulletList.push_back(src->weapon[src->weaponUsed]->createBullet(src->x + src->width, src->y+ (src->height /2),1, 0,loopTime));
 			}
 	}
 	return;
+}
+
+void PhysicEngine::changeWeapon1(AUnit *src)
+{
+	src->weaponUsed = 0;
+}
+
+void PhysicEngine::changeWeapon2(AUnit *src)
+{
+	src->weaponUsed =  1;
+}
+
+void PhysicEngine::changeWeapon3(AUnit *src)
+{
+	src->weaponUsed = 2;
+}
+
+void PhysicEngine::changeWeapon4(AUnit *src)
+{
+	src->weaponUsed =  3;
 }
 
 
@@ -334,6 +362,21 @@ void PhysicEngine::RswapSpell(AUnit *src)
 	return;
 }
 
+void PhysicEngine::RchangeWeapon1(AUnit *src)
+{
+}
+
+void PhysicEngine::RchangeWeapon2(AUnit *src)
+{
+}
+
+void PhysicEngine::RchangeWeapon3(AUnit *src)
+{
+}
+
+void PhysicEngine::RchangeWeapon4(AUnit *src)
+{
+}
 
 //Physics
 
