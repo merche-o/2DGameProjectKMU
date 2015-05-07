@@ -205,21 +205,21 @@ void IA::floatIA(Enemy *src, float x, float y)
 	{
 		if (src->dir == LEFT)
 		{
-			src->x -= src->loopTime * src->speed * 2;
+			src->x -= src->loopTime * src->speed;
 		}
 		else
 		{
-			src->x += src->loopTime * src->speed * 2;
+			src->x += src->loopTime * src->speed;
 		}
 		src->nextFrame();
 	}
 	else if(src->currentDirection == UP)
 	{
-		src->y -= src->loopTime * src->speed * 2;
+		src->y -= src->loopTime * src->speed;
 	}
 	else if (src->currentDirection == DOWN)
 	{
-		src->y += src->loopTime * src->speed * 2;
+		src->y += src->loopTime * src->speed;
 
 	}
 

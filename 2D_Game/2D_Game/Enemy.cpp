@@ -13,8 +13,18 @@ Enemy::Enemy(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture
 	}
 	else if (etype == E_JUMPCASE)
 	{
-		particleColor = sf::Color(0, 200, 255);
+		particleColor = sf::Color(86, 159, 46);
 		coins = 20;
+	}
+	else if (etype == E_FLOAT)
+	{
+		particleColor = sf::Color(205, 148, 44);
+		coins = 60;
+	}
+	else if (etype == E_FLY)
+	{
+		particleColor = sf::Color(39, 160, 160);
+		coins = 60;
 	}
 	directionVector.x = (Settings::WIDTH_GAME / 2 - x) / sqrt(pow(Settings::WIDTH_GAME / 2 - x, 2) + pow(Settings::HEIGHT_GAME / 2 - y, 2));
 	directionVector.y = (Settings::HEIGHT_GAME / 2 - y) / sqrt(pow(Settings::WIDTH_GAME / 2 - x, 2) + pow(Settings::HEIGHT_GAME / 2 - y, 2));
