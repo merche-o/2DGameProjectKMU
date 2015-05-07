@@ -1,6 +1,7 @@
 // Joris & Olivier
 
 #include "Referee.h"
+#include <iostream>
 
 Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map &map, float &LoopTime, Ressources &Res, SoundEngine &sound)
 	: _enemyList(enemylist), _itemList(itemList),_bulletList(bulletList), _map(map), loopTime(LoopTime), _res(Res), _sound(sound)
@@ -58,7 +59,7 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 					}
 				}
 				_itemList.erase(_itemList.begin() + i);
-				return (5);
+				//return (5);
 			}
 		}
 	}
@@ -68,6 +69,13 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 
 int Referee::collideSpell(AUnit *src)
 {
+	((Player *)src)->cd = ((Player *)src)->timer.getElapsedTime();
+	if (((Player *)src)->cd.asSeconds() >= ((Player *)src)->cdTime)
+	{
+		((Player *)src)->timer.restart();
+		((Player *)src)->spellUsed = false;
+	}
+	int k = 0;
 	if (((Player *)src)->spell.play == true)
 	{
 		for (int i = 0; i < this->_enemyList.size(); ++i)
@@ -85,11 +93,11 @@ int Referee::collideSpell(AUnit *src)
 			{
 				intersection = true;
 				this->_enemyList[i]->getHit(100);
-				return (-1);
+				k += 1;
 			}
 		}
 	}
-	return (0);
+	return (k);
 }
 
 // Check collision with wall
@@ -99,8 +107,8 @@ int Referee::collideWall(AUnit *src, Event::Input const &btn)
 		{
 			if ((src->y				>=	this->_map.platform[i]->y &&
 				src->y				<=	this->_map.platform[i]->y + Settings::CASE_SIZE) ||
-				(src->y		+Settings::CASE_SIZE		>	this->_map.platform[i]->y &&
-				src->y		+Settings::CASE_SIZE		<	this->_map.platform[i]->y + Settings::CASE_SIZE))
+				(src->y		+ src->height		>	this->_map.platform[i]->y &&
+				src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE))
 				{
 					if (btn == Event::I_UP)
 					{
@@ -110,16 +118,16 @@ int Referee::collideWall(AUnit *src, Event::Input const &btn)
 							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE +1;
 							return (1);
 						}
-						else if (src->x + Settings::CASE_SIZE	>	this->_map.platform[i]->x &&
-								src->x + Settings::CASE_SIZE	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+						else if (src->x + src->width	>	this->_map.platform[i]->x &&
+								src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 						{				
 							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE +1;
 							return (1);
 						}
 					}
 					// Check with right of player
-					else if (src->x + Settings::CASE_SIZE	>	this->_map.platform[i]->x  &&
-							src->x + Settings::CASE_SIZE	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+					else if (src->x + src->width	>	this->_map.platform[i]->x  &&
+							src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 					{
 						src->x = this->_map.platform[i]->x - Settings::CASE_SIZE - 1;
 						return (3);
@@ -171,8 +179,8 @@ bool Referee::applyGravity(AUnit  *src)
 {
 	for (int i = 0; i < this->_map.platform.size(); ++i)
 	{
-		if (src->y + Settings::CASE_SIZE	>=	this->_map.platform[i]->y &&
-			src->y + Settings::CASE_SIZE	<	this->_map.platform[i]->y + Settings::CASE_SIZE)
+		if (src->y + src->height	>=	this->_map.platform[i]->y &&
+			src->y + src->height	<	this->_map.platform[i]->y + Settings::CASE_SIZE)
 		{
 			if (src->x		>=	this->_map.platform[i]->x  &&
 				src->x		<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
@@ -187,8 +195,8 @@ bool Referee::applyGravity(AUnit  *src)
 				}
 				return (false);
 			}
-			else if (src->x + Settings::CASE_SIZE	>=	this->_map.platform[i]->x  &&
-					 src->x + Settings::CASE_SIZE	<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+			else if (src->x + src->width	>=	this->_map.platform[i]->x  &&
+					 src->x + src->width	<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 			{
 				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
 				if (this->_map.platform[i]->isMorphing == true)

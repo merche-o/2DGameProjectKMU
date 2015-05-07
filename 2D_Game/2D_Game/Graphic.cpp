@@ -65,7 +65,7 @@ void Graphic::affInterface()
 		loadText(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME, font, IntToString(player[i]->weapon[player[i]->weaponUsed]->ammo), 16, 250, 250, 60);
 		// Spell
 		loadText(12 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Spell"), 16, 250, 250, 60);
-		if (player[i]->isSpell == true)
+		if (player[i]->isSpell == true && player[i]->spellUsed == false)
 			loadImage(12 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)) + 8, Settings::CASE_SIZE + Settings::HEIGHT_GAME - 8, player[i]->spell.texture);
 		// Score
 		loadText(25 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 12 + Settings::HEIGHT_GAME, font, std::string("Score " + IntToString(player[i]->score)), 25, 250, 250, 60);
@@ -74,7 +74,7 @@ void Graphic::affInterface()
 
 void Graphic::affMap()
 {
-	loadImage(0, 0/* + Settings::HEIGHT_INTERFACE*/, ress.texture["background"]);
+	//loadImage(0, 0/* + Settings::HEIGHT_INTERFACE*/, ress.texture["background"]);
 
 
 	int height_map = (Settings::HEIGHT/* + Settings::HEIGHT_INTERFACE*/) / Settings::CASE_SIZE;

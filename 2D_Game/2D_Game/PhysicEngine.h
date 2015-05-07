@@ -51,6 +51,7 @@ private:
 	void shootRight(AUnit *src);
 	void shootLeft(AUnit *src);
 	void useBonus(AUnit *src);
+	void swapSpell(AUnit *src);
 	void changeWeapon1(AUnit *src);
 	void changeWeapon2(AUnit *src);
 	void changeWeapon3(AUnit *src);
@@ -67,7 +68,7 @@ private:
 	//BonusManager - Have to complete in function of implemented bonus
 	void getBonus();
 
-	void gravity(AUnit *src);
+	void collide(AUnit *src);
 
 	
 	//ReleaseAction
@@ -84,11 +85,10 @@ private:
 	void RshootRight(AUnit *src);
 	void RshootLeft(AUnit *src);
 	void RuseBonus(AUnit *src);
+	void RswapSpell(AUnit *src);
 	void RchangeWeapon1(AUnit *src);
 	void RchangeWeapon2(AUnit *src);
 	void RchangeWeapon3(AUnit *src);
 	void RchangeWeapon4(AUnit *src);
-
-
 };
 
