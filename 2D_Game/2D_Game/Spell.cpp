@@ -48,13 +48,13 @@ void Spell::launch()
 	if (play == true)
 	{
 		(this->*(actionSpell[type]))();
-		if (type == EXPLOSION && scaleX > 25.0)
+		if (type == EXPLOSION && scaleX > 14.0)
 		{
 			scaleX = 1.0;
 			scaleY = 1.0;
 			play = false;
 		}
-		else if (type == LASER && scaleX > 28.0)
+		else if (type == LASER && scaleX > 42.0)
 		{
 			scaleX = 1.0;
 			play = false;
@@ -64,11 +64,11 @@ void Spell::launch()
 
 void Spell::explosion()
 {
-	scaleX += 5;
-	scaleY += 5;
+	scaleX += 2;
+	scaleY += 4;
 }
 
 void Spell::laser()
 {
-	scaleX += 4.0;
+	scaleX += 7.0;
 }
