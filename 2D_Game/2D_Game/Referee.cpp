@@ -69,13 +69,14 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 
 int Referee::collideSpell(AUnit *src)
 {
+	int k = 0;
+
 	((Player *)src)->cd = ((Player *)src)->timer.getElapsedTime();
 	if (((Player *)src)->cd.asSeconds() >= ((Player *)src)->cdTime)
 	{
 		((Player *)src)->timer.restart();
 		((Player *)src)->spellUsed = false;
 	}
-	int k = 0;
 	if (((Player *)src)->spell.play == true)
 	{
 		for (int i = 0; i < this->_enemyList.size(); ++i)

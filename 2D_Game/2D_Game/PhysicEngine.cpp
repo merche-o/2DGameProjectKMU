@@ -173,14 +173,14 @@ void PhysicEngine::useBonus(AUnit *src)
 
 void PhysicEngine::swapSpell(AUnit *src)
 {
-	std::cout << "Swap Spell" << std::endl;
 	if (((Player *)src)->spell.type == LASER)
 	{
-		//((Player*)src)->spell.type = EXPLOSION;
 		((Player *)src)->spell.updateSpell(EXPLOSION);
 	}
 	else
 		((Player *)src)->spell.updateSpell(LASER);
+
+	return;
 }
 
 void PhysicEngine::shootUp(AUnit *src)
@@ -359,7 +359,6 @@ void PhysicEngine::RshootRight(AUnit *src)
 
 void PhysicEngine::RswapSpell(AUnit *src)
 {
-	return;
 }
 
 void PhysicEngine::RchangeWeapon1(AUnit *src)

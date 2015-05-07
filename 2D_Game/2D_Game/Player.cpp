@@ -40,6 +40,7 @@ void Player::init(Ressources &Ress)
 	shield = 1;
 	spellUsed = false;
 	cdTime = 10;
+
 	int i = 0;
 	while (i < 11)
 	{
