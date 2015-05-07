@@ -19,9 +19,9 @@ enum enemyDirection
 enum enemyType
 {
 	E_BASIC,
-	E_JUMPCASE,
-	E_FLOAT,
 	E_FLY,
+	E_FLOAT,
+	E_JUMPCASE,
 	ENEMYTYPE_SIZE
 };
 
