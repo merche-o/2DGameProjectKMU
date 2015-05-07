@@ -16,6 +16,8 @@ Enemy::Enemy(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture
 		particleColor = sf::Color(0, 200, 255);
 		coins = 20;
 	}
+	directionVector.x = (Settings::WIDTH_GAME / 2 - x) / sqrt(pow(Settings::WIDTH_GAME / 2 - x, 2) + pow(Settings::HEIGHT_GAME / 2 - y, 2));
+	directionVector.y = (Settings::HEIGHT_GAME / 2 - y) / sqrt(pow(Settings::WIDTH_GAME / 2 - x, 2) + pow(Settings::HEIGHT_GAME / 2 - y, 2));
 }
 
 
