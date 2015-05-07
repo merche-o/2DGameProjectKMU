@@ -4,11 +4,11 @@
 class Pos
 {
 public:
-	float x;
-	float y;
+	int x;
+	int y;
 
 public:
-	Pos(float X, float Y);
+	Pos(int X, int Y);
 	~Pos(void);
 };
 

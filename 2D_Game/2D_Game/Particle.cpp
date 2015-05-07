@@ -2,7 +2,7 @@
 #include "Settings.h"
 
 
-Particle::Particle(float X, float Y, sf::Color Color, float LifeTime, float SpeedX, float SpeedY, float Radius, float & Time)
+Particle::Particle(float X, float Y, sf::Color Color, float LifeTime, int SpeedX, int SpeedY, float Radius, float & Time)
 	: x(X), y(Y), color(Color), lifeTime(LifeTime), radius(Radius), loopTime(Time), speed(SpeedX * Settings::CASE_SIZE, SpeedY * Settings::CASE_SIZE)
 {
 	transp = 255;

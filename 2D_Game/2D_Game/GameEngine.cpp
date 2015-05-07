@@ -7,16 +7,18 @@
 GameEngine::GameEngine(void)
 	: ressources(),
 		graphic(window, map, player, ennemyList, bulletList, itemList, ressources, loopTime),
-		parameters(sound),
-		menu(window, ressources, event, parameters, restart, goMenu, loopTime),
+		menu(window, event, new Parameters(sound), restart, goMenu),
 		sound(),
-		map(ressources, loopTime),
+		map(loopTime),
 		event(window, player),
 		ref(ennemyList, itemList, bulletList, map, loopTime, ressources, sound),
 		physics(player, ennemyList, itemList, bulletList, map, loopTime, sound),
 		spawner(ennemyList, itemList, loopTime),
 		IA(ref, ennemyList) 
 {
+	ressources.loadEnnemiesFromFile("./Ressources/Ennemies.txt");
+	ressources.loadWeaponsFromFile("./Ressources/Weapons.txt");
+	ressources.loadTextures();
 
 	// Create window
 	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME/*, sf::Style::Fullscreen*/);
@@ -181,10 +183,10 @@ void GameEngine::run()
 
 		if (restart == true)
 			{
-				if (menu.start == true)
+				if (menu.restart == true)
 					{
 						resetElement();
-						menu.start = false;
+						menu.restart = false;
 					}
 				else if (sound.activeMusic)
 					sound.music.play();

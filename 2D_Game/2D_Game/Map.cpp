@@ -4,8 +4,8 @@
 #include "Settings.h"
 #include <iostream>
 
-Map::Map(Ressources & r, float & Time)
-	: ress(r), loopTime(Time)
+Map::Map(float & Time)
+	: loopTime(Time)
 {
 	
 }
@@ -57,14 +57,14 @@ void Map::createPlatform(int x, int y, int length, bool symmetry)
 {
 	number_platfoms++;
 
-	platform.push_back(new Platform(x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime, ress, (unsigned int)(100 * loopTime)));
+	platform.push_back(new Platform(x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime, (unsigned int)(100 * loopTime)));
 
 	if (symmetry == true)
 	{
 		int width_map = Settings::WIDTH / Settings::CASE_SIZE;
 		int new_x = width_map - (x + length);
 
-		platform.push_back(new Platform(new_x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime, ress, (unsigned int)(50 * loopTime)));
+		platform.push_back(new Platform(new_x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime, (unsigned int)(50 * loopTime)));
 	}
 }
 
@@ -126,7 +126,7 @@ void Map::rebuildPlatform()
 		else if (x < 0)
 			x = 0; // Recalage gauche
 
-		platform.push_back(new Platform(x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime, ress, (unsigned int)(100 * loopTime), true));
+		platform.push_back(new Platform(x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime, (unsigned int)(100 * loopTime), true));
 		//platform[platform.size() - 1]->type = Platform::APPEARING;
 		number_platfoms++;
 	}

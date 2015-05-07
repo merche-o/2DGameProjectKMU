@@ -15,18 +15,6 @@ Display::~Display(void)
 {
 }
 
-void Display::loadParticleVector(std::vector<Particle*> & particles)
-{
-	for (int j = 0; j < particles.size(); ++j)
-	{
-		particles[j]->update();
-		if (particles[j]->transp == 0)
-			particles.erase(particles.begin() + j);
-		//loadImage(particles[j]->x, particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, particles[j]->texture, particles[j]->transp);
-		loadCircle(particles[j]->x, particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, particles[j]->radius, particles[j]->color, particles[j]->transp);
-	}
-}
-
 void Display::loadCircle(float x, float y, float radius, sf::Color color, int transparency)
 {
 	sf::CircleShape circle;
@@ -61,24 +49,14 @@ void Display::loadUnit(AUnit* unit)
 	win.draw(Sprite);
 	
 	/*** Particles ***/
-	loadParticleVector(unit->particles);
-	//for (int j = 0; j < unit->particles.size(); ++j)
-	//{
-	//	unit->particles[j]->update();
-	//	if (unit->particles[j]->transp == 0)
-	//		unit->particles.erase(unit->particles.begin() + j);
-	//	//loadImage(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->texture, unit->particles[j]->transp);
-	//	loadCircle(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->radius, unit->particles[j]->color, unit->particles[j]->transp);
-	//}
-	loadParticleVector(unit->explosionList);
-	//for (int j = 0; j < unit->explosionList.size(); ++j)
-	//{
-	//	unit->explosionList[j]->update();
-	//	if (unit->explosionList[j]->transp == 0)
-	//		unit->particles.erase(unit->explosionList.begin() + j);
-	//	//loadImage(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->texture, unit->particles[j]->transp);
-	//	loadCircle(unit->explosionList[j]->x, unit->explosionList[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->explosionList[j]->radius, unit->explosionList[j]->color, unit->explosionList[j]->transp);
-	//}
+	for (int j = 0; j < unit->particles.size(); ++j)
+	{
+		unit->particles[j]->update();
+		if (unit->particles[j]->transp == 0)
+			unit->particles.erase(unit->particles.begin() + j);
+		//loadImage(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->texture, unit->particles[j]->transp);
+		loadCircle(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->radius, unit->particles[j]->color, unit->particles[j]->transp);
+	}
 }
 
 void Display::loadHitUnit(AUnit* unit, bool b)
@@ -97,15 +75,14 @@ void Display::loadHitUnit(AUnit* unit, bool b)
 	win.draw(Sprite);
 
 	/*** Particles ***/
-	loadParticleVector(unit->particles);
-	//for (int j = 0; j < unit->particles.size(); ++j)
-	//{
-	//	unit->particles[j]->update();
-	//	if (unit->particles[j]->transp == 0)
-	//		unit->particles.erase(unit->particles.begin() + j);
-	//	//loadImage(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->texture, unit->particles[j]->transp);
-	//	loadCircle(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->radius, unit->particles[j]->color, unit->particles[j]->transp);
-	//}
+	for (int j = 0; j < unit->particles.size(); ++j)
+	{
+		unit->particles[j]->update();
+		if (unit->particles[j]->transp == 0)
+			unit->particles.erase(unit->particles.begin() + j);
+		//loadImage(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->texture, unit->particles[j]->transp);
+		loadCircle(unit->particles[j]->x, unit->particles[j]->y/* + Settings::HEIGHT_INTERFACE*/, unit->particles[j]->radius, unit->particles[j]->color, unit->particles[j]->transp);
+	}
 }
 
 void Display::loadText(float x, float y, sf::Font font, std::string str, int size, int r, int g, int b)

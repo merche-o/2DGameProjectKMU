@@ -1,7 +1,7 @@
 #include "Pos.h"
 
 
-Pos::Pos(float X, float Y)
+Pos::Pos(int X, int Y)
 	: x(X), y(Y)
 {
 }

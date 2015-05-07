@@ -15,7 +15,6 @@ public:
 	Display(sf::RenderWindow &);
 	~Display(void);
 
-	void loadParticleVector(std::vector<Particle*> & particles);
 	void loadCircle(float x, float y, float radius, sf::Color color, int transparency);
 	void loadImage(float x, float y, sf::Texture & texture, int transparency = 255);
 	void loadSprite(sf::Sprite Sprite);

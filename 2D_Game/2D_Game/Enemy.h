@@ -35,5 +35,4 @@ public:
 
 	void getHit(int);
 	void explode();
-	void hit();
 };

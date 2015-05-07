@@ -5,8 +5,6 @@
 #include <utility>
 #include "Case.h"
 #include "Platform.h"
-#include "Trap.h"
-#include "Ressources.h"
 
 class Map
 {
@@ -14,15 +12,13 @@ public:
 	std::map<std::pair<int, int>, Case> map;
 	std::vector<Platform*> platform;
 	int number_platfoms;
-	std::vector<Trap*> trap;
 
 	float & loopTime;
-	Ressources & ress;
 
 private:
 
 public:
-	Map(Ressources & r, float & Time);
+	Map(float & Time);
 	void init(bool);
 	~Map(void);
 

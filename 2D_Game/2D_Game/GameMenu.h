@@ -3,10 +3,7 @@
 #include "Display.h"
 #include "Event.h"
 #include "TextMenu.h"
-#include "ImageMenu.h"
 #include "Parameters.h"
-#include "ParticleEmitter.h"
-#include "Ressources.h"
 #include <utility>
 #include <vector>
 #include <map>
@@ -29,16 +26,13 @@ private:
 	
 public:
 	sf::RenderWindow & win;
-	Ressources & ress;
-	Parameters & param;
+	Parameters  *param;
 	std::vector<std::string> scoreTable;
 	std::map<std::pair<e_state, int>, TextMenu*> textMenu;
-	std::map<std::pair<e_state, int>, ImageMenu*> imgMenu;
 	std::map<std::pair<e_state, int>, void(GameMenu:: *)()> actionMenu;
 	std::map<std::pair<e_state, int>, TextMenu*> keyTextMenu;
 	std::map<e_state, int> sizeKeyTextMenu;
 	std::map<e_state, int> sizeTextMenu;
-	std::map<e_state, int> sizeImgMenu;
 	e_state currentState;
 	std::vector<e_state> beforeState;
 	int posMenu;
@@ -47,12 +41,10 @@ public:
 	bool & start;
 	bool & menu;
 	bool refresh;
-	sf::Texture background;
-	std::vector<ParticleEmitter*> partEmitter;
-	float & loopTime;
+	bool restart;
 
 public:
-	GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters &p, bool & s, bool & m, float & LoopTime);
+	GameMenu(sf::RenderWindow & w, Event & e, Parameters *p, bool & s, bool & m);
 	~GameMenu(void);
 
 	void posInsideTheMenu();
@@ -70,9 +62,10 @@ public:
 	void menuReturn();
 	void menuEndGame();
 	void menuMain();
+	void menuRestart();
+	void menuMute();
 	void backToMenu();
 	void menuPlay();
-	void addImgMenu(e_state state, ImageMenu * img);
 	void addTextMenu(e_state state, TextMenu * text);
 	void addKeyTextMenu(e_state state, TextMenu * text, void(GameMenu:: *p)());
 	void getScore();
