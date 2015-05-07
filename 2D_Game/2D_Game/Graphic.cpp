@@ -61,7 +61,15 @@ void Graphic::affInterface()
 		}
 		// Ammo
 		loadText(6 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Ammo"), 16, 250, 250, 60);
-		loadImage(6 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["ammoLogo"]);
+		if (player[i]->weaponUsed == 0)
+			loadImage(6 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["ammoLogo"]);
+		else if (player[i]->weaponUsed == 1)
+			loadImage(6 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["ammoLogo1"]);
+		else if (player[i]->weaponUsed == 2)
+			loadImage(6 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["ammoLogo2"]);
+		else if (player[i]->weaponUsed == 3)
+			loadImage(6 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["ammoLogo3"]);
+
 		loadText(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME, font, IntToString(player[i]->weapon[player[i]->weaponUsed]->ammo), 16, 250, 250, 60);
 		// Spell
 		loadText(12 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Spell"), 16, 250, 250, 60);
