@@ -56,14 +56,14 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>C:\Users\FRChewbie\Documents\GitHub\2DGameProjectKMU\2D_Game\SFML-2.1\include;C:\Users\Ainur\Documents\2DGameProjectKMU\2D_Game\SFML-2.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Ainur\Documents\2DGameProjectKMU\2D_Game\SFML-2.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Users\FRChewbie\Documents\GitHub\2DGameProjectKMU\2D_Game\SFML-2.1\lib;C:\Users\Ainur\Documents\2DGameProjectKMU\2D_Game\SFML-2.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Ainur\Documents\2DGameProjectKMU\2D_Game\SFML-2.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -78,26 +78,20 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="GameMenu.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="IA.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="Parameters.cpp" />
-    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="PhysicEngine.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Pos.cpp" />
     <ClCompile Include="Referee.cpp" />
     <ClCompile Include="Ressources.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="Spawner.cpp" />
     <ClCompile Include="Spell.cpp" />
-    <ClCompile Include="TextMenu.cpp" />
-    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -111,25 +105,19 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="GameEngine.h" />
-    <ClInclude Include="GameMenu.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="IA.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="Parameters.h" />
-    <ClInclude Include="Particle.h" />
     <ClInclude Include="PhysicEngine.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Pos.h" />
     <ClInclude Include="Referee.h" />
     <ClInclude Include="Ressources.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="SoundEngine.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="Spell.h" />
-    <ClInclude Include="TextMenu.h" />
-    <ClInclude Include="Utils.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
