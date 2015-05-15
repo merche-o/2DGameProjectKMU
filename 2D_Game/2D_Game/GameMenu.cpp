@@ -27,9 +27,9 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 	addKeyTextMenu(SETTINGS, new TextMenu(400, 600, "Back", 48), &GameMenu::menuReturn);
 
 	addTextMenu(HOWPLAY, new TextMenu(350, 0, "How to Play", 80, 250, 60, 60));
-	addTextMenu(HOWPLAY, new TextMenu(200, 200, "A : Left", 32, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(200, 200, "Q : Left", 32, 60, 250, 250));
 	addTextMenu(HOWPLAY, new TextMenu(200, 300, "D : Right", 32, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(200, 400, "W : Jump", 32, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(200, 400, "Z : Jump", 32, 60, 250, 250));
 	addTextMenu(HOWPLAY, new TextMenu(600, 200, "Left Arrow : Fire left", 32, 60, 250, 250));
 	addTextMenu(HOWPLAY, new TextMenu(600, 300, "Right Arrow : Fire right", 32, 60, 250, 250));
 	addTextMenu(HOWPLAY, new TextMenu(600, 400, "Up Arrow : Fire up", 32, 60, 250, 250));
