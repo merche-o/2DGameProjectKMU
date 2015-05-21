@@ -7,13 +7,17 @@
 
 
 Spawner::Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList, float &LoopTime)
-	: ennemies(ennemyList), itemList(itemList), posx(-2), posy(0), spawnPosState(UP_LEFT), loopTime(LoopTime)
+	: ennemies(ennemyList), itemList(itemList), posx(-2), posy(0), currentWave(0), spawnPosState(UP_LEFT), loopTime(LoopTime)
 {
-	enemyLuckToSpawn[enemyType::E_BASIC] = 40;
+	/*enemyLuckToSpawn[enemyType::E_BASIC] = 40;
 	enemyLuckToSpawn[enemyType::E_JUMPCASE] = 40;
 	enemyLuckToSpawn[enemyType::E_FLOAT] = 10;
-	enemyLuckToSpawn[enemyType::E_FLY] = 10;
+	enemyLuckToSpawn[enemyType::E_FLY] = 10;*/
 
+	enemyWaves.push_back(EnemyWave(10,	0.5,	0.0,	0.0,	0.0));
+	enemyWaves.push_back(EnemyWave(10,	0.0,	0.2,	0.0,	0.0));
+	enemyWaves.push_back(EnemyWave(10,	0.0,	0.0,	0.2,	0.0));
+	enemyWaves.push_back(EnemyWave(0,	0.0,	0.0,	0.0,	0.4));
 }
 
 Spawner::~Spawner(void)
@@ -36,14 +40,19 @@ void Spawner::changePlaceSpawner()
 	}
 }
 
-void Spawner::spawnEnnemies(std::vector<AUnit*> &ennemy)
+void Spawner::spawnEnnemies(std::vector<AUnit*> &ennemy, sf::Time globalTimer)
 {
 	e_dir dir;
 
+	if (enemyWaves[currentWave].length != 0 && enemyWaves[currentWave].clock.getElapsedTime().asSeconds() >= enemyWaves[currentWave].length)
+	{
+		currentWave++;
+		enemyWaves[currentWave].clock.restart();
+	}
 	for (int i = 0; i < ennemy.size(); i++)
 	{
 		ennemy[i]->spawn = ennemy[i]->timer.getElapsedTime();
-   		if (ennemy[i]->spawn.asSeconds() >= ennemy[i]->spawnTime)
+		if (enemyWaves[currentWave].spawnTime[i] != 0 && ennemy[i]->spawn.asSeconds() >= ennemy[i]->spawnTime * enemyWaves[currentWave].spawnTime[i])
 		{
 			ennemy[i]->timer.restart();
 		
@@ -57,7 +66,7 @@ void Spawner::spawnEnnemies(std::vector<AUnit*> &ennemy)
 	}
 }
 
-enemyType	Spawner::randEnnemyType(AUnit * ennemy)
+/*enemyType	Spawner::randEnnemyType(AUnit * ennemy)
 {
 	srand(time(NULL) + ennemy->timer.getElapsedTime().asSeconds() + ennemy->x + ennemy->y + (int)ennemy);
 	int randNumber = (rand() / 10) % 10 + (rand() % 10) * 10 + 1;
@@ -72,7 +81,7 @@ enemyType	Spawner::randEnnemyType(AUnit * ennemy)
 			return (enemyType)currentType;
 	}
 	return (enemyType)0;
-}
+}*/
 
 void Spawner::spawnAmmo(Player *src, sf::Texture texture, Map *map)
 {
