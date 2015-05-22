@@ -80,6 +80,7 @@ void PhysicEngine::playerAction(int playerId)
 	}
 	collide(this->_player[playerId]);
 	_referee->collideSpell(this->_player[playerId]);
+	_referee->setPlayerPosition(this->_player);
 }
 
 void PhysicEngine::moveLeft(AUnit *src)
@@ -280,7 +281,7 @@ void PhysicEngine::RmoveLeft(AUnit *src)
 	//	((Player *)src)->tmpTime = 0;
 	//if (((Player *)src)->inDash == 3)
 	//	((Player *)src)->tmpTime += src->loopTime;
-	return;
+	//return;
 }
 
 
