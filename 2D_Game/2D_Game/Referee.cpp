@@ -222,20 +222,20 @@ int Referee::collideWall(AUnit *src, Event::Input const &btn)
 			if ((src->y				>=	this->_map.platform[i]->y &&
 				src->y				<=	this->_map.platform[i]->y + Settings::CASE_SIZE) ||
 				(src->y		+ src->height		>	this->_map.platform[i]->y &&
-				src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE))
+				src->y		+ src->height	<	this->_map.platform[i]->y + Settings::CASE_SIZE))
 				{
 					if (btn == Event::I_UP)
 					{
 						if (src->x				>	this->_map.platform[i]->x &&
 							src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 						{
-							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE +1;
+							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE + 1;
 							return (1);
 						}
 						else if (src->x + src->width	>	this->_map.platform[i]->x &&
 								src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 						{				
-							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE +1;
+							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE + 1;
 							return (1);
 						}
 					}
