@@ -128,6 +128,7 @@ void IA::jumpIA(Enemy *src, float x, float y)
 
 void IA::basicIA(Enemy *src, float x, float y)
 {
+	srand(time(NULL) + src->timer.getElapsedTime().asSeconds());
 	src->prevY = src->y;
 	src->prevX = src->x;
 	int dir = _ref.colliderCheck(src, Event::I_NONE);
@@ -155,7 +156,8 @@ void IA::basicIA(Enemy *src, float x, float y)
 	}
 	
 	// Check with Player position to follow him
-	if ( y == src->y)
+	//if (y == src->y)
+	if (rand() % 20 == 5)
 	{
 		if (x < src->x)
 		{
