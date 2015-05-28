@@ -105,7 +105,6 @@ void GameEngine::run()
 			}
 			
 			window.clear();
-	
 			globalTimer = globalClock.getElapsedTime();
 			loopTime = globalTimer.asSeconds();
 			globalClock.restart();

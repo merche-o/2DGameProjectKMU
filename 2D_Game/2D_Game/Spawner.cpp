@@ -14,10 +14,16 @@ Spawner::Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList
 	enemyLuckToSpawn[enemyType::E_FLOAT] = 10;
 	enemyLuckToSpawn[enemyType::E_FLY] = 10;*/
 
-	enemyWaves.push_back(EnemyWave(0,	3.0,	0.0,	0.0,	0.0));
-	enemyWaves.push_back(EnemyWave(10,	0.0,	0.2,	0.0,	0.0));
-	enemyWaves.push_back(EnemyWave(10,	0.0,	0.0,	0.2,	0.0));
-	enemyWaves.push_back(EnemyWave(0,	0.0,	0.0,	0.0,	0.4));
+	//enemyWaves.push_back(EnemyWave(0,	2.0,	0.0,	0.0,	0.0));
+	enemyWaves.push_back(EnemyWave(20,	1.5,	0.0,	0.0,	0.0));
+	enemyWaves.push_back(EnemyWave(20,	2.0,	1.5,	0.0,	0.0));
+	enemyWaves.push_back(EnemyWave(30,	2.0,	0.0,	2.0,	0.0));
+	enemyWaves.push_back(EnemyWave(30,	2.0,	0.0,	0.0,	2.0));
+	enemyWaves.push_back(EnemyWave(30,	2.0,	2.5,	2.5,	2.5));
+	enemyWaves.push_back(EnemyWave(10,	0.0,	0.0,	0.0,	0.0));
+	enemyWaves.push_back(EnemyWave(30,	0.8,	0.8,	4.0,	4.0));
+	enemyWaves.push_back(EnemyWave(10,	0.0,	0.0,	0.0,	0.0));
+	enemyWaves.push_back(EnemyWave(30,	4.0,	4.0,	1.0,	1.0));
 }
 
 Spawner::~Spawner(void)
