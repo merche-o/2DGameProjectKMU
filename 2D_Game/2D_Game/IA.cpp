@@ -17,21 +17,21 @@ IA::~IA(void)
  }
 
 // Use different IA type
-void IA::setEnnemiesIM(float x, float y)
+void IA::setEnnemiesIM(Player * player)
 {
 	int i;
 	i = 0;
 		
 	while (i < _ennemyList.size())
 		{
-			fillInputMap((Enemy *)_ennemyList[i],x,y);
+			fillInputMap((Enemy *)_ennemyList[i], player);
 			++i;
 		}
 }
 
-void IA::fillInputMap(Enemy *src, float x, float y)
+void IA::fillInputMap(Enemy *src, Player * player)
 {
-	(this->*(IAManager[src->etype]))(src,x,y);
+	(this->*(IAManager[src->etype]))(src, player);
 	src->createParticles();
 }
 
@@ -62,7 +62,7 @@ sf::Vector2f IA::NormalizeVector(sf::Vector2f vector)
 	return vector;
 }
 
-void IA::jumpIA(Enemy *src, float x, float y)
+void IA::jumpIA(Enemy *src, Player * player)
 {
 	src->prevY = src->y;
 	src->prevX = src->x;
@@ -93,19 +93,19 @@ void IA::jumpIA(Enemy *src, float x, float y)
 	}
 
 	// Check with Player position to follow him
-	if ( y == src->y)
+	if ( player->y == src->y)
 	{
-		if (x < src->x)
+		if (player->x < src->x)
 		{
 			src->dir = LEFT;
 		}
-		else if (x > src->x)
+		else if (player->x > src->x)
 		{
 			src->dir = RIGHT;
 		}
 	}
 	// Si le joueur est au dessus de l'ennemi et que ce dernier n'est pas en train de sauter
-	if (y < src->y && src->inputMap[Event::I_UP] == false)
+	if (player->y < src->y && src->inputMap[Event::I_UP] == false && player->state == unit_state::U_NORMAL)
 	{
 		// Si il est possible de sauter sur une plateforme plus haute, l'ia y saute
 		if (_ref.IAJumpToPlatform(src))
@@ -126,9 +126,9 @@ void IA::jumpIA(Enemy *src, float x, float y)
 	}
 }
 
-void IA::basicIA(Enemy *src, float x, float y)
+void IA::basicIA(Enemy *src, Player * player)
 {
-	srand(time(NULL) + src->timer.getElapsedTime().asSeconds());
+	srand(time(NULL) + src->timer.getElapsedTime().asSeconds() + (unsigned int)src + src->x + src->y);
 	src->prevY = src->y;
 	src->prevX = src->x;
 	int dir = _ref.colliderCheck(src, Event::I_NONE);
@@ -159,11 +159,11 @@ void IA::basicIA(Enemy *src, float x, float y)
 	//if (y == src->y)
 	if (rand() % 20 == 5)
 	{
-		if (x < src->x)
+		if (player->x < src->x)
 		{
 			src->dir = LEFT;
 		}
-		else if (x > src->x)
+		else if (player->x > src->x)
 		{
 			src->dir = RIGHT;
 		}
@@ -183,9 +183,9 @@ void IA::basicIA(Enemy *src, float x, float y)
 	 }	
 }
 
-void IA::floatIA(Enemy *src, float x, float y)
+void IA::floatIA(Enemy *src, Player * player)
 {
-	srand(time(NULL) + src->timer.getElapsedTime().asSeconds());
+	srand(time(NULL) + src->timer.getElapsedTime().asSeconds()  + (unsigned int)src + src->x + src->y);
 	src->prevY = src->y;
 	src->prevX = src->x;
 // 	Enemy enemyTemp = *src;
@@ -234,7 +234,7 @@ void IA::floatIA(Enemy *src, float x, float y)
 		{
 			src->nextDirection = FORWARD;
 		}
-		else if (src->y > y + Settings::CASE_SIZE)
+		else if (src->y > player->y + Settings::CASE_SIZE)
 		{
 			src->nextDirection = UP;
 		}
@@ -256,20 +256,23 @@ void IA::floatIA(Enemy *src, float x, float y)
 	}
 	/*if (rand() % 40 == 1)
 		src->nextDirection = (enemyDirection)(rand() % (int)ENEMYDIRECTION_SIZE);*/
-	if (rand() % 7 == 2)
+	if (rand() % 30 == 2)
 	{
 		//src->nextDirection = (enemyDirection)(rand() % (int)ENEMYDIRECTION_SIZE);
-		if (src->dir == LEFT && src->x + src->width < x)
+		if (src->dir == LEFT && src->x + src->width < player->x)
 			src->dir = RIGHT;
-		else if (src->dir == RIGHT && src->x > x + Settings::CASE_SIZE)
+		else if (src->dir == RIGHT && src->x > player->x + Settings::CASE_SIZE)
 			src->dir = LEFT;
-		if (src->y > y + Settings::CASE_SIZE)
+		if (player->state == unit_state::U_NORMAL)
 		{
-			src->nextDirection = UP;
-		}
-		else
-		{
-			src->nextDirection = DOWN;
+			if (src->y > player->y + Settings::CASE_SIZE)
+			{
+				src->nextDirection = UP;
+			}
+			else if (src->y + Settings::CASE_SIZE < player->y)
+			{
+				src->nextDirection = DOWN;
+			}
 		}
 	}
 
@@ -333,20 +336,20 @@ void IA::floatIA(Enemy *src, float x, float y)
 	}	*/
 }
 
-void IA::flyIA(Enemy *src, float x, float y)
+void IA::flyIA(Enemy *src, Player * player)
 {
 	src->prevY = src->y;
 	src->prevX = src->x;
 	double angle;
 	sf::Vector2f newVector;
 
-	angle = angleBtwVectors(src->directionVector, sf::Vector2f(x - src->x, y - src->y));
+	angle = angleBtwVectors(src->directionVector, sf::Vector2f(player->x - src->x, player->y - src->y));
 	if (angle < 0.01)
 		angle = 0;
 	else
 	{
 		newVector = rotateVector(angle * 0.05, src->directionVector);
-		if (angleBtwVectors(newVector, sf::Vector2f(x - src->x, y - src->y)) > angle)
+		if (angleBtwVectors(newVector, sf::Vector2f(player->x - src->x, player->y - src->y)) > angle)
 			newVector = rotateVector(-angle * 0.05, src->directionVector);
 		src->directionVector = NormalizeVector(newVector);
 	}
