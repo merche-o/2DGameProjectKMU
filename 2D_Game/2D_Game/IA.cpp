@@ -134,11 +134,11 @@ void IA::basicIA(Enemy *src, Player * player)
 	int dir = _ref.colliderCheck(src, Event::I_NONE);
 
 
-	if ((dir == 3 && src->dir == RIGHT) || (src->x + src->width >= Settings::WIDTH_GAME - 2 && src->dir == RIGHT))
+	if ((dir == 2 && src->dir == RIGHT))
 	{
 		src->dir = LEFT;
 	}
-	else if ((dir == 4 && src->dir == LEFT) || (src->x <= 2 && src->dir == LEFT))
+	else if ((dir == 3 && src->dir == LEFT))
 	{
 			
 		src->dir = RIGHT;

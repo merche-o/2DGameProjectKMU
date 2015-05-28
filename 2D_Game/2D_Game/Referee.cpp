@@ -214,44 +214,59 @@ int Referee::collideSpell(AUnit *src)
 	return (k);
 }
 
+bool Referee::canJump(AUnit *src)
+{
+	for (int i = 0; i < this->_map.platform.size(); ++i)
+		{
+			if ((src->x				>	this->_map.platform[i]->x &&
+				src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length) ||
+				(src->x + src->width	>	this->_map.platform[i]->x &&
+				src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length))
+			{
+				if (src->y == this->_map.platform[i]->y + Settings::CASE_SIZE)
+					return (false);
+			}
+		}
+	return (true);
+}
+
 // Check collision with wall
 int Referee::collideWall(AUnit *src, Event::Input const &btn)
 {
 	for (int i = 0; i < this->_map.platform.size(); ++i)
 		{
-			if ((src->y				>=	this->_map.platform[i]->y &&
-				src->y				<=	this->_map.platform[i]->y + Settings::CASE_SIZE) ||
+			if ((src->y				>	this->_map.platform[i]->y &&
+				src->y				<	this->_map.platform[i]->y + Settings::CASE_SIZE) ||
+				src->y == this->_map.platform[i]->y/*||
 				(src->y		+ src->height		>	this->_map.platform[i]->y &&
-				src->y		+ src->height	<	this->_map.platform[i]->y + Settings::CASE_SIZE))
+				src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE)*/)
 				{
-					if (btn == Event::I_UP)
+					if (src->state == JUMP)
 					{
-						if (src->x				>	this->_map.platform[i]->x &&
-							src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+						if ((src->x				>	this->_map.platform[i]->x &&
+							src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length) ||
+							(src->x + src->width	>	this->_map.platform[i]->x &&
+							src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length))
 						{
-							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE + 1;
-							return (1);
-						}
-						else if (src->x + src->width	>	this->_map.platform[i]->x &&
-								src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
-						{				
-							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE + 1;
+							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE;
+							src->state = U_END_JUMP;
+							src->jumpTmpY = 0;
 							return (1);
 						}
 					}
-					// Check with right of player
+					//// Check with right of player
 					else if (src->x + src->width	>	this->_map.platform[i]->x  &&
 							src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 					{
-						src->x = this->_map.platform[i]->x - Settings::CASE_SIZE - 1;
-						return (3);
+						src->x = this->_map.platform[i]->x - src->width;
+						return (2);
 					}
 					// Check with left of player
 					else if (src->x			<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
 							src->x			>	this->_map.platform[i]->x)
 					{
-						src->x = this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length + 1;
-						return (4);
+						src->x = this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length;
+						return (3);
 					}
 				}
 		}
@@ -296,32 +311,34 @@ bool Referee::applyGravity(AUnit  *src)
 		if (src->y + src->height	>=	this->_map.platform[i]->y &&
 			src->y + src->height	<	this->_map.platform[i]->y + Settings::CASE_SIZE)
 		{
-			if (src->x		>=	this->_map.platform[i]->x  &&
-				src->x		<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+			if ((src->x		>	this->_map.platform[i]->x  &&
+				src->x		<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length) ||
+				(src->x + src->width	>	this->_map.platform[i]->x  &&
+				src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length))
 			{				
-				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
+				src->y = this->_map.platform[i]->y - src->height;
 				if (this->_map.platform[i]->isMorphing == true)
 				{
 					if (this->_map.platform[i]->type == Platform::GO_LEFT)
-						src->x -= this->_map.platform[i]->speed * loopTime / 2;
+						src->x -= this->_map.platform[i]->speed * loopTime;
 					if (this->_map.platform[i]->type == Platform::GO_RIGHT)
-						src->x += this->_map.platform[i]->speed * loopTime / 2;
+						src->x += this->_map.platform[i]->speed * loopTime;
 				}
 				return (false);
 			}
-			else if (src->x + src->width	>=	this->_map.platform[i]->x  &&
-					 src->x + src->width	<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
-			{
-				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
-				if (this->_map.platform[i]->isMorphing == true)
-				{
-					if (this->_map.platform[i]->type == Platform::GO_LEFT)
-						src->x -= this->_map.platform[i]->speed * loopTime / 2;
-					if (this->_map.platform[i]->type == Platform::GO_RIGHT)
-						src->x += this->_map.platform[i]->speed * loopTime / 2;
-				}
-				return (false);
-			}
+			//else if (src->x + src->width	>	this->_map.platform[i]->x  &&
+			//		 src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+			//{
+			//	src->y = this->_map.platform[i]->y - src->height;
+			//	if (this->_map.platform[i]->isMorphing == true)
+			//	{
+			//		if (this->_map.platform[i]->type == Platform::GO_LEFT)
+			//			src->x -= this->_map.platform[i]->speed * loopTime;
+			//		if (this->_map.platform[i]->type == Platform::GO_RIGHT)
+			//			src->x += this->_map.platform[i]->speed * loopTime;
+			//	}
+			//	return (false);
+			//}
 		}
 	}
 	return (true);
