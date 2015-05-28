@@ -34,7 +34,6 @@ private:
 	std::vector<EnemyWave> enemyWaves;
 	//std::map<enemyType, int> enemyLuckToSpawn;
 	enemyType randEnnemyType(AUnit *);
-	
 
 public:
 	Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList, float &LoopTime);
@@ -42,5 +41,6 @@ public:
 	void spawnEnnemies(std::vector<AUnit*> &ennemy, sf::Time gloablTimer);
 	void spawnAmmo(Player *, sf::Texture texture, Map *map);
 	bool setAmmoSpawnerPos(Map *map, float &x, float &y);
+	void restart(void);
 };
 
