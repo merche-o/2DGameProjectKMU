@@ -9,6 +9,7 @@
 #include "Settings.h"
 #include "Player.h"
 #include "Map.h"
+#include "EnemyWave.h"
 
 class Spawner
 {
@@ -24,21 +25,22 @@ private:
 private:
 	int posx;
 	int posy;
+	int currentWave;
 	std::vector<AUnit*> & ennemies;
 	std::vector<Item*> & itemList;
 	void changePlaceSpawner();
 	e_posState spawnPosState;
 	float &loopTime;
-	std::map<enemyType, int> enemyLuckToSpawn;
-
+	std::vector<EnemyWave> enemyWaves;
+	//std::map<enemyType, int> enemyLuckToSpawn;
 	enemyType randEnnemyType(AUnit *);
-	
 
 public:
 	Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList, float &LoopTime);
 	~Spawner(void);
-	void spawnEnnemies(std::vector<AUnit*> &ennemy);
+	void spawnEnnemies(std::vector<AUnit*> &ennemy, sf::Time gloablTimer);
 	void spawnAmmo(Player *, sf::Texture texture, Map *map);
 	bool setAmmoSpawnerPos(Map *map, float &x, float &y);
+	void restart(void);
 };
 

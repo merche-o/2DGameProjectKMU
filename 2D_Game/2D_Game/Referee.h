@@ -28,6 +28,8 @@ public:
 	void moveBullet(std::vector<Player*> &_player);
 	bool dealDamage(std::vector<Player*> &_player);
 	int collideSpell(AUnit *src);
+	void setPlayerPosition(std::vector<Player *> &_player);
+	bool canJump(AUnit *src);
 	Referee(std::vector<AUnit*> & enemylist, std::vector<Item*> &itemList, std::vector<Bullet*> &bulletList, Map  &map, float &LoopTime, Ressources &Res, SoundEngine &sound);
 	~Referee();
 	

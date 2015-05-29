@@ -13,20 +13,20 @@ private:
 	Referee &_ref;
 	std::vector<AUnit*> &_ennemyList;
 
-	void fillInputMap(Enemy  *,float x, float y);
-	void basicIA(Enemy *, float x, float y);
-	void jumpIA(Enemy *, float x, float y);
-	void flyIA(Enemy *, float x, float y);
-	void floatIA(Enemy *, float x, float y);
+	void fillInputMap(Enemy  *,Player *);
+	void basicIA(Enemy *, Player *);
+	void jumpIA(Enemy *, Player *);
+	void flyIA(Enemy *, Player *);
+	void floatIA(Enemy *, Player *);
 	sf::Vector2f rotateVector(double, sf::Vector2f);
 	double	angleBtwVectors(sf::Vector2f, sf::Vector2f);
 	sf::Vector2f NormalizeVector(sf::Vector2f);
 
-	std::map<enemyType, void(IA:: *)(Enemy *src, float x, float y)> IAManager;
+	std::map<enemyType, void(IA:: *)(Enemy *src, Player *)> IAManager;
 	int flyHeight;
 
 public:
-	void setEnnemiesIM(float x, float y);
+	void setEnnemiesIM(Player *);
 	IA(Referee &,  std::vector<AUnit*>  &enemylist);
 	~IA(void);
 };

@@ -78,6 +78,7 @@ void PhysicEngine::playerAction(int playerId)
 			(this->*(releaseActionManager[(Event::Input)i]))(_player[playerId]);
 		this->_player[playerId]->updateClock();
 	}
+	_referee->setPlayerPosition(this->_player);
 	collide(this->_player[playerId]);
 	_referee->collideSpell(this->_player[playerId]);
 }
@@ -86,8 +87,10 @@ void PhysicEngine::moveLeft(AUnit *src)
 {
 // 	 if (src->x - (src->speed * src->loopTime) <= -5)
 // 		return;
-	src->x -= (src->speed * src->loopTime);
-	src->nextFrame();
+	if (src->state == U_NORMAL)
+		src->x -= (src->speed *src->loopTime);
+	else
+		src->x -= (src->speed / 1.5 *src->loopTime);	src->nextFrame();
 	if (src->isPlayer == false)
 		return;
 	//if (((Player *)src)->inDash == 0)
@@ -104,7 +107,10 @@ void PhysicEngine::moveRight(AUnit *src)
 	// Le 5 doit surement etre changer
 // 	if (src->x + (src->speed *src->loopTime) >= Settings::WIDTH_GAME + 5 - src->width )
 // 		return;
-	src->x += (src->speed *src->loopTime);
+	if (src->state == U_NORMAL)
+		src->x += (src->speed *src->loopTime);
+	else
+		src->x += (src->speed / 1.5 *src->loopTime);
 	src->nextFrame();
 	if (src->isPlayer == false)
 		return;
@@ -119,37 +125,23 @@ void PhysicEngine::moveRight(AUnit *src)
 
 void PhysicEngine::Jump(AUnit *src)
 {
-	if (_referee->colliderCheck(src, Event::I_UP) != 1)
-	{
-		if (src->doubleJump == true && src->state == U_END_JUMP)
+	if (src->state == U_JUMP)
 		{
-			src->doubleJump = false;
-			src->jumpTmpY += (32) * Settings::CASE_SIZE * (src->loopTime);
-			src->state = U_NORMAL;
+			src->jumpTmpY -= (24) * Settings::CASE_SIZE * (src->loopTime);
+			src->y -= (16) * Settings::CASE_SIZE * (src->loopTime);
 		}
-		if (src->state == U_JUMP)
-		{
-			src->jumpTmpY -= (32) * Settings::CASE_SIZE * (src->loopTime);
-			src->y -= (24) * Settings::CASE_SIZE * (src->loopTime);
-		}
-		if (src->state == U_NORMAL)
-		{
-			_sound.playSound(_sound.sound["jump"], true);
-			src->act = JUMP;
-			src->state = U_JUMP;
-			src->y -= (32) * Settings::CASE_SIZE * (src->loopTime);
-		}
-		if (src->jumpTmpY + Settings::HIGH_JUMP <= 0)
+	if (src->jumpTmpY + Settings::HIGH_JUMP <= 0)
 		{
 			src->state = U_END_JUMP;
 			src->jumpTmpY = 0;
 		}
-	}
-	if (_referee->colliderCheck(src, Event::I_UP) == 1)
-	{
-		src->state = U_END_JUMP;
-		src->jumpTmpY = 0;
-	}
+	if (src->state == U_NORMAL && _referee->canJump(src) == true)
+		{
+			_sound.playSound(_sound.sound["jump"], true);
+			src->act = JUMP;
+			src->state = U_JUMP;
+			src->y -= (24) * Settings::CASE_SIZE * (src->loopTime);
+		}
 	return;
 }
 
@@ -280,7 +272,7 @@ void PhysicEngine::RmoveLeft(AUnit *src)
 	//	((Player *)src)->tmpTime = 0;
 	//if (((Player *)src)->inDash == 3)
 	//	((Player *)src)->tmpTime += src->loopTime;
-	return;
+	//return;
 }
 
 
@@ -320,12 +312,12 @@ void PhysicEngine::RJump(AUnit *src)
 	{
 		if (src->state == U_JUMP)
 			src->state = U_END_JUMP;
-		if (_referee->applyGravity(src) == false)
+		/*if (_referee->applyGravity(src) == false)
 		{
 			src->jumpTmpY = 0;
 			src->state = U_NORMAL;
 			src->act = WALK;
-		}
+		}*/
 	}
 	return;
 }
@@ -384,18 +376,21 @@ void PhysicEngine::RchangeWeapon4(AUnit *src)
 
 void PhysicEngine::collide(AUnit *src) 
 {
+	if (src->state != U_JUMP)
+	{
+		if (_referee->applyGravity(src) == true)
+		{
+			src->y += (src->fallingSpeed * (src->loopTime));
+			_referee->applyGravity(src);
+		}
+		else
+		{
+			src->doubleJump = true;
+			src->jumpTmpY = 0;
+			src->state = U_NORMAL;
+			src->act = WALK;
+		}
+	}
 	_referee->colliderCheck(src, Event::I_NONE);
-	if (_referee->applyGravity(src) == true)
-	{
-		src->y += (src->fallingSpeed * (src->loopTime));
-		_referee->applyGravity(src);
-	}
-	else
-	{
-		src->doubleJump = true;
-		src->jumpTmpY = 0;
-		src->state = U_NORMAL;
-		src->act = WALK;
-	}
 	return;
 }

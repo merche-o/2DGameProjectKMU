@@ -68,30 +68,30 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 
 void Referee::AICollideScreen(Enemy * enemy)
 {
-	if (enemy->x < 0)
-	{
-		enemy->x = 0;
-		enemy->dir = RIGHT;
-		//std::cout << "collide screen left" << std::endl;
-	}
-	else if (enemy->x + enemy->width > Settings::WIDTH - 1)
-	{
-		enemy->x = Settings::WIDTH - 1 - enemy->width;
-		enemy->dir = LEFT;
-		//std::cout << "collide screen right" << std::endl;
-	}
-	if (enemy->y < 0)
-	{
-		enemy->y = 0;
-		enemy->currentDirection == DOWN;
-		//std::cout << "collide screen up" << std::endl;
-	}
-	else if (enemy->y + enemy->height > Settings::HEIGHT - 1)
-	{
-		enemy->y = Settings::HEIGHT - 1 - enemy->height;
-		enemy->currentDirection == UP;
-		//std::cout << "collide screen down" << std::endl;
-	}
+	//if (enemy->x < 0)
+	//{
+	//	enemy->x = 0;
+	//	enemy->dir = RIGHT;
+	//	//std::cout << "collide screen left" << std::endl;
+	//}
+	//else if (enemy->x + enemy->width > Settings::WIDTH - 1)
+	//{
+	//	enemy->x = Settings::WIDTH - 1 - enemy->width;
+	//	enemy->dir = LEFT;
+	//	//std::cout << "collide screen right" << std::endl;
+	//}
+	//if (enemy->y < 0)
+	//{
+	//	enemy->y = 0;
+	//	enemy->currentDirection == DOWN;
+	//	//std::cout << "collide screen up" << std::endl;
+	//}
+	//else if (enemy->y + enemy->height > Settings::HEIGHT - 1)
+	//{
+	//	enemy->y = Settings::HEIGHT - 1 - enemy->height;
+	//	enemy->currentDirection == UP;
+	//	//std::cout << "collide screen down" << std::endl;
+	//}
 }
 
 bool Referee::AICheckDown(Enemy * enemy, int flyHeight)
@@ -214,44 +214,59 @@ int Referee::collideSpell(AUnit *src)
 	return (k);
 }
 
+bool Referee::canJump(AUnit *src)
+{
+	for (int i = 0; i < this->_map.platform.size(); ++i)
+		{
+			if ((src->x				>	this->_map.platform[i]->x &&
+				src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length) ||
+				(src->x + src->width	>	this->_map.platform[i]->x &&
+				src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length))
+			{
+				if (src->y == this->_map.platform[i]->y + Settings::CASE_SIZE)
+					return (false);
+			}
+		}
+	return (true);
+}
+
 // Check collision with wall
 int Referee::collideWall(AUnit *src, Event::Input const &btn)
 {
 	for (int i = 0; i < this->_map.platform.size(); ++i)
 		{
-			if ((src->y				>=	this->_map.platform[i]->y &&
-				src->y				<=	this->_map.platform[i]->y + Settings::CASE_SIZE) ||
+			if ((src->y				>	this->_map.platform[i]->y &&
+				src->y				<	this->_map.platform[i]->y + Settings::CASE_SIZE) ||
+				src->y == this->_map.platform[i]->y/*||
 				(src->y		+ src->height		>	this->_map.platform[i]->y &&
-				src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE))
+				src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE)*/)
 				{
-					if (btn == Event::I_UP)
+					if (src->state == JUMP)
 					{
-						if (src->x				>	this->_map.platform[i]->x &&
-							src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+						if ((src->x				>	this->_map.platform[i]->x &&
+							src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length) ||
+							(src->x + src->width	>	this->_map.platform[i]->x &&
+							src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length))
 						{
-							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE +1;
-							return (1);
-						}
-						else if (src->x + src->width	>	this->_map.platform[i]->x &&
-								src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
-						{				
-							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE +1;
+							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE;
+							src->state = U_END_JUMP;
+							src->jumpTmpY = 0;
 							return (1);
 						}
 					}
-					// Check with right of player
+					//// Check with right of player
 					else if (src->x + src->width	>	this->_map.platform[i]->x  &&
 							src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 					{
-						src->x = this->_map.platform[i]->x - Settings::CASE_SIZE - 1;
-						return (3);
+						src->x = this->_map.platform[i]->x - src->width;
+						return (2);
 					}
 					// Check with left of player
 					else if (src->x			<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
 							src->x			>	this->_map.platform[i]->x)
 					{
-						src->x = this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length + 1;
-						return (4);
+						src->x = this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length;
+						return (3);
 					}
 				}
 		}
@@ -296,32 +311,34 @@ bool Referee::applyGravity(AUnit  *src)
 		if (src->y + src->height	>=	this->_map.platform[i]->y &&
 			src->y + src->height	<	this->_map.platform[i]->y + Settings::CASE_SIZE)
 		{
-			if (src->x		>=	this->_map.platform[i]->x  &&
-				src->x		<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+			if ((src->x		>	this->_map.platform[i]->x  &&
+				src->x		<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length) ||
+				(src->x + src->width	>	this->_map.platform[i]->x  &&
+				src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length))
 			{				
-				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
+				src->y = this->_map.platform[i]->y - src->height;
 				if (this->_map.platform[i]->isMorphing == true)
 				{
 					if (this->_map.platform[i]->type == Platform::GO_LEFT)
-						src->x -= this->_map.platform[i]->speed * loopTime / 2;
+						src->x -= this->_map.platform[i]->speed * loopTime;
 					if (this->_map.platform[i]->type == Platform::GO_RIGHT)
-						src->x += this->_map.platform[i]->speed * loopTime / 2;
+						src->x += this->_map.platform[i]->speed * loopTime;
 				}
 				return (false);
 			}
-			else if (src->x + src->width	>=	this->_map.platform[i]->x  &&
-					 src->x + src->width	<=	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
-			{
-				src->y = this->_map.platform[i]->y - Settings::CASE_SIZE;
-				if (this->_map.platform[i]->isMorphing == true)
-				{
-					if (this->_map.platform[i]->type == Platform::GO_LEFT)
-						src->x -= this->_map.platform[i]->speed * loopTime / 2;
-					if (this->_map.platform[i]->type == Platform::GO_RIGHT)
-						src->x += this->_map.platform[i]->speed * loopTime / 2;
-				}
-				return (false);
-			}
+			//else if (src->x + src->width	>	this->_map.platform[i]->x  &&
+			//		 src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+			//{
+			//	src->y = this->_map.platform[i]->y - src->height;
+			//	if (this->_map.platform[i]->isMorphing == true)
+			//	{
+			//		if (this->_map.platform[i]->type == Platform::GO_LEFT)
+			//			src->x -= this->_map.platform[i]->speed * loopTime;
+			//		if (this->_map.platform[i]->type == Platform::GO_RIGHT)
+			//			src->x += this->_map.platform[i]->speed * loopTime;
+			//	}
+			//	return (false);
+			//}
 		}
 	}
 	return (true);
@@ -386,6 +403,34 @@ void Referee::playerInvinsibility(Player *player)
 	}
 }
 
+void Referee::setPlayerPosition(std::vector<Player *> &_player)
+{
+	for (int i = 0; i < _player.size(); ++i)
+	{
+		if (_player[i]->y > Settings::HEIGHT_GAME + _player[i]->height)
+			_player[i]->y = 0;
+		else if (_player[i]->y /*+ _player[i]->height*/ < 1)
+			_player[i]->y  = Settings::HEIGHT_GAME - 2* _player[i]->height;
+
+		if (_player[i]->x > Settings::WIDTH_GAME - 8)
+			_player[i]->x = 0;
+		else if (_player[i]->x + _player[i]->width < 8)
+			_player[i]->x = Settings::WIDTH_GAME - _player[i]->width;
+	}
+	for (int i = 0; i < _enemyList.size(); ++i)
+	{
+		if (_enemyList[i]->y > Settings::HEIGHT_GAME + _enemyList[i]->height)
+			_enemyList[i]->y = 0;
+		else if (_enemyList[i]->y /*+ _player[i]->height*/ < 1)
+			_enemyList[i]->y  = Settings::HEIGHT_GAME - 2* _enemyList[i]->height;
+
+		if (_enemyList[i]->x > Settings::WIDTH_GAME - 8)
+			_enemyList[i]->x = 0;
+		else if (_enemyList[i]->x + _enemyList[i]->width < 8)
+			_enemyList[i]->x = Settings::WIDTH_GAME - _enemyList[i]->width;
+	}
+}
+
 bool Referee::dealDamage(std::vector<Player *> &_player)
 {
 	for (int i = 0; i < _player.size(); ++i)
@@ -397,12 +442,21 @@ bool Referee::dealDamage(std::vector<Player *> &_player)
 			_player[i]->getHit(1);
 		}
 	}
-
 	int c = 0;
 	for (int i = 0; i < _player.size(); ++i)
 	{
-		if (_player[i]->life <= 0 || _player[i]->y > Settings::HEIGHT + _player[i]->height )
+		if (_player[i]->life <= 0 /*|| _player[i]->y > Settings::HEIGHT + _player[i]->height*/ )
 			c++;
+		// Pour repositionner le joueur
+		//if (_player[i]->y > Settings::HEIGHT + _player[i]->height)
+		//	_player[i]->y = 0;
+		//else if (_player[i]->y /*+ _player[i]->height*/ < 1)
+		//	_player[i]->y  = Settings::HEIGHT_GAME - 2* _player[i]->height;
+
+		//if (_player[i]->x > Settings::WIDTH_GAME)
+		//	_player[i]->x = 0;
+		//else if (_player[i]->x + _player[i]->width < 1)
+		//	_player[i]->x = Settings::WIDTH_GAME - _player[i]->width;
 	}
 	if (c == _player.size())
 		return (false);

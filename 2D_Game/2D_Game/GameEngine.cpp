@@ -76,6 +76,7 @@ void GameEngine::resetElement()
 	player[0]->getNewWeapon(1,ressources);
 	player[0]->numWeapon += 1;
 	//
+	spawner.restart();
 	graphic.resetInterface();
 	globalClock.restart();
 	map.init(false);
@@ -105,7 +106,6 @@ void GameEngine::run()
 			}
 			
 			window.clear();
-	
 			globalTimer = globalClock.getElapsedTime();
 			loopTime = globalTimer.asSeconds();
 			globalClock.restart();
@@ -122,10 +122,10 @@ void GameEngine::run()
 			ref.cleanEnemyList();
 			ref.cleanItemList();
 			ref.moveBullet(player);
-			spawner.spawnEnnemies(ressources.ennemy);
+			spawner.spawnEnnemies(ressources.ennemy, globalTimer);
 			spawner.spawnAmmo(player[0], ressources.texture["ammo"], &map);
 			physics.playerAction(0);
-			IA.setEnnemiesIM(player[0]->x, player[0]->y);
+			IA.setEnnemiesIM(player[0]);
 			physics.enemyAction();
 			map.checkPlatform();
 			
