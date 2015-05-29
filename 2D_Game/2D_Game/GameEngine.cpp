@@ -74,8 +74,9 @@ void GameEngine::resetElement()
 	player[0]->init(ressources);
 	//have to put that on the event : touching new weapon
 	player[0]->getNewWeapon(1,ressources);
-	player[0]->numWeapon += 1;
-	//
+	player[0]->getNewWeapon(2,ressources);
+	player[0]->getNewWeapon(3,ressources);
+	player[0]->numWeapon = 3;
 	spawner.restart();
 	graphic.resetInterface();
 	globalClock.restart();
