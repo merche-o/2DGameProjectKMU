@@ -17,36 +17,21 @@ void Map::init(bool firstTime)
 
 	number_platfoms = 0;
 
-	if (firstTime == true)
-	{
-		createPlatform(1, 22, width_map - 2);
-		createPlatform(0, 18, 10, true);
-		createPlatform(14, 18, 4, true);
-		createPlatform(7, 14, 8, true);
-		createPlatform(10, 10, 4, true);
-		createPlatform(18, 11, 4);
-		createPlatform(13, 6, 6, true);
-		createPlatform(2, 11, 4, true);
-		createPlatform(7, 6, 2, true);
-		createPlatform(0, 4, 4, true);
-		createPlatform(2, 0, width_map - 4);
-	}
-	else
+	if (firstTime == false)
 	{
 		platform.clear();
-		
-		createPlatform(1, 22, width_map - 2);
-		createPlatform(0, 18, 10, true);
-		createPlatform(14, 18, 4, true);
-		createPlatform(7, 14, 8, true);
-		createPlatform(10, 10, 4, true);
-		createPlatform(18, 11, 4);
-		createPlatform(13, 6, 6, true);
-		createPlatform(2, 11, 4, true);
-		createPlatform(7, 6, 2, true);
-		createPlatform(0, 4, 4, true);
-		createPlatform(2, 0, width_map - 4);
 	}
+	createPlatform(1, 22, width_map - 2);
+	createPlatform(0, 18, 10, true);
+	createPlatform(14, 18, 4, true);
+	createPlatform(7, 14, 8, true);
+	createPlatform(10, 10, 4, true);
+	createPlatform(18, 11, 4);
+	createPlatform(13, 6, 6, true);
+	createPlatform(2, 11, 4, true);
+	createPlatform(7, 6, 2, true);
+	createPlatform(0, 4, 4, true);
+	createPlatform(1, 0, width_map - 2);
 }
 
 Map::~Map(void)
@@ -83,12 +68,26 @@ void Map::checkPlatform()
 		{
 			if (platform[i]->checkDead() == true) // Is out of animation
 			{
-				if (isRecyclable(i) == true) // Give another animation
+				if (platform[i]->type == platform[i]->DISAPPEAR)
+				{
+					number_platfoms--;
+					platform.erase(platform.begin() + i); // Delete
+				}
+				else if (platform[i]->type == platform[i]->MAIN)
+				{
+					if (platform[i]->length > 10)
+					{
+						// creer deux platforms separer par un trou central
+						platform.push_back(new Platform(platform[i]->x, platform[i]->y, platform[i]->length / 2 - 1, loopTime, ress, platform[i]->length));
+						platform.push_back(new Platform(platform[i]->x + ((platform[i]->length / 2) * Settings::CASE_SIZE), platform[i]->y, platform[i]->length / 2 - 1, loopTime, ress, platform[i]->length));
+						std::cout << platform[i]->x << " & " << platform[i]->x + ((platform[i]->length / 2) * Settings::CASE_SIZE) << std::endl;
+						number_platfoms--;
+						platform.erase(platform.begin() + i); // Delete
+					}
+				}
+				else if (isRecyclable(i) == true) // Give another animation
 					platform[i]->recycle();
 				else
-					platform.erase(platform.begin() + i); // Delete
-
-				if (platform[i]->type == platform[i]->DISAPPEAR)
 				{
 					number_platfoms--;
 					platform.erase(platform.begin() + i); // Delete

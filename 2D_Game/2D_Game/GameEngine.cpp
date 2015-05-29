@@ -8,7 +8,7 @@ GameEngine::GameEngine(void)
 	: ressources(),
 		graphic(window, map, player, ennemyList, bulletList, itemList, ressources, loopTime),
 		parameters(sound),
-		menu(window, event, parameters, restart, goMenu),
+		menu(window, ressources, event, parameters, restart, goMenu),
 		sound(),
 		map(ressources, loopTime),
 		event(window, player),
