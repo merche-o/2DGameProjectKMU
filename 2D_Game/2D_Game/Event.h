@@ -26,10 +26,11 @@ public:
 		I_NONE,
 	};
 
+	std::vector<Player*> & player;
+
 private:
 	sf::Window & win;
 	sf::Event event;
-	std::vector<Player*> & player;
 
 public:
 	Event(sf::Window & w, std::vector<Player*> & p);
