@@ -60,7 +60,7 @@ GameMenu::GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters &
 	addKeyTextMenu(PAUSE, new TextMenu(600, 500, "How to Play", 32), &GameMenu::menuHowPlay);
 	addKeyTextMenu(PAUSE, new TextMenu(600, 550, "Settings", 32), &GameMenu::menuSettings);
 	addKeyTextMenu(PAUSE, new TextMenu(600, 600, "Back to menu", 32), &GameMenu::menuReturn);
-	//addKeyTextMenu(PAUSE, new TextMenu(600, 650, "Quit Game", 32), &GameMenu::menuQuitGame);
+	addKeyTextMenu(PAUSE, new TextMenu(600, 650, "Quit Game", 32), &GameMenu::menuQuitGame);
 
 	addTextMenu(HIGHSCORE, new TextMenu(350, 0, "Highscore", 96, 250, 60, 60));
 	addKeyTextMenu(HIGHSCORE, new TextMenu(400, 650, "Back", 64), &GameMenu::menuReturn);
@@ -390,17 +390,21 @@ void GameMenu::menuReturn()
 		menuQuitGame();
 	else
 	{
-		if (currentState == PAUSE && beforeState[beforeState.size() -1] == MAIN)
-		{
-			menu = true;
-		}
+	
 		currentState = beforeState[beforeState.size() - 1];
 		beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+			if (currentState == PAUSE && beforeState[beforeState.size() -1] == MAIN)
+		{
+			menu = true;
+			currentState = MAIN;
+		}
 	}
 }
 
 void GameMenu::menuQuitGame()
 {
+	currentState = beforeState[beforeState.size() - 1];
+	beforeState.erase(beforeState.begin() + beforeState.size() - 1);
 	win.close();
 }
 
