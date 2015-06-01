@@ -52,11 +52,11 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 
 				if(_itemList[i]->type == Item::AMMO) // Check if it's an ammo to increment this value
 				{
-					for (int i2 = 0; i2 < ((Player*)src)->weapon.size(); ++i2)
-					{
-						if (((Player*)src)->weapon[i2]->type == ((Ammo *)(_itemList[i]))->weaponType)
-							((Player *)src)->weapon[i2]->ammo += 10;
-					}
+					//for (int i2 = 0; i2 < ((Player*)src)->weapon.size(); ++i2)
+					//{
+						//if (((Player*)src)->weapon[i2]->type == ((Ammo *)(_itemList[i]))->weaponType)
+					((Player *)src)->weapon[((Player *)src)->weaponUsed]->ammo += 10;
+					//}
 				}
 				_itemList.erase(_itemList.begin() + i);
 				//return (5);

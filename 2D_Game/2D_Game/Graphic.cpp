@@ -43,40 +43,46 @@ void Graphic::affInterface()
 	float t = floor(time);
 	int min = (int)t / 60;
 	int sec = (int)t % 60;
-	loadText(18 * Settings::CASE_SIZE, 8 + Settings::HEIGHT_GAME, font, std::string(testDecade(min) + IntToString(min) + ":" + testDecade(sec) + IntToString(sec)), 32, 250, 180, 60);
+	loadText(Settings::CASE_SIZE, 13 + Settings::HEIGHT_GAME, font, std::string(testDecade(min) + IntToString(min) + ":" + testDecade(sec) + IntToString(sec)), 32, 250, 180, 60);
 	
 	for (int i = 0; i < player.size(); ++i)
 	{
 		/*** Player n ***/
-		loadText(Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Life"), 16, 250, 250, 60);
+		loadText(18 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Life"), 16, 250, 250, 60);
 		// Life
 		for (int j = 0; j < player[i]->life; ++j)
 		{
-			loadImage(Settings::CASE_SIZE + (j * ress.texture["life"].getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, ress.texture["life"]);
+			loadImage(17.5 * Settings::CASE_SIZE + (j * ress.texture["life"].getSize().x + 7 * j) + (i * (20 * Settings::CASE_SIZE)), 0.9 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, ress.texture["life"]);
 		}
 		// Shield
 		for (int k = player[i]->life; k < player[i]->life + player[i]->shield; ++k)
 		{
-			loadImage(Settings::CASE_SIZE + (k * ress.texture["shield"].getSize().x) + (i * (20 * Settings::CASE_SIZE)), 1 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, ress.texture["shield"]);
+			loadImage( 17.5 * Settings::CASE_SIZE + (k * ress.texture["shield"].getSize().x + 7 * k) + (i * (20 * Settings::CASE_SIZE)), 0.9 * Settings::CASE_SIZE + Settings::HEIGHT_GAME, ress.texture["shield"]);
 		}
 		// Ammo
-		loadText(6 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Ammo"), 16, 250, 250, 60);
 		if (player[i]->weaponUsed == 0)
-			loadImage(6 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["ammoLogo"]);
+		loadImage(8 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["weaponUsed"]);
 		else if (player[i]->weaponUsed == 1)
-			loadImage(6 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["ammoLogo1"]);
+			loadImage(9.7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["weaponUsed"]);
 		else if (player[i]->weaponUsed == 2)
-			loadImage(6 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["ammoLogo2"]);
-		else if (player[i]->weaponUsed == 3)
-			loadImage(6 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["ammoLogo3"]);
+			loadImage(11.4 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["weaponUsed"]);
+		loadText(9 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Weapons"), 16, 250, 250, 60);
+		loadImage(8 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["ammoLogo"]);
+		loadText(8.7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME, font, IntToString(player[i]->weapon[0]->ammo), 10, 250, 250, 60);
+		loadImage(9.7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["ammoLogo1"]);
+		loadText(10.4 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME, font, IntToString(player[i]->weapon[1]->ammo), 10, 250, 250, 60);
+		loadImage(11.4 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME - 4, ress.texture["ammoLogo2"]);
+		loadText(12.1 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME, font, IntToString(player[i]->weapon[2]->ammo), 10, 250, 250, 60);
 
-		loadText(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME, font, IntToString(player[i]->weapon[player[i]->weaponUsed]->ammo), 16, 250, 250, 60);
+		
+
+		//loadText(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME, font, IntToString(player[i]->weapon[player[i]->weaponUsed]->ammo), 16, 250, 250, 60);
 		// Spell
-		loadText(12 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Spell"), 16, 250, 250, 60);
+		loadText(25 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Spell"), 16, 250, 250, 60);
 		if (player[i]->isSpell == true && player[i]->spellUsed == false)
-			loadImage(12 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)) + 8, Settings::CASE_SIZE + Settings::HEIGHT_GAME - 8, player[i]->spell.texture);
+			loadImage(25 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)) + 8, Settings::CASE_SIZE + Settings::HEIGHT_GAME - 8, player[i]->spell.texture);
 		// Score
-		loadText(25 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 12 + Settings::HEIGHT_GAME, font, std::string("Score " + IntToString(player[i]->score)), 25, 250, 250, 60);
+		loadText(33 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 15 + Settings::HEIGHT_GAME, font, std::string("Score " + IntToString(player[i]->score)), 25, 250, 250, 60);
 	}
 }
 
