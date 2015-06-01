@@ -42,6 +42,8 @@ public:
 	bool & menu;
 	bool refresh;
 	bool restart;
+	bool isFullscreen;
+	int refreshFullscreen;
 
 public:
 	GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bool & m);
@@ -60,10 +62,12 @@ public:
 	void menuCredits();
 	void menuPause();
 	void menuReturn();
+	void menuQuitGame();
 	void menuEndGame();
 	void menuMain();
 	void menuRestart();
 	void menuMute();
+	void menuToogleFullscreen();
 	void backToMenu();
 	void menuPlay();
 	void addTextMenu(e_state state, TextMenu * text);

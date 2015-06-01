@@ -10,6 +10,8 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 	refresh = true;
 	posMenu = 0;
 	restart = false;
+	isFullscreen = true;
+	refreshFullscreen = 2;
 	currentState = MAIN; // Begin main menu
 	beforeState.push_back(NONE); // No previous page
 
@@ -21,9 +23,9 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 	addKeyTextMenu(MAIN, new TextMenu(400, 500, "Highscore", 48), &GameMenu::menuHighscore);
 	addKeyTextMenu(MAIN, new TextMenu(400, 600, "Credits", 48), &GameMenu::menuCredits);
 	addKeyTextMenu(MAIN, new TextMenu(400, 700, "Quit", 48), &GameMenu::menuReturn);
-	
 	addTextMenu(SETTINGS, new TextMenu(350, 0, "Settings", 96, 250, 60, 60));
 	addKeyTextMenu(SETTINGS, new TextMenu(400, 350, "Mute", 48), &GameMenu::menuMute);
+	addKeyTextMenu(SETTINGS, new TextMenu(400, 450, "Toogle Fullscreen", 48), &GameMenu::menuToogleFullscreen);
 	addKeyTextMenu(SETTINGS, new TextMenu(400, 600, "Back", 48), &GameMenu::menuReturn);
 
 	addTextMenu(HOWPLAY, new TextMenu(350, 0, "How to Play", 80, 250, 60, 60));
@@ -39,18 +41,21 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 	
 
 	addTextMenu(CREDITS, new TextMenu(350, 0, "Credits", 96, 250, 60, 60));
-	addTextMenu(CREDITS, new TextMenu(300, 200, "Producer & Engine Dev :\tOlivier", 32, 60, 250, 150));
-	addTextMenu(CREDITS, new TextMenu(300, 300, "Graphic Dev & Menu Dev :\tMarc", 32, 60, 150, 150));
-	addTextMenu(CREDITS, new TextMenu(300, 400, "Physic Dev & Logic Dev :\tJoris", 32, 60, 250, 250));
-	addTextMenu(CREDITS, new TextMenu(300, 500, "IA Dev & Logic Dev :\tAxel", 32, 60, 250, 250));
+	addTextMenu(CREDITS, new TextMenu(300, 150, "President :\tClaude Comair", 32, 60, 250, 150));
+	addTextMenu(CREDITS, new TextMenu(300, 225, "Instructor :\tDavid Ly", 32, 60, 250, 250));
+	addTextMenu(CREDITS, new TextMenu(300, 300, "Producer & Engine Dev :\tOlivier", 32, 60, 250, 150));
+	addTextMenu(CREDITS, new TextMenu(300, 375, "Graphic Dev & Menu Dev :\tMarc", 32, 60, 250, 250));
+	addTextMenu(CREDITS, new TextMenu(300, 450, "Physic Dev & Logic Dev :\tJoris", 32, 60, 250, 150));
+	addTextMenu(CREDITS, new TextMenu(300, 525, "IA Dev & Logic Dev :\tAxel", 32, 60, 250, 250));
 	addKeyTextMenu(CREDITS, new TextMenu(400, 700, "Back", 32), &GameMenu::menuReturn);
 
 	addTextMenu(PAUSE, new TextMenu(600, 300, "Pause", 48, 200, 200, 200));
-	addKeyTextMenu(PAUSE, new TextMenu(600, 400, "Resume", 32), &GameMenu::menuPlay);
+	addKeyTextMenu(PAUSE, new TextMenu(600, 400, "Resume Game", 32), &GameMenu::menuPlay);
 	addKeyTextMenu(PAUSE, new TextMenu(600, 450, "New game", 32), &GameMenu::menuRestart);
 	addKeyTextMenu(PAUSE, new TextMenu(600, 500, "How to Play", 32), &GameMenu::menuHowPlay);
 	addKeyTextMenu(PAUSE, new TextMenu(600, 550, "Settings", 32), &GameMenu::menuSettings);
 	addKeyTextMenu(PAUSE, new TextMenu(600, 600, "Back to menu", 32), &GameMenu::menuReturn);
+	//addKeyTextMenu(PAUSE, new TextMenu(600, 650, "Quit Game", 32), &GameMenu::menuQuitGame);
 
 	addTextMenu(HIGHSCORE, new TextMenu(350, 0, "Highscore", 96, 250, 60, 60));
 	addKeyTextMenu(HIGHSCORE, new TextMenu(400, 650, "Back", 64), &GameMenu::menuReturn);
@@ -76,8 +81,10 @@ void GameMenu::posInsideTheMenu() // loop the cursor in menu
 
 void GameMenu::run()
 {
-	if (refresh == true) // Refresh the screen only if necessary
+	if (refresh == true || refreshFullscreen > 0) // Refresh the screen only if necessary
 	{
+		if (refreshFullscreen > 0)
+			refreshFullscreen--;
 		if (isPushed == true) // Enter Event
 		{
 			if (posMenu != sizeKeyTextMenu[currentState] - 1) // If action != Return/Back
@@ -343,26 +350,46 @@ void GameMenu::menuEndGame()
 void GameMenu::menuMute()
 {
 	currentState = beforeState[beforeState.size() - 1];
-		beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+	beforeState.erase(beforeState.begin() + beforeState.size() - 1);
 	if (param.sound.activeMusic)
 		param.sound.musicOFF();
 	else
 		param.sound.musicON();
 }
 
+void GameMenu::menuToogleFullscreen()
+{
+	currentState = beforeState[beforeState.size() - 1];
+	beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+	if (isFullscreen)
+		win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Default);
+	else
+	{
+		win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
+		refreshFullscreen = 1;
+	}
+	isFullscreen = !isFullscreen;
+}
+
 // Back to previous menu
 void GameMenu::menuReturn()
 {
 	if (beforeState[beforeState.size() - 1] == NONE || currentState == MAIN	) // Quit
-		win.close();
+		menuQuitGame();
 	else
 	{
 		if (currentState == PAUSE && beforeState[beforeState.size() -1] == MAIN)
-			menu= true;
-
+		{
+			menu = true;
+		}
 		currentState = beforeState[beforeState.size() - 1];
 		beforeState.erase(beforeState.begin() + beforeState.size() - 1);
 	}
+}
+
+void GameMenu::menuQuitGame()
+{
+	win.close();
 }
 
 void GameMenu::backToMenu()
