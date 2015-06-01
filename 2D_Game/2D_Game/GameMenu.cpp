@@ -11,7 +11,7 @@ GameMenu::GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters &
 	posMenu = 0;
 	restart = false;
 	isFullscreen = true;
-	refreshFullscreen = 2;
+	refreshFullscreen = 3;
 	currentState = MAIN; // Begin main menu
 	beforeState.push_back(NONE); // No previous page
 
@@ -378,7 +378,7 @@ void GameMenu::menuToogleFullscreen()
 	else
 	{
 		win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
-		refreshFullscreen = 1;
+		refreshFullscreen = 2;
 	}
 	isFullscreen = !isFullscreen;
 }
