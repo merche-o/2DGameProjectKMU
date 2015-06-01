@@ -36,6 +36,7 @@ GameEngine::GameEngine(void)
 	goMenu = false;
 	pause = false;
 	menu.getScore();
+	window.setMouseCursorVisible(false);
 }
 
 
