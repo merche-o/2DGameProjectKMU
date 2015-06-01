@@ -26,6 +26,7 @@ private:
 	
 public:
 	sf::RenderWindow & win;
+	Ressources & ress;
 	Parameters & param;
 	std::vector<std::string> scoreTable;
 	std::map<std::pair<e_state, int>, TextMenu*> textMenu;
@@ -46,7 +47,7 @@ public:
 	int refreshFullscreen;
 
 public:
-	GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bool & m);
+	GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters & p, bool & s, bool & m);
 	~GameMenu(void);
 
 	void posInsideTheMenu();

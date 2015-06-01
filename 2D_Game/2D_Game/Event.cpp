@@ -114,12 +114,12 @@ void Event::menuEvent(int & pos, bool & push, bool & refresh, bool pause)
 				push = true;
 				refresh = true;
 			}
-			else if (event.key.code == sf::Keyboard::Up)
+			else if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W)
 			{
 				--pos;
 				refresh = true;
 			}
-			else if (event.key.code == sf::Keyboard::Down)
+			else if (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S)
 			{
 				++pos;
 				refresh = true;

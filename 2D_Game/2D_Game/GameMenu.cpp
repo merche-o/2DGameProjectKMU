@@ -4,8 +4,8 @@
 #include <fstream>
 #include <string>
 
-GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bool & m)
-	: Display(w), win(w), event(e), param(p), start(s), menu(m)
+GameMenu::GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters & p, bool & s, bool & m)
+	: Display(w), win(w), ress(r), event(e), param(p), start(s), menu(m)
 {
 	refresh = true;
 	posMenu = 0;
@@ -16,13 +16,18 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 	beforeState.push_back(NONE); // No previous page
 
 	/*****	MENU *****/
-	addTextMenu(MAIN, new TextMenu(350, 0, "Menu", 96, 250, 60, 60));
-	addKeyTextMenu(MAIN, new TextMenu(400, 200, "Play", 48), &GameMenu::menuPlay);
-	addKeyTextMenu(MAIN, new TextMenu(400, 300, "Settings", 48), &GameMenu::menuSettings);
-	addKeyTextMenu(MAIN, new TextMenu(400, 400, "How to Play", 48), &GameMenu::menuHowPlay);
-	addKeyTextMenu(MAIN, new TextMenu(400, 500, "Highscore", 48), &GameMenu::menuHighscore);
-	addKeyTextMenu(MAIN, new TextMenu(400, 600, "Credits", 48), &GameMenu::menuCredits);
-	addKeyTextMenu(MAIN, new TextMenu(400, 700, "Quit", 48), &GameMenu::menuReturn);
+
+	addTextMenu(MAIN, new TextMenu(100, 0, "Bob's Attack", 96, 250, 60, 60));
+	addTextMenu(MAIN, new TextMenu(850, 320, "Weapon Fire", 32, 250, 120, 60));
+	addTextMenu(MAIN, new TextMenu(850, 570, "Player Move", 32, 250, 120, 60));
+	addTextMenu(MAIN, new TextMenu(850, 700, "Use Spell", 32, 250, 120, 60));
+	addKeyTextMenu(MAIN, new TextMenu(200, 200, "Play", 48), &GameMenu::menuPlay);
+	addKeyTextMenu(MAIN, new TextMenu(200, 300, "Settings", 48), &GameMenu::menuSettings);
+	addKeyTextMenu(MAIN, new TextMenu(200, 400, "How to Play", 48), &GameMenu::menuHowPlay);
+	addKeyTextMenu(MAIN, new TextMenu(200, 500, "Highscore", 48), &GameMenu::menuHighscore);
+	addKeyTextMenu(MAIN, new TextMenu(200, 600, "Credits", 48), &GameMenu::menuCredits);
+	addKeyTextMenu(MAIN, new TextMenu(200, 700, "Quit", 48), &GameMenu::menuReturn);
+	
 	addTextMenu(SETTINGS, new TextMenu(350, 0, "Settings", 96, 250, 60, 60));
 	addKeyTextMenu(SETTINGS, new TextMenu(400, 350, "Mute", 48), &GameMenu::menuMute);
 	addKeyTextMenu(SETTINGS, new TextMenu(400, 450, "Toogle Fullscreen", 48), &GameMenu::menuToogleFullscreen);
@@ -174,6 +179,13 @@ void GameMenu::endGame(int score)
 // Display Texts
 void GameMenu::displayCurrentMenu()
 {
+	if (currentState == MAIN)
+	{
+		loadImage(850, 150, ress.texture["arrow"]);
+		loadImage(850, 400, ress.texture["wasd"]);
+		loadImage(850, 650, ress.texture["space"]);
+	}
+
 	for (int i = 0; i < sizeTextMenu[currentState]; ++i)
 	{
 		loadText(textMenu[std::make_pair(currentState, i)]->x, 
