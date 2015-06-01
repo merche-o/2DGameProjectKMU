@@ -18,7 +18,7 @@ GameEngine::GameEngine(void)
 		IA(ref, ennemyList) 
 {
 	// Create window
-	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME/*, sf::Style::Fullscreen*/);
+	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
 	window.setFramerateLimit(30);
 
 	physics._referee = &ref;
@@ -194,7 +194,6 @@ void GameEngine::run()
 				restart = false;
 				globalClock.restart();
 			}
-
 
 		}
 		else if (state == ENDGAME)
