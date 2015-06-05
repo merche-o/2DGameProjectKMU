@@ -29,6 +29,7 @@ enum e_state
 class GameEngine
 {
 private:
+	Event::focus_state focus;
 	e_state state;
 	Ressources ressources;
 	Parameters parameters;
@@ -54,6 +55,7 @@ private:
 	float loopTime;
 	
 	void writeScore();
+	void focusChanged(void);
 public:
 	sf::RenderWindow window;
 

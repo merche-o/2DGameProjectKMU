@@ -26,6 +26,14 @@ public:
 		I_NONE,
 	};
 
+	enum focus_state
+	{
+		NONE,
+		LOST,
+		GAINED,
+		CHANGING_TO_DESKTOP_RESOLUTION
+	};
+
 	std::vector<Player*> & player;
 
 private:
@@ -36,7 +44,7 @@ public:
 	Event(sf::Window & w, std::vector<Player*> & p);
 	~Event(void);
 
-	void checkEvent(bool & pause);
-	void menuEvent(int & pos, bool & push, bool & refresh, bool pause = false);
+	void checkEvent(bool & pause, focus_state &);
+	void menuEvent(int & pos, bool & push, bool & refresh, focus_state & focus, bool pause = false);
 };
 

@@ -4,8 +4,8 @@
 #include <fstream>
 #include <string>
 
-GameMenu::GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters & p, bool & s, bool & m)
-	: Display(w), win(w), ress(r), event(e), param(p), start(s), menu(m)
+GameMenu::GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters & p, bool & s, bool & m, Event::focus_state & _focus)
+	: Display(w), win(w), ress(r), event(e), param(p), start(s), menu(m), focus(_focus)
 {
 	refresh = true;
 	posMenu = 0;
@@ -115,9 +115,41 @@ void GameMenu::run()
 	}
 	// Menu Event
 	if (currentState == PAUSE || currentState == ENDGAME)
-		event.menuEvent(posMenu, isPushed, refresh, true);
+		event.menuEvent(posMenu, isPushed, refresh, focus, true);
 	else
-		event.menuEvent(posMenu, isPushed, refresh);
+		event.menuEvent(posMenu, isPushed, refresh, focus);
+	if (focus != Event::focus_state::NONE)
+				focusChanged();
+}
+
+void GameMenu::focusChanged()
+{
+	if (focus == Event::focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+	{
+		focus = Event::focus_state::NONE;
+	}
+	else if (focus == Event::focus_state::GAINED)
+	{
+		win.setFramerateLimit(Settings::FOCUS_GAME_FRAMERATE);
+		if (isFullscreen)
+		{
+			win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
+		}
+		refreshFullscreen = 2;
+	}
+	else if (focus == Event::focus_state::LOST)
+	{
+		ShowWindow(win.getSystemHandle(), SW_MINIMIZE);
+		if (isFullscreen)
+		{
+			win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Default);
+			ShowWindow(win.getSystemHandle(), SW_MINIMIZE);
+			focus = Event::focus_state::CHANGING_TO_DESKTOP_RESOLUTION;
+		}
+		win.setFramerateLimit(Settings::NO_FOCUS_GAME_FRAMERATE);
+	}
+	if (focus != Event::focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+		focus = Event::focus_state::NONE;
 }
 
 void GameMenu::pause()
@@ -145,7 +177,9 @@ void GameMenu::pause()
 		refresh = false;
 	}
 
-	event.menuEvent(posMenu, isPushed, refresh, true);
+	event.menuEvent(posMenu, isPushed, refresh, focus, true);
+	if (focus != Event::focus_state::NONE)
+				focusChanged();
 }
 
 void GameMenu::endGame(int score)
@@ -173,7 +207,9 @@ void GameMenu::endGame(int score)
 		refresh = false;
 	}
 
-	event.menuEvent(posMenu, isPushed, refresh, true);
+	event.menuEvent(posMenu, isPushed, refresh, focus, true);
+	if (focus != Event::focus_state::NONE)
+				focusChanged();
 }
 
 // Display Texts
@@ -373,14 +409,7 @@ void GameMenu::menuToogleFullscreen()
 {
 	currentState = beforeState[beforeState.size() - 1];
 	beforeState.erase(beforeState.begin() + beforeState.size() - 1);
-	if (isFullscreen)
-		win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Default);
-	else
-	{
-		win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
-		refreshFullscreen = 2;
-	}
-	isFullscreen = !isFullscreen;
+	toogleFullscreen();
 }
 
 // Back to previous menu
@@ -434,6 +463,19 @@ void GameMenu::menuRestart()
 		}
 }
 
+
+
+void GameMenu::toogleFullscreen()
+{
+	if (isFullscreen)
+		win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Default);
+	else
+	{
+		win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
+		refreshFullscreen = 2;
+	}
+	isFullscreen = !isFullscreen;
+}
 
 // Simple texte
 void GameMenu::addTextMenu(e_state state, TextMenu * text)
