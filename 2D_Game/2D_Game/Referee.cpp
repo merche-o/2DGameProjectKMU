@@ -9,6 +9,7 @@ Referee::Referee(std::vector<AUnit*> & enemylist, std::vector<Item*>  &itemList,
 	collideManager.push_back(&Referee::collideEnemy);
 	collideManager.push_back(&Referee::collideBonus);
 	collideManager.push_back(&Referee::collideWall);
+	enemiesCount = 0;
 }
 
 
@@ -235,27 +236,37 @@ int Referee::collideWall(AUnit *src, Event::Input const &btn)
 {
 	for (int i = 0; i < this->_map.platform.size(); ++i)
 		{
-			if ((src->y				>	this->_map.platform[i]->y &&
-				src->y				<	this->_map.platform[i]->y + Settings::CASE_SIZE) ||
-				src->y == this->_map.platform[i]->y/*||
-				(src->y		+ src->height		>	this->_map.platform[i]->y &&
-				src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE)*/)
-				{
-					if (src->state == JUMP)
+			if (src->state == JUMP)
+			{
+				if ((src->y				>	this->_map.platform[i]->y &&
+					src->y				<	this->_map.platform[i]->y + Settings::CASE_SIZE) ||
+					src->y == this->_map.platform[i]->y/*||
+					(src->y		+ src->height		>	this->_map.platform[i]->y &&
+					src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE)*/)
 					{
-						if ((src->x				>	this->_map.platform[i]->x &&
-							src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length) ||
-							(src->x + src->width	>	this->_map.platform[i]->x &&
-							src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length))
+						if (src->state == JUMP)
 						{
-							src->y = this->_map.platform[i]->y + Settings::CASE_SIZE;
-							src->state = U_END_JUMP;
-							src->jumpTmpY = 0;
-							return (1);
+							if ((src->x				>	this->_map.platform[i]->x &&
+								src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length) ||
+								(src->x + src->width	>	this->_map.platform[i]->x &&
+								src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length))
+							{
+								src->y = this->_map.platform[i]->y + Settings::CASE_SIZE;
+								src->state = U_END_JUMP;
+								src->jumpTmpY = 0;
+								return (1);
+							}
 						}
 					}
+			}
+			else
+			{
+				if (src->y == this->_map.platform[i]->y ||
+					(src->y		+ src->height		>	this->_map.platform[i]->y &&
+					src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE))
+				{
 					//// Check with right of player
-					else if (src->x + src->width	>	this->_map.platform[i]->x  &&
+					if (src->x + src->width	>	this->_map.platform[i]->x  &&
 							src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
 					{
 						src->x = this->_map.platform[i]->x - src->width;
@@ -269,6 +280,7 @@ int Referee::collideWall(AUnit *src, Event::Input const &btn)
 						return (3);
 					}
 				}
+			}
 		}
 	return (-1);
 }
@@ -350,11 +362,13 @@ void Referee::cleanEnemyList()
 {
 	for (int i = 0; i < this->_enemyList.size(); ++i)
 	{
-		if (this->_enemyList[i]->y > Settings::HEIGHT  || this->_enemyList[i]->l_state == DEAD)
+		if (this->_enemyList[i]->l_state == DEAD)
 		{
-			if (this->_enemyList[i]->l_state == DEAD)
+			//if (this->_enemyList[i]->l_state == DEAD)
 				this->dropCoins((Enemy *)_enemyList[i]);
 			this->_enemyList.erase(_enemyList.begin() + i);
+			enemiesCount += 1;
+			std::cout << "<< Enemies = "<< enemiesCount << " >>" << std::endl;
 		}
 	}
 }

@@ -47,8 +47,18 @@ void GameEngine::writeScore()
 {
 	int i = 0;
 
+	FILE *fichier = NULL;
 	std::string fileName = "./Ressources/Highscore.txt";
+
+	fichier = fopen(fileName.c_str(),  "rwt");
+	if (fichier == NULL)
+	{
+      printf("le fichier n'existe pas !");
+	  std::ofstream file(fileName.c_str(), std::ios::out | std::ios::trunc);
+	}
+
 	std::ofstream file(fileName.c_str(), std::ios::out | std::ios::trunc);
+
 	std::string::size_type sz;
 	bool write = true;
 	file << "rank:score\n";
@@ -79,6 +89,7 @@ void GameEngine::resetElement()
 	spawner.restart();
 	graphic.resetInterface();
 	globalClock.restart();
+	ref.enemiesCount = 0;
 	map.init(false);
 }
 
@@ -87,6 +98,7 @@ void GameEngine::run()
 {
     while (window.isOpen())
     {
+		window.setMouseCursorVisible(false);
 		if (state == MENU)
 		{
 			menu.run();
@@ -124,10 +136,11 @@ void GameEngine::run()
 			ref.moveBullet(player);
 			spawner.spawnEnnemies(ressources.ennemy, globalTimer);
 			spawner.spawnAmmo(player[0], ressources.texture["ammo"], &map);
+			map.checkPlatform();
 			physics.playerAction(0);
 			IA.setEnnemiesIM(player[0]);
 			physics.enemyAction();
-			map.checkPlatform();
+			//map.checkPlatform();
 			
 			player[0]->createParticles();
 			
@@ -197,6 +210,7 @@ void GameEngine::run()
 		}
 		else if (state == ENDGAME)
 		{
+			//std::cout << " Total Enemies = "<< ref.enemiesCount << std::cout;
 			menu.endGame(player[0]->score);
 			sound.musicOFF();
 			if (goMenu == true)
