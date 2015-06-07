@@ -43,8 +43,10 @@ Platform::Platform(int X, int Y, int Length, float & Time, Ressources & re, unsi
 		//	type = GO_DOWN;
 		//else if (r == 3)
 			//type = DAMAGE;
-		if (y / Settings::CASE_SIZE == 22 || y / Settings::CASE_SIZE == 0)
-			type = NONE;
+		if (y / Settings::CASE_SIZE == 22)
+			type = MAIN;
+		else if (y / Settings::CASE_SIZE == 0)
+			type = MAIN;
 	}
 	else if (rebuild == true) // Platform rebuild
 		type = APPEARING;
@@ -56,6 +58,8 @@ Platform::Platform(int X, int Y, int Length, float & Time, Ressources & re, unsi
 		r = rand() % 15 + 5;
 		activMorph = r; // time before active
 		transp = 255; // transparency
+		if (type == MAIN)
+			activMorph = 5;
 	}
 	else if (rebuild == true) // Platform rebuild
 	{
@@ -151,6 +155,9 @@ void Platform::playMorph(std::vector<Platform*> & platform) // Creer des collisi
 	{
 		x += speed * loopTime;
 	}
+	else if (type == MAIN)
+	{
+	}
 	//else if (type == GO_UP)
 	//{
 	//	y -= speed * loopTime;
@@ -182,7 +189,9 @@ bool Platform::checkDead()
 		setNewEvent();
 	else if (type == GO_LEFT && (x + Settings::CASE_SIZE * length) <= 0)
 		return (true);
-	else if (type == GO_RIGHT && x >= Settings::WIDTH)
+	else if (type == GO_RIGHT && (x/* + Settings::CASE_SIZE * length*/) >= Settings::WIDTH)
+		return (true);
+	else if (type == MAIN)
 		return (true);
 	return (false);
 }

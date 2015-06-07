@@ -99,4 +99,8 @@ void Ressources::loadTextures()
 	texture["ammoLogo3"].loadFromFile("./Ressources/Images/IAmmo3.png");
 	texture["background"].loadFromFile("./Ressources/Images/BackgroundGame.png");
 	texture["pause"].loadFromFile("./Ressources/Images/pause_bg.png");
+	texture["weaponUsed"].loadFromFile("./Ressources/Images/weaponUsed.png");
+	texture["arrow"].loadFromFile("./Ressources/Images/Arrow.png");
+	texture["wasd"].loadFromFile("./Ressources/Images/wasd.png");
+	texture["space"].loadFromFile("./Ressources/Images/Space.png");
 }

@@ -13,7 +13,7 @@ Event::~Event(void)
 {
 }
 
-void Event::checkEvent(bool & pause)
+void Event::checkEvent(bool & pause, focus_state & focus)
 {
 	while (win.pollEvent(event))
     {
@@ -91,10 +91,14 @@ void Event::checkEvent(bool & pause)
 			else if (event.key.code == sf::Keyboard::Num4)
 				player[0]->inputMap[Event::I_WEAPON_4] = false;
 		}
+		else if (event.type == sf::Event::GainedFocus && focus != focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+			focus = GAINED;
+		else if (event.type == sf::Event::LostFocus && focus != focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+			focus = LOST;
     }
 }
 
-void Event::menuEvent(int & pos, bool & push, bool & refresh, bool pause)
+void Event::menuEvent(int & pos, bool & push, bool & refresh, focus_state & focus, bool pause)
 {
 	while (win.pollEvent(event))
     {
@@ -114,16 +118,20 @@ void Event::menuEvent(int & pos, bool & push, bool & refresh, bool pause)
 				push = true;
 				refresh = true;
 			}
-			else if (event.key.code == sf::Keyboard::Up)
+			else if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W)
 			{
 				--pos;
 				refresh = true;
 			}
-			else if (event.key.code == sf::Keyboard::Down)
+			else if (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S)
 			{
 				++pos;
 				refresh = true;
 			}
 		}
+		else if (event.type == sf::Event::GainedFocus && focus != focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+			focus = GAINED;
+		else if (event.type == sf::Event::LostFocus && focus != focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+			focus = LOST;
 	}
 }

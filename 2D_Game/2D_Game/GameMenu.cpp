@@ -4,26 +4,33 @@
 #include <fstream>
 #include <string>
 
-GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bool & m)
-	: Display(w), win(w), event(e), param(p), start(s), menu(m)
+GameMenu::GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters & p, bool & s, bool & m, Event::focus_state & _focus)
+	: Display(w), win(w), ress(r), event(e), param(p), start(s), menu(m), focus(_focus)
 {
 	refresh = true;
 	posMenu = 0;
 	restart = false;
+	isFullscreen = true;
+	refreshFullscreen = 3;
 	currentState = MAIN; // Begin main menu
 	beforeState.push_back(NONE); // No previous page
 
 	/*****	MENU *****/
-	addTextMenu(MAIN, new TextMenu(350, 0, "Menu", 96, 250, 60, 60));
-	addKeyTextMenu(MAIN, new TextMenu(400, 200, "Play", 48), &GameMenu::menuPlay);
-	addKeyTextMenu(MAIN, new TextMenu(400, 300, "Settings", 48), &GameMenu::menuSettings);
-	addKeyTextMenu(MAIN, new TextMenu(400, 400, "How to Play", 48), &GameMenu::menuHowPlay);
-	addKeyTextMenu(MAIN, new TextMenu(400, 500, "Highscore", 48), &GameMenu::menuHighscore);
-	addKeyTextMenu(MAIN, new TextMenu(400, 600, "Credits", 48), &GameMenu::menuCredits);
-	addKeyTextMenu(MAIN, new TextMenu(400, 700, "Quit", 48), &GameMenu::menuReturn);
+
+	addTextMenu(MAIN, new TextMenu(100, 0, "Bob's Attack", 96, 250, 60, 60));
+	addTextMenu(MAIN, new TextMenu(850, 320, "Weapon Fire", 32, 250, 120, 60));
+	addTextMenu(MAIN, new TextMenu(850, 570, "Player Move", 32, 250, 120, 60));
+	addTextMenu(MAIN, new TextMenu(850, 700, "Use Spell", 32, 250, 120, 60));
+	addKeyTextMenu(MAIN, new TextMenu(200, 200, "Play", 48), &GameMenu::menuPlay);
+	addKeyTextMenu(MAIN, new TextMenu(200, 300, "Settings", 48), &GameMenu::menuSettings);
+	addKeyTextMenu(MAIN, new TextMenu(200, 400, "How to Play", 48), &GameMenu::menuHowPlay);
+	addKeyTextMenu(MAIN, new TextMenu(200, 500, "Highscore", 48), &GameMenu::menuHighscore);
+	addKeyTextMenu(MAIN, new TextMenu(200, 600, "Credits", 48), &GameMenu::menuCredits);
+	addKeyTextMenu(MAIN, new TextMenu(200, 700, "Quit", 48), &GameMenu::menuReturn);
 	
 	addTextMenu(SETTINGS, new TextMenu(350, 0, "Settings", 96, 250, 60, 60));
 	addKeyTextMenu(SETTINGS, new TextMenu(400, 350, "Mute", 48), &GameMenu::menuMute);
+	addKeyTextMenu(SETTINGS, new TextMenu(400, 450, "Toogle Fullscreen", 48), &GameMenu::menuToogleFullscreen);
 	addKeyTextMenu(SETTINGS, new TextMenu(400, 600, "Back", 48), &GameMenu::menuReturn);
 
 	addTextMenu(HOWPLAY, new TextMenu(350, 0, "How to Play", 80, 250, 60, 60));
@@ -39,18 +46,21 @@ GameMenu::GameMenu(sf::RenderWindow & w, Event & e, Parameters & p, bool & s, bo
 	
 
 	addTextMenu(CREDITS, new TextMenu(350, 0, "Credits", 96, 250, 60, 60));
-	addTextMenu(CREDITS, new TextMenu(300, 200, "Producer & Engine Dev :\tOlivier", 32, 60, 250, 150));
-	addTextMenu(CREDITS, new TextMenu(300, 300, "Graphic Dev & Menu Dev :\tMarc", 32, 60, 150, 150));
-	addTextMenu(CREDITS, new TextMenu(300, 400, "Physic Dev & Logic Dev :\tJoris", 32, 60, 250, 250));
-	addTextMenu(CREDITS, new TextMenu(300, 500, "IA Dev & Logic Dev :\tAxel", 32, 60, 250, 250));
+	addTextMenu(CREDITS, new TextMenu(300, 150, "President :\tClaude Comair", 32, 60, 250, 150));
+	addTextMenu(CREDITS, new TextMenu(300, 225, "Instructor :\tDavid Ly", 32, 60, 250, 250));
+	addTextMenu(CREDITS, new TextMenu(300, 300, "Producer & Engine Dev :\tOlivier", 32, 60, 250, 150));
+	addTextMenu(CREDITS, new TextMenu(300, 375, "Graphic Dev & Menu Dev :\tMarc", 32, 60, 250, 250));
+	addTextMenu(CREDITS, new TextMenu(300, 450, "Physic Dev & Logic Dev :\tJoris", 32, 60, 250, 150));
+	addTextMenu(CREDITS, new TextMenu(300, 525, "IA Dev & Logic Dev :\tAxel", 32, 60, 250, 250));
 	addKeyTextMenu(CREDITS, new TextMenu(400, 700, "Back", 32), &GameMenu::menuReturn);
 
 	addTextMenu(PAUSE, new TextMenu(600, 300, "Pause", 48, 200, 200, 200));
-	addKeyTextMenu(PAUSE, new TextMenu(600, 400, "Resume", 32), &GameMenu::menuPlay);
+	addKeyTextMenu(PAUSE, new TextMenu(600, 400, "Resume Game", 32), &GameMenu::menuPlay);
 	addKeyTextMenu(PAUSE, new TextMenu(600, 450, "New game", 32), &GameMenu::menuRestart);
 	addKeyTextMenu(PAUSE, new TextMenu(600, 500, "How to Play", 32), &GameMenu::menuHowPlay);
 	addKeyTextMenu(PAUSE, new TextMenu(600, 550, "Settings", 32), &GameMenu::menuSettings);
 	addKeyTextMenu(PAUSE, new TextMenu(600, 600, "Back to menu", 32), &GameMenu::menuReturn);
+	addKeyTextMenu(PAUSE, new TextMenu(600, 650, "Quit Game", 32), &GameMenu::menuQuitGame);
 
 	addTextMenu(HIGHSCORE, new TextMenu(350, 0, "Highscore", 96, 250, 60, 60));
 	addKeyTextMenu(HIGHSCORE, new TextMenu(400, 650, "Back", 64), &GameMenu::menuReturn);
@@ -76,8 +86,10 @@ void GameMenu::posInsideTheMenu() // loop the cursor in menu
 
 void GameMenu::run()
 {
-	if (refresh == true) // Refresh the screen only if necessary
+	if (refresh == true || refreshFullscreen > 0) // Refresh the screen only if necessary
 	{
+		if (refreshFullscreen > 0)
+			refreshFullscreen--;
 		if (isPushed == true) // Enter Event
 		{
 			if (posMenu != sizeKeyTextMenu[currentState] - 1) // If action != Return/Back
@@ -103,9 +115,41 @@ void GameMenu::run()
 	}
 	// Menu Event
 	if (currentState == PAUSE || currentState == ENDGAME)
-		event.menuEvent(posMenu, isPushed, refresh, true);
+		event.menuEvent(posMenu, isPushed, refresh, focus, true);
 	else
-		event.menuEvent(posMenu, isPushed, refresh);
+		event.menuEvent(posMenu, isPushed, refresh, focus);
+	if (focus != Event::focus_state::NONE)
+				focusChanged();
+}
+
+void GameMenu::focusChanged()
+{
+	if (focus == Event::focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+	{
+		focus = Event::focus_state::NONE;
+	}
+	else if (focus == Event::focus_state::GAINED)
+	{
+		win.setFramerateLimit(Settings::FOCUS_GAME_FRAMERATE);
+		if (isFullscreen)
+		{
+			win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
+		}
+		refreshFullscreen = 2;
+	}
+	else if (focus == Event::focus_state::LOST)
+	{
+		ShowWindow(win.getSystemHandle(), SW_MINIMIZE);
+		if (isFullscreen)
+		{
+			win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Default);
+			ShowWindow(win.getSystemHandle(), SW_MINIMIZE);
+			focus = Event::focus_state::CHANGING_TO_DESKTOP_RESOLUTION;
+		}
+		win.setFramerateLimit(Settings::NO_FOCUS_GAME_FRAMERATE);
+	}
+	if (focus != Event::focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+		focus = Event::focus_state::NONE;
 }
 
 void GameMenu::pause()
@@ -133,7 +177,9 @@ void GameMenu::pause()
 		refresh = false;
 	}
 
-	event.menuEvent(posMenu, isPushed, refresh, true);
+	event.menuEvent(posMenu, isPushed, refresh, focus, true);
+	if (focus != Event::focus_state::NONE)
+				focusChanged();
 }
 
 void GameMenu::endGame(int score)
@@ -161,12 +207,21 @@ void GameMenu::endGame(int score)
 		refresh = false;
 	}
 
-	event.menuEvent(posMenu, isPushed, refresh, true);
+	event.menuEvent(posMenu, isPushed, refresh, focus, true);
+	if (focus != Event::focus_state::NONE)
+				focusChanged();
 }
 
 // Display Texts
 void GameMenu::displayCurrentMenu()
 {
+	if (currentState == MAIN)
+	{
+		loadImage(850, 150, ress.texture["arrow"]);
+		loadImage(850, 400, ress.texture["wasd"]);
+		loadImage(850, 650, ress.texture["space"]);
+	}
+
 	for (int i = 0; i < sizeTextMenu[currentState]; ++i)
 	{
 		loadText(textMenu[std::make_pair(currentState, i)]->x, 
@@ -343,26 +398,43 @@ void GameMenu::menuEndGame()
 void GameMenu::menuMute()
 {
 	currentState = beforeState[beforeState.size() - 1];
-		beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+	beforeState.erase(beforeState.begin() + beforeState.size() - 1);
 	if (param.sound.activeMusic)
 		param.sound.musicOFF();
 	else
 		param.sound.musicON();
 }
 
+void GameMenu::menuToogleFullscreen()
+{
+	currentState = beforeState[beforeState.size() - 1];
+	beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+	toogleFullscreen();
+}
+
 // Back to previous menu
 void GameMenu::menuReturn()
 {
 	if (beforeState[beforeState.size() - 1] == NONE || currentState == MAIN	) // Quit
-		win.close();
+		menuQuitGame();
 	else
 	{
-		if (currentState == PAUSE && beforeState[beforeState.size() -1] == MAIN)
-			menu= true;
-
+	
 		currentState = beforeState[beforeState.size() - 1];
 		beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+			if (currentState == PAUSE && beforeState[beforeState.size() -1] == MAIN)
+		{
+			menu = true;
+			currentState = MAIN;
+		}
 	}
+}
+
+void GameMenu::menuQuitGame()
+{
+	currentState = beforeState[beforeState.size() - 1];
+	beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+	win.close();
 }
 
 void GameMenu::backToMenu()
@@ -391,6 +463,19 @@ void GameMenu::menuRestart()
 		}
 }
 
+
+
+void GameMenu::toogleFullscreen()
+{
+	if (isFullscreen)
+		win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Default);
+	else
+	{
+		win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
+		refreshFullscreen = 2;
+	}
+	isFullscreen = !isFullscreen;
+}
 
 // Simple texte
 void GameMenu::addTextMenu(e_state state, TextMenu * text)

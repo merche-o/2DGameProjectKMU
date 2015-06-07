@@ -17,6 +17,7 @@ public:
 		GO_DOWN,
 		DAMAGE,
 		SLOWING,
+		MAIN,
 		NONE
 	};
 
