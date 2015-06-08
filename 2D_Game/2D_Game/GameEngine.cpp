@@ -206,7 +206,7 @@ void GameEngine::run()
 		else if (state == ENDGAME)
 		{
 			//std::cout << " Total Enemies = "<< ref.enemiesCount << std::cout;
-			menu.endGame(player[0]->score);
+			menu.endGame(player[0]->score, ref.enemiesCount);
 			sound.musicOFF();
 			if (goMenu == true)
 			{

@@ -196,7 +196,7 @@ void GameMenu::pause()
 				focusChanged();
 }
 
-void GameMenu::endGame(int score)
+void GameMenu::endGame(int score, int enemies_kill)
 {
 	if (refresh == true)
 	{
@@ -215,7 +215,7 @@ void GameMenu::endGame(int score)
 		}
 		posInsideTheMenu();
 		win.clear();
-		displayEndGame(score);
+		displayEndGame(score, enemies_kill);
 		win.display();
 
 		refresh = false;
@@ -331,7 +331,7 @@ void GameMenu::displayPause()
 	}
 }
 
-void GameMenu::displayEndGame(int score)
+void GameMenu::displayEndGame(int score, int enemies_kill)
 {
 	for (int i = 0; i < sizeTextMenu[currentState]; ++i)
 	{
@@ -368,13 +368,10 @@ void GameMenu::displayEndGame(int score)
 	}
 	//fix de merde
 	if (currentState == ENDGAME)
+	{	
 		loadText(600, 350, font, "Your score :" + std::to_string((long double)score), 48, 200, 200, 200);
-	if (currentState == HIGHSCORE) {
-		loadText(400, 150, font, "1 : " + scoreTable[0], 64, 60, 250, 250);
-		loadText(400, 250, font, "2 : " + scoreTable[1], 64, 60, 250, 250);
-		loadText(400, 350, font, "3 : " + scoreTable[2], 64, 60, 250, 250);
-		loadText(400, 450, font, "4 : " + scoreTable[3], 64, 60, 250, 250);
-		loadText(400, 550, font, "5 : " + scoreTable[4], 64, 60, 250, 250);
+		loadText(100, 300, font, "You kill", 48, 200, 200, 200);
+		loadText(100, 350, font,std::to_string((long double)enemies_kill) + " enemies ", 48, 200, 200, 200);
 	}
 }
 
