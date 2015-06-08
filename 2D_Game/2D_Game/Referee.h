@@ -32,6 +32,8 @@ public:
 	bool canJump(AUnit *src);
 	Referee(std::vector<AUnit*> & enemylist, std::vector<Item*> &itemList, std::vector<Bullet*> &bulletList, Map  &map, float &LoopTime, Ressources &Res, SoundEngine &sound);
 	~Referee();
+
+	int	enemiesCount;
 	
 private:
 	Map &_map;

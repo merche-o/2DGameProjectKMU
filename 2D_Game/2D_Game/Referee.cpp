@@ -368,7 +368,6 @@ void Referee::cleanEnemyList()
 				this->dropCoins((Enemy *)_enemyList[i]);
 			this->_enemyList.erase(_enemyList.begin() + i);
 			enemiesCount += 1;
-			std::cout << "<< Enemies = "<< enemiesCount << " >>" << std::endl;
 		}
 	}
 }
