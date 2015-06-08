@@ -15,7 +15,7 @@ Event::~Event(void)
 {
 }
 
-void Event::checkEvent(bool & pause)
+void Event::checkEvent(bool & pause, focus_state & focus)
 {
 	while (win.pollEvent(event))
     {
@@ -103,6 +103,10 @@ void Event::checkEvent(bool & pause)
 					player[0]->inputMap[Event::I_WEAPON_4] = false;
 			}
 		}
+		else if (event.type == sf::Event::GainedFocus && focus != focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+			focus = GAINED;
+		else if (event.type == sf::Event::LostFocus && focus != focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+			focus = LOST;
     }
 }
 
@@ -180,7 +184,8 @@ void Event::alternateEventReleased(bool &pause)
 				player[0]->inputMap[Event::I_WEAPON_4] = false;
 }
 
-void Event::menuEvent(int & pos, bool & push, bool & refresh, bool main, bool pause)
+
+void Event::menuEvent(int & pos, bool & push, bool & refresh, focus_state & focus,bool main, bool pause)
 {
 	while (win.pollEvent(event))
     {
@@ -217,5 +222,9 @@ void Event::menuEvent(int & pos, bool & push, bool & refresh, bool main, bool pa
 				refresh = true;
 			}
 		}
+		else if (event.type == sf::Event::GainedFocus && focus != focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+			focus = GAINED;
+		else if (event.type == sf::Event::LostFocus && focus != focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+			focus = LOST;
 	}
 }

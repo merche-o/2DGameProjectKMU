@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Windows.h>
 #include "Display.h"
 #include "Event.h"
 #include "TextMenu.h"
@@ -45,9 +46,10 @@ public:
 	bool restart;
 	bool isFullscreen;
 	int refreshFullscreen;
+	Event::focus_state & focus;
 
 public:
-	GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters & p, bool & s, bool & m);
+	GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters & p, bool & s, bool & m, Event::focus_state & focus);
 	~GameMenu(void);
 
 	void posInsideTheMenu();
@@ -73,6 +75,8 @@ public:
 	void menuSwitchControl();
 	void backToMenu();
 	void menuPlay();
+	void toogleFullscreen();
+	void focusChanged();
 	void addTextMenu(e_state state, TextMenu * text);
 	void addKeyTextMenu(e_state state, TextMenu * text, void(GameMenu:: *p)());
 	void getScore();

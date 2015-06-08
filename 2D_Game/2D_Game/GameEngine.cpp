@@ -8,7 +8,7 @@ GameEngine::GameEngine(void)
 	: ressources(),
 		graphic(window, map, player, ennemyList, bulletList, itemList, ressources, loopTime),
 		parameters(sound),
-		menu(window, ressources, event, parameters, restart, goMenu),
+		menu(window, ressources, event, parameters, restart, goMenu, focus),
 		sound(),
 		map(ressources, loopTime),
 		event(window, player, parameters.keySettings),
@@ -19,7 +19,7 @@ GameEngine::GameEngine(void)
 {
 	// Create window
 	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
-	window.setFramerateLimit(30);
+	window.setFramerateLimit(Settings::FOCUS_GAME_FRAMERATE);
 
 	physics._referee = &ref;
 	
@@ -31,6 +31,7 @@ GameEngine::GameEngine(void)
 	//player[0]->getNewWeapon(4,ressources);
 	player[0]->numWeapon = 3;
 	//
+	focus = Event::NONE;
 	state = MENU;
 	restart = false;
 	goMenu = false;
@@ -144,8 +145,9 @@ void GameEngine::run()
 			graphic.affItems();
 			graphic.affInterface();
 
-			if (state == GAME)
-				event.checkEvent(pause);
+			event.checkEvent(pause, focus);
+			if (focus != Event::focus_state::NONE)
+				focusChanged();
 			
 			graphic.RefreshWindow();
 
@@ -218,4 +220,33 @@ void GameEngine::run()
 			}
 		}
     }
+}
+
+void GameEngine::focusChanged()
+{
+	if (focus == Event::focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+	{
+		focus = Event::focus_state::NONE;
+	}
+	else if (focus == Event::focus_state::GAINED)
+	{
+		if (menu.isFullscreen)
+		{
+			window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
+		}
+		menu.refreshFullscreen = 2;
+	}
+	else if (focus == Event::focus_state::LOST)
+	{
+		ShowWindow(window.getSystemHandle(), SW_MINIMIZE);
+		if (menu.isFullscreen)
+		{
+			window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Default);
+			ShowWindow(window.getSystemHandle(), SW_MINIMIZE);
+			focus = Event::focus_state::CHANGING_TO_DESKTOP_RESOLUTION;
+		}
+		pause = true;
+	}
+	if (focus != Event::focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+		focus = Event::focus_state::NONE;
 }
