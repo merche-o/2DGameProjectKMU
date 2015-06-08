@@ -39,12 +39,16 @@ public:
 private:
 	sf::Window & win;
 	sf::Event event;
-
 public:
-	Event(sf::Window & w, std::vector<Player*> & p);
+	bool &keySettings;
+	bool quitPause;
+	Event(sf::Window & w, std::vector<Player*> & p, bool &keySettings);
 	~Event(void);
 
+
+	void alternateEventPressed(bool &pause);
+	void alternateEventReleased(bool &pause);
 	void checkEvent(bool & pause, focus_state &);
-	void menuEvent(int & pos, bool & push, bool & refresh, focus_state & focus, bool pause = false);
+	void menuEvent(int & pos, bool & push, bool & refresh, focus_state & focus, bool main, bool pause = false);
 };
 

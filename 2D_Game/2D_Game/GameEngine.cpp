@@ -11,7 +11,7 @@ GameEngine::GameEngine(void)
 		menu(window, ressources, event, parameters, restart, goMenu, focus),
 		sound(),
 		map(ressources, loopTime),
-		event(window, player),
+		event(window, player, parameters.keySettings),
 		ref(ennemyList, itemList, bulletList, map, loopTime, ressources, sound),
 		physics(player, ennemyList, itemList, bulletList, map, loopTime, sound),
 		spawner(ennemyList, itemList, loopTime),

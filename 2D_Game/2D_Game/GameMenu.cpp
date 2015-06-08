@@ -29,9 +29,11 @@ GameMenu::GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters &
 	addKeyTextMenu(MAIN, new TextMenu(200, 700, "Quit", 48), &GameMenu::menuReturn);
 	
 	addTextMenu(SETTINGS, new TextMenu(350, 0, "Settings", 96, 250, 60, 60));
-	addKeyTextMenu(SETTINGS, new TextMenu(400, 350, "Mute", 48), &GameMenu::menuMute);
-	addKeyTextMenu(SETTINGS, new TextMenu(400, 450, "Toogle Fullscreen", 48), &GameMenu::menuToogleFullscreen);
-	addKeyTextMenu(SETTINGS, new TextMenu(400, 600, "Back", 48), &GameMenu::menuReturn);
+	addKeyTextMenu(SETTINGS, new TextMenu(400, 400, "Mute music", 48), &GameMenu::menuMuteMusic);
+	addKeyTextMenu(SETTINGS, new TextMenu(400, 475, "Mute every sounds", 48), &GameMenu::menuMute);
+	addKeyTextMenu(SETTINGS, new TextMenu(400, 550, "Toogle Fullscreen", 48), &GameMenu::menuToogleFullscreen);
+	addKeyTextMenu(SETTINGS, new TextMenu(400, 625, "Switch controls", 48), &GameMenu::menuSwitchControl);
+	addKeyTextMenu(SETTINGS, new TextMenu(400, 695, "Back", 48), &GameMenu::menuReturn);
 
 	addTextMenu(HOWPLAY, new TextMenu(350, 0, "How to Play", 80, 250, 60, 60));
 	addTextMenu(HOWPLAY, new TextMenu(200, 200, "A : Left", 32, 60, 250, 250));
@@ -88,6 +90,16 @@ void GameMenu::run()
 {
 	if (refresh == true || refreshFullscreen > 0) // Refresh the screen only if necessary
 	{
+		if (event.quitPause == false )
+		{
+			event.quitPause = true;
+			if (currentState == PAUSE)
+			{	
+				this->menuPlay();
+				refresh = true;
+				return;
+			}
+		}
 		if (refreshFullscreen > 0)
 			refreshFullscreen--;
 		if (isPushed == true) // Enter Event
@@ -105,19 +117,21 @@ void GameMenu::run()
 		}
 		posInsideTheMenu(); // Keep cursor inside the menu
 		
-		if (currentState != PAUSE) // Do not clear the screen in Pause menu (we can see the game behind)
+		//have to change this FIX but this is the only solution right now
+		//if (currentState != PAUSE) // Do not clear the screen in Pause menu (we can see the game behind)
 			win.clear();
 		displayCurrentMenu(); // Display texts
-		
+	
 		win.display();
-
 		refresh = false;
 	}
 	// Menu Event
-	if (currentState == PAUSE || currentState == ENDGAME)
+	if (currentState == PAUSE)
+		event.menuEvent(posMenu, isPushed, refresh, focus,true ,true);
+	else if (currentState == MAIN)
 		event.menuEvent(posMenu, isPushed, refresh, focus, true);
 	else
-		event.menuEvent(posMenu, isPushed, refresh, focus);
+		event.menuEvent(posMenu, isPushed, refresh, focus, false ,true);
 	if (focus != Event::focus_state::NONE)
 				focusChanged();
 }
@@ -135,7 +149,7 @@ void GameMenu::focusChanged()
 		{
 			win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
 		}
-		refreshFullscreen = 2;
+		refreshFullscreen = 3;
 	}
 	else if (focus == Event::focus_state::LOST)
 	{
@@ -266,9 +280,17 @@ void GameMenu::displayCurrentMenu()
 	if (currentState == SETTINGS)
 	{
 		if (param.sound.activeMusic == true)
-			loadText(400, 250, font, "music : ON", 48, 60, 250, 250);
+			loadText(400, 200, font, "Music : ON", 48, 60, 250, 250);
 		else
-			loadText(400, 250, font, "music : OFF", 48, 60, 250, 250);
+			loadText(400, 200, font, "Music : OFF", 48, 60, 250, 250);
+		if (param.sound.activeSound == true)
+			loadText(400, 250, font, "Sound : ON", 48, 60, 250, 250);
+		else
+			loadText(400, 250, font, "Sound : OFF", 48, 60, 250, 250);
+		if (param.keySettings == true)
+			loadText(400,300, font, "Key Swithed : ON", 48, 60, 250, 250);
+		else
+			loadText(400,300, font, "Key Swithed : OFF", 48, 60, 250, 250);
 	}
 }
 
@@ -395,14 +417,39 @@ void GameMenu::menuEndGame()
 	currentState = ENDGAME;
 }
 
-void GameMenu::menuMute()
+void GameMenu::menuMuteMusic()
 {
 	currentState = beforeState[beforeState.size() - 1];
 	beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+	if (param.sound.activeSound == false)
+		return;
 	if (param.sound.activeMusic)
 		param.sound.musicOFF();
 	else
 		param.sound.musicON();
+}
+
+void GameMenu::menuMute()
+{
+	currentState = beforeState[beforeState.size() - 1];
+	beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+
+	param.sound.soundSwitch();
+		if (param.sound.activeSound)
+		param.sound.musicON();
+	else
+		param.sound.musicOFF();
+}
+
+
+void GameMenu::menuSwitchControl()
+{
+	currentState = beforeState[beforeState.size() - 1];
+	beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+	if (param.keySettings == true)
+		param.keySettings = false;
+	else
+		param.keySettings = true;
 }
 
 void GameMenu::menuToogleFullscreen()
@@ -415,18 +462,22 @@ void GameMenu::menuToogleFullscreen()
 // Back to previous menu
 void GameMenu::menuReturn()
 {
+
 	if (beforeState[beforeState.size() - 1] == NONE || currentState == MAIN	) // Quit
 		menuQuitGame();
 	else
 	{
-	
-		currentState = beforeState[beforeState.size() - 1];
-		beforeState.erase(beforeState.begin() + beforeState.size() - 1);
-			if (currentState == PAUSE && beforeState[beforeState.size() -1] == MAIN)
+		if (currentState == PAUSE) //&& beforeState[beforeState.size() -1] == MAIN)
 		{
 			menu = true;
 			currentState = MAIN;
+			beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+			return;
+
 		}
+		currentState = beforeState[beforeState.size() - 1];
+		beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+		
 	}
 }
 

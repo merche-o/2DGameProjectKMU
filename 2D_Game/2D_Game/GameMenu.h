@@ -69,8 +69,10 @@ public:
 	void menuEndGame();
 	void menuMain();
 	void menuRestart();
+	void menuMuteMusic();
 	void menuMute();
 	void menuToogleFullscreen();
+	void menuSwitchControl();
 	void backToMenu();
 	void menuPlay();
 	void toogleFullscreen();
