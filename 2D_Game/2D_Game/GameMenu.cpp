@@ -117,10 +117,11 @@ void GameMenu::run()
 		}
 		posInsideTheMenu(); // Keep cursor inside the menu
 		
-		if (currentState != PAUSE) // Do not clear the screen in Pause menu (we can see the game behind)
+		//have to change this FIX but this is the only solution right now
+		//if (currentState != PAUSE) // Do not clear the screen in Pause menu (we can see the game behind)
 			win.clear();
 		displayCurrentMenu(); // Display texts
-		
+	
 		win.display();
 		refresh = false;
 	}
