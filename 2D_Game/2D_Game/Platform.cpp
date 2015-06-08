@@ -59,7 +59,7 @@ Platform::Platform(int X, int Y, int Length, float & Time, Ressources & re, unsi
 		activMorph = r; // time before active
 		transp = 255; // transparency
 		if (type == MAIN)
-			activMorph = 5;
+			activMorph = 20;
 	}
 	else if (rebuild == true) // Platform rebuild
 	{

@@ -78,8 +78,8 @@ void Map::checkPlatform()
 					if (platform[i]->length > 10)
 					{
 						// creer deux platforms separer par un trou central
-						platform.push_back(new Platform(platform[i]->x, platform[i]->y, platform[i]->length / 2 - 1, loopTime, ress, platform[i]->length));
-						platform.push_back(new Platform(platform[i]->x + ((platform[i]->length / 2) * Settings::CASE_SIZE), platform[i]->y, platform[i]->length / 2 - 1, loopTime, ress, platform[i]->length));
+						platform.push_back(new Platform(platform[i]->x, platform[i]->y, platform[i]->length / 2 - 2, loopTime, ress, platform[i]->length));
+						platform.push_back(new Platform(platform[i]->x + ((platform[i]->length / 2) * Settings::CASE_SIZE), platform[i]->y, platform[i]->length / 2 - 2, loopTime, ress, platform[i]->length));
 						std::cout << platform[i]->x << " & " << platform[i]->x + ((platform[i]->length / 2) * Settings::CASE_SIZE) << std::endl;
 						number_platfoms--;
 						platform.erase(platform.begin() + i); // Delete

@@ -14,10 +14,10 @@ GameMenu::GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters &
 	beforeState.push_back(NONE); // No previous page
 
 	/*****	MENU *****/
-	addTextMenu(MAIN, new TextMenu(100, 0, "Bob's Attack", 96, 250, 60, 60));
-	addTextMenu(MAIN, new TextMenu(850, 320, "Weapon Fire", 32, 250, 120, 60));
-	addTextMenu(MAIN, new TextMenu(850, 570, "Player Move", 32, 250, 120, 60));
-	addTextMenu(MAIN, new TextMenu(850, 700, "Use Spell", 32, 250, 120, 60));
+	//addTextMenu(MAIN, new TextMenu(100, 0, "Bob's Attack", 96, 250, 60, 60));
+	addTextMenu(MAIN, new TextMenu(850, 330, "Weapon Fire", 32, 250, 120, 60));
+	addTextMenu(MAIN, new TextMenu(850, 580, "Player Move", 32, 250, 120, 60));
+	addTextMenu(MAIN, new TextMenu(850, 710, "Use Spell", 32, 250, 120, 60));
 	addKeyTextMenu(MAIN, new TextMenu(200, 200, "Play", 48), &GameMenu::menuPlay);
 	addKeyTextMenu(MAIN, new TextMenu(200, 300, "Settings", 48), &GameMenu::menuSettings);
 	addKeyTextMenu(MAIN, new TextMenu(200, 400, "How to Play", 48), &GameMenu::menuHowPlay);
@@ -30,14 +30,17 @@ GameMenu::GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters &
 	addKeyTextMenu(SETTINGS, new TextMenu(400, 600, "Back", 48), &GameMenu::menuReturn);
 
 	addTextMenu(HOWPLAY, new TextMenu(350, 0, "How to Play", 80, 250, 60, 60));
-	addTextMenu(HOWPLAY, new TextMenu(200, 200, "Q : Left", 32, 60, 250, 250));
+	addTextMenu(HOWPLAY, new TextMenu(850 / 3, 330, "Weapon Fire", 32, 250, 120, 60));
+	addTextMenu(HOWPLAY, new TextMenu(850 / 3, 580, "Player Move", 32, 250, 120, 60));
+	addTextMenu(HOWPLAY, new TextMenu(850 / 3, 710, "Use Spell", 32, 250, 120, 60));
+	/*addTextMenu(HOWPLAY, new TextMenu(200, 200, "Q : Left", 32, 60, 250, 250));
 	addTextMenu(HOWPLAY, new TextMenu(200, 300, "D : Right", 32, 60, 250, 250));
 	addTextMenu(HOWPLAY, new TextMenu(200, 400, "Z : Jump", 32, 60, 250, 250));
 	addTextMenu(HOWPLAY, new TextMenu(600, 200, "Left Arrow : Fire left", 32, 60, 250, 250));
 	addTextMenu(HOWPLAY, new TextMenu(600, 300, "Right Arrow : Fire right", 32, 60, 250, 250));
 	addTextMenu(HOWPLAY, new TextMenu(600, 400, "Up Arrow : Fire up", 32, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(600, 500, "Space : Use spell", 32, 60, 250, 250));
-	addKeyTextMenu(HOWPLAY, new TextMenu(400, 600, "Back", 32), &GameMenu::menuReturn);
+	addTextMenu(HOWPLAY, new TextMenu(600, 500, "Space : Use spell", 32, 60, 250, 250));*/
+	addKeyTextMenu(HOWPLAY, new TextMenu(800, 600, "Back", 32), &GameMenu::menuReturn);
 
 	
 
@@ -170,12 +173,15 @@ void GameMenu::endGame(int score)
 // Display Texts
 void GameMenu::displayCurrentMenu()
 {
-	if (currentState == MAIN)
+	if (currentState == MAIN || currentState == HOWPLAY)
 	{
-		loadImage(850, 150, ress.texture["arrow"]);
-		loadImage(850, 400, ress.texture["wasd"]);
-		loadImage(850, 650, ress.texture["space"]);
+		loadImage(850 / (currentState + 1), 160, ress.texture["arrow"]);
+		loadImage(850 / (currentState + 1), 410, ress.texture["wasd"]);
+		loadImage(850 / (currentState + 1), 660, ress.texture["space"]);
 	}
+
+	if (currentState == MAIN)
+		loadImage(200, 10, ress.texture["title"]);
 
 	for (int i = 0; i < sizeTextMenu[currentState]; ++i)
 	{

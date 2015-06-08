@@ -90,7 +90,7 @@ void PhysicEngine::moveLeft(AUnit *src)
 	if (src->state == U_NORMAL)
 		src->x -= (src->speed *src->loopTime);
 	else
-		src->x -= (src->speed / 1.5 *src->loopTime);	src->nextFrame();
+		src->x -= (src->speed / 1.5 *src->loopTime);
 	if (src->isPlayer == false)
 		return;
 	//if (((Player *)src)->inDash == 0)
@@ -111,7 +111,6 @@ void PhysicEngine::moveRight(AUnit *src)
 		src->x += (src->speed *src->loopTime);
 	else
 		src->x += (src->speed / 1.5 *src->loopTime);
-	src->nextFrame();
 	if (src->isPlayer == false)
 		return;
 	/*if (((Player *)src)->inDash == 0)
@@ -246,7 +245,6 @@ void PhysicEngine::changeWeapon4(AUnit *src)
 
 void PhysicEngine::RmoveLeft(AUnit *src)
 {
-	src->animFrame = 1;
 	if (src->isPlayer == false)
 		return;
 
@@ -278,7 +276,6 @@ void PhysicEngine::RmoveLeft(AUnit *src)
 
 void PhysicEngine::RmoveRight(AUnit *src)
 {
-	src->animFrame = 1;
 	if (src->isPlayer == false)
 		return;
 

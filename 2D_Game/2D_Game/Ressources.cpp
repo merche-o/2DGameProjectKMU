@@ -103,4 +103,6 @@ void Ressources::loadTextures()
 	texture["arrow"].loadFromFile("./Ressources/Images/Arrow.png");
 	texture["wasd"].loadFromFile("./Ressources/Images/wasd.png");
 	texture["space"].loadFromFile("./Ressources/Images/Space.png");
+
+	texture["title"].loadFromFile("./Ressources/Images/Title.png");
 }
