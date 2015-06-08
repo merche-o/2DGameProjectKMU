@@ -49,15 +49,7 @@ void GameEngine::writeScore()
 {
 	int i = 0;
 
-	FILE *fichier = NULL;
 	std::string fileName = "./Ressources/Highscore.txt";
-
-	fichier = fopen(fileName.c_str(),  "rwt");
-	if (fichier == NULL)
-	{
-      printf("le fichier n'existe pas !");
-	  std::ofstream file(fileName.c_str(), std::ios::out | std::ios::trunc);
-	}
 
 	std::ofstream file(fileName.c_str(), std::ios::out | std::ios::trunc);
 
