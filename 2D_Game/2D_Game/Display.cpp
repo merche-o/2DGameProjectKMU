@@ -57,6 +57,15 @@ void Display::loadUnit(AUnit* unit)
 	sf::Sprite	Sprite;
 
 	Sprite.setTexture(unit->texture);
+	if (unit->isPlayer == true)
+	{
+		Sprite.setTextureRect(sf::IntRect((unit->animFrame / 10) * 32, 0, 32, 32));
+		unit->animFrame += unit->animDir;
+		if (unit->animFrame <= 0)
+			unit->animDir = 1;
+		else if (unit->animFrame >= 49)
+			unit->animDir = -1;
+	}
 	Sprite.setPosition(unit->x, unit->y/* + Settings::HEIGHT_INTERFACE*/);
 	win.draw(Sprite);
 	
@@ -89,6 +98,15 @@ void Display::loadHitUnit(AUnit* unit, bool b)
 		unit->particles[i]->color = sf::Color(255, 0, 0);
 
 	Sprite.setTexture(unit->texture);
+	if (unit->isPlayer == true)
+	{
+		Sprite.setTextureRect(sf::IntRect((unit->animFrame / 10) * 32, 0, 32, 32));
+		unit->animFrame += unit->animDir;
+		if (unit->animFrame <= 0)
+			unit->animDir = 1;
+		else if (unit->animFrame >= 49)
+			unit->animDir = -1;
+	}
 	Sprite.setPosition(unit->x, unit->y/* + Settings::HEIGHT_INTERFACE*/);
 	if (b == true)
 		Sprite.setColor(sf::Color(255, 255, 255, 50));

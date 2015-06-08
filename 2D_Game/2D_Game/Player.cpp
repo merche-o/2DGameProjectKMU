@@ -6,6 +6,8 @@
 Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 	: AUnit(LoopTime), spell(x, y, LASER), numPlayer(NumPlayer)
 {
+	animFrame = 0;
+	animDir = 1;
 	texture.loadFromFile("./Ressources/Images/Player.png");
 	x = 500;
 	y = 500;
@@ -34,6 +36,8 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 
 void Player::init(Ressources &Ress)
 {
+	animFrame = 0;
+	animDir = 1;
 	x = 500;
 	y = 500;
 	life = 4;

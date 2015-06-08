@@ -5,7 +5,8 @@
 
 AUnit::AUnit(float &LoopTime) : loopTime(LoopTime)
 {
-	animFrame = 1;
+	animFrame = 0;
+	animDir = 1;
 	dir = LEFT;
 	act = WALK;
 	fireRate = 5; // depend of the weapon
@@ -25,7 +26,8 @@ AUnit::AUnit(float &LoopTime) : loopTime(LoopTime)
 AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string TextureFile, float &LoopTime)
 	: life(Life), speed(Speed), damage(Damage), spawnTime(SpawnTime), loopTime(LoopTime)
 {
-	animFrame = 1;
+	animFrame = 0;
+	animDir = 1;
 	dir = LEFT;
 	act = WALK;
 	fireRate = 5; // depend of the weapon
@@ -52,7 +54,8 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, float &LoopTime)
 	: life(Life), speed(Speed), damage(Damage), spawnTime(SpawnTime), texture(Texture), x(X), y(Y), dir(Dir), loopTime(LoopTime)
 {
-	animFrame = 1;
+	animFrame = 0;
+	animDir = 1;
 	act = WALK;
 	fireRate = 5; // depend of the weapon
 	fireRateCount = fireRate;
@@ -77,13 +80,6 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture
 
 AUnit::~AUnit(void)
 {
-}
-
-void AUnit::nextFrame()
-{
-	animFrame++;
-	if (animFrame >= 3)
-		animFrame = 0;
 }
 
 

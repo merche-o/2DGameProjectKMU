@@ -116,13 +116,11 @@ void IA::jumpIA(Enemy *src, Player * player)
 	{
 		src->inputMap[Event::I_LEFT] = false;
 		src->inputMap[Event::I_RIGHT] = true;
-		src->nextFrame();
 	}
 	else if (src->dir == LEFT)
 	{
 		src->inputMap[Event::I_LEFT] = true;
 		src->inputMap[Event::I_RIGHT] = false;
-		src->nextFrame();
 	}
 }
 
@@ -173,13 +171,11 @@ void IA::basicIA(Enemy *src, Player * player)
 	{
 		src->inputMap[Event::I_LEFT] = false;
 		src->inputMap[Event::I_RIGHT] = true;
-		src->nextFrame();
 	 }
 	else if (src->dir == LEFT)
 	{
 		src->inputMap[Event::I_LEFT] = true;
 		src->inputMap[Event::I_RIGHT] = false;
-		src->nextFrame();
 	 }	
 }
 
@@ -213,7 +209,6 @@ void IA::floatIA(Enemy *src, Player * player)
 		{
 			src->x += src->loopTime * src->speed;
 		}
-		src->nextFrame();
 	}
 	else if(src->currentDirection == UP)
 	{
@@ -326,13 +321,11 @@ void IA::floatIA(Enemy *src, Player * player)
 	{
 		src->inputMap[Event::I_LEFT] = false;
 		src->inputMap[Event::I_RIGHT] = true;
-		src->nextFrame();
 	}
 	else if (src->dir == LEFT)
 	{
 		src->inputMap[Event::I_LEFT] = true;
 		src->inputMap[Event::I_RIGHT] = false;
-		src->nextFrame();
 	}	*/
 }
 
