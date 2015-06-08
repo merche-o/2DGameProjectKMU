@@ -25,6 +25,10 @@ public:
 	PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map  &map, float  &LoopTime, SoundEngine &sound);
 	~PhysicEngine(void);
 
+		///////////////////////////////////
+	sf::Clock timer;
+	sf::Time cd;
+
 private:
 	std::vector<Player *> &_player;
 	std::vector<AUnit*> &_ennemyList;

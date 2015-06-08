@@ -243,7 +243,7 @@ void Platform::isCollidingWithPlatform(std::vector<Platform*> & platform)
 			if (type == GO_RIGHT)
 			{
 				// check collision
-				if (((x + (length * Settings::CASE_SIZE)) >= (platform[i]->x))
+				if (((x + (length * Settings::CASE_SIZE)) > (platform[i]->x))
 					&& (x < (platform[i]->x + (platform[i]->length * Settings::CASE_SIZE))))
 				{
 					type = GO_LEFT; // Change de direction
@@ -256,7 +256,7 @@ void Platform::isCollidingWithPlatform(std::vector<Platform*> & platform)
 			else if (type == GO_LEFT)
 			{
 				// check collision
-				if ((x <= (platform[i]->x + (platform[i]->length * Settings::CASE_SIZE)))
+				if ((x < (platform[i]->x + (platform[i]->length * Settings::CASE_SIZE)))
 					&& ((x + (length * Settings::CASE_SIZE)) > (platform[i]->x)))
 				{
 					type = GO_RIGHT; // Change de direction

@@ -80,7 +80,6 @@ void Map::checkPlatform()
 						// creer deux platforms separer par un trou central
 						platform.push_back(new Platform(platform[i]->x, platform[i]->y, platform[i]->length / 2 - 2, loopTime, ress, platform[i]->length));
 						platform.push_back(new Platform(platform[i]->x + ((platform[i]->length / 2) * Settings::CASE_SIZE), platform[i]->y, platform[i]->length / 2 - 2, loopTime, ress, platform[i]->length));
-						std::cout << platform[i]->x << " & " << platform[i]->x + ((platform[i]->length / 2) * Settings::CASE_SIZE) << std::endl;
 						number_platfoms--;
 						platform.erase(platform.begin() + i); // Delete
 					}
@@ -125,8 +124,21 @@ void Map::rebuildPlatform()
 		else if (x < 0)
 			x = 0; // Recalage gauche
 
-		platform.push_back(new Platform(x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime, ress, (unsigned int)(100 * loopTime), true));
-		//platform[platform.size() - 1]->type = Platform::APPEARING;
-		number_platfoms++;
+		bool isOK = true;
+		for (int i = 0; i < platform.size(); ++i)
+		{
+			if (y * Settings::CASE_SIZE == platform[i]->y)
+			{
+				if (!(((x * Settings::CASE_SIZE + (length * Settings::CASE_SIZE)) < platform[i]->x)
+					|| (x * Settings::CASE_SIZE > (platform[i]->x + platform[i]->length * Settings::CASE_SIZE))))
+					isOK = false;
+			}
+		}
+		if (isOK == true)
+		{
+			platform.push_back(new Platform(x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime, ress, (unsigned int)(100 * loopTime), true));
+			//platform[platform.size() - 1]->type = Platform::APPEARING;
+			number_platfoms++;
+		}
 	}
 }

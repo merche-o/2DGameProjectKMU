@@ -164,12 +164,17 @@ void PhysicEngine::useBonus(AUnit *src)
 
 void PhysicEngine::swapSpell(AUnit *src)
 {
-	if (((Player *)src)->spell.type == LASER)
+	cd = timer.getElapsedTime();
+	if (cd.asSeconds() >= 0.2)
 	{
-		((Player *)src)->spell.updateSpell(EXPLOSION);
+		timer.restart();
+		if (((Player *)src)->spell.type == LASER)
+		{
+			((Player *)src)->spell.updateSpell(EXPLOSION);
+		}
+		else
+			((Player *)src)->spell.updateSpell(LASER);
 	}
-	else
-		((Player *)src)->spell.updateSpell(LASER);
 
 	return;
 }

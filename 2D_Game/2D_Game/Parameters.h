@@ -5,6 +5,7 @@ class Parameters
 {
 public:
 	bool music;
+	bool keySettings;
 	SoundEngine &sound;
 public:
 	Parameters(SoundEngine &_sound);

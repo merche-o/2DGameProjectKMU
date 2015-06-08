@@ -14,4 +14,6 @@ public:
 	//static const int GRAVITY;
 	static const int HIGH_JUMP;
 	static const std::string GAME_NAME;
+	static const int FOCUS_GAME_FRAMERATE;
+	static const int NO_FOCUS_GAME_FRAMERATE;
 };

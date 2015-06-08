@@ -8,18 +8,18 @@ GameEngine::GameEngine(void)
 	: ressources(),
 		graphic(window, map, player, ennemyList, bulletList, itemList, ressources, loopTime),
 		parameters(sound),
-		menu(window, ressources, event, parameters, restart, goMenu),
+		menu(window, ressources, event, parameters, restart, goMenu, focus),
 		sound(),
 		map(ressources, loopTime),
-		event(window, player),
+		event(window, player, parameters.keySettings),
 		ref(ennemyList, itemList, bulletList, map, loopTime, ressources, sound),
 		physics(player, ennemyList, itemList, bulletList, map, loopTime, sound),
 		spawner(ennemyList, itemList, loopTime),
 		IA(ref, ennemyList) 
 {
 	// Create window
-	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT, Settings::CASE_SIZE), Settings::GAME_NAME/*, sf::Style::Fullscreen*/);
-	window.setFramerateLimit(30);
+	window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
+	window.setFramerateLimit(Settings::FOCUS_GAME_FRAMERATE);
 
 	physics._referee = &ref;
 	
@@ -31,11 +31,13 @@ GameEngine::GameEngine(void)
 	//player[0]->getNewWeapon(4,ressources);
 	player[0]->numWeapon = 3;
 	//
+	focus = Event::NONE;
 	state = MENU;
 	restart = false;
 	goMenu = false;
 	pause = false;
 	menu.getScore();
+	window.setMouseCursorVisible(false);
 }
 
 
@@ -48,7 +50,9 @@ void GameEngine::writeScore()
 	int i = 0;
 
 	std::string fileName = "./Ressources/Highscore.txt";
+
 	std::ofstream file(fileName.c_str(), std::ios::out | std::ios::trunc);
+
 	std::string::size_type sz;
 	bool write = true;
 	file << "rank:score\n";
@@ -74,11 +78,13 @@ void GameEngine::resetElement()
 	player[0]->init(ressources);
 	//have to put that on the event : touching new weapon
 	player[0]->getNewWeapon(1,ressources);
-	player[0]->numWeapon += 1;
-	//
+	player[0]->getNewWeapon(2,ressources);
+	player[0]->getNewWeapon(3,ressources);
+	player[0]->numWeapon = 3;
 	spawner.restart();
 	graphic.resetInterface();
 	globalClock.restart();
+	ref.enemiesCount = 0;
 	map.init(false);
 }
 
@@ -87,6 +93,7 @@ void GameEngine::run()
 {
     while (window.isOpen())
     {
+		window.setMouseCursorVisible(false);
 		if (state == MENU)
 		{
 			menu.run();
@@ -124,10 +131,11 @@ void GameEngine::run()
 			ref.moveBullet(player);
 			spawner.spawnEnnemies(ressources.ennemy, globalTimer);
 			spawner.spawnAmmo(player[0], ressources.texture["ammo"], &map);
+			map.checkPlatform();
 			physics.playerAction(0);
 			IA.setEnnemiesIM(player[0]);
 			physics.enemyAction();
-			map.checkPlatform();
+			//map.checkPlatform();
 			
 			player[0]->createParticles();
 			
@@ -142,8 +150,9 @@ void GameEngine::run()
 			graphic.affItems();
 			graphic.affInterface();
 
-			if (state == GAME)
-				event.checkEvent(pause);
+			event.checkEvent(pause, focus);
+			if (focus != Event::focus_state::NONE)
+				focusChanged();
 			
 			graphic.RefreshWindow();
 
@@ -193,11 +202,11 @@ void GameEngine::run()
 				globalClock.restart();
 			}
 
-
 		}
 		else if (state == ENDGAME)
 		{
-			menu.endGame(player[0]->score);
+			//std::cout << " Total Enemies = "<< ref.enemiesCount << std::cout;
+			menu.endGame(player[0]->score, ref.enemiesCount);
 			sound.musicOFF();
 			if (goMenu == true)
 			{
@@ -217,4 +226,33 @@ void GameEngine::run()
 			}
 		}
     }
+}
+
+void GameEngine::focusChanged()
+{
+	if (focus == Event::focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+	{
+		focus = Event::focus_state::NONE;
+	}
+	else if (focus == Event::focus_state::GAINED)
+	{
+		if (menu.isFullscreen)
+		{
+			window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
+		}
+		menu.refreshFullscreen = 2;
+	}
+	else if (focus == Event::focus_state::LOST)
+	{
+		ShowWindow(window.getSystemHandle(), SW_MINIMIZE);
+		if (menu.isFullscreen)
+		{
+			window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Default);
+			ShowWindow(window.getSystemHandle(), SW_MINIMIZE);
+			focus = Event::focus_state::CHANGING_TO_DESKTOP_RESOLUTION;
+		}
+		pause = true;
+	}
+	if (focus != Event::focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
+		focus = Event::focus_state::NONE;
 }

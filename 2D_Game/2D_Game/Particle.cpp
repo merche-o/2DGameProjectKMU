@@ -24,6 +24,7 @@ Particle::Particle(float X, float Y, sf::Color Color, float LifeTime, float Spee
 	transpGradient.push_back(150);
 	transpGradient.push_back(200);
 	transpGradient.push_back(250);
+	currentTime = 0;
 }
 
 
