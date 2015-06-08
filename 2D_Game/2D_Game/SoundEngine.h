@@ -22,5 +22,6 @@ public:
 	void playMusic(sf::Music & Music);
 	void musicON();
 	void musicOFF();
+	void soundSwitch();
 };
 

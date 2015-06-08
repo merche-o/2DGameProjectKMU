@@ -92,10 +92,10 @@ void GameMenu::run()
 	{
 		if (event.quitPause == false )
 		{
+			event.quitPause = true;
 			if (currentState == PAUSE)
 			{	
 				this->menuPlay();
-				event.quitPause = true;
 				refresh = true;
 				return;
 			}
@@ -122,7 +122,6 @@ void GameMenu::run()
 		displayCurrentMenu(); // Display texts
 		
 		win.display();
-
 		refresh = false;
 	}
 	// Menu Event
@@ -149,7 +148,7 @@ void GameMenu::focusChanged()
 		{
 			win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
 		}
-		refreshFullscreen = 2;
+		refreshFullscreen = 3;
 	}
 	else if (focus == Event::focus_state::LOST)
 	{
@@ -462,14 +461,18 @@ void GameMenu::menuToogleFullscreen()
 // Back to previous menu
 void GameMenu::menuReturn()
 {
+
 	if (beforeState[beforeState.size() - 1] == NONE || currentState == MAIN	) // Quit
 		menuQuitGame();
 	else
 	{
-		if (currentState == PAUSE && beforeState[beforeState.size() -1] == MAIN)
+		if (currentState == PAUSE) //&& beforeState[beforeState.size() -1] == MAIN)
 		{
 			menu = true;
 			currentState = MAIN;
+			beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+			return;
+
 		}
 		currentState = beforeState[beforeState.size() - 1];
 		beforeState.erase(beforeState.begin() + beforeState.size() - 1);

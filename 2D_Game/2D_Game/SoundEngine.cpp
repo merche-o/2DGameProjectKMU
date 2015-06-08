@@ -8,6 +8,7 @@ SoundEngine::SoundEngine(void)
 	// Musics List
 	music.openFromFile("./Ressources/Musics/MusicBob.ogg");
 	activeMusic = true;
+	activeSound = true;
 	
 	// Sounds List
 	soundBuffer["jump"] = (sf::SoundBuffer());
@@ -38,7 +39,7 @@ SoundEngine::~SoundEngine(void)
 
 void SoundEngine::playSound(sf::Sound & Sound, bool b)
 {
-	if (!b || (b && Sound.getStatus() != sf::Sound::Playing)) // True = Wait until the sound is finished before playing once again
+	if ((!b || (b && Sound.getStatus() != sf::Sound::Playing)) && activeSound) // True = Wait until the sound is finished before playing once again
 		Sound.play();
 }
 
@@ -65,4 +66,13 @@ void SoundEngine::musicOFF()
 {
 	activeMusic = false;
 	music.stop();
+}
+
+
+void SoundEngine::soundSwitch()
+{
+	if (activeSound)
+	activeSound = false;
+	else
+		activeSound = true;
 }
