@@ -3,8 +3,8 @@
 #include "Event.h"
 
 
-Event::Event(sf::Window & w, std::vector<Player*> & p, bool &k)
-	: win(w), player(p), keySettings(k)
+Event::Event(sf::Window & w, SoundEngine & s, std::vector<Player*> & p, bool &k)
+	: win(w), sounds(s), player(p), keySettings(k)
 {
 	keySettings = false;
 	quitPause = true;
@@ -208,16 +208,19 @@ void Event::menuEvent(int & pos, bool & push, bool & refresh, focus_state & focu
 			}
 			else if (event.key.code == sf::Keyboard::Return)
 			{
+				sounds.playSound(sounds.sound["select"], false);
 				push = true;
 				refresh = true;
 			}
 			else if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W)
 			{
+				sounds.playSound(sounds.sound["scroll"], false);
 				--pos;
 				refresh = true;
 			}
 			else if (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S)
 			{
+				sounds.playSound(sounds.sound["scroll"], false);
 				++pos;
 				refresh = true;
 			}

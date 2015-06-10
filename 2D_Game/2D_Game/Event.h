@@ -3,6 +3,7 @@
 #include <vector>
 #include "SFML\Graphics.hpp"
 #include "Player.h"
+#include "SoundEngine.h"
 
 class Event
 {
@@ -39,10 +40,13 @@ public:
 private:
 	sf::Window & win;
 	sf::Event event;
+
 public:
-	bool &keySettings;
+	SoundEngine & sounds;
+	bool & keySettings;
 	bool quitPause;
-	Event(sf::Window & w, std::vector<Player*> & p, bool &keySettings);
+
+	Event(sf::Window & w, SoundEngine &s, std::vector<Player*> & p, bool &keySettings);
 	~Event(void);
 
 
