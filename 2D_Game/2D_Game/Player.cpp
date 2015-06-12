@@ -8,6 +8,7 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 {
 	animFrame = 0;
 	animDir = 1;
+	isAlive = true;
 	texture.loadFromFile("./Ressources/Images/Player.png");
 	x = 500;
 	y = 500;
@@ -37,6 +38,7 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 
 void Player::init(Ressources &Ress)
 {
+	isAlive = true;
 	animFrame = 0;
 	animDir = 1;
 	invTime = 0;
@@ -72,4 +74,21 @@ void Player::getNewWeapon(int weaponID, Ressources &Ress)
 {
 	if (Ress.weapon[weaponID])
 		weapon.push_back(new Weapon(Ress.weapon[weaponID]->damage, Ress.weapon[weaponID]->fireRate, Ress.weapon[weaponID]->range, Ress.weapon[weaponID]->speed, numPlayer, Item::D_WEAPON));
+}
+
+void Player::explode()
+{
+	// Create Particles in explosionList
+
+	sf::Color col(255, 255, 0);
+	// ouest
+	explosionList.push_back(new Particle(x + width / 2, y + height / 2, col, 2, -2, 0, 2, loopTime));
+	// nord-ouest
+	explosionList.push_back(new Particle(x + width / 2, y + height / 2, col, 2, -1, -1, 2, loopTime));
+	// nord
+	explosionList.push_back(new Particle(x + width / 2, y + height / 2, col, 2, 0, -2, 2, loopTime));
+	// nord-est
+	explosionList.push_back(new Particle(x + width / 2, y + height / 2, col, 2, 1, -1, 2, loopTime));
+	// est
+	explosionList.push_back(new Particle(x + width / 2, y + height / 2, col, 2, 2, 0, 2, loopTime));
 }
