@@ -1,4 +1,3 @@
-//Joris & Olivier
 #include "IA.h"	
 
 #include <iostream>
@@ -70,7 +69,10 @@ void IA::jumpIA(Enemy *src, Player * player)
 
 	// Si le saut est fini, je relache le bouton saut
 	if (src->state == U_END_JUMP)
+	{
 		src->inputMap[Event::I_UP] = false;
+		src->state = U_NORMAL;
+	}
 
 	if ((dir == 3 && src->dir == RIGHT) || (src->x + src->width >= Settings::WIDTH_GAME - 2 && src->dir == RIGHT))
 	{
@@ -85,7 +87,6 @@ void IA::jumpIA(Enemy *src, Player * player)
 	{
 		src->y += (src->fallingSpeed * (src->loopTime));
 		_ref.applyGravity(src);
-		//return;
 	}
 	else
 	{
@@ -105,10 +106,10 @@ void IA::jumpIA(Enemy *src, Player * player)
 		}
 	}
 	// Si le joueur est au dessus de l'ennemi et que ce dernier n'est pas en train de sauter
-	if (player->y < src->y && src->inputMap[Event::I_UP] == false && player->state == unit_state::U_NORMAL)
+	if (src->inputMap[Event::I_UP] == false && player->state == unit_state::U_NORMAL && src->state == unit_state::U_NORMAL /*&& _ref.canJump(src)*/)
 	{
 		// Si il est possible de sauter sur une plateforme plus haute, l'ia y saute
-		if (_ref.IAJumpToPlatform(src))
+		if (_ref.IAJumpToPlatform(src, player->y < src->y))
 			src->inputMap[Event::I_UP] = true;
 	}
 
@@ -146,7 +147,6 @@ void IA::basicIA(Enemy *src, Player * player)
 	{
 		src->y += (src->fallingSpeed * (src->loopTime));
 		_ref.applyGravity(src);
-		//return;
 	}
 	else
 	{
@@ -154,7 +154,6 @@ void IA::basicIA(Enemy *src, Player * player)
 	}
 	
 	// Check with Player position to follow him
-	//if (y == src->y)
 	if (rand() % 20 == 5)
 	{
 		if (player->x < src->x)
@@ -184,10 +183,7 @@ void IA::floatIA(Enemy *src, Player * player)
 	srand(time(NULL) + src->timer.getElapsedTime().asSeconds()  + (unsigned int)src + src->x + src->y);
 	src->prevY = src->y;
 	src->prevX = src->x;
-// 	Enemy enemyTemp = *src;
-// 
-// 	if (! _ref.AICollideWalls(&enemyTemp, flyHeight + 1))
-// 		src->currentDirection = src->nextDirection;
+
 	if (src->nextDirection == DOWN && _ref.AICheckDown(src, flyHeight))
 		{
 			src->currentDirection = DOWN;
@@ -220,8 +216,6 @@ void IA::floatIA(Enemy *src, Player * player)
 
 	}
 
-	//std::cout << "x : " << src->x << "   y : " << src->y << std::endl;
-
 	_ref.AICollideScreen(src);
 	if (_ref.AICollideWalls(src, flyHeight))
 	{
@@ -246,14 +240,10 @@ void IA::floatIA(Enemy *src, Player * player)
 		{
 			src->currentDirection = FORWARD;
 		}
-		//src->nextDirection = (enemyDirection)(rand() % (int)ENEMYDIRECTION_SIZE);
-		
 	}
-	/*if (rand() % 40 == 1)
-		src->nextDirection = (enemyDirection)(rand() % (int)ENEMYDIRECTION_SIZE);*/
+
 	if (rand() % 30 == 2)
 	{
-		//src->nextDirection = (enemyDirection)(rand() % (int)ENEMYDIRECTION_SIZE);
 		if (src->dir == LEFT && src->x + src->width < player->x)
 			src->dir = RIGHT;
 		else if (src->dir == RIGHT && src->x > player->x + Settings::CASE_SIZE)
@@ -269,64 +259,12 @@ void IA::floatIA(Enemy *src, Player * player)
 				src->nextDirection = DOWN;
 			}
 		}
-	}
-
-
-	/*int dir = _ref.colliderCheck(src, Event::I_NONE);*/
-
-	//si le saut est fini, je relache le bouton saut
-	/*if (src->state == U_END_JUMP)
-		src->inputMap[Event::I_UP] = false;*/
-
-	/*if (dir == 3 && src->dir == RIGHT)
-	{
-		src->dir = LEFT;
-	}
-	else if (dir == 4 && src->dir == LEFT)
-	{
-
-		src->dir = RIGHT;
-	}*/
-	/*if (_ref.applyGravity(src) == true)
-	{
-		src->y += (src->fallingSpeed * (src->loopTime));
-		_ref.applyGravity(src);
-		return;
-	}
-	else
-	{
-		src->fallingSpeed = 10 * Settings::CASE_SIZE;
-	}*/
-	// Check with Player position to follow him
-	/*if ( y == src->y)
-	{
-		if (x < src->x)
+		if (rand() % 2 == 1 && (src->currentDirection == UP || src->currentDirection == DOWN) && (src->x < Settings::CASE_SIZE || src->x > Settings::WIDTH_GAME - Settings::CASE_SIZE))
 		{
-			src->dir = LEFT;
+			src->currentDirection = FORWARD;
+			src->nextDirection = FORWARD;
 		}
-		else if (x > src->x)
-		{
-			src->dir = RIGHT;
-		}
-	}*/
-	//si le joueur est au dessus de l'ennemi et que ce dernier n'est pas en train de sauter
-	/*if (y < src->y && src->inputMap[Event::I_UP] == false)
-	{
-		//si il est possible de sauter sur une plateforme plus haute, l'ia y saute
-		if (_ref.IAJumpToPlatform(src))
-			src->inputMap[Event::I_UP] = true;
-	}*/
-
-	/*if (src->dir == RIGHT)
-	{
-		src->inputMap[Event::I_LEFT] = false;
-		src->inputMap[Event::I_RIGHT] = true;
 	}
-	else if (src->dir == LEFT)
-	{
-		src->inputMap[Event::I_LEFT] = true;
-		src->inputMap[Event::I_RIGHT] = false;
-	}	*/
 }
 
 void IA::flyIA(Enemy *src, Player * player)

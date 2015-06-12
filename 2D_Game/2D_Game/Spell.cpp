@@ -1,5 +1,3 @@
-// Joris
-
 #include "Spell.h"
 
 
@@ -8,8 +6,6 @@ Spell::Spell(float & X, float & Y, e_spell_type spellType)
 {
 	sf::Vector2u vec;
 	vec = texture.getSize();
-	//width = vec.x;
-	//height = vec.y;
 
 	scaleX = 1.0;
 	scaleY = 1.0;

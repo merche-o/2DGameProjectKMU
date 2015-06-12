@@ -417,7 +417,14 @@ bool Referee::dealDamage(std::vector<Player *> &_player)
 			c++;
 	}
 	if (c == _player.size())
+	{
+		if(_player[0]->isAlive == true)
+		{
+			_player[0]->isAlive = false;
+			_player[0]->explode();
+		}
 		return (false);
+	}
 	return (true);
 }
 
@@ -496,22 +503,41 @@ void Referee::bulletHit(std::vector<Player *> &_player)
 	}
 	return;		   
 }
-bool Referee::IAJumpToPlatform(AUnit *src)
+bool Referee::IAJumpToPlatform(AUnit *src, bool playerIsAbove)
 {
 	for (int i = 0; i < _map.platform.size(); ++i)
 	{
+		if (((src->x > _map.platform[i]->x - Settings::CASE_SIZE * 2) &&
+			(src->x < _map.platform[i]->x - Settings::CASE_SIZE * 1)) &&
+				((_map.platform[i]->y >= src->y - Settings::CASE_SIZE * 5) &&
+				(_map.platform[i]->y < src->y + Settings::CASE_SIZE)))
+
+
+
 		if (src->dir == RIGHT)
 		{
-			if (((src->x > _map.platform[i]->x - Settings::CASE_SIZE * 2) && (src->x < _map.platform[i]->x - Settings::CASE_SIZE * 1)) &&
-				((_map.platform[i]->y >= src->y - Settings::CASE_SIZE * 5) && (_map.platform[i]->y < src->y + Settings::CASE_SIZE)))
+			if (playerIsAbove && (src->x > _map.platform[i]->x - Settings::CASE_SIZE * 1.5) && (src->x < _map.platform[i]->x - Settings::CASE_SIZE * 0.5) &&
+				(_map.platform[i]->y >= src->y - Settings::CASE_SIZE * 2) && (_map.platform[i]->y < src->y + Settings::CASE_SIZE * 0.5))
+			{
+				return (true);
+			}
+			else if (!playerIsAbove && (src->x > (_map.platform[i]->x - Settings::CASE_SIZE * 1.5)) && (src->x < (_map.platform[i]->x - Settings::CASE_SIZE * 0.5)) &&
+				(_map.platform[i]->y >= (src->y - Settings::CASE_SIZE * 0.2)) && (_map.platform[i]->y < (src->y + Settings::CASE_SIZE * 0.5)))
 			{
 				return (true);
 			}
 		}
 		else
 		{
-			if (((src->x < _map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE + Settings::CASE_SIZE * 1) && (src->x > _map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE + Settings::CASE_SIZE * 0)) &&
-				((_map.platform[i]->y >= src->y - Settings::CASE_SIZE * 5) && (_map.platform[i]->y < src->y + Settings::CASE_SIZE)))
+			if ((playerIsAbove && (src->x < _map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE + Settings::CASE_SIZE * 0.5) &&
+				(src->x > _map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE - Settings::CASE_SIZE * 0.5)) &&
+				((_map.platform[i]->y >= src->y - Settings::CASE_SIZE * 2) && (_map.platform[i]->y < src->y + Settings::CASE_SIZE)))
+			{
+				return (true);
+			}
+			else if ((!playerIsAbove && (src->x < _map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE + Settings::CASE_SIZE * 0.5) &&
+				(src->x > _map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE - Settings::CASE_SIZE * 0.5)) &&
+				((_map.platform[i]->y >= src->y - Settings::CASE_SIZE * 0.2) && (_map.platform[i]->y < src->y + Settings::CASE_SIZE)))
 			{
 				return (true);
 			}
@@ -519,3 +545,4 @@ bool Referee::IAJumpToPlatform(AUnit *src)
 	}
 	return (false);
 }
+

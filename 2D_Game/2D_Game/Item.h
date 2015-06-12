@@ -7,9 +7,9 @@ class Item
 public:
 	enum itemType 
 	{
-	COINS,
-	AMMO,
-	D_WEAPON
+		COINS,
+		AMMO,
+		D_WEAPON
 	};
 
 	float x;
