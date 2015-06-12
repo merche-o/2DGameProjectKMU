@@ -388,6 +388,17 @@ void Referee::cleanItemList()
 	}
 }
 
+int Referee::notInsideWall(int x, int y)
+{
+	for (int i = 0; i < _map.platform.size(); ++i)
+	{
+		if (y >= _map.platform[i]->y && y <= _map.platform[i]->y + Settings::CASE_SIZE &&
+			x >= _map.platform[i]->x && x <= _map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE)
+			return (notInsideWall(x, y - 32));
+	}
+	return (y);
+}
+
 //when an enemy dies, he drops a coin
 void Referee::dropCoins(Enemy *src)
 {
@@ -403,7 +414,7 @@ void Referee::dropCoins(Enemy *src)
 			xx = rand() % src->width;
 			yy = rand() % src->height;
 		}
-		this->_itemList.push_back(new Coin(src->x + xx, src->y + yy, loopTime , (src->coins / nb_coin), Item::COINS, _res.texture["coin"]));
+		this->_itemList.push_back(new Coin(src->x + xx, notInsideWall(src->x + xx, src->y + yy), loopTime , (src->coins / nb_coin), Item::COINS, _res.texture["coin"]));
 	}
 }
 
