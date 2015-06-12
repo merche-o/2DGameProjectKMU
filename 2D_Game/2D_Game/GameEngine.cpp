@@ -85,6 +85,8 @@ void GameEngine::resetElement()
 	graphic.resetInterface();
 	globalClock.restart();
 	ref.enemiesCount = 0;
+	sound.musicON();
+	sound.playMusic(sound.music);
 	map.init(false);
 }
 
@@ -109,7 +111,6 @@ void GameEngine::run()
 				restart = false;
 				//sound.musicON();
 				//sound.musicOFF(); // For coding
-				sound.playMusic(sound.music);
 			}
 			
 			window.clear();
@@ -182,6 +183,7 @@ void GameEngine::run()
 			if (goMenu == true)
 			{
 				resetElement();
+				sound.musicOFF();
 				state = MENU;
 				goMenu = false;
 				pause = false;
@@ -207,10 +209,10 @@ void GameEngine::run()
 		{
 			//std::cout << " Total Enemies = "<< ref.enemiesCount << std::cout;
 			menu.endGame(player[0]->score, ref.enemiesCount);
-			sound.musicOFF();
 			if (goMenu == true)
 			{
 				resetElement();
+				sound.musicOFF();
 				state = MENU;
 				menu.menuMain();
 				goMenu = false;
