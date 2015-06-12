@@ -47,6 +47,7 @@ private:
 	void bulletHit(std::vector<Player*> &_player);
 	// Call collider in function of the collide Type (loop) 
 	std::vector<int (Referee::*)(AUnit *, Event::Input const &)> collideManager;
+	int notInsideWall(int x, int y);
 	void dropCoins(Enemy *src);
 
 	void playerInvinsibility(Player *player);
