@@ -240,7 +240,7 @@ void GameEngine::focusChanged()
 		{
 			window.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
 		}
-		menu.refreshFullscreen = 2;
+		menu.refreshFullscreen = 10;
 	}
 	else if (focus == Event::focus_state::LOST)
 	{

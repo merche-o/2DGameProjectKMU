@@ -22,7 +22,7 @@ public:
 	bool AICheckUp(Enemy *, int);
 	int colliderCheck(AUnit *,  Event::Input const &);
 	bool applyGravity(AUnit *);
-	bool IAJumpToPlatform(AUnit *);
+	bool IAJumpToPlatform(AUnit *, bool);
 	void cleanEnemyList();
 	void cleanItemList();
 	void moveBullet(std::vector<Player*> &_player);

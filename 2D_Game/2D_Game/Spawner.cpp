@@ -14,7 +14,8 @@ Spawner::Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList
 	enemyLuckToSpawn[enemyType::E_FLOAT] = 10;
 	enemyLuckToSpawn[enemyType::E_FLY] = 10;*/
 
-	//enemyWaves.push_back(EnemyWave(0,	0.0,	2.0,	0.0,	0.0));
+	//enemyWaves.push_back(EnemyWave(50,	0.0,	10.0,	0.0,	0.0));
+	enemyWaves.push_back(EnemyWave(0,	0.0,	1.0,	0.0,	0.0));
 	enemyWaves.push_back(EnemyWave(20,	1.0,	0.0,	0.0,	0.0));
 	enemyWaves.push_back(EnemyWave(20,	1.3,	0.8,	0.0,	0.0));
 	enemyWaves.push_back(EnemyWave(30,	1.0,	0.0,	1.0,	0.0));
@@ -24,6 +25,7 @@ Spawner::Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList
 	enemyWaves.push_back(EnemyWave(30,	0.4,	0.8,	2.0,	2.0));
 	enemyWaves.push_back(EnemyWave(10,	0.0,	0.0,	0.0,	0.0));
 	enemyWaves.push_back(EnemyWave(0,	1.8,	1.8,	0.9,	0.9));
+	//enemyWaves.push_back(EnemyWave(0,	2.0,	2.0,	2.0,	2.0));
 }
 
 Spawner::~Spawner(void)

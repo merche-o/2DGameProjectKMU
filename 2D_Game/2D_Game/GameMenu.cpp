@@ -145,7 +145,7 @@ void GameMenu::focusChanged()
 		{
 			win.create(sf::VideoMode(Settings::WIDTH, Settings::HEIGHT), Settings::GAME_NAME, sf::Style::Fullscreen);
 		}
-		refreshFullscreen = 3;
+		refreshFullscreen = 10;
 	}
 	else if (focus == Event::focus_state::LOST)
 	{
@@ -287,9 +287,9 @@ void GameMenu::displayCurrentMenu()
 		else
 			loadText(400, 250, font, "Sound : OFF", 48, 60, 250, 250);
 		if (param.keySettings == true)
-			loadText(400,300, font, "Key Swithed : ON", 48, 60, 250, 250);
+			loadText(400,300, font, "Key Switched : ON", 48, 60, 250, 250);
 		else
-			loadText(400,300, font, "Key Swithed : OFF", 48, 60, 250, 250);
+			loadText(400,300, font, "Key Switched : OFF", 48, 60, 250, 250);
 	}
 }
 
@@ -369,7 +369,7 @@ void GameMenu::displayEndGame(int score, int enemies_kill)
 	if (currentState == ENDGAME)
 	{	
 		loadText(600, 350, font, "Your score :" + std::to_string((long double)score), 48, 200, 200, 200);
-		loadText(100, 300, font, "You kill", 48, 200, 200, 200);
+		loadText(100, 300, font, "You killed", 48, 200, 200, 200);
 		loadText(100, 350, font,std::to_string((long double)enemies_kill) + " enemies ", 48, 200, 200, 200);
 	}
 }
