@@ -47,7 +47,7 @@ void Enemy::getHit(int dam)
 		this->life = 0;
 		this->l_state = DEAD;
 	}
-	hit();
+	//hit();
 }
 
 void Enemy::explode()

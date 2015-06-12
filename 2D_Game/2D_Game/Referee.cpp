@@ -236,48 +236,51 @@ int Referee::collideWall(AUnit *src, Event::Input const &btn)
 {
 	for (int i = 0; i < this->_map.platform.size(); ++i)
 		{
-			if (src->state == JUMP)
+			if (this->_map.platform[i]->transp > 50)
 			{
-				if ((src->y				>	this->_map.platform[i]->y &&
-					src->y				<	this->_map.platform[i]->y + Settings::CASE_SIZE) ||
-					src->y == this->_map.platform[i]->y/*||
-					(src->y		+ src->height		>	this->_map.platform[i]->y &&
-					src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE)*/)
-					{
-						if (src->state == JUMP)
+				if (src->state == JUMP)
+				{
+					if ((src->y				>	this->_map.platform[i]->y &&
+						src->y				<	this->_map.platform[i]->y + Settings::CASE_SIZE) ||
+						src->y == this->_map.platform[i]->y/*||
+						(src->y		+ src->height		>	this->_map.platform[i]->y &&
+						src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE)*/)
 						{
-							if ((src->x				>	this->_map.platform[i]->x &&
-								src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length) ||
-								(src->x + src->width	>	this->_map.platform[i]->x &&
-								src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length))
+							if (src->state == JUMP)
 							{
-								src->y = this->_map.platform[i]->y + Settings::CASE_SIZE;
-								src->state = U_END_JUMP;
-								src->jumpTmpY = 0;
-								return (1);
+								if ((src->x				>	this->_map.platform[i]->x &&
+									src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length) ||
+									(src->x + src->width	>	this->_map.platform[i]->x &&
+									src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length))
+								{
+									src->y = this->_map.platform[i]->y + Settings::CASE_SIZE;
+									src->state = U_END_JUMP;
+									src->jumpTmpY = 0;
+									return (1);
+								}
 							}
 						}
-					}
-			}
-			else
-			{
-				if (src->y == this->_map.platform[i]->y ||
-					(src->y		+ src->height		>	this->_map.platform[i]->y &&
-					src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE))
+				}
+				else
 				{
-					//// Check with right of player
-					if (src->x + src->width	>	this->_map.platform[i]->x  &&
-							src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+					if (src->y == this->_map.platform[i]->y ||
+						(src->y		+ src->height		>	this->_map.platform[i]->y &&
+						src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE))
 					{
-						src->x = this->_map.platform[i]->x - src->width;
-						return (2);
-					}
-					// Check with left of player
-					else if (src->x			<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
-							src->x			>	this->_map.platform[i]->x)
-					{
-						src->x = this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length;
-						return (3);
+						//// Check with right of player
+						if (src->x + src->width	>	this->_map.platform[i]->x  &&
+								src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+						{
+							src->x = this->_map.platform[i]->x - src->width;
+							return (2);
+						}
+						// Check with left of player
+						else if (src->x			<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
+								src->x			>	this->_map.platform[i]->x)
+						{
+							src->x = this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length;
+							return (3);
+						}
 					}
 				}
 			}
@@ -321,7 +324,7 @@ bool Referee::applyGravity(AUnit  *src)
 	for (int i = 0; i < this->_map.platform.size(); ++i)
 	{
 		if (src->y + src->height	>=	this->_map.platform[i]->y &&
-			src->y + src->height	<	this->_map.platform[i]->y + Settings::CASE_SIZE)
+			src->y + src->height	<	this->_map.platform[i]->y + Settings::CASE_SIZE && this->_map.platform[i]->transp > 50)
 		{
 			if ((src->x		>	this->_map.platform[i]->x  &&
 				src->x		<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length) ||
@@ -408,7 +411,9 @@ void Referee::dropCoins(Enemy *src)
 void Referee::playerInvinsibility(Player *player)
 {
 	if (player->l_state == HIT)
+	{
 		player->invTime += player->loopTime;
+	}
 	if(player->invTime >= 1)
 	{
 		player->l_state = IN_LIFE;
@@ -451,8 +456,10 @@ bool Referee::dealDamage(std::vector<Player *> &_player)
 		playerInvinsibility(_player[i]);
 		if (collideEnemy(_player[i], Event::I_NONE) == 2)
 		{
-			//_sound.playSound(_sound.sound["hit"], true);
+			//_sound.playSound(_sound.sound["hurt"], true);
 			_player[i]->getHit(1);
+			if (_player[i]->l_state == HIT)
+				_sound.playSound(_sound.sound["hurt"], true);
 		}
 	}
 	int c = 0;

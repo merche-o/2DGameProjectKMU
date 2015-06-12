@@ -48,6 +48,7 @@ public:
 	int width;
 	int height;
 	int animFrame;
+	int animDir;
 	int damage;
 	int spawnTime;
 	float fallingSpeed;
@@ -87,7 +88,6 @@ public:
 	 virtual void getHit(int dam);
 	~AUnit(void);
 
-	void nextFrame();
 	void updateClock();
 	void createParticles();
 };

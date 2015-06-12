@@ -17,10 +17,11 @@ GameMenu::GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters &
 
 	/*****	MENU *****/
 
-	addTextMenu(MAIN, new TextMenu(100, 0, "Bob's Attack", 96, 250, 60, 60));
-	addTextMenu(MAIN, new TextMenu(850, 320, "Weapon Fire", 32, 250, 120, 60));
-	addTextMenu(MAIN, new TextMenu(850, 570, "Player Move", 32, 250, 120, 60));
-	addTextMenu(MAIN, new TextMenu(850, 700, "Use Spell", 32, 250, 120, 60));
+	//addTextMenu(MAIN, new TextMenu(100, 0, "Bob's Attack", 96, 250, 60, 60));
+	addTextMenu(MAIN, new TextMenu(850, 330, "Weapon Fire", 32, 250, 120, 60));
+	addTextMenu(MAIN, new TextMenu(850, 580, "Player Move", 32, 250, 120, 60));
+	addTextMenu(MAIN, new TextMenu(850, 710, "Use Spell", 32, 250, 120, 60));
+
 	addKeyTextMenu(MAIN, new TextMenu(200, 200, "Play", 48), &GameMenu::menuPlay);
 	addKeyTextMenu(MAIN, new TextMenu(200, 300, "Settings", 48), &GameMenu::menuSettings);
 	addKeyTextMenu(MAIN, new TextMenu(200, 400, "How to Play", 48), &GameMenu::menuHowPlay);
@@ -36,16 +37,11 @@ GameMenu::GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters &
 	addKeyTextMenu(SETTINGS, new TextMenu(400, 695, "Back", 48), &GameMenu::menuReturn);
 
 	addTextMenu(HOWPLAY, new TextMenu(350, 0, "How to Play", 80, 250, 60, 60));
-	addTextMenu(HOWPLAY, new TextMenu(200, 200, "A : Left", 32, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(200, 300, "D : Right", 32, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(200, 400, "W : Jump", 32, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(600, 200, "Left Arrow : Fire left", 32, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(600, 300, "Right Arrow : Fire right", 32, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(600, 400, "Up Arrow : Fire up", 32, 60, 250, 250));
-	addTextMenu(HOWPLAY, new TextMenu(600, 500, "Space : Use spell", 32, 60, 250, 250));
-	addKeyTextMenu(HOWPLAY, new TextMenu(400, 600, "Back", 32), &GameMenu::menuReturn);
 
-	
+	addTextMenu(HOWPLAY, new TextMenu(850 / 3, 330, "Weapon Fire", 32, 250, 120, 60));
+	addTextMenu(HOWPLAY, new TextMenu(850 / 3, 580, "Player Move", 32, 250, 120, 60));
+	addTextMenu(HOWPLAY, new TextMenu(850 / 3, 710, "Use Spell", 32, 250, 120, 60));
+	addKeyTextMenu(HOWPLAY, new TextMenu(800, 600, "Back", 32), &GameMenu::menuReturn);
 
 	addTextMenu(CREDITS, new TextMenu(350, 0, "Credits", 96, 250, 60, 60));
 	addTextMenu(CREDITS, new TextMenu(300, 150, "President :\tClaude Comair", 32, 60, 250, 150));
@@ -196,7 +192,7 @@ void GameMenu::pause()
 				focusChanged();
 }
 
-void GameMenu::endGame(int score)
+void GameMenu::endGame(int score, int enemies_kill)
 {
 	if (refresh == true)
 	{
@@ -215,7 +211,7 @@ void GameMenu::endGame(int score)
 		}
 		posInsideTheMenu();
 		win.clear();
-		displayEndGame(score);
+		displayEndGame(score, enemies_kill);
 		win.display();
 
 		refresh = false;
@@ -229,12 +225,15 @@ void GameMenu::endGame(int score)
 // Display Texts
 void GameMenu::displayCurrentMenu()
 {
-	if (currentState == MAIN)
+	if (currentState == MAIN || currentState == HOWPLAY)
 	{
-		loadImage(850, 150, ress.texture["arrow"]);
-		loadImage(850, 400, ress.texture["wasd"]);
-		loadImage(850, 650, ress.texture["space"]);
+		loadImage(850 / (currentState + 1), 160, ress.texture["arrow"]);
+		loadImage(850 / (currentState + 1), 410, ress.texture["wasd"]);
+		loadImage(850 / (currentState + 1), 660, ress.texture["space"]);
 	}
+
+	if (currentState == MAIN)
+		loadImage(200, 10, ress.texture["title"]);
 
 	for (int i = 0; i < sizeTextMenu[currentState]; ++i)
 	{
@@ -331,7 +330,7 @@ void GameMenu::displayPause()
 	}
 }
 
-void GameMenu::displayEndGame(int score)
+void GameMenu::displayEndGame(int score, int enemies_kill)
 {
 	for (int i = 0; i < sizeTextMenu[currentState]; ++i)
 	{
@@ -368,13 +367,10 @@ void GameMenu::displayEndGame(int score)
 	}
 	//fix de merde
 	if (currentState == ENDGAME)
+	{	
 		loadText(600, 350, font, "Your score :" + std::to_string((long double)score), 48, 200, 200, 200);
-	if (currentState == HIGHSCORE) {
-		loadText(400, 150, font, "1 : " + scoreTable[0], 64, 60, 250, 250);
-		loadText(400, 250, font, "2 : " + scoreTable[1], 64, 60, 250, 250);
-		loadText(400, 350, font, "3 : " + scoreTable[2], 64, 60, 250, 250);
-		loadText(400, 450, font, "4 : " + scoreTable[3], 64, 60, 250, 250);
-		loadText(400, 550, font, "5 : " + scoreTable[4], 64, 60, 250, 250);
+		loadText(100, 300, font, "You kill", 48, 200, 200, 200);
+		loadText(100, 350, font,std::to_string((long double)enemies_kill) + " enemies ", 48, 200, 200, 200);
 	}
 }
 
@@ -467,11 +463,12 @@ void GameMenu::menuReturn()
 		menuQuitGame();
 	else
 	{
-		if (currentState == PAUSE) //&& beforeState[beforeState.size() -1] == MAIN)
+		if (currentState == PAUSE ||currentState == ENDGAME) //&& beforeState[beforeState.size() -1] == MAIN)
 		{
 			menu = true;
 			currentState = MAIN;
 			beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+			refreshFullscreen = 3;
 			return;
 
 		}

@@ -11,7 +11,7 @@ GameEngine::GameEngine(void)
 		menu(window, ressources, event, parameters, restart, goMenu, focus),
 		sound(),
 		map(ressources, loopTime),
-		event(window, player, parameters.keySettings),
+		event(window, sound, player, parameters.keySettings),
 		ref(ennemyList, itemList, bulletList, map, loopTime, ressources, sound),
 		physics(player, ennemyList, itemList, bulletList, map, loopTime, sound),
 		spawner(ennemyList, itemList, loopTime),
@@ -85,6 +85,8 @@ void GameEngine::resetElement()
 	graphic.resetInterface();
 	globalClock.restart();
 	ref.enemiesCount = 0;
+	sound.musicON();
+	sound.playMusic(sound.music);
 	map.init(false);
 }
 
@@ -109,7 +111,6 @@ void GameEngine::run()
 				restart = false;
 				//sound.musicON();
 				//sound.musicOFF(); // For coding
-				sound.playMusic(sound.music);
 			}
 			
 			window.clear();
@@ -182,6 +183,7 @@ void GameEngine::run()
 			if (goMenu == true)
 			{
 				resetElement();
+				sound.musicOFF();
 				state = MENU;
 				goMenu = false;
 				pause = false;
@@ -206,11 +208,11 @@ void GameEngine::run()
 		else if (state == ENDGAME)
 		{
 			//std::cout << " Total Enemies = "<< ref.enemiesCount << std::cout;
-			menu.endGame(player[0]->score);
-			sound.musicOFF();
+			menu.endGame(player[0]->score, ref.enemiesCount);
 			if (goMenu == true)
 			{
 				resetElement();
+				sound.musicOFF();
 				state = MENU;
 				menu.menuMain();
 				goMenu = false;

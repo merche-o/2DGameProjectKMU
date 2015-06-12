@@ -3,8 +3,8 @@
 #include "Event.h"
 
 
-Event::Event(sf::Window & w, std::vector<Player*> & p, bool &k)
-	: win(w), player(p), keySettings(k)
+Event::Event(sf::Window & w, SoundEngine & s, std::vector<Player*> & p, bool &k)
+	: win(w), sounds(s), player(p), keySettings(k)
 {
 	keySettings = false;
 	quitPause = true;
@@ -63,8 +63,11 @@ void Event::checkEvent(bool & pause, focus_state & focus)
 					player[0]->inputMap[Event::I_WEAPON_2] = true;
 				else if (event.key.code == sf::Keyboard::Num3)
 					player[0]->inputMap[Event::I_WEAPON_3] = true;
-				else if (event.key.code == sf::Keyboard::Num4)
-					player[0]->inputMap[Event::I_WEAPON_4] = true;
+				else if (event.key.code == sf::Keyboard::L)
+					player[0]->inputMap[Event::I_C_LIFE] = true;
+				else if (event.key.code == sf::Keyboard::B)
+					player[0]->inputMap[Event::I_C_BULLET] = true;
+
 			}
 		}
 		else if (event.type == sf::Event::KeyReleased)
@@ -99,8 +102,10 @@ void Event::checkEvent(bool & pause, focus_state & focus)
 					player[0]->inputMap[Event::I_WEAPON_2] = false;
 				else if (event.key.code == sf::Keyboard::Num3)
 					player[0]->inputMap[Event::I_WEAPON_3] = false;
-				else if (event.key.code == sf::Keyboard::Num4)
-					player[0]->inputMap[Event::I_WEAPON_4] = false;
+				else if (event.key.code == sf::Keyboard::L)
+					player[0]->inputMap[Event::I_C_LIFE] = false;
+				else if (event.key.code == sf::Keyboard::B)
+					player[0]->inputMap[Event::I_C_BULLET] = false;
 			}
 		}
 		else if (event.type == sf::Event::GainedFocus && focus != focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
@@ -148,8 +153,10 @@ void Event::alternateEventPressed(bool &pause)
 				player[0]->inputMap[Event::I_WEAPON_2] = true;
 			else if (event.key.code == sf::Keyboard::Num3)
 				player[0]->inputMap[Event::I_WEAPON_3] = true;
-			else if (event.key.code == sf::Keyboard::Num4)
-				player[0]->inputMap[Event::I_WEAPON_4] = true;
+			else if (event.key.code == sf::Keyboard::L)
+				player[0]->inputMap[Event::I_C_LIFE] = true;
+			else if (event.key.code == sf::Keyboard::B)
+				player[0]->inputMap[Event::I_C_BULLET] = true;
 }
 
 void Event::alternateEventReleased(bool &pause)
@@ -180,12 +187,14 @@ void Event::alternateEventReleased(bool &pause)
 				player[0]->inputMap[Event::I_WEAPON_2] = false;
 			else if (event.key.code == sf::Keyboard::Num3)
 				player[0]->inputMap[Event::I_WEAPON_3] = false;
-			else if (event.key.code == sf::Keyboard::Num4)
-				player[0]->inputMap[Event::I_WEAPON_4] = false;
+			else if (event.key.code == sf::Keyboard::L)
+					player[0]->inputMap[Event::I_C_LIFE] = false;
+			else if (event.key.code == sf::Keyboard::B)
+				player[0]->inputMap[Event::I_C_BULLET] = false;
 }
 
 
-void Event::menuEvent(int & pos, bool & push, bool & refresh, focus_state & focus,bool main, bool pause)
+void Event::menuEvent(int & pos, bool & push, bool & refresh, focus_state & focus, bool main, bool pause)
 {
 	while (win.pollEvent(event))
     {
@@ -208,18 +217,25 @@ void Event::menuEvent(int & pos, bool & push, bool & refresh, focus_state & focu
 			}
 			else if (event.key.code == sf::Keyboard::Return)
 			{
+				sounds.playSound(sounds.sound["select"], false);
 				push = true;
 				refresh = true;
 			}
 			else if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W)
 			{
+				sounds.playSound(sounds.sound["scroll"], false);
 				--pos;
 				refresh = true;
 			}
 			else if (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S)
 			{
+				sounds.playSound(sounds.sound["scroll"], false);
 				++pos;
 				refresh = true;
+			}
+			else if (event.key.code == sf::Keyboard::Space)
+			{
+				sounds.music.openFromFile("./Ressources/Musics/119-under-the-ground.ogg");
 			}
 		}
 		else if (event.type == sf::Event::GainedFocus && focus != focus_state::CHANGING_TO_DESKTOP_RESOLUTION)

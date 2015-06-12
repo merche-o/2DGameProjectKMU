@@ -55,11 +55,11 @@ public:
 	void posInsideTheMenu();
 	void menuHowPlay();
 	void run();
-	void endGame(int score);
+	void endGame(int score, int enemies_kill);
 	void pause();
 	void displayCurrentMenu();
 	void displayPause();
-	void displayEndGame(int score);
+	void displayEndGame(int score, int enemies_kill);
 	void menuSettings();
 	void menuHighscore();
 	void menuCredits();
