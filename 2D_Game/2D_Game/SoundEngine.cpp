@@ -30,6 +30,11 @@ SoundEngine::SoundEngine(void)
 	soundBuffer["shoot"].loadFromFile("./Ressources/Musics/shoot.wav");
 	sound["shoot"] = (sf::Sound());
 	sound["shoot"].setBuffer(soundBuffer["shoot"]);
+
+	soundBuffer["hurt"] = (sf::SoundBuffer());
+	soundBuffer["hurt"].loadFromFile("./Ressources/Musics/hurt.wav");
+	sound["hurt"] = (sf::Sound());
+	sound["hurt"].setBuffer(soundBuffer["hurt"]);
 }
 
 
