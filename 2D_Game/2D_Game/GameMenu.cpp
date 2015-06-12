@@ -463,11 +463,12 @@ void GameMenu::menuReturn()
 		menuQuitGame();
 	else
 	{
-		if (currentState == PAUSE) //&& beforeState[beforeState.size() -1] == MAIN)
+		if (currentState == PAUSE ||currentState == ENDGAME) //&& beforeState[beforeState.size() -1] == MAIN)
 		{
 			menu = true;
 			currentState = MAIN;
 			beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+			refreshFullscreen = 3;
 			return;
 
 		}
