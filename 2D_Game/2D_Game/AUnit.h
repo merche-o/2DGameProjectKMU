@@ -87,7 +87,7 @@ public:
 	AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, float &loopTime);
 	 virtual void getHit(int dam);
 	~AUnit(void);
-
+	void explode();
 	void updateClock();
 	void createParticles();
 };

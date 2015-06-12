@@ -19,6 +19,7 @@ public:
 	Spell spell;
 	bool isSpell;
 	int numPlayer;
+	bool isAlive;
 
 	// For spell limitation ----> put it on the spell class, cd per spells
 	bool spellUsed;
@@ -34,6 +35,7 @@ public:
 	void changeWeaponRight();
 	void getNewWeapon(int weaponID, Ressources &Ress);
 	~Player(void);
+	void explode();
 	void init(Ressources &);
 };
 

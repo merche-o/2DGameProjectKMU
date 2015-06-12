@@ -118,8 +118,10 @@ void GameEngine::run()
 			loopTime = globalTimer.asSeconds();
 			globalClock.restart();
 
-			if (ref.dealDamage(player) == false)
+			if (ref.dealDamage(player) == false && player[0]->explosionList.size() == 0)
 			{
+
+				
 				writeScore();
 				
 				state = ENDGAME;
@@ -133,7 +135,8 @@ void GameEngine::run()
 			spawner.spawnEnnemies(ressources.ennemy, globalTimer);
 			spawner.spawnAmmo(player[0], ressources.texture["ammo"], &map);
 			map.checkPlatform();
-			physics.playerAction(0);
+			if (player[0]->isAlive)
+				physics.playerAction(0);
 			IA.setEnnemiesIM(player[0]);
 			physics.enemyAction();
 			//map.checkPlatform();
@@ -151,7 +154,9 @@ void GameEngine::run()
 			graphic.affItems();
 			graphic.affInterface();
 
-			event.checkEvent(pause, focus);
+			if (player[0]->isAlive)
+				event.checkEvent(pause, focus);
+		
 			if (focus != Event::focus_state::NONE)
 				focusChanged();
 			

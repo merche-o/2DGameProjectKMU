@@ -417,7 +417,14 @@ bool Referee::dealDamage(std::vector<Player *> &_player)
 			c++;
 	}
 	if (c == _player.size())
+	{
+		if(_player[0]->isAlive == true)
+		{
+			_player[0]->isAlive = false;
+			_player[0]->explode();
+		}
 		return (false);
+	}
 	return (true);
 }
 
