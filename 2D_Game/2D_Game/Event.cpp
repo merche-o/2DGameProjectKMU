@@ -210,9 +210,7 @@ void Event::menuEvent(int & pos, bool & push, bool & refresh, focus_state & focu
 			}
 			else if (event.key.code == sf::Keyboard::Escape && pause)
 			{
-				//pause = false;
 				quitPause = false;
-
 				refresh = true;
 			}
 			else if (event.key.code == sf::Keyboard::Return)

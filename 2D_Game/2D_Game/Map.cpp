@@ -1,5 +1,3 @@
-// Marc
-
 #include "Map.h"
 #include "Settings.h"
 #include <iostream>
@@ -77,7 +75,7 @@ void Map::checkPlatform()
 				{
 					if (platform[i]->length > 10)
 					{
-						// creer deux platforms separer par un trou central
+						// Creer deux platforms separer par un trou central
 						platform.push_back(new Platform(platform[i]->x, platform[i]->y, platform[i]->length / 2 - 2, loopTime, ress, platform[i]->length));
 						platform.push_back(new Platform(platform[i]->x + ((platform[i]->length / 2) * Settings::CASE_SIZE), platform[i]->y, platform[i]->length / 2 - 2, loopTime, ress, platform[i]->length));
 						number_platfoms--;
@@ -137,7 +135,6 @@ void Map::rebuildPlatform()
 		if (isOK == true)
 		{
 			platform.push_back(new Platform(x * Settings::CASE_SIZE, y * Settings::CASE_SIZE, length, loopTime, ress, (unsigned int)(100 * loopTime), true));
-			//platform[platform.size() - 1]->type = Platform::APPEARING;
 			number_platfoms++;
 		}
 	}

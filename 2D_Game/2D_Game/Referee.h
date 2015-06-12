@@ -45,7 +45,7 @@ private:
 	std::vector<Item*> &_itemList;
 	std::vector<Bullet*> &_bulletList;
 	void bulletHit(std::vector<Player*> &_player);
-	// Call collider in function of the collide Type (loop) 
+
 	std::vector<int (Referee::*)(AUnit *, Event::Input const &)> collideManager;
 	int notInsideWall(int x, int y);
 	void dropCoins(Enemy *src);
@@ -56,7 +56,5 @@ private:
 	int collideWall(AUnit *, Event::Input const &);
 	int collideBonus(AUnit *, Event::Input const &);
 	int collideEnemy(AUnit *, Event::Input const &);
-
-	//
 };
 

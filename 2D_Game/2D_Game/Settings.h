@@ -11,7 +11,6 @@ public:
 	static const int HEIGHT_GAME;
 	static const int HEIGHT_INTERFACE;
 	static const int CASE_SIZE;
-	//static const int GRAVITY;
 	static const int HIGH_JUMP;
 	static const std::string GAME_NAME;
 	static const int FOCUS_GAME_FRAMERATE;

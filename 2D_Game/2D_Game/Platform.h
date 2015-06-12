@@ -33,8 +33,8 @@ public:
 	std::vector<sf::Texture> texture;
 	float activMorph;
 	float morphTime;
-	float morph; // additionnal loopTime
-	float & loopTime; // time of one global loop
+	float morph; // Additionnal loopTime
+	float & loopTime;
 	Ressources & ress;
 
 	std::vector<int> transpGradient;

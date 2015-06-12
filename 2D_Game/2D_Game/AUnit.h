@@ -67,11 +67,11 @@ public:
 	float fireRateCount;
 	std::vector<Weapon*> weapon;
 
-	//there is probably a best way to do it
 	int jumpTmpY;
 	bool doubleJump;
 	float prevX;
 	float prevY;
+
 	bool isPlayer;
 
 	std::vector<Particle*> particles;

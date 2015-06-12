@@ -75,8 +75,6 @@ void Graphic::affInterface()
 		loadText(12.1 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME, font, IntToString(player[i]->weapon[2]->ammo), 10, 250, 250, 60);
 
 		
-
-		//loadText(7 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), Settings::CASE_SIZE + Settings::HEIGHT_GAME, font, IntToString(player[i]->weapon[player[i]->weaponUsed]->ammo), 16, 250, 250, 60);
 		// Spell
 		loadText(25 * Settings::CASE_SIZE + (i * (20 * Settings::CASE_SIZE)), 8 + Settings::HEIGHT_GAME, font, std::string("Spell"), 16, 250, 250, 60);
 		if (player[i]->isSpell == true && player[i]->spellUsed == false)
@@ -88,10 +86,7 @@ void Graphic::affInterface()
 
 void Graphic::affMap()
 {
-	//loadImage(0, 0/* + Settings::HEIGHT_INTERFACE*/, ress.texture["background"]);
-
-
-	int height_map = (Settings::HEIGHT/* + Settings::HEIGHT_INTERFACE*/) / Settings::CASE_SIZE;
+	int height_map = (Settings::HEIGHT) / Settings::CASE_SIZE;
 	int width_map = Settings::WIDTH / Settings::CASE_SIZE;
 
 	for (unsigned int i = 0; i < map.platform.size(); ++i)
@@ -99,32 +94,7 @@ void Graphic::affMap()
 		for (unsigned int j = 0; j < map.platform[i]->length; ++j)
 		{
 			// Display
-					loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y, map.platform[i]->texture[j], map.platform[i]->transp);
-			//if (map.platform[i]->isMorphing == true && (map.platform[i]->type == Platform::DISAPPEAR || map.platform[i]->type == Platform::APPEARING))
-			//	if (j == 0)
-			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Lplatform"], map.platform[i]->transp);
-			//	else if (j == map.platform[i]->length -1)
-			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Rplatform"], map.platform[i]->transp);
-			//	else
-			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Mplatform"], map.platform[i]->transp);
-			////else if (map.platform[i]->isMorphing == true && map.platform[i]->type == Platform::DAMAGE)
-			////{
-			////	if (j == 0)
-			////		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["LDplatform"]);
-			////	else if (j == map.platform[i]->length -1)
-			////		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["RDplatform"]);
-			////	else
-			////		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["MDplatform"]);
-			////}
-			//else
-			//{
-			//	if (j == 0)
-			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Lplatform"]);
-			//	else if (j == map.platform[i]->length -1)
-			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Rplatform"]);
-			//	else
-			//		loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y/* + Settings::HEIGHT_INTERFACE*/, ress.texture["Mplatform"]);
-			//}
+			loadImage(map.platform[i]->x + (j * (float)Settings::CASE_SIZE), map.platform[i]->y, map.platform[i]->texture[j], map.platform[i]->transp);
 		}
 	}
 }
@@ -158,7 +128,7 @@ void Graphic::affBullets()
 {
 	for (int i = 0; i < bulletList.size(); ++i)
 	{
-		loadImage(bulletList[i]->x, bulletList[i]->y/* + Settings::HEIGHT_INTERFACE*/, bulletList[i]->texture);
+		loadImage(bulletList[i]->x, bulletList[i]->y, bulletList[i]->texture);
 	}
 }
 
@@ -181,11 +151,11 @@ void Graphic::affItems()
 {
 	for (int i = 0; i < itemList.size(); ++i)
 	{
-		loadImage(itemList[i]->x, itemList[i]->y/* + Settings::HEIGHT_INTERFACE*/, itemList[i]->texture);
+		loadImage(itemList[i]->x, itemList[i]->y, itemList[i]->texture);
 	}
 }
 
 void Graphic::affPauseBG()
 {
-	loadImage(0, 0/* + Settings::HEIGHT_INTERFACE*/, ress.texture["pause"]);
+	loadImage(0, 0, ress.texture["pause"]);
 }
