@@ -1,5 +1,3 @@
-// Olivier
-
 #include "Bullet.h"
 
 

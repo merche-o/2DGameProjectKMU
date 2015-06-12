@@ -12,8 +12,6 @@ public:
 	bool activeSound;
 	bool activeMusic;
 
-private:
-
 public:
 	SoundEngine(void);
 	~SoundEngine(void);

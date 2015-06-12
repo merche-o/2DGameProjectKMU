@@ -9,12 +9,6 @@
 Spawner::Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList, float &LoopTime)
 	: ennemies(ennemyList), itemList(itemList), posx(-2), posy(0), currentWave(0), spawnPosState(UP_LEFT), loopTime(LoopTime)
 {
-	/*enemyLuckToSpawn[enemyType::E_BASIC] = 40;
-	enemyLuckToSpawn[enemyType::E_JUMPCASE] = 40;
-	enemyLuckToSpawn[enemyType::E_FLOAT] = 10;
-	enemyLuckToSpawn[enemyType::E_FLY] = 10;*/
-
-	//enemyWaves.push_back(EnemyWave(0,	0.0,	2.0,	0.0,	0.0));
 	enemyWaves.push_back(EnemyWave(20,	1.0,	0.0,	0.0,	0.0));
 	enemyWaves.push_back(EnemyWave(20,	1.3,	0.8,	0.0,	0.0));
 	enemyWaves.push_back(EnemyWave(30,	1.0,	0.0,	1.0,	0.0));
@@ -24,6 +18,7 @@ Spawner::Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList
 	enemyWaves.push_back(EnemyWave(30,	0.4,	0.8,	2.0,	2.0));
 	enemyWaves.push_back(EnemyWave(10,	0.0,	0.0,	0.0,	0.0));
 	enemyWaves.push_back(EnemyWave(0,	1.8,	1.8,	0.9,	0.9));
+	//enemyWaves.push_back(EnemyWave(0,	2.0,	2.0,	2.0,	2.0));
 }
 
 Spawner::~Spawner(void)
@@ -35,17 +30,13 @@ void Spawner::changePlaceSpawner()
 	if (spawnPosState == UP_LEFT){
 		
 		spawnPosState = UP_RIGHT;
-		//posx = Settings::WIDTH - (Settings::CASE_SIZE) + 2;
 		posx = Settings::WIDTH - (Settings::CASE_SIZE) - 2;
-		//posy = 0;
 		posy = 2;
 	}
 	else if (spawnPosState == UP_RIGHT){
 		spawnPosState = UP_LEFT;
 		
-		//posx = -2;
 		posx = 2;
-		//posy = 0;
 		posy = 2;
 	}
 }
@@ -76,29 +67,12 @@ void Spawner::spawnEnnemies(std::vector<AUnit*> &ennemy, sf::Time globalTimer)
 	}
 }
 
-/*enemyType	Spawner::randEnnemyType(AUnit * ennemy)
-{
-	srand(time(NULL) + ennemy->timer.getElapsedTime().asSeconds() + ennemy->x + ennemy->y + (int)ennemy);
-	int randNumber = (rand() / 10) % 10 + (rand() % 10) * 10 + 1;
-	int currentCount = 0;
-
-	for (int currentType = 0; currentType < (int)enemyType::ENEMYTYPE_SIZE; ++currentType)
-	{
-		currentCount += enemyLuckToSpawn[(enemyType) currentType];
-		if (currentCount > 100)
-			return (enemyType)0;
-		if (randNumber <= currentCount)
-			return (enemyType)currentType;
-	}
-	return (enemyType)0;
-}*/
-
 void Spawner::spawnAmmo(Player *src, sf::Texture texture, Map *map)
 {
 	e_dir dir;
 	float x;
 	float y;
-	// mettre un timer de pop ammo dans la weapon dans ressources, se baser dessus pour pop les ammo de l'arme en question
+
 	int i = 0;
 	while (i < src->weapon.size())
 	{

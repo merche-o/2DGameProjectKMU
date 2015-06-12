@@ -9,7 +9,7 @@ AUnit::AUnit(float &LoopTime) : loopTime(LoopTime)
 	animDir = 1;
 	dir = LEFT;
 	act = WALK;
-	fireRate = 5; // depend of the weapon
+	fireRate = 5; // Depend of the weapon
 	fireRateCount = fireRate;
 	timeDone = 0;
 	for (int i = 0; i < 15; ++i)
@@ -30,7 +30,7 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 	animDir = 1;
 	dir = LEFT;
 	act = WALK;
-	fireRate = 5; // depend of the weapon
+	fireRate = 5; // Depend of the weapon
 	fireRateCount = fireRate;
 	state = U_NORMAL;
 	jumpTmpY = 0;
@@ -57,7 +57,7 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture
 	animFrame = 0;
 	animDir = 1;
 	act = WALK;
-	fireRate = 5; // depend of the weapon
+	fireRate = 5; // Depend of the weapon
 	fireRateCount = fireRate;
 	width = texture.getSize().x;
 	height = texture.getSize().y;
@@ -112,8 +112,6 @@ void AUnit::updateClock()
 
 void AUnit::createParticles()
 {
-	//generateParticle += loopTime;
-	//if (generateParticle >= 0.03)
 	{
 		srand(loopTime * time(NULL));
 		float xx = rand() % width + 0;
@@ -123,8 +121,3 @@ void AUnit::createParticles()
 		generateParticle = 0;
 	}
 }
-
-// Weapon : Very fast bullet, dropping lots of small particles on his trail, after one sec the particles grow really fast like exploding
-// Particles popping randomly and going to a focused point (ex : Player charging exploding spell)
-// Platforms appearing (Particles show the appearing platform)
-// Enemies hit effect with particles (kind of chock/blooding effect

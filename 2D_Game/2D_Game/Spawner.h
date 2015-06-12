@@ -32,7 +32,6 @@ private:
 	e_posState spawnPosState;
 	float &loopTime;
 	std::vector<EnemyWave> enemyWaves;
-	//std::map<enemyType, int> enemyLuckToSpawn;
 	enemyType randEnnemyType(AUnit *);
 
 public:

@@ -14,7 +14,6 @@
 
 class PhysicEngine
 {
-	//Enum to put in Event
 public:
 	void playerAction(int playerId); 
 	void enemyAction();
@@ -25,7 +24,6 @@ public:
 	PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &enemylist, std::vector<Item*>  &itemList, std::vector<Bullet *> &bulletList, Map  &map, float  &LoopTime, SoundEngine &sound);
 	~PhysicEngine(void);
 
-		///////////////////////////////////
 	sf::Clock timer;
 	sf::Time cd;
 
@@ -40,10 +38,10 @@ private:
 	float &loopTime;
 	int gravityMax;
 	
-	//call after Checking collider
+	// Call after Checking collider
 	void doAction();
 
-	//Universal action
+	// Universal action
 	void moveLeft(AUnit *src);
 	void moveRight(AUnit *src);
 	void moveDown(AUnit *src);
@@ -64,21 +62,19 @@ private:
 
 	//-----Passive Action
 
-	//DamageManager
+	// DamageManager
 	void dealDammage();
 	void BulletDammage();
 	void EnemiesDammage();
 	void PlayerDammage();
 
-	//BonusManager - Have to complete in function of implemented bonus
+	// BonusManager - Have to complete in function of implemented bonus
 	void getBonus();
 
 	void collide(AUnit *src);
 
 	
-	//ReleaseAction
-
-	
+	// ReleaseAction
 	void RmoveLeft(AUnit *src);
 	void RmoveRight(AUnit *src);
 	void RmoveDown(AUnit *src);
