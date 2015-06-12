@@ -59,7 +59,8 @@ private:
 	void changeWeapon1(AUnit *src);
 	void changeWeapon2(AUnit *src);
 	void changeWeapon3(AUnit *src);
-	void changeWeapon4(AUnit *src);
+	void cheatLife(AUnit *src);
+	void cheatBullet(AUnit *src);
 
 	//-----Passive Action
 
@@ -93,6 +94,7 @@ private:
 	void RchangeWeapon1(AUnit *src);
 	void RchangeWeapon2(AUnit *src);
 	void RchangeWeapon3(AUnit *src);
-	void RchangeWeapon4(AUnit *src);
+	void RcheatLife(AUnit *src);
+	void RcheatBullet(AUnit *src);
 };
 

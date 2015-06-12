@@ -12,7 +12,7 @@ AUnit::AUnit(float &LoopTime) : loopTime(LoopTime)
 	fireRate = 5; // depend of the weapon
 	fireRateCount = fireRate;
 	timeDone = 0;
-	for (int i = 0; i < 13; ++i)
+	for (int i = 0; i < 15; ++i)
 	{
 		inputMap.push_back(false);
 	}
@@ -40,7 +40,7 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, std::string Texture
 	height = texture.getSize().y;
 	fallingSpeed = 12 * Settings::CASE_SIZE;
 	timeDone = 0;
-	for (int i = 0; i < 13; ++i)
+	for (int i = 0; i < 15; ++i)
 	{
 		inputMap.push_back(false);
 	}
@@ -66,7 +66,7 @@ AUnit::AUnit(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture
 	l_state = IN_LIFE;
 	timeDone = 0;
 	
-	for (int i = 0; i < 13; ++i)
+	for (int i = 0; i < 15; ++i)
 	{
 		inputMap.push_back(false);
 	}

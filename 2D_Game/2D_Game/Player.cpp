@@ -14,8 +14,8 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 	width = 32;
 	height = 32;
 	speed = 7 * Settings::CASE_SIZE;
-	life = 4;
-	shield = 1;
+	life = 5;
+	shield = 0;
 	
 	score = 0;
 	tmpTime = 0;
@@ -42,8 +42,8 @@ void Player::init(Ressources &Ress)
 	invTime = 0;
 	x = 500;
 	y = 500;
-	life = 4;
-	shield = 1;
+	life = 5;
+	shield = 0;
 	spellUsed = false;
 	cdTime = 10;
 

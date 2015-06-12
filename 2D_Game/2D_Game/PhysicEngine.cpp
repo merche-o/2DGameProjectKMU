@@ -21,7 +21,8 @@ PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &
 	actionManager[Event::I_WEAPON_1] = &PhysicEngine::changeWeapon1;//
 	actionManager[Event::I_WEAPON_2] = &PhysicEngine::changeWeapon2;//
 	actionManager[Event::I_WEAPON_3] = &PhysicEngine::changeWeapon3;//
-	actionManager[Event::I_WEAPON_4] = &PhysicEngine::changeWeapon4;//
+	actionManager[Event::I_C_LIFE] = &PhysicEngine::cheatLife;
+	actionManager[Event::I_C_BULLET] = &PhysicEngine::cheatBullet;
 
 	releaseActionManager[Event::I_UP] = &PhysicEngine::RJump;
 	releaseActionManager[Event::I_DOWN] = &PhysicEngine::RmoveDown;
@@ -36,7 +37,8 @@ PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &
 	releaseActionManager[Event::I_WEAPON_1] = &PhysicEngine::RchangeWeapon1;
 	releaseActionManager[Event::I_WEAPON_2] = &PhysicEngine::RchangeWeapon2;
 	releaseActionManager[Event::I_WEAPON_3] = &PhysicEngine::RchangeWeapon3;
-	releaseActionManager[Event::I_WEAPON_4] = &PhysicEngine::RchangeWeapon4;
+	releaseActionManager[Event::I_C_LIFE] = &PhysicEngine::RcheatLife;
+	releaseActionManager[Event::I_C_BULLET] = &PhysicEngine::RcheatBullet;
 
 	gravityMax = 28 * Settings::CASE_SIZE;	
 }
@@ -240,9 +242,14 @@ void PhysicEngine::changeWeapon3(AUnit *src)
 	src->weaponUsed = 2;
 }
 
-void PhysicEngine::changeWeapon4(AUnit *src)
+void PhysicEngine::cheatLife(AUnit *src)
 {
-	src->weaponUsed =  3;
+	src->life =  5;
+}
+
+void PhysicEngine::cheatBullet(AUnit *src)
+{
+	src->weapon[0]->ammo = 99;
 }
 
 
@@ -370,7 +377,11 @@ void PhysicEngine::RchangeWeapon3(AUnit *src)
 {
 }
 
-void PhysicEngine::RchangeWeapon4(AUnit *src)
+void PhysicEngine::RcheatLife(AUnit *src)
+{
+}
+
+void PhysicEngine::RcheatBullet(AUnit *src)
 {
 }
 
