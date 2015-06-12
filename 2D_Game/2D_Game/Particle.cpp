@@ -6,7 +6,6 @@ Particle::Particle(float X, float Y, sf::Color Color, float LifeTime, float Spee
 	: x(X), y(Y), color(Color), lifeTime(LifeTime), radius(Radius), loopTime(Time), speed(SpeedX * Settings::CASE_SIZE, SpeedY * Settings::CASE_SIZE)
 {
 	transp = 255;
-	//texture.loadFromFile("./Ressources/Images/particle.png");
 
 	float tmp;
 	tmp = lifeTime / 6;
@@ -35,9 +34,6 @@ Particle::~Particle(void)
 void Particle::update()
 {
 	currentTime += loopTime;
-	//transp = (lifeTime - currentTime) * 255 / lifeTime;
-	//if (transp < 0)
-	//	transp = 0;
 
 	for (int i = 0; i < lifeGradient.size(); ++i)
 	{
@@ -48,11 +44,6 @@ void Particle::update()
 		}
 	}
 
-	//if (currentTime >= lifeTime)
-	//	transp = 0;
-	//else if (currentTime >= lifeTime / 2)
-	//	transp = 150;
-	
 	y += speed.y * loopTime;
 	x += speed.x * loopTime;
 }

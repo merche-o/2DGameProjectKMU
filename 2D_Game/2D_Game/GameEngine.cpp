@@ -24,13 +24,13 @@ GameEngine::GameEngine(void)
 	physics._referee = &ref;
 	
 	player.push_back(new Player(ressources, loopTime, 0));
-	//have to put that on the event : touching new weapon
+
+	// New weapon
 	player[0]->getNewWeapon(1,ressources);
 	player[0]->getNewWeapon(2,ressources);
 	player[0]->getNewWeapon(3,ressources);
-	//player[0]->getNewWeapon(4,ressources);
 	player[0]->numWeapon = 3;
-	//
+
 	focus = Event::NONE;
 	state = MENU;
 	restart = false;
@@ -76,15 +76,19 @@ void GameEngine::resetElement()
 	bulletList.clear();
 	itemList.clear();
 	player[0]->init(ressources);
-	//have to put that on the event : touching new weapon
+
+	// New weapon
 	player[0]->getNewWeapon(1,ressources);
 	player[0]->getNewWeapon(2,ressources);
 	player[0]->getNewWeapon(3,ressources);
 	player[0]->numWeapon = 3;
+	
 	spawner.restart();
 	graphic.resetInterface();
 	globalClock.restart();
 	ref.enemiesCount = 0;
+	sound.musicON();
+	sound.playMusic(sound.music);
 	map.init(false);
 }
 
@@ -107,9 +111,6 @@ void GameEngine::run()
 			{
 				resetElement();
 				restart = false;
-				//sound.musicON();
-				//sound.musicOFF(); // For coding
-				sound.playMusic(sound.music);
 			}
 			
 			window.clear();
@@ -135,7 +136,6 @@ void GameEngine::run()
 			physics.playerAction(0);
 			IA.setEnnemiesIM(player[0]);
 			physics.enemyAction();
-			//map.checkPlatform();
 			
 			player[0]->createParticles();
 			
@@ -165,7 +165,7 @@ void GameEngine::run()
 		}
 		else if (state == PAUSE)
 		{
-			//refesh l'affichage du jeux. pour pas avoir le bug cheloux de la pause
+			// Refesh l'affichage du jeu
 			if (menu.refresh == true)
 			{
 				graphic.affMap();
@@ -175,13 +175,13 @@ void GameEngine::run()
 				graphic.affItems();
 				graphic.affPauseBG();
 			}
-			//graphic.affInterface();*/
 		
 			menu.run();
 			
 			if (goMenu == true)
 			{
 				resetElement();
+				sound.musicOFF();
 				state = MENU;
 				goMenu = false;
 				pause = false;
@@ -205,17 +205,18 @@ void GameEngine::run()
 		}
 		else if (state == ENDGAME)
 		{
-			//std::cout << " Total Enemies = "<< ref.enemiesCount << std::cout;
 			menu.endGame(player[0]->score, ref.enemiesCount);
-			sound.musicOFF();
+
 			if (goMenu == true)
 			{
 				resetElement();
+				sound.musicOFF();
 				state = MENU;
 				menu.menuMain();
 				goMenu = false;
 				pause = false;
 			}
+
 			if (restart == true)
 			{
 				resetElement();
@@ -253,6 +254,7 @@ void GameEngine::focusChanged()
 		}
 		pause = true;
 	}
+
 	if (focus != Event::focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
 		focus = Event::focus_state::NONE;
 }

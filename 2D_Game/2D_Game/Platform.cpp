@@ -37,12 +37,6 @@ Platform::Platform(int X, int Y, int Length, float & Time, Ressources & re, unsi
 			type = GO_LEFT;
 		else if (r == 2)
 			type = GO_RIGHT;
-		//else if (r == 3)
-		//	type = GO_UP;
-		//else if (type == 4)
-		//	type = GO_DOWN;
-		//else if (r == 3)
-			//type = DAMAGE;
 		if (y / Settings::CASE_SIZE == 22)
 			type = MAIN;
 		else if (y / Settings::CASE_SIZE == 0)
@@ -96,7 +90,6 @@ Platform::Platform(int X, int Y, int Length, float & Time, Ressources & re, unsi
 		if (type == APPEARING)
 		{
 			reverse(transpGradient.begin(), transpGradient.end());
-			//reverse(lifeGradient.begin(), lifeGradient.end());
 		}
 	}
 	////////////////////////////////////////////
@@ -131,10 +124,6 @@ void Platform::playMorph(std::vector<Platform*> & platform) // Creer des collisi
 				break;
 			}
 		}
-		// No more calculation
-		/*transp = (morphTime - (morph - activMorph)) * 255 / morphTime;
-		if (transp < 0)
-			transp = 0;*/
 	}
 	else if (type == APPEARING)
 	{
@@ -158,26 +147,6 @@ void Platform::playMorph(std::vector<Platform*> & platform) // Creer des collisi
 	else if (type == MAIN)
 	{
 	}
-	//else if (type == GO_UP)
-	//{
-	//	y -= speed * loopTime;
-	//}
-	//else if (type == GO_DOWN)
-	//{
-	//	y += speed * loopTime;
-	//}
-
-
-	// No more Damage Platform
-	//else if (type == DAMAGE)
-	//{
-	//	if ((morph -  activMorph) >= morphTime)
-	//	{
-	//		type = DISAPPEAR;
-	//		resetTime();
-	//		isMorphing = false;
-	//	}
-	//}
 }
 
 // Delete useless platforms
@@ -189,7 +158,7 @@ bool Platform::checkDead()
 		setNewEvent();
 	else if (type == GO_LEFT && (x + Settings::CASE_SIZE * length) <= 0)
 		return (true);
-	else if (type == GO_RIGHT && (x/* + Settings::CASE_SIZE * length*/) >= Settings::WIDTH)
+	else if (type == GO_RIGHT && (x) >= Settings::WIDTH)
 		return (true);
 	else if (type == MAIN)
 		return (true);

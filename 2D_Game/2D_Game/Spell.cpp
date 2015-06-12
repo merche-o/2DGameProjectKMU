@@ -1,5 +1,3 @@
-// Joris
-
 #include "Spell.h"
 
 
@@ -8,8 +6,6 @@ Spell::Spell(float & X, float & Y, e_spell_type spellType)
 {
 	sf::Vector2u vec;
 	vec = texture.getSize();
-	//width = vec.x;
-	//height = vec.y;
 
 	scaleX = 1.0;
 	scaleY = 1.0;
@@ -54,7 +50,7 @@ void Spell::launch()
 			scaleY = 1.0;
 			play = false;
 		}
-		else if (type == LASER && scaleX > 42.0)
+		else if (type == LASER && scaleX > 70.0)
 		{
 			scaleX = 1.0;
 			play = false;
@@ -70,5 +66,5 @@ void Spell::explosion()
 
 void Spell::laser()
 {
-	scaleX += 7.0;
+	scaleX += 5.0;
 }

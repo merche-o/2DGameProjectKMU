@@ -1,4 +1,3 @@
-//Joris & Olivier
 #include "IA.h"	
 
 #include <iostream>
@@ -88,7 +87,6 @@ void IA::jumpIA(Enemy *src, Player * player)
 	{
 		src->y += (src->fallingSpeed * (src->loopTime));
 		_ref.applyGravity(src);
-		//return;
 	}
 	else
 	{
@@ -149,7 +147,6 @@ void IA::basicIA(Enemy *src, Player * player)
 	{
 		src->y += (src->fallingSpeed * (src->loopTime));
 		_ref.applyGravity(src);
-		//return;
 	}
 	else
 	{
@@ -157,7 +154,6 @@ void IA::basicIA(Enemy *src, Player * player)
 	}
 	
 	// Check with Player position to follow him
-	//if (y == src->y)
 	if (rand() % 20 == 5)
 	{
 		if (player->x < src->x)
@@ -187,10 +183,6 @@ void IA::floatIA(Enemy *src, Player * player)
 	srand(time(NULL) + src->timer.getElapsedTime().asSeconds()  + (unsigned int)src + src->x + src->y);
 	src->prevY = src->y;
 	src->prevX = src->x;
-// 	Enemy enemyTemp = *src;
-// 
-// 	if (! _ref.AICollideWalls(&enemyTemp, flyHeight + 1))
-// 		src->currentDirection = src->nextDirection;
 
 	if (src->nextDirection == DOWN && _ref.AICheckDown(src, flyHeight))
 		{
@@ -224,8 +216,6 @@ void IA::floatIA(Enemy *src, Player * player)
 
 	}
 
-	//std::cout << "x : " << src->x << "   y : " << src->y << std::endl;
-
 	_ref.AICollideScreen(src);
 	if (_ref.AICollideWalls(src, flyHeight))
 	{
@@ -250,24 +240,15 @@ void IA::floatIA(Enemy *src, Player * player)
 		{
 			src->currentDirection = FORWARD;
 		}
-		//src->nextDirection = (enemyDirection)(rand() % (int)ENEMYDIRECTION_SIZE);
-		
 	}
-	/*if (rand() % 40 == 1)
-		src->nextDirection = (enemyDirection)(rand() % (int)ENEMYDIRECTION_SIZE);*/
+
 	if (rand() % 30 == 2)
 	{
-		/*if (src->x < Settings::CASE_SIZE || src->x > Settings::WIDTH_GAME - Settings::CASE_SIZE)
-		{
-			src->currentDirection = FORWARD;
-			src->nextDirection = FORWARD;
-		}*/
-		//src->nextDirection = (enemyDirection)(rand() % (int)ENEMYDIRECTION_SIZE);
 		if (src->dir == LEFT && src->x + src->width < player->x)
 			src->dir = RIGHT;
 		else if (src->dir == RIGHT && src->x > player->x + Settings::CASE_SIZE)
 			src->dir = LEFT;
-		if (/*rand() % 6 == 4 && */player->state == unit_state::U_NORMAL)
+		if (player->state == unit_state::U_NORMAL)
 		{
 			if (src->y > player->y + Settings::CASE_SIZE)
 			{
@@ -278,16 +259,11 @@ void IA::floatIA(Enemy *src, Player * player)
 				src->nextDirection = DOWN;
 			}
 		}
-	
 		if (rand() % 2 == 1 && (src->currentDirection == UP || src->currentDirection == DOWN) && (src->x < Settings::CASE_SIZE || src->x > Settings::WIDTH_GAME - Settings::CASE_SIZE))
 		{
 			src->currentDirection = FORWARD;
 			src->nextDirection = FORWARD;
 		}
-		/*else if (rand() % 6 == 2 && (src->currentDirection == FORWARD))
-		{
-			src->currentDirection == UP;
-		}*/
 	}
 }
 

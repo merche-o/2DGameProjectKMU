@@ -12,7 +12,6 @@ class Player : public AUnit
 public:
 	int score;
 	float invTime;
-	//::vector<Weapon*> weapon;
 	std::vector<Bonus*> bonus;
 	float inDash;
 	float tmpTime;
@@ -20,7 +19,6 @@ public:
 	bool isSpell;
 	int numPlayer;
 
-	// For spell limitation ----> put it on the spell class, cd per spells
 	bool spellUsed;
 	sf::Clock timer;
 	sf::Time cd;

@@ -23,7 +23,8 @@ public:
 		I_WEAPON_1,
 		I_WEAPON_2,
 		I_WEAPON_3,
-		I_WEAPON_4,
+		I_C_LIFE,
+		I_C_BULLET,
 		I_NONE,
 	};
 

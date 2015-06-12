@@ -21,7 +21,8 @@ PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &
 	actionManager[Event::I_WEAPON_1] = &PhysicEngine::changeWeapon1;//
 	actionManager[Event::I_WEAPON_2] = &PhysicEngine::changeWeapon2;//
 	actionManager[Event::I_WEAPON_3] = &PhysicEngine::changeWeapon3;//
-	actionManager[Event::I_WEAPON_4] = &PhysicEngine::changeWeapon4;//
+	actionManager[Event::I_C_LIFE] = &PhysicEngine::cheatLife;
+	actionManager[Event::I_C_BULLET] = &PhysicEngine::cheatBullet;
 
 	releaseActionManager[Event::I_UP] = &PhysicEngine::RJump;
 	releaseActionManager[Event::I_DOWN] = &PhysicEngine::RmoveDown;
@@ -36,7 +37,8 @@ PhysicEngine::PhysicEngine(std::vector<Player *> &player, std::vector<AUnit*>  &
 	releaseActionManager[Event::I_WEAPON_1] = &PhysicEngine::RchangeWeapon1;
 	releaseActionManager[Event::I_WEAPON_2] = &PhysicEngine::RchangeWeapon2;
 	releaseActionManager[Event::I_WEAPON_3] = &PhysicEngine::RchangeWeapon3;
-	releaseActionManager[Event::I_WEAPON_4] = &PhysicEngine::RchangeWeapon4;
+	releaseActionManager[Event::I_C_LIFE] = &PhysicEngine::RcheatLife;
+	releaseActionManager[Event::I_C_BULLET] = &PhysicEngine::RcheatBullet;
 
 	gravityMax = 28 * Settings::CASE_SIZE;	
 }
@@ -85,41 +87,22 @@ void PhysicEngine::playerAction(int playerId)
 
 void PhysicEngine::moveLeft(AUnit *src)
 {
-// 	 if (src->x - (src->speed * src->loopTime) <= -5)
-// 		return;
 	if (src->state == U_NORMAL)
 		src->x -= (src->speed *src->loopTime);
 	else
 		src->x -= (src->speed / 1.5 *src->loopTime);
 	if (src->isPlayer == false)
 		return;
-	//if (((Player *)src)->inDash == 0)
-	//	((Player *)src)->inDash = 1;
-	//if (((Player *)src)->inDash == 2 && ((Player *)src)->tmpTime < 0.2)
-	//{
-	//	((Player *)src)->inDash = 3;
-	//	src->x -= (src->speed * 5 * src->loopTime);
-	//}
 }
 
 void PhysicEngine::moveRight(AUnit *src)
 {
-	// Le 5 doit surement etre changer
-// 	if (src->x + (src->speed *src->loopTime) >= Settings::WIDTH_GAME + 5 - src->width )
-// 		return;
 	if (src->state == U_NORMAL)
 		src->x += (src->speed *src->loopTime);
 	else
 		src->x += (src->speed / 1.5 *src->loopTime);
 	if (src->isPlayer == false)
 		return;
-	/*if (((Player *)src)->inDash == 0)
-	((Player *)src)->inDash = -1;
-	if (((Player *)src)->inDash == -2 && ((Player *)src)->tmpTime < 0.2)
-	{
-	((Player *)src)->inDash = -3;
-	src->x += (src->speed * 5 * src->loopTime);
-	}*/
 }
 
 void PhysicEngine::Jump(AUnit *src)
@@ -152,12 +135,10 @@ void PhysicEngine::moveDown(AUnit *src)
 
 void PhysicEngine::useBonus(AUnit *src)
 {
-	//if (src->isPlayer == true)
 	if (((Player *)src)->spell.play == false && ((Player *)src)->spellUsed == false)
 	{
 		((Player *)src)->spellUsed = true;
 		((Player *)src)->spell.launched = true;
-		//((Player *)src)->spell.launch();
 	}
 	return;
 }
@@ -240,42 +221,22 @@ void PhysicEngine::changeWeapon3(AUnit *src)
 	src->weaponUsed = 2;
 }
 
-void PhysicEngine::changeWeapon4(AUnit *src)
+void PhysicEngine::cheatLife(AUnit *src)
 {
-	src->weaponUsed =  3;
+	src->life =  5;
 }
 
+void PhysicEngine::cheatBullet(AUnit *src)
+{
+	src->weapon[0]->ammo = 99;
+}
 
+/////////////////
 //Release button
-
 void PhysicEngine::RmoveLeft(AUnit *src)
 {
 	if (src->isPlayer == false)
 		return;
-
-	//For Dash
-	//if (((Player *)src)->inDash == 1)
-	//{
-	//	((Player *)src)->tmpTime = 0;
-	//	((Player *)src)->inDash = 2;
-	//	((Player *)src)->tmpTime += src->loopTime;
-	//}
-	//else if (((Player *)src)->inDash == 2)
-	//{
-	//	((Player *)src)->tmpTime += loopTime;
-	//}
-
-	//if (((Player *)src)->inDash > 0 && ((Player *)src)->tmpTime > 0.5)
-	//{
-	//		
-	//	((Player *)src)->inDash = 0;
-	//	((Player *)src)->tmpTime = 0;
-	//}
-	//if (((Player *)src)->inDash == 0)
-	//	((Player *)src)->tmpTime = 0;
-	//if (((Player *)src)->inDash == 3)
-	//	((Player *)src)->tmpTime += src->loopTime;
-	//return;
 }
 
 
@@ -283,28 +244,6 @@ void PhysicEngine::RmoveRight(AUnit *src)
 {
 	if (src->isPlayer == false)
 		return;
-
-	//For Dash
-	//if (((Player *)src)->inDash == -1)
-	//{
-	//	((Player *)src)->tmpTime = 0;
-	//	((Player *)src)->inDash = -2;
-	//	((Player *)src)->tmpTime += src->loopTime;
-	//}
-	//else if (((Player *)src)->inDash == -2)
-	//{
-	//	((Player *)src)->tmpTime += loopTime;
-	//}
-	//if (((Player *)src)->inDash < 0 && ((Player *)src)->tmpTime > 0.5)
-	//{
-	//	((Player *)src)->inDash = 0;
-	//	((Player *)src)->tmpTime = 0;
-	//}
-	//if (((Player *)src)->inDash == 0)
-	//	((Player *)src)->tmpTime = 0;
-	//if (((Player *)src)->inDash == -3)
-	//	((Player *)src)->tmpTime += src->loopTime;
-
 	return;
 }
 
@@ -314,12 +253,6 @@ void PhysicEngine::RJump(AUnit *src)
 	{
 		if (src->state == U_JUMP)
 			src->state = U_END_JUMP;
-		/*if (_referee->applyGravity(src) == false)
-		{
-			src->jumpTmpY = 0;
-			src->state = U_NORMAL;
-			src->act = WALK;
-		}*/
 	}
 	return;
 }
@@ -370,7 +303,11 @@ void PhysicEngine::RchangeWeapon3(AUnit *src)
 {
 }
 
-void PhysicEngine::RchangeWeapon4(AUnit *src)
+void PhysicEngine::RcheatLife(AUnit *src)
+{
+}
+
+void PhysicEngine::RcheatBullet(AUnit *src)
 {
 }
 

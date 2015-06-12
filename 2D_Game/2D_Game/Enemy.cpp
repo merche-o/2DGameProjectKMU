@@ -5,7 +5,6 @@
 Enemy::Enemy(int Life, int Speed, int Damage, int SpawnTime, sf::Texture Texture, int X, int Y, e_dir Dir, enemyType type, float &loopTime)
 	: AUnit(Life, Speed, Damage, SpawnTime, Texture, X, Y, Dir,  loopTime), etype(type), currentDirection(FORWARD), nextDirection(FORWARD)
 {
-	// Mettre les coins dans le txt Ennemies, recupere dans ressources
 	if (etype == E_BASIC)
 	{
 		particleColor = sf::Color(255, 150, 0);
@@ -47,13 +46,11 @@ void Enemy::getHit(int dam)
 		this->life = 0;
 		this->l_state = DEAD;
 	}
-	//hit();
 }
 
 void Enemy::explode()
 {
 	// Create Particles in explosionList
-
 	sf::Color col(255, 255, 0);
 	// ouest
 	explosionList.push_back(new Particle(x + width / 2, y + height / 2, col, 2, -2, 0, 2, loopTime));
@@ -71,7 +68,7 @@ void Enemy::hit()
 {
 	sf::Color col(255, 0, 0);
 
-	// Degats de gauche
+	// Left damages
 	explosionList.push_back(new Particle(x + width / 2, y + height / 2, col, 5, 2, 1, 4, loopTime));
 	explosionList.push_back(new Particle(x + width / 2, y + height / 2, col, 5, 2, 0.5, 4, loopTime));
 	explosionList.push_back(new Particle(x + width / 2, y + height / 2, col, 5, 2, 0, 4, loopTime));

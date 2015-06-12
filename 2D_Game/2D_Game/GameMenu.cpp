@@ -17,7 +17,7 @@ GameMenu::GameMenu(sf::RenderWindow & w, Ressources & r, Event & e, Parameters &
 
 	/*****	MENU *****/
 
-	//addTextMenu(MAIN, new TextMenu(100, 0, "Bob's Attack", 96, 250, 60, 60));
+	// Banniere in (100,0)
 	addTextMenu(MAIN, new TextMenu(850, 330, "Weapon Fire", 32, 250, 120, 60));
 	addTextMenu(MAIN, new TextMenu(850, 580, "Player Move", 32, 250, 120, 60));
 	addTextMenu(MAIN, new TextMenu(850, 710, "Use Spell", 32, 250, 120, 60));
@@ -74,7 +74,7 @@ GameMenu::~GameMenu(void)
 {
 }
 
-void GameMenu::posInsideTheMenu() // loop the cursor in menu
+void GameMenu::posInsideTheMenu() // Loop the cursor in menu
 {
 	if (posMenu < 0)
 		posMenu = sizeKeyTextMenu[currentState] - 1;
@@ -113,14 +113,13 @@ void GameMenu::run()
 		}
 		posInsideTheMenu(); // Keep cursor inside the menu
 		
-		//have to change this FIX but this is the only solution right now
-		//if (currentState != PAUSE) // Do not clear the screen in Pause menu (we can see the game behind)
-			win.clear();
+		win.clear();
 		displayCurrentMenu(); // Display texts
 	
 		win.display();
 		refresh = false;
 	}
+
 	// Menu Event
 	if (currentState == PAUSE)
 		event.menuEvent(posMenu, isPushed, refresh, focus,true ,true);
@@ -365,7 +364,6 @@ void GameMenu::displayEndGame(int score, int enemies_kill)
 					250, 150, 60);
 		}
 	}
-	//fix de merde
 	if (currentState == ENDGAME)
 	{	
 		loadText(600, 350, font, "Your score :" + std::to_string((long double)score), 48, 200, 200, 200);
@@ -463,11 +461,12 @@ void GameMenu::menuReturn()
 		menuQuitGame();
 	else
 	{
-		if (currentState == PAUSE) //&& beforeState[beforeState.size() -1] == MAIN)
+		if (currentState == PAUSE ||currentState == ENDGAME)
 		{
 			menu = true;
 			currentState = MAIN;
 			beforeState.erase(beforeState.begin() + beforeState.size() - 1);
+			refreshFullscreen = 3;
 			return;
 
 		}
@@ -509,8 +508,6 @@ void GameMenu::menuRestart()
 			beforeState.erase(beforeState.begin() + beforeState.size() - 1);
 		}
 }
-
-
 
 void GameMenu::toogleFullscreen()
 {

@@ -53,14 +53,9 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 
 				if(_itemList[i]->type == Item::AMMO) // Check if it's an ammo to increment this value
 				{
-					//for (int i2 = 0; i2 < ((Player*)src)->weapon.size(); ++i2)
-					//{
-						//if (((Player*)src)->weapon[i2]->type == ((Ammo *)(_itemList[i]))->weaponType)
-					((Player *)src)->weapon[((Player *)src)->weaponUsed]->ammo += 10;
-					//}
+					((Player *)src)->weapon[((Player *)src)->weaponUsed]->ammo += 5;
 				}
 				_itemList.erase(_itemList.begin() + i);
-				//return (5);
 			}
 		}
 	}
@@ -69,30 +64,6 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 
 void Referee::AICollideScreen(Enemy * enemy)
 {
-	//if (enemy->x < 0)
-	//{
-	//	enemy->x = 0;
-	//	enemy->dir = RIGHT;
-	//	//std::cout << "collide screen left" << std::endl;
-	//}
-	//else if (enemy->x + enemy->width > Settings::WIDTH - 1)
-	//{
-	//	enemy->x = Settings::WIDTH - 1 - enemy->width;
-	//	enemy->dir = LEFT;
-	//	//std::cout << "collide screen right" << std::endl;
-	//}
-	//if (enemy->y < 0)
-	//{
-	//	enemy->y = 0;
-	//	enemy->currentDirection == DOWN;
-	//	//std::cout << "collide screen up" << std::endl;
-	//}
-	//else if (enemy->y + enemy->height > Settings::HEIGHT - 1)
-	//{
-	//	enemy->y = Settings::HEIGHT - 1 - enemy->height;
-	//	enemy->currentDirection == UP;
-	//	//std::cout << "collide screen down" << std::endl;
-	//}
 }
 
 bool Referee::AICheckDown(Enemy * enemy, int flyHeight)
@@ -106,13 +77,6 @@ bool Referee::AICheckDown(Enemy * enemy, int flyHeight)
 		{
 			return false;
 		}
-		/*if (enemy->y < _map.platform[i]->y + Settings::CASE_SIZE &&
-			enemy->y + enemy->height > _map.platform[i]->y - flyHeight - 5 &&
-			enemy->x + enemy->width > _map.platform[i]->x - flyHeight * 2 &&
-			enemy->x < _map.platform[i]->x + flyHeight * 2)
-		{
-			return false;
-		}*/
 	}
 	return true;
 }
@@ -128,13 +92,6 @@ bool Referee::AICheckUp(Enemy * enemy, int flyHeight)
 		{
 			return false;
 		}
-		/*if (enemy->y < _map.platform[i]->y + Settings::CASE_SIZE + flyHeight + 5 &&
-			enemy->y + enemy->height > _map.platform[i]->y &&
-			enemy->x + enemy->width > _map.platform[i]->x - flyHeight * 2 &&
-			enemy->x < _map.platform[i]->x + flyHeight * 2)
-		{
-			return false;
-		}*/
 	}
 	return true;
 }
@@ -146,7 +103,7 @@ bool Referee::AICollideWalls(Enemy * enemy, int flyHeight)
 		if (!(	enemy->x + enemy->width	<	_map.platform[i]->x														||
 			enemy->x					>	_map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE	||
 			enemy->y + enemy->height	<	_map.platform[i]->y - flyHeight										||
-			enemy->y					>	_map.platform[i]->y + Settings::CASE_SIZE /*+ flyHeight*/	))
+			enemy->y					>	_map.platform[i]->y + Settings::CASE_SIZE))
 		{
 			if (enemy->currentDirection == FORWARD)
 			{
@@ -155,7 +112,7 @@ bool Referee::AICollideWalls(Enemy * enemy, int flyHeight)
 					enemy->x = _map.platform[i]->x - enemy->width - 1;
 					enemy->dir = LEFT;
 				}
-				else //if (enemy->dir == LEFT)
+				else
 				{
 					enemy->x = _map.platform[i]->x + Settings::CASE_SIZE * _map.platform[i]->length + 1;
 					enemy->dir = RIGHT;
@@ -163,20 +120,17 @@ bool Referee::AICollideWalls(Enemy * enemy, int flyHeight)
 			}
 			else if (enemy->currentDirection == UP)
 			{
-				enemy->y = _map.platform[i]->y + Settings::CASE_SIZE + 1 /*+ flyHeight*/;
+				enemy->y = _map.platform[i]->y + Settings::CASE_SIZE + 1;
 				enemy->currentDirection == FORWARD;
 			}
 			else if (enemy->currentDirection == DOWN)
 			{
-				//std::cout << "collide wall down" << std::endl;
 				enemy->y = _map.platform[i]->y - enemy->height - 1 - flyHeight;
 				enemy->currentDirection == FORWARD;
 			}
-			//std::cout << "collide walls true" << std::endl;
 			return true;
 		}
 	}
-	//std::cout << "collide walls false" << std::endl;
 	return false;
 }
 
@@ -236,48 +190,49 @@ int Referee::collideWall(AUnit *src, Event::Input const &btn)
 {
 	for (int i = 0; i < this->_map.platform.size(); ++i)
 		{
-			if (src->state == JUMP)
+			if (this->_map.platform[i]->transp > 50)
 			{
-				if ((src->y				>	this->_map.platform[i]->y &&
-					src->y				<	this->_map.platform[i]->y + Settings::CASE_SIZE) ||
-					src->y == this->_map.platform[i]->y /*||
-					(src->y		+ src->height		>	this->_map.platform[i]->y &&
-					src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE)*/)
-					{
-						if (src->state == JUMP)
+				if (src->state == JUMP)
+				{
+					if ((src->y				>	this->_map.platform[i]->y &&
+						src->y				<	this->_map.platform[i]->y + Settings::CASE_SIZE) ||
+						src->y == this->_map.platform[i]->y)
 						{
-							if ((src->x				>	this->_map.platform[i]->x &&
-								src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length) ||
-								(src->x + src->width	>	this->_map.platform[i]->x &&
-								src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length))
+							if (src->state == JUMP)
 							{
-								src->y = this->_map.platform[i]->y + Settings::CASE_SIZE;
-								src->state = U_END_JUMP;
-								src->jumpTmpY = 0;
-								return (1);
+								if ((src->x				>	this->_map.platform[i]->x &&
+									src->x				<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length) ||
+									(src->x + src->width	>	this->_map.platform[i]->x &&
+									src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length))
+								{
+									src->y = this->_map.platform[i]->y + Settings::CASE_SIZE;
+									src->state = U_END_JUMP;
+									src->jumpTmpY = 0;
+									return (1);
+								}
 							}
 						}
-					}
-			}
-			else
-			{
-				if (src->y == this->_map.platform[i]->y ||
-					(src->y		+ src->height		>	this->_map.platform[i]->y &&
-					src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE))
+				}
+				else
 				{
-					//// Check with right of player
-					if (src->x + src->width	>	this->_map.platform[i]->x  &&
-							src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+					if (src->y == this->_map.platform[i]->y ||
+						(src->y		+ src->height		>	this->_map.platform[i]->y &&
+						src->y		+ src->height		<	this->_map.platform[i]->y + Settings::CASE_SIZE))
 					{
-						src->x = this->_map.platform[i]->x - src->width;
-						return (2);
-					}
-					// Check with left of player
-					else if (src->x			<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
-							src->x			>	this->_map.platform[i]->x)
-					{
-						src->x = this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length;
-						return (3);
+						//// Check with right of player
+						if (src->x + src->width	>	this->_map.platform[i]->x  &&
+								src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
+						{
+							src->x = this->_map.platform[i]->x - src->width;
+							return (2);
+						}
+						// Check with left of player
+						else if (src->x			<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length &&
+								src->x			>	this->_map.platform[i]->x)
+						{
+							src->x = this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length;
+							return (3);
+						}
 					}
 				}
 			}
@@ -321,7 +276,7 @@ bool Referee::applyGravity(AUnit  *src)
 	for (int i = 0; i < this->_map.platform.size(); ++i)
 	{
 		if (src->y + src->height	>=	this->_map.platform[i]->y &&
-			src->y + src->height	<	this->_map.platform[i]->y + Settings::CASE_SIZE)
+			src->y + src->height	<	this->_map.platform[i]->y + Settings::CASE_SIZE && this->_map.platform[i]->transp > 50)
 		{
 			if ((src->x		>	this->_map.platform[i]->x  &&
 				src->x		<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length) ||
@@ -338,19 +293,6 @@ bool Referee::applyGravity(AUnit  *src)
 				}
 				return (false);
 			}
-			//else if (src->x + src->width	>	this->_map.platform[i]->x  &&
-			//		 src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length)
-			//{
-			//	src->y = this->_map.platform[i]->y - src->height;
-			//	if (this->_map.platform[i]->isMorphing == true)
-			//	{
-			//		if (this->_map.platform[i]->type == Platform::GO_LEFT)
-			//			src->x -= this->_map.platform[i]->speed * loopTime;
-			//		if (this->_map.platform[i]->type == Platform::GO_RIGHT)
-			//			src->x += this->_map.platform[i]->speed * loopTime;
-			//	}
-			//	return (false);
-			//}
 		}
 	}
 	return (true);
@@ -364,8 +306,7 @@ void Referee::cleanEnemyList()
 	{
 		if (this->_enemyList[i]->l_state == DEAD)
 		{
-			//if (this->_enemyList[i]->l_state == DEAD)
-				this->dropCoins((Enemy *)_enemyList[i]);
+			this->dropCoins((Enemy *)_enemyList[i]);
 			this->_enemyList.erase(_enemyList.begin() + i);
 			enemiesCount += 1;
 		}
@@ -385,6 +326,17 @@ void Referee::cleanItemList()
 	}
 }
 
+int Referee::notInsideWall(int x, int y)
+{
+	for (int i = 0; i < _map.platform.size(); ++i)
+	{
+		if (y >= _map.platform[i]->y && y <= _map.platform[i]->y + Settings::CASE_SIZE &&
+			x >= _map.platform[i]->x && x <= _map.platform[i]->x + _map.platform[i]->length * Settings::CASE_SIZE)
+			return (notInsideWall(x, y - 32));
+	}
+	return (y);
+}
+
 //when an enemy dies, he drops a coin
 void Referee::dropCoins(Enemy *src)
 {
@@ -400,7 +352,7 @@ void Referee::dropCoins(Enemy *src)
 			xx = rand() % src->width;
 			yy = rand() % src->height;
 		}
-		this->_itemList.push_back(new Coin(src->x + xx, src->y + yy, loopTime , (src->coins / nb_coin), Item::COINS, _res.texture["coin"]));
+		this->_itemList.push_back(new Coin(src->x + xx, notInsideWall(src->x + xx, src->y + yy), loopTime , (src->coins / nb_coin), Item::COINS, _res.texture["coin"]));
 	}
 }
 
@@ -408,7 +360,9 @@ void Referee::dropCoins(Enemy *src)
 void Referee::playerInvinsibility(Player *player)
 {
 	if (player->l_state == HIT)
+	{
 		player->invTime += player->loopTime;
+	}
 	if(player->invTime >= 1)
 	{
 		player->l_state = IN_LIFE;
@@ -422,7 +376,7 @@ void Referee::setPlayerPosition(std::vector<Player *> &_player)
 	{
 		if (_player[i]->y > Settings::HEIGHT_GAME + _player[i]->height)
 			_player[i]->y = 0;
-		else if (_player[i]->y /*+ _player[i]->height*/ < 1)
+		else if (_player[i]->y < 1)
 			_player[i]->y  = Settings::HEIGHT_GAME - 2* _player[i]->height;
 
 		if (_player[i]->x > Settings::WIDTH_GAME - 8)
@@ -434,7 +388,7 @@ void Referee::setPlayerPosition(std::vector<Player *> &_player)
 	{
 		if (_enemyList[i]->y > Settings::HEIGHT_GAME + _enemyList[i]->height)
 			_enemyList[i]->y = 0;
-		else if (_enemyList[i]->y /*+ _player[i]->height*/ < 1)
+		else if (_enemyList[i]->y < 1)
 			_enemyList[i]->y  = Settings::HEIGHT_GAME - 2* _enemyList[i]->height;
 
 		if (_enemyList[i]->x > Settings::WIDTH_GAME - 8)
@@ -451,25 +405,16 @@ bool Referee::dealDamage(std::vector<Player *> &_player)
 		playerInvinsibility(_player[i]);
 		if (collideEnemy(_player[i], Event::I_NONE) == 2)
 		{
-			//_sound.playSound(_sound.sound["hit"], true);
 			_player[i]->getHit(1);
+			if (_player[i]->l_state == HIT)
+				_sound.playSound(_sound.sound["hurt"], true);
 		}
 	}
 	int c = 0;
 	for (int i = 0; i < _player.size(); ++i)
 	{
-		if (_player[i]->life <= 0 /*|| _player[i]->y > Settings::HEIGHT + _player[i]->height*/ )
+		if (_player[i]->life <= 0)
 			c++;
-		// Pour repositionner le joueur
-		//if (_player[i]->y > Settings::HEIGHT + _player[i]->height)
-		//	_player[i]->y = 0;
-		//else if (_player[i]->y /*+ _player[i]->height*/ < 1)
-		//	_player[i]->y  = Settings::HEIGHT_GAME - 2* _player[i]->height;
-
-		//if (_player[i]->x > Settings::WIDTH_GAME)
-		//	_player[i]->x = 0;
-		//else if (_player[i]->x + _player[i]->width < 1)
-		//	_player[i]->x = Settings::WIDTH_GAME - _player[i]->width;
 	}
 	if (c == _player.size())
 		return (false);
@@ -540,13 +485,6 @@ void Referee::bulletHit(std::vector<Player *> &_player)
 					intersection = false;
 				}
 			}
-			/*if (this->_enemyList[i2]->x  + this->_enemyList[i2]->width < this->_bulletList[i]->x ||
-				  this->_bulletList[i]->x + this->_bulletList[i]->texture.getSize().x < this->_enemyList[i2]->x ||
-				  this->_enemyList[i2]->y  + this->_enemyList[i2]->height < this->_bulletList[i]->y ||
-				  this->_bulletList[i]->y + this->_bulletList[i]->texture.getSize().y < this->_enemyList[i2]->y)
-			{
-				intersection = false;
-			}*/
 			if (intersection == true)
 			{
 				_sound.playSound(_sound.sound["hit"], true);

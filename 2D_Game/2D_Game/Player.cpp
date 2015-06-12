@@ -14,8 +14,8 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 	width = 32;
 	height = 32;
 	speed = 7 * Settings::CASE_SIZE;
-	life = 4;
-	shield = 1;
+	life = 5;
+	shield = 0;
 	
 	score = 0;
 	tmpTime = 0;
@@ -32,16 +32,18 @@ Player::Player(Ressources & Ress, float &LoopTime, int NumPlayer)
 	weapon[0]->spawnTime = 5;
 	weaponUsed = 0;
 	numWeapon = 0;
+	invTime = 0;
 }
 
 void Player::init(Ressources &Ress)
 {
 	animFrame = 0;
 	animDir = 1;
+	invTime = 0;
 	x = 500;
 	y = 500;
-	life = 4;
-	shield = 1;
+	life = 5;
+	shield = 0;
 	spellUsed = false;
 	cdTime = 10;
 
