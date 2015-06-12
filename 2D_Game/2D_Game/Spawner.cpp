@@ -10,15 +10,26 @@ Spawner::Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList
 	: ennemies(ennemyList), itemList(itemList), posx(-2), posy(0), currentWave(0), spawnPosState(UP_LEFT), loopTime(LoopTime)
 {
 	enemyWaves.push_back(EnemyWave(20,	1.0,	0.0,	0.0,	0.0));
+	enemyWaves.push_back(EnemyWave(10,	0.4,	0.0,	0.0,	0.0));
+	enemyWaves.push_back(EnemyWave(10,	0.0,	0.0,	0.0,	0.0));
+
 	enemyWaves.push_back(EnemyWave(20,	1.3,	0.8,	0.0,	0.0));
 	enemyWaves.push_back(EnemyWave(30,	1.0,	0.0,	1.0,	0.0));
 	enemyWaves.push_back(EnemyWave(30,	1.0,	0.0,	0.0,	1.0));
 	enemyWaves.push_back(EnemyWave(30,	1.0,	1.5,	1.7,	1.7));
+
 	enemyWaves.push_back(EnemyWave(10,	0.0,	0.0,	0.0,	0.0));
 	enemyWaves.push_back(EnemyWave(30,	0.4,	0.8,	2.0,	2.0));
 	enemyWaves.push_back(EnemyWave(10,	0.0,	0.0,	0.0,	0.0));
-	enemyWaves.push_back(EnemyWave(0,	1.8,	1.8,	0.9,	0.9));
-	//enemyWaves.push_back(EnemyWave(0,	2.0,	2.0,	2.0,	2.0));
+	enemyWaves.push_back(EnemyWave(30,	1.8,	1.8,	0.9,	0.9));
+
+	enemyWaves.push_back(EnemyWave(15,	0.0,	0.0,	0.0,	0.0));
+	enemyWaves.push_back(EnemyWave(10,	0.4,	0.4,	0.4,	0.4));
+	enemyWaves.push_back(EnemyWave(20,	0.0,	0.0,	0.0,	0.0));
+	enemyWaves.push_back(EnemyWave(10,	0.4,	0.4,	0.4,	0.4));
+	enemyWaves.push_back(EnemyWave(15,	0.0,	0.0,	0.0,	0.0));
+	enemyWaves.push_back(EnemyWave(0,	0.47,	0.51,	0.53,	0.57));
+
 }
 
 Spawner::~Spawner(void)
