@@ -29,7 +29,6 @@ Spawner::Spawner(std::vector<AUnit*> & ennemyList, std::vector<Item *> &itemList
 	enemyWaves.push_back(EnemyWave(10,	0.4,	0.4,	0.4,	0.4));
 	enemyWaves.push_back(EnemyWave(15,	0.0,	0.0,	0.0,	0.0));
 	enemyWaves.push_back(EnemyWave(0,	0.47,	0.51,	0.53,	0.57));
-
 }
 
 Spawner::~Spawner(void)

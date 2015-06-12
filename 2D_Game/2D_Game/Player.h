@@ -18,6 +18,7 @@ public:
 	Spell spell;
 	bool isSpell;
 	int numPlayer;
+	bool isAlive;
 
 	bool spellUsed;
 	sf::Clock timer;
@@ -32,6 +33,7 @@ public:
 	void changeWeaponRight();
 	void getNewWeapon(int weaponID, Ressources &Ress);
 	~Player(void);
+	void explode();
 	void init(Ressources &);
 };
 

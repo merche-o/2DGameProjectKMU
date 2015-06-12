@@ -178,7 +178,7 @@ bool Referee::canJump(AUnit *src)
 				(src->x + src->width	>	this->_map.platform[i]->x &&
 				src->x + src->width	<	this->_map.platform[i]->x + Settings::CASE_SIZE * this->_map.platform[i]->length))
 			{
-				if (src->y == this->_map.platform[i]->y + Settings::CASE_SIZE)
+				if (src->y == this->_map.platform[i]->y + Settings::CASE_SIZE && this->_map.platform[i]->transp > 50)
 					return (false);
 			}
 		}
@@ -417,7 +417,14 @@ bool Referee::dealDamage(std::vector<Player *> &_player)
 			c++;
 	}
 	if (c == _player.size())
+	{
+		if(_player[0]->isAlive == true)
+		{
+			_player[0]->isAlive = false;
+			_player[0]->explode();
+		}
 		return (false);
+	}
 	return (true);
 }
 
