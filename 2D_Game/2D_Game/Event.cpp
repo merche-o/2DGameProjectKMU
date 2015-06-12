@@ -185,7 +185,7 @@ void Event::alternateEventReleased(bool &pause)
 }
 
 
-void Event::menuEvent(int & pos, bool & push, bool & refresh, focus_state & focus,bool main, bool pause)
+void Event::menuEvent(int & pos, bool & push, bool & refresh, focus_state & focus, bool main, bool pause)
 {
 	while (win.pollEvent(event))
     {
@@ -223,6 +223,10 @@ void Event::menuEvent(int & pos, bool & push, bool & refresh, focus_state & focu
 				sounds.playSound(sounds.sound["scroll"], false);
 				++pos;
 				refresh = true;
+			}
+			else if (event.key.code == sf::Keyboard::Space)
+			{
+				sounds.music.openFromFile("./Ressources/Musics/119-under-the-ground.ogg");
 			}
 		}
 		else if (event.type == sf::Event::GainedFocus && focus != focus_state::CHANGING_TO_DESKTOP_RESOLUTION)
