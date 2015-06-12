@@ -106,7 +106,7 @@ void IA::jumpIA(Enemy *src, Player * player)
 		}
 	}
 	// Si le joueur est au dessus de l'ennemi et que ce dernier n'est pas en train de sauter
-	if (src->inputMap[Event::I_UP] == false && player->state == unit_state::U_NORMAL && src->state == unit_state::U_NORMAL /*&& _ref.canJump(src)*/)
+	if (src->inputMap[Event::I_UP] == false && player->state == unit_state::U_NORMAL && src->state == unit_state::U_NORMAL)
 	{
 		// Si il est possible de sauter sur une plateforme plus haute, l'ia y saute
 		if (_ref.IAJumpToPlatform(src, player->y < src->y))
@@ -269,6 +269,7 @@ void IA::floatIA(Enemy *src, Player * player)
 
 void IA::flyIA(Enemy *src, Player * player)
 {
+	srand(time(NULL) + src->timer.getElapsedTime().asSeconds()  + (unsigned int)src + src->x + src->y);
 	src->prevY = src->y;
 	src->prevX = src->x;
 	double angle;

@@ -71,7 +71,7 @@ void Spawner::spawnEnnemies(std::vector<AUnit*> &ennemy, sf::Time globalTimer)
 				dir = RIGHT;
 			else
 				dir = LEFT;
-			ennemies.push_back(new Enemy(ennemy[i]->life, ennemy[i]->speed, ennemy[i]->damage, ennemy[i]->spawnTime, ennemy[i]->texture, posx, posy, dir, (enemyType)i/*randEnnemyType(ennemy[i])*//*enemyType(rand() % (int)enemyType::ENEMYTYPE_SIZE)*/, loopTime));
+			ennemies.push_back(new Enemy(ennemy[i]->life, ennemy[i]->speed, ennemy[i]->damage, ennemy[i]->spawnTime, ennemy[i]->texture, posx, posy, dir, (enemyType)i, loopTime));
 			changePlaceSpawner();
 		}
 	}
