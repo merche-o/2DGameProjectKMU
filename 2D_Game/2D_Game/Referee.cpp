@@ -53,7 +53,7 @@ int Referee::collideBonus(AUnit  *src, Event::Input const &btn)
 
 				if(_itemList[i]->type == Item::AMMO) // Check if it's an ammo to increment this value
 				{
-					((Player *)src)->weapon[((Player *)src)->weaponUsed]->ammo += 10;
+					((Player *)src)->weapon[((Player *)src)->weaponUsed]->ammo += 5;
 				}
 				_itemList.erase(_itemList.begin() + i);
 			}
@@ -196,7 +196,7 @@ int Referee::collideWall(AUnit *src, Event::Input const &btn)
 				{
 					if ((src->y				>	this->_map.platform[i]->y &&
 						src->y				<	this->_map.platform[i]->y + Settings::CASE_SIZE) ||
-						src->y == this->_map.platform[i]->y/)
+						src->y == this->_map.platform[i]->y)
 						{
 							if (src->state == JUMP)
 							{

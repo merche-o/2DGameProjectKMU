@@ -108,8 +108,9 @@ void Spawner::spawnAmmo(Player *src, sf::Texture texture, Map *map)
 				src->weapon[i]->timer.restart();
 				if (setAmmoSpawnerPos(map, x, y) == false)
 					return;
-				itemList.push_back(new Ammo(x, y, 10, loopTime, texture, Item::AMMO,src->weapon[i]->type));
-		}
+				itemList.push_back(new Ammo(x, y, 5, loopTime, texture, Item::AMMO,src->weapon[i]->type));
+				return;
+			}
 		i++;
 	}
 }
